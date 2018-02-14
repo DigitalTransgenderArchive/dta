@@ -29,7 +29,7 @@ class CreateVersions < ActiveRecord::Migration[5.2]
       # version of ActiveRecord with support for fractional seconds in MySQL.
       # (https://github.com/rails/rails/pull/14359)
       #
-      t.datetime :created_at
+      t.datetime :created_at, limit: 6
     end
     add_index :versions, %i(item_type item_id)
   end
