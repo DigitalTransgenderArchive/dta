@@ -1,0 +1,3 @@
+class PdfFile < BaseFile
+
+end

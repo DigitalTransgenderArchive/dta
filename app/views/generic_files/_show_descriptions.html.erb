@@ -1,0 +1,203 @@
+<div id="item_metadata" class="well">
+<h2 style="margin-top:-15px;">Item Information</h2>
+  <dl class="dl-horizontal file-show-term">
+
+        <dt>Identifier</dt>
+        <dd>
+              <%= @document[:id] %>
+        </dd>
+
+      <% if @document[:collection_name_ssim] %>
+          <dt>Collection</dt>
+          <dd>
+            <% @document[:collection_name_ssim].each do |val| %>
+                <%= link_to_facet(val, 'collection_name_ssim') %><br />
+            <% end %>
+          </dd>
+      <% end %>
+      <% if @document[:institution_name_ssim] %>
+          <dt>Institution</dt>
+          <dd>
+            <% @document[:institution_name_ssim].each do |val| %>
+                <%= link_to_facet(val, 'primary_institution_ssi') %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+
+      <% if @document[:creator_tesim] %>
+          <dt>Creator(s)</dt>
+          <dd>
+            <% @document[:creator_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:contributor_tesim] %>
+          <dt>Contributor(s)</dt>
+          <dd>
+            <% @document[:contributor_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:publisher_tesim] %>
+          <dt>Publisher</dt>
+          <dd>
+            <% @document[:publisher_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:date_created_display_ssim] %>
+          <dt>Date Created</dt>
+          <dd>
+            <% @document[:date_created_display_ssim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+      <% if @document[:date_issued_display_ssim] %>
+          <dt>Date Issued</dt>
+          <dd>
+            <% @document[:date_issued_display_ssim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:date_temporal_display_ssim] %>
+          <dt>Dates Covered</dt>
+          <dd>
+            <% @document[:date_temporal_display_ssim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:genre_ssim] %>
+          <dt>Genre</dt>
+          <dd>
+            <% @document[:genre_ssim].each do |val| %>
+                <%= link_to_facet(val, 'genre_ssim') %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:dta_other_subject_ssim] %>
+          <dt>Subject(s)</dt>
+          <dd>
+            <% @document[:dta_other_subject_ssim].each do |val| %>
+                <%= link_to_facet(val, 'dta_other_subject_ssim') %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+
+
+      <% if @document[:subject_geographic_hier_ssim] %>
+          <dt>Places</dt>
+          <dd>
+            <% @document[:subject_geographic_hier_ssim].each do |val| %>
+                <% val.split('||').each_with_index do |term, index| %>
+                    <%= link_to_facet(term, 'subject_geographic_ssim') %>
+                    <%= " &gt;".html_safe unless index == val.split('||').length-1 %>
+                <%end%>
+                <br />
+            <% end %>
+
+          </dd>
+      <% end %>
+
+
+      <% if @document[:dta_all_subject_ssim] %>
+          <dt>Topic(s)</dt>
+          <dd>
+            <% @document[:dta_all_subject_ssim].each do |val| %>
+                <%= link_to_facet(val, 'dta_all_subject_ssim') %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+    <% if @document[:toc_tesim] %>
+        <dt>Table of Contents</dt>
+        <dd>
+          <% @document[:toc_tesim].each do |val| %>
+              <% val.split('--').each do |toc_entry| %>
+                  <%= toc_entry.strip %><br />
+              <% end %>
+          <% end %>
+        </dd>
+    <% end %>
+
+      <% if @document[:resource_type_tesim] %>
+          <dt>Resource Type</dt>
+          <dd>
+            <% @document[:resource_type_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+
+
+      <% if @document[:analog_format_tesim] %>
+          <dt>Analog Format</dt>
+          <dd>
+            <% @document[:analog_format_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:digital_format_tesim] %>
+          <dt>Digital Format</dt>
+          <dd>
+            <% @document[:digital_format_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:language_label_ssim] %>
+          <dt>Language</dt>
+          <dd>
+            <% @document[:language_label_ssim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:related_url_tesim] %>
+          <dt>Related URL</dt>
+          <dd>
+            <% @document[:related_url_tesim].each do |val| %>
+                <%= link_to val, val, :target => "_blank" %><br />
+            <% end %>
+          </dd>
+      <% end %>
+
+      <% if @document[:rights_tesim] %>
+          <dt>Rights</dt>
+          <dd>
+            <% @document[:rights_tesim].each do |val| %>
+                <%= val %><br />
+            <% end %>
+            <% if @document[:rights_free_text_tesim] %>
+                <% @document[:rights_free_text_tesim].each do |val| %>
+                    <%= val.html_safe %><br />
+                <% end %>
+            <% end %>
+            For more information on copyright, please read our <a href="https://www.digitaltransgenderarchive.net/about/policies" title="See our policies">policies</a><br/>
+          </dd>
+      <% end %>
+
+
+
+</dl>
+
+
+</div>

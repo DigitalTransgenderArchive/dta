@@ -1,0 +1,92 @@
+/* styles for app/views/shared/footer */
+$footer_logo_image: 'shared/bottom_logo.png' !default;
+
+$very_dark_gray: #555555 !default;
+$darker_gray: #666666 !default;
+$dark_gray: #A29E9E !default;
+$light_gray: #CACACA !default;
+$lighter_gray: #F1F1F1 !default;
+
+$bootstrap_text: #333333 !default;
+
+$bl_link: #428BCA !default;
+$bl_link_hover: #005580 !default;
+
+$well_bg_color: #F5F5F5 !default;
+$well_border_color: #E3E3E3 !default;
+$facets_border: #DDDDDD !default;
+
+$navbarBorder: #D4D4D4 !default;
+
+$dropdown-hover-background: #0081C2 !default;
+$dropdown-hover-background-gradient-start:#0088CC !default;
+$dropdown-hover-background-gradient-end: #0077B3 !default;
+
+$error_text: #b94a48 !default;
+$error_bg: #f2dede !default;
+$error_border: #eed3d7 !default;
+
+$viewer_bg: #111111 !default;
+
+
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+#footer {
+  width:100%;
+  height: 100px;
+  border-top: 1px solid $light_gray;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  padding: 0.5em 1em 0.7em;
+  margin-left:0px;
+  margin-right:0px;
+  background-color: #f9f9f9;
+  background-image: -moz-linear-gradient(top, #E6E6E6, #BFBFBF);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#E6E6E6), to(#BFBFBF));
+  background-image: -webkit-linear-gradient(top, #E6E6E6, #BFBFBF);
+  background-image: -o-linear-gradient(top, #E6E6E6, #BFBFBF);
+  background-image: linear-gradient(to bottom, #E6E6E6, #BFBFBF);
+  background-repeat: repeat-x;
+  border-color: #E6E6E6;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffE6E6E6', endColorstr='#ffBFBFBF', GradientType=0);
+  @include rounded-corners(5px);
+
+  #footer_logo {
+    float: left;
+/*
+    .footer-logo {
+      -moz-opacity: 0.50;
+      opacity: 0.50;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    }
+*/
+    #footer_logo_link {
+      background:transparent asset_url($footer_logo_image) no-repeat top left;
+      display: inline-block;
+      height: 85px;
+      width: 85px;
+      overflow: hidden;
+      text-indent: -200%;
+    }
+
+  }
+
+  #footer_address {
+    float: right;
+    text-align: right;
+    font-size: 12px;
+    color: $dark_gray;
+    line-height: 15px;
+  }
+
+  #footer_news {
+    font-size: 12px;
+    color: $dark_gray;
+    line-height: 15px;
+  }
+
+}

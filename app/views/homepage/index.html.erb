@@ -1,0 +1,28 @@
+<div id="home_container">
+    <div id="home_logo"></div>
+
+
+  <div class="search_frame">
+    <div class="search_container">
+      <%= render_search_bar %>
+      <%= render partial: '/shared/dta_nav_bar' %>
+    </div>
+
+  </div>
+
+
+
+
+    <div id="home_people"><%= image_tag asset_path('home/home_people.png'), class: "img-responsive" %></div>
+
+
+
+</div>
+
+<% if current_user.present? and current_user.contributor? %>
+    <div style="margin-top:-850px;margin-left:-380px;">
+      <%= render partial: '/controls' %>
+    </div>
+<% end %>
+
+

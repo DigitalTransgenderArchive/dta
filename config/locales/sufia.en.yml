@@ -1,0 +1,313 @@
+en:
+  sufia:
+    product_name:       "Digital Transgender Archive"
+    account_name:       "My Institution Account Id"
+    account_label:      "User"
+    deposit_agreement:  "Digital Transgender Archive Deposit Agreement"
+    document_language:  "en"
+    upload_tooltip:     "Please accept Deposit Agreement before you can upload."
+    share_button:       "Share Your Work"
+    view_profile:       "View Profile"
+    edit_profile:       "Edit Profile"
+    directory:
+      suffix:           "@example.org"
+    search:
+      form:
+        q:
+          label:          "Search DTA"
+          placeholder:    "Enter search terms"
+        option:
+          all:
+            label_short:  "All"
+            label_long:   "All of DTA"
+          my_files:
+            label_short:  "My Files"
+            label_long:   "My Files"
+          my_collections:
+            label_short:  "My Collections"
+            label_long:   "My Collections"
+          my_highlights:
+            label_short:  "My Highlights"
+            label_long:   "My Highlights"
+          my_shares:
+            label_short:  "My Shares"
+            label_long:   "My Shares"
+      button:
+        html: '<span class="glyphicon glyphicon-search"></span> Go'
+        text: "Search"
+    upload:
+      internetarchive_computer:
+          sr_tab_label: ""
+          tab_label: "Internet Archive Upload"
+      harvardbooks_computer:
+          sr_tab_label: ""
+          tab_label: "Harvard Books Ingest"
+      antonio_computer:
+          sr_tab_label: ""
+          tab_label: "San Antonio Ingest"
+      single_file_computer:
+          sr_tab_label: ""
+          tab_label: "Single File Upload"
+      my_computer:
+        sr_tab_label: ""
+        tab_label: "Batch Upload"
+        sr_instructions: "Agree to the deposit agreement and then select files.  Press the Start Upload Button once all files have been selected."
+      browse_everything:
+        sr_tab_label: "Access Files from"
+        tab_label: "Cloud Providers"
+        browse_files_button: "Browse cloud files"
+        files_selected: "files selected"
+      local_ingest:
+        tab_label: "Network/Server Location"
+      processing: "File is being processed; you may edit when processing has completed"
+      alert:
+        fail_html: "There was a problem during upload, none of your files uploaded correctly. Please %{reload_href}.  Use the %{contact_href} to report the error if it persists."
+        fail_restart_href_text: "start over"
+        contact_href_text: "contact form"
+        partial_fail_html: "One or more files did not upload successfully. To continue using the files that uploaded %{metadata_href}. <br /> Use the %{contact_href} to report the error if it persists."
+        partial_fail_metadata_href_text: "edit their metadata"
+      cloud_timeout_message: "Please note that if you upload a large number of files within a short period of time, the cloud provider may not be able to accommodate your request. If you experience any errors uploading from the cloud, let us know via the %{contact_href}."
+      collection:
+        select_label: "Upload to:"
+        select_default_option: "Select collection..."
+    homepage:
+      featured_works:
+        tab_label:          'Featured Works'
+        title:              'Featured Works'
+        no_works:           'No works have been featured'
+      recently_uploaded:    'Recently Uploaded'
+      explore:              'Explore'
+      sr_explore:           'Popular Keywords'
+      no_public:            'No public work has been contributed.'
+    dashboard:
+      title:                    "My Dashboard"
+      greeting:                 "Hello, "
+      upload_html:                   '<span class="glyphicon glyphicon-upload"></span> Upload'
+      create_collection_html:        '<span class="glyphicon glyphicon-plus"></span> Create Collection'
+      view_collections:         "View Collections"
+      view_files:               "View Files"
+      user_activity:            "User Activity"
+      no_activity:              "User has no recent activity"
+      user_notiticiations:      "User Notifications"
+      no_notifications:         "User has no notifications"
+      additional_notifications: "See all notifications"
+      proxy_activity:           "Proxy Activity"
+      transfer_of_ownership:    "Transfer of Ownership"
+      transfer_files_link:      "Select files to transfer"
+      no_transfer_requests:     "You haven't received any file transfer requests"
+      no_transfers:             "You haven't transferred any files"
+      stats:
+        heading:            "Your Statistics"
+        files:              "Files you've deposited"
+        file_views:         "View"
+        file_downloads:     "Download"
+        collections:        "Collections you've created"
+        following:          "People you follow"
+        followers:          "People who are following you"
+      my:
+        files:        "My Files"
+        collections:  "My Collections"
+        highlights:   "My Highlights"
+        shares:       "Files Shared with Me"
+        facet_label:
+          files:        "Filter your files"
+          collections:  "Filter your collections"
+          highlighted: "Filter your highlights"
+          shared:      "Filter your shares"
+        sr:
+          show_label:     "Display all details of"
+          detail_label:   "Display summary details of"
+          batch_checkbox: "Check to add to a collection or edit list"
+          check_all_label: "Select all files to be added to a collection or edited"
+    file:
+      collections_list:
+        heading:   "This file is in the following collections:"
+        empty:     "This file is not currently in any collections."
+    messages:
+      success:
+        single: "has been saved."
+        multiple:
+          link: "These files"
+          tag: "have been saved."
+        title:  "Files uploaded successfully"
+        subject: "Batch upload complete"
+      failure:
+        single: "could not be updated. You do not have sufficient privileges to edit it."
+        multiple:
+          link: "These files"
+          tag: "could not be updated. You do not have sufficient privileges to edit them."
+        title:  "Files failed"
+        subject: "Batch upload permission denied"
+    background_attribution: "Background image courtesy of Penn State University"
+    bread_crumb:
+      search_results: "Back to search results"
+    visibility:
+      open: "Open Access"
+      private: "Private"
+      open_title_attr: "Change the visibility of this resource"
+      private_title_attr: "Change the visibility of this resource"
+    user_profile:
+      no_followers: "No one is following you."
+      no_following: "You are not following anyone."
+      no_followers_other: "No one is following this user."
+      no_following_other: "This user is not following anyone."
+      orcid:
+        alt: "ORCID icon"
+        label: "ORCID Profile"
+      zotero:
+        alt: "Zotero icon"
+        label: "Zotero Profile"
+        connected: "Connected!"
+        unlinked: "Link with Zotero"
+    batch:
+      help:
+        title: "Filename will be the default title. Please provide a more meaningful title, and filenames will still be preserved by the system."
+        resource_type: "You may select multiple types to apply to all files"
+    collection:
+      select_form:
+        title: "Add to collection"
+        no_collections: "You do not have access to any existing collections. You may create a new collection."
+        select_heading: "Select the collection to add your files to:"
+        close: "Close"
+        create: "Create Collection"
+        update: "Update Collection"
+        create_new: "Add to new Collection"
+      metadata:
+        add_another_keyword: "add another Keyword"
+        add_another_creator: "add another Creator"
+        add_another_rights: "add another Rights"
+      show:
+        edit:
+          label: "Edit"
+          desc: "Edit metadata for this Collection"
+        add_files:
+          label: "Add files"
+          desc: "Add files to this Collection"
+        upload_files:
+          label: "Upload files"
+          desc: "Upload files to this Collection"
+    mailbox:
+      date:     'Date'
+      subject:  'Subject'
+      message:  'Message'
+      delete:   'Delete Message'
+    generic_file:
+      browse_view: "Browse View"
+    footer:
+      copyright_html: "<strong>Copyright &copy; 2015 College of the Holy Cross</strong>"
+    admin:
+      stats:
+        registered: "Registered"
+        deposited_form:
+          heading: "Display Files Deposited:"
+          start_label: "Start"
+          end_label: "end [defaults to now]"
+        user_deposits:
+          heading: "Display files deposited by users"
+          start_label: "Starting"
+          end_label: "Ending [defaults to now]"
+
+  simple_form:
+    labels:
+      generic_file:
+        is_shown_at:      "URL to Item"
+        title:            "Title"
+        alternative:      "Alternative Title"
+        creator:          "Creator"
+        contributor:      "Contributor"
+        date_created:     "Date Created"
+        date_issued:      "Date Issued"
+        temporal_coverage: "Temporal Coverage"
+        based_near:       "Spatial Coverage"
+        lcsh_subject:     "Subject Coverage–LC Subject Headings"
+        other_subject:    "Subject Coverage–Other"
+        homosaurus_subject: "Subject Coverage–Homosaurus"
+        flagged:          "Explicit Content"
+        resource_type:    "Type"
+        genre:            "Genre"
+        analog_format:    "Analog Format"
+        digital_format:   "Digital Format"
+        #summary:          "Description"
+        language:         "Language"
+        publisher:        "Publisher"
+        related_url:      "Relation"
+        rights:           "Rights"
+        rights_free_text: "Additional Rights Information"
+
+        description:      "Description"
+        toc:              "Table of Contents"
+        tag:              "Keyword"
+
+
+
+
+      homosaurus:
+        broader_ids:  "Broader Terms (BT)"
+        narrower_ids:  "Narrower Terms (NT)"
+        related_ids:  "Related Terms (RT)"
+        identifier:      "Identifier"
+        prefLabel:         "Preferred Term (USE)"
+        altLabel:      "Use For (UF)"
+        description:      "Scope Note (SN)"
+        exactMatch:      "LCSH Exact Match"
+        closeMatch:      "LCSH Close Match"
+
+
+      collection:
+        institution_ids:  "Institution"
+        description:      "Collection Abstract"
+        title:            "Collection Name"
+        total_items:      "Total Items"
+
+    metadata_help:
+      generic_file:
+        title: "A name given to a resource. Typically, a title will be a name by which the resource is formally known.<ul><li>When a formal title is unavailable, a title can be given without brackets.</li><li>Subtitles should be included following a colon.</li><li>For serials, when available, include volume and issue numbers and date (in parentheses)</li><li>For serials with changing titles: use the title on the resource as the primary Title; add additional (especially more commonly known) titles in Alternative Title field.</li></ul>Example: Christine Jorgensen: A Personal Autobiography<br/>Example: Chrysalis Quarterly, Vol. 1 No. 7 (Spring, 1994)"
+        alternative: "An alternative name for the resource.<ul><li>Alternative Titles are searchable and will display as part of an item’s record, but they are not used for primary display in search results.</li><li>Repeat the Alternative Title element when there are translated titles, variant titles, or other likely alternatives.</li><li>For serials with changing titles: use the title on the resource as the primary Title; add additional (especially more commonly known) titles in Alternative Title field.</li></ul>Example: The Transvestites: The Erotic Drive to Cross-Dress<br />Example: Drag Queens"
+        creator: "An entity primarily responsible for making the resource. Examples of creators include a person, an organization, or a service.<ul><li>For accuracy, care should be taken to use names provided in the object. Specifically in a case when an individual has a chosen name, that name should be used irrespective of whether that name is a legal name. This element may be repeated, but do not resurrect or supply a name that is not relevant to the resource.</li><li>Format should be: Last name, First name, Middle name or initial with period. When no clear surname is provided, use the name as it appears.</li><li>When inputting metadata in this field, the type-ahead functions as a controlled vocabulary that is created as metadata is added to the database. Try to conform to existing terms whenever possible, but make sure to still accurately represent the resource. Middle names can be initialized for standardization.</li><li>Use the \"Contributor\" element for secondary authors, editors, translators, etc.</li><li>Use \"Unknown\" if a creator cannot be determined.</li></ul>Example: Denny, Dallas<br />Example: Spoon, Rae<br />Example: National Center for Transgender Equality<br />Example: Unknown"
+        contributor: "An entity responsible for making contributions to the resource. Examples of contributors include a person, an organization, or a service.<ul><li>For accuracy, care should be taken to use names provided in the object. Specifically in a case when an individual has a chosen name, that name should be used irrespective of whether that name is a legal name. This element may be repeated, but do not resurrect or supply a name that is not relevant to the resource.</li><li>Format should be: Last name, First name, Middle name or initial with period. When no clear surname is provided, use the name as it appears.</li><li>When inputting metadata in this field, the type-ahead functions as a controlled vocabulary that is created as metadata is added to the database. Try to conform to existing terms whenever possible, but make sure to still accurately represent the resource. Middle names can be initialized for standardization.</li><li>Use the \"Creator\" element for primary authors, editors, etc.</li></ul>Example: Denny, Dallas<br />Example: Spoon, Rae<br />Example: National Center for Transgender Equality"
+        date_created: "A point or period of time associated with an event in the life-cycle of the resource. Date created is associated with the creation of the resource. Date may be used to express temporal information at any level of granularity.<ul><li>Extended Date/Time Format date and time formats should be used for all input values.</li><li>When a resource does not have a known date, omit this element (i.e., leave it blank) rather than adding garbage values (e.g., n/a, not applicable, none).</li><li>To represent a time period, create an interval string with a start date and end date (conforming to the basic format) separated by a forward slash.</li><li>The values 21, 22, 23, 24 may be used used to signify ‘Spring’, ‘Summer’, ‘Autumn’, ‘Winter’, respectively, in place of a month value for a year-and-month format string.</li><li>To show approximate dates, follow the date with a tilde (e.g., 1999~).</li><li>To show uncertain dates, follow the date with a question mark (e.g., 1999?).</li><li>Generally, “Date Created” should be used for unpublished works and “Date Issued” should be used for published works.</li></ul>Basic Example: Date = 1999-06-27 (Full date: YYYY-MM-DD)<br />Interval Example: Date = 1981-06/1999-06<br />Approximate Example: 1981~<br/>Uncertain Example: 1999?<br/>Season Example: 1999-22 [Summer, 1999]"
+        date_issued: "A point or period of time associated with an event in the life-cycle of the resource. Date issued is associated with the publication or circulation of the resource. Date may be used to express temporal information at any level of granularity.<ul><li>Extended Date/Time Format date and time formats should be used for all input values.</li><li>When a resource does not have a known date, omit this element (i.e., leave it blank) rather than adding garbage values (e.g., n/a, not applicable, none).</li><li>To represent a time period, create an interval string with a start date and end date (conforming to the basic format) separated by a forward slash.</li><li>The values 21, 22, 23, 24 may be used used to signify ‘Spring’, ‘Summer’, ‘Autumn’, ‘Winter’, respectively, in place of a month value for a year-and-month format string.</li><li>To show approximate dates, follow the date with a tilde (e.g., 1999~).</li><li>To show uncertain dates, follow the date with a question mark (e.g., 1999?).</li><li>Generally, “Date Created” should be used for unpublished works and “Date Issued” should be used for published works.</li></ul>Basic Example: Date = 1999-06-27 (Full date: YYYY-MM-DD)<br />Interval Example: Date = 1981-06/1999-06<br />Approximate Example: 1981~<br/>Uncertain Example: 1999?<br/>Season Example: 1999-22 [Summer, 1999]"
+        temporal_coverage: "Time period covered by the intellectual content of the resource, not necessarily the publication date or date of creation.<ul><li>Extended Date/Time Format date and time formats should be used for all input values.</li><li>When a resource does not have a known date, omit this element (i.e., leave it blank) rather than adding garbage values (e.g., n/a, not applicable, none).</li><li>To represent a time period, create an interval string with a start date and end date (conforming to the basic format) separated by a forward slash.</li><li>The values 21, 22, 23, 24 may be used used to signify ‘Spring’, ‘Summer’, ‘Autumn’, ‘Winter’, respectively, in place of a month value for a year-and-month format string.</li><li>To show approximate dates, follow the date with a tilde (e.g., 1999~).</li><li>To show uncertain dates, follow the date with a question mark (e.g., 1999?).</li><li>Generally, “Date Created” should be used for unpublished works and “Date Issued” should be used for published works.</li><li>Repeat element when multiple dates are relevant to a resource.</li></ul>Basic Example: Date = 1999-06-27 (Full date: YYYY-MM-DD)<br />Interval Example: Date = 1981-06/1999-06<br />Approximate Example: 1981~<br/>Uncertain Example: 1999?<br/>Season Example: 1999-22 [Summer, 1999]"
+        based_near: "The spatial characteristics of the intellectual content of the resource, not necessarily the place of publication. Refers to the location(s) covered by the intellectual content of the resource.<ul><li>GeoNames should be used for all input values.</li></ul>"
+        homosaurus_subject: "The topic of the resource. Typically, the subject will be represented using keywords, key phrases, or classification codes.<ul><li>The IHLIA’s <em>Homosaurus: An International Thesaurus of Lesbian, Gay, Bisexual, and Transgender Index Terms</em> should be used for all input values.</li><li>Care should be taken to use the terminology already associated with the resource, when available.</li><li>This element can be repeated multiple times for each resource, with each instance containing separate subject terms.</li><li>Use the most specific term in the hierarchy that is applicable to the term (the application will associate the top level terms in results)</li><li>The number in parenthesis next to the main result term is count of objects using that term.</li><li>Click on a term to select it for the field. Use the icons next to it to either research the form based on it or to view the term on the web for more information.</li></ul>Example: HIV-negative people<br/>Example: zines<."
+        lcsh_subject: "The topic of the resource. Typically, the subject will be represented using keywords, key phrases, or classification codes.<ul><li>The Library of Congress Subject Headings should be used for all input values when subject terms are needed beyond the Homosaurus.</li><li>Care should be taken to use the terminology already associated with the resource, when available.</li><li>This element can be repeated multiple times for each resource, with each instance containing separate subject terms.</li><li>Use the most specific term in the hierarchy that is applicable to the term (the application will associate the top level terms in results)</li><li>The number in parenthesis next to the main result term is count of objects using that term.</li><li>Click on a term to select it for the field. Use the icons next to it to either research the form based on it or to view the term on the web for more information.</li></ul>Example: Anthropology<br />Example: Labor Unions"
+        other_subject: "The topic of the resource. Typically, the subject will be represented using keywords, key phrases, or classification codes.<ul><li>When subject terms are needed beyond the Homosaurus and the Library of Congress Subject Headings, particularly proper nouns (such as names of people or events), they can be included in this element.</li><li>Names should be given in natural order (e.g., John Money).</li><li>Repeat the names of creators in the subject element only if the object is also about the creator in some way (e.g., a self-portrait or autobiography).</li><li>This element can be repeated multiple times for each resource, with each instance containing separate subject terms.</li><li>Repeat the names of creators in the subject element only if the object is also about the creator in some way (e.g., a self-portrait or autobiography).</li><li>The number in parenthesis next to the autocomplete is the number of times that term is used in the system.</li></ul>Example: John Money<br />Example: Caitlyn Jenner"
+        flagged: "Indication that content may be inappropriate for minors or deemed explicit by some viewers.<ul><li>Explicit content decisions are highly subjective and should be determined in collaboration with a Lab Supervisor and/or the Project Director.</li><li>Explicit content can be marked at either the resource level (if there is explicit content somewhere in a resource, but not on the first page) or at the thumbnail evel (if the thumbnail is explicit and should not be displayed in search results).</li></ul>"
+        resource_type: "The nature of the resource. Refers to the intellectual or artistic content of the resource, regardless of its physical or digital carriers. <ul><li><a href='http://id.loc.gov/vocabulary/resourceTypes.html' target='_blank'>Library of Congress Resource Types Scheme</a> should be used for all input values.</li><li>Whereas the \"Type\" element broadly describes the nature of a resource (such as \"text\"), the \"Genre\" element further specifies the \"Type\" value (such as \"Manuscript\" or \"Correspondence\").</li></ul>Example: Audio<br />Example: Still Image<br />Example: Text"
+        genre: "The nature of the resource. Refers to the intellectual or artistic content of the resource, regardless of its physical or digital carriers.<ul><li><i>DTA Genre Vocabulary</i> should be used for all input values.</li><li>Whereas the \"Type\" element broadly describes the nature of a resource (such as \"text\"), the \"Genre\" element further specifies the \"Type\" value (such as \"Manuscript\" or \"Correspondence\")</li></ul>Example: Manuscript<br />Example: Correspondence"
+        analog_format: "The file format, physical medium, or dimensions of the resource. Examples include size and duration. Refers to the physical or digital carriers of the resource, regardless of intellectual or artistic content. Used for analog resources.<ul><li>For a record that includes a digital representation of an analog resource (i.e., a digitized object), use both elements to describe the qualities of the two distinct resources, digital and analog, as relevant.</li><li>Include as much information as possible about the resource such as physical characteristics, physical medium, and duration.</li><li>- Format may be used to note the software, hardware or other equipment needed to display or operate the resource.</li></ul>Example: 3.5 x 4.5 in. photograph, black and white, Polaroid<br />Example: wool and cotton, 6 x 8 ft., multi-colored, tapestry<br />Example: audio cassette tape, 62 min., two sided"
+        digital_format: "The file format, physical medium, or dimensions of the resource. Examples include size and duration. Refers to the physical or digital carriers of the resource, regardless of intellectual or artistic content. Used for digital resources.<ul><li>For a record that includes a digital representation of an analog resource (i.e., a digitized object), use both elements to describe the qualities of the two distinct resources, digital and analog, as relevant.</li><li>Include as much information as possible about the resource such as file type, file size, date of digital creation, and whether any modifications were made.</li><li>Additional information (such as location of digitization, technologies used, etc.) may be included as relevant.</li><li>- Format may be used to note the software, hardware or other equipment needed to display or operate the resource.</li></ul>Example: JPEG image, 291 KB, created Sept. 9, 2014, DSLR camera<br />Example: MP3 audio, 5.2 MB, created Sept. 9, 2014, background noise lowered<br />Example: MPEG-4 movie, 2.11 GB, created Sept. 9, 2014, uploaded via Canopus, duration: 23 minutes, image stabilized"
+        description: "An account of the resource. Description may include but is not limited to: an abstract, a graphical representation, or a free-text account of the resource.<ul><li>Free, uncontrolled text. Use punctuation to make the value clear.</li><li>Can include specialized information not captured by other elements.</li><li>Abstract, table of contents, and other information taken directly from resources should be included here.</li><li>Can include additional and natural language keywords to supplement the \"Subject\" elements.</li></ul>Example: Illustrated guide to binding, with extended discussion on drawbacks of Ace bandages and duct tape."
+        toc: "A list of subunits of the content of the resource. <ul><li>Use punctuation to make the value clear</li><li>To add a line break, insert a double en-dash (\"--\").</li><li>When a description of a resource consists of a list of the contents, whether from a menu or other mechanism, tableOfContents can be used to differentiate this list from descriptive text that is written in sentence form.</li></ul>Example: Part 1 -- Mr. Fun Hog -- Hurricane Ethel -- After the Bath -- The Failures of Milk -- Come Down in Time"
+        language: "A language of the resource.<ul><li>Type-ahead field based on the <a href='http://id.loc.gov/vocabulary/iso639-2.html' target='_blank'>ISO639-2</a> Codes for the Representation of Names of Languages. Once you begin typing a language, select one of the options from the drop-down list provided.</li><li>When a resource does not have significant text (e.g., an image), omit this element (i.e., leave it blank) rather than adding garbage values (e.g., n/a, not applicable, none).</li><li>Repeat element when multiple languages are used within a resource.</li></ul>Example: English<br />Example: French"
+        publisher: "An entity responsible for making the resource available. Examples of a Publisher include a person, an organization, or a service. Typically, the name of a Publisher should be used in the entirety.<ul><li>If published in digital form (i.e., on the Internet), the institution responsible for making the resource available should be considered the publisher.</li><li>For a record that includes a digital representation of an analog resource (i.e., a digitized object), refer to the publisher of the analog resource. If published in both analog and digital format, repeat the element to include both publishers.</li><li>Do not include place of publication.</li></ul>Example: Beacon Press<br />Example: Arizona Queer Archives."
+        related: "A related resource. Recommended best practice is to identify the related resource by means of a string conforming to a formal identification system.<ul><li>When referencing another resource in the collection, use the unique DTA Identifier URI. When referencing an outside resource, use free, uncontrolled text.</li><li>Often used to represent part-to-whole, equivalence, and derivative relations.</li></ul>Example: http://www.digitaltransgenderarchive.net/collection/123456.html<br />Example: First image in a series taken by Loren Cameron, late 1994.<br />Example: Second version of book with a significantly revised introduction, a new conclusion, and an updated cover."
+        rights: "Information about rights held in and over the resource. Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.<ul><li>Standardized boilerplate statements</li><li>Determined by the Institution/Organization and generally consistent within a Collection.</li></ul>"
+        rights_free_text: "Additional rights information about a resource"
+        is_shown_at: "Please enter a url to the page of where this item is actually hosted. The above image (if provided) will only be saved as a thumbnail."
+        identifier: "Currently just the internet archive ID of the item."
+        contributor_html: "A person or group you want to recognize for playing a role in the creation of the file, but not the primary role. If there is a specific role you would like noted, include it in parentheses, e.g. &quot;Jones, Mary (advisor).&quot;"
+        resource_type_html: "Pre-defined categories to describe the type of file content being uploaded, such as &quot;article&quot; or &quot;dataset.&quot;  More than one type may be selected."
+      collection:
+        institution_ids:      "The institution a collection belongs to."
+        title:            "The name of the collection itself."
+        description:      "A brief description of this collection."
+
+      homosaurus:
+        broader_ids:  "These are the broader terms that are above this term in a hierarchy."
+        narrower_ids:  "These are the narrower terms that are below this term in a hierarchy."
+        related_ids:  "These are related terms that may be of interest to one looking at this particular subject."
+        prefLabel:         "This is the primary label one should use for this term."
+        altLabel:      "These are other labels some people may refer to this term as."
+        description:      "This is a description of the content of the term."
+        identifier:      "The identifier for this term on the web. <strong>DO NOT USE SPACES!</strong> Instead, use camelcase such as peopleWithDisabilities for 'people with disabilities'."
+        exactMatch: "This is used for an exact concept match in LCSH. You should use this most of the time."
+        closeMatch: "This is for a concept match that is essentially the same but may have very minor differences. This should be used sparingly."
+
+    aria_label:
+      generic_file:
+        default: "Usage information for %{title}"
+        based_near: "Usage information for location"
+        description: "Usage information for abstract or summary"
+        tag: "Usage information for keyword"
+        rights: "Usage information for rights"

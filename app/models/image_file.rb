@@ -1,0 +1,3 @@
+class ImageFile < BaseFile
+
+end

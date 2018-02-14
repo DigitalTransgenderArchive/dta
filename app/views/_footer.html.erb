@@ -1,0 +1,33 @@
+<div id="footer" class="container-fluid">
+  <div class="row">
+    <div id="footer_logo" style="min-width:300px;" class="col-md-6 col-sm-6 hidden-xs">
+      <div style="float:left;">
+        <%= link_to application_name, root_path, :id => 'footer_logo_link' %>
+      </div>
+      <div id="footer_news" style="float:left; margin-left:20px;">
+        <strong>Recent News</strong>
+        <ul style="padding-left:17px;">
+
+          <% if @recent_posts %>
+              <%   @recent_posts.each do |post| %>
+                  <li style="margin-top:5px;">
+                    <%= link_to truncate(post.title, {:length=>50}), posts_path(post).gsub('.', '/') %>
+                  </li>
+              <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <div id="footer_address" class="col-md-6 col-sm-6">
+      <strong>Copyright &copy; <%= t('blacklight.application_name') %></strong><br />
+      <%= t('blacklight.footer.address') %><br />
+      <%= link_to 'Contact Us', about_path(:id=>'contact') %>
+      <ul class="social-icons icon-circle icon-zoom list-unstyled list-inline">
+        <li><a href="https://www.facebook.com/digitaltransarc/" target="_blank" title="Click to visit our Facebook page!"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="https://twitter.com/digitaltransarc" target="_blank" title="Click to visit our unforgettable Twitter feed!"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="https://www.instagram.com/digitaltransarc/" target="_blank" title="Click to visit our instagram page!"><i class="fa fa-instagram"></i></a></li>
+      </ul>
+    </div>
+  </div><!-- /footer -->
+</div><!-- /.row -->
+</div><!-- /footer -->

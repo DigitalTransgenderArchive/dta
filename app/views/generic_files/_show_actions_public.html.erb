@@ -1,0 +1,40 @@
+<br />
+  <h2 style="margin-top:-15px;">Item Actions</h2>
+  <dl class="dl-horizontal file-show-term">
+    <div class="col-xs-12 col-sm-6 col-md-6" style="float:left; margin:0px; padding: 0px;">
+      <dt>Download</dt>
+      <dd>
+        <% if @generic_file.content.mime_type == "application/pdf" %>
+            <%= link_to "PDF File", sufia.download_path(@generic_file), download: @document['title_tesim'].first + ".pdf" %>
+        <% else %>
+            <%= link_to "Image File", sufia.download_path(@generic_file), download: @document['title_tesim'].first %>
+        <% end %>
+
+      </dd>
+
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6" style="float:left; margin:0px; padding: 0px;">
+      <dt>Share</dt>
+      <dd>
+        <div class="addthis_toolbox addthis_default_style">
+          <a class="addthis_button_preferred_1"></a>
+          <a class="addthis_button_preferred_2"></a>
+          <a class="addthis_button_preferred_3"></a>
+          <a class="addthis_button_preferred_4"></a>
+          <a class="addthis_button_compact"></a>
+          <a class="addthis_counter addthis_bubble_style"></a>
+        </div>
+      </dd>
+    </div>
+
+
+    <span class="Z3988" title="<%= @generic_file.export_as_openurl_ctx_kev %>"></span>
+
+    <div style="clear:both;"></div>
+
+ </dl>
+
+
+
+
+

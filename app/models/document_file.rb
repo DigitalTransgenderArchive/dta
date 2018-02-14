@@ -1,0 +1,3 @@
+class DocumentFile < BaseFile
+
+end

@@ -1,0 +1,31 @@
+
+<div class="facet_pagination top">
+  <%= render :partial=>'facet_pagination' %>
+</div>
+
+<div class="modal-header">
+  <button type="button" class="ajax-modal-close close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h3 class="modal-title"><%= facet_field_label(@facet.key) %></h3>
+</div>
+<div class="modal-body">
+  <div class="facet_extended_list">
+    <% if @display_facet.sort == 'index' %>
+        <% #Idea from https://groups.google.com/forum/#!searchin/blacklight-development/facet$20case$20insensitive/blacklight-development/TiH6rtTrJcU/pvct08B_ccoJ
+           @display_facet.items.sort! { |a,b| a.value.downcase <=> b.value.downcase } %>
+    <% end %>
+
+    <% if @display_facet.sort == 'count' %>
+        <% #Idea from https://groups.google.com/forum/#!searchin/blacklight-development/facet$20case$20insensitive/blacklight-development/TiH6rtTrJcU/pvct08B_ccoJ
+           @display_facet.items.sort_by! { |a| [-a.hits, a.value.downcase] } %>
+    <% end %>
+
+    <%= render_facet_limit(@display_facet, layout: false) %>
+  </div>
+</div>
+
+<div class="modal-footer">
+
+  <div class="facet_pagination bottom">
+    <%= render :partial=>'facet_pagination' %>
+  </div>
+</div>

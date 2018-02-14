@@ -1,0 +1,82 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  blacklight:
+    email:
+          reply_to: 'info@digitaltransgenderarchive.net'
+          record_mailer:
+            name: 'Digital Transgender Archive'
+            email: 'info@digitaltransgenderarchive.net'
+          text:
+            subject: 'Digital Transgender Archive E-mail: link to item'
+    feedback:
+          form:
+            name: 'Your Name:'
+            email: 'Your Email:'
+            message: 'Your Message:'
+            topic:
+              label: 'Topic'
+              options:
+                default: 'Please select a topic'
+                error: 'Broken link / site error'
+                contributing: 'Contributing materials to the DTA'
+                research: 'Research question'
+                suggestion: 'Website suggestions'
+                volunteer: 'Volunteering/internship'
+                other: 'Other...'
+          blurb: 'We welcome your comments and feedback.'
+          title: 'Contact Us'
+          valid_name: 'Please enter your name.'
+          valid_email: 'Please enter a valid email address.'
+          need_message: 'Please enter a message.'
+          submit: 'Send'
+          errors:
+            title: 'The message could not be sent:'
+          complete:
+            title: 'Your message has been sent. Thank you for contacting us!'
+          text:
+            subject: 'DTA: Contact Form: '
+            name: 'Name: '
+            email: 'Email: '
+            message: 'Message: '
+            topic: 'Topic: '
+
+    citation:
+      chicago: 'Chicago Style:'
+    application_name: 'Digital Transgender Archive'
+    application_desc: 'Digital Transgender Archive'
+    footer:
+      address: '1 College St, Worcester, MA 01610'
+    search:
+      form:
+        collection: 'Search this collection...'
+        institution: 'Search this institution...'
+    collections:
+      index:
+        page_title: 'Collections'
+      browse:
+        all: 'View All Items'
+    institutions:
+      index:
+        page_title: 'Institutions'
+      browse:
+        all: 'View All Items'

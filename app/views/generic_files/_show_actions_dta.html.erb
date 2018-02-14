@@ -1,0 +1,61 @@
+<div class="well" style="max-width:400px; margin-top:20px;">
+  <h2 style="margin-top:-15px;">Item Actions</h2>
+  <dl class="dl-horizontal file-show-term" style="margin-bottom:-19px;">
+    <% if @generic_file.hosted_elsewhere == "1" %>
+        <dt style="padding-left:0px;width:80px;">View At</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <%= link_to truncate(@generic_file.is_shown_at, {:length=>100}), @generic_file.is_shown_at %>
+        </dd>
+    <% else %>
+        <dt style="padding-left:0px;width:80px;">Download</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <%= link_to "File", sufia.download_path(@generic_file), download: @document['title_tesim'].first + ".pdf" %>
+        </dd>
+    <% end %>
+
+
+    <dt style="padding-left:0px;width:80px;">Share</dt>
+    <dd style="padding-left:0px;margin-left: 100px;">
+      <div class="addthis_toolbox addthis_default_style">
+        <a class="addthis_button_preferred_1"></a>
+        <a class="addthis_button_preferred_2"></a>
+        <a class="addthis_button_preferred_3"></a>
+        <a class="addthis_button_preferred_4"></a>
+        <a class="addthis_button_compact"></a>
+        <a class="addthis_counter addthis_bubble_style"></a>
+      </div>
+    </dd>
+
+    <dt style="padding-left:0px;width:80px;">Citation</dt>
+    <dd style="padding-left:0px;margin-left: 100px;">
+      <%= link_to content_tag(:span, '', :class => 'glyphicon glyphicon-list-alt') + ' ' + t('blacklight.tools.citation'),
+                  citation_catalog_path(:id => @document),
+                  {:id => 'citeLink', :data => {:ajax_modal => 'trigger'}} %>
+    </dd>
+
+
+
+    <% if can? :edit, @generic_file %>
+        <dt style="padding-left:0px;width:80px;">Edit</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <% if @generic_file.processing? %>
+              <%= t('sufia.upload.processing') %>
+          <% else %>
+              <%= link_to "Edit Object", sufia.edit_generic_file_path(@generic_file) %>
+          <% end %>
+        </dd>
+    <% end %>
+
+    <% if current_user.present? and current_user.admin? and Sufia.config.analytics %>
+        <dt style="padding-left:0px;width:80px;">Analytics</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <%= link_to "View Analytics", sufia.stats_generic_file_path(@generic_file), id: 'stats' %>
+        </dd>
+    <% end %>
+  </dl>
+  </h2>
+</div>
+
+
+
+

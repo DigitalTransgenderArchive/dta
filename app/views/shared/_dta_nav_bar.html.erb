@@ -1,0 +1,69 @@
+<div id="main_nav_buttons">
+  <ul class="main_nav_ul">
+
+    <li id="fat-menu" class="dropdown outer_nav_li_style">
+      <a href="#" id="drop3" role="button" class="dropdown-toggle nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse <b class="caret hideonsmall"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+        <li><%= link_to 'By Map', '/places' %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'By Institution', institutions_public_path %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'By Collection', collections_public_path %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'By Topic', topic_facet_path %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'By Genre', genre_facet_path %></li>
+        <li class="divider"></li>
+        <li><%= link_to 'By Latest Added', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+<!--        <li class="divider"></li>
+        <li><a href="#">By Format</a></li>-->
+      </ul>
+    </li>
+
+    <li class="outer_divider"></li>
+
+    <li id="fat-menu" class="dropdown outer_nav_li_style">
+      <a href="#" id="drop3" role="button" class="dropdown-toggle nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Learn <b class="caret hideonsmall"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+        <% @learn_section_links ||= []
+           counter = @learn_section_links.length
+           @learn_section_links.each do |learn_section|
+             counter -= 1
+        %>
+            <li><%= link_to learn_section.title, learn_path(learn_section) %></li>
+            <% if counter > 0 %>
+                <li class="divider"></li>
+            <% end %>
+        <% end %>
+        <% if current_user.present? and current_user.superuser? %>
+            <li class="divider"></li>
+            <li><%= link_to 'Add Learn Section', new_learn_path %></li>
+        <% end %>
+      </ul>
+    </li>
+
+    <li class="outer_divider"></li>
+
+    <li id="fat-menu" class="dropdown outer_nav_li_style">
+      <a href="#" id="drop3" role="button" class="dropdown-toggle nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About <b class="caret hideonsmall"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+        <% @about_section_links ||= []
+           counter = @about_section_links.length
+           @about_section_links.each do |about_section|
+             counter -= 1
+        %>
+        <li><%= link_to about_section.title, about_path(about_section) %></li>
+            <% if counter > 0 %>
+                <li class="divider"></li>
+            <% end %>
+        <% end %>
+        <% if current_user.present? and current_user.superuser? %>
+            <li class="divider"></li>
+            <li><%= link_to 'Add About Section', new_about_path %></li>
+        <% end %>
+      </ul>
+    </li>
+
+  </ul>
+
+</div>

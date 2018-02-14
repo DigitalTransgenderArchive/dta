@@ -1,0 +1,21 @@
+<%= render template: "layouts/sufia-one-column" %>
+
+<% content_for :content do %>
+<div id="static_holder" class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4 col-sm-4 static_side_nav_container">
+      <%= render partial: '/shared/static_extra_nav' %>
+
+    </div>
+    <div class="col-xs-8 col-sm-8">
+      <div id="static_holder_content" class="static_holder_content">
+           <%= yield %>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+ <% end %>
+

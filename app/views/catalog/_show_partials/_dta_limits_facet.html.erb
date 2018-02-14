@@ -1,0 +1,118 @@
+<% # main container for facets/limits menu -%>
+<script type="text/javascript">
+  //According to the docs, one could set both "focus" and "click" events.
+  //However, it doesn't seem to work right so doing this manually.
+  //Docs: http://getbootstrap.com/javascript/#popovers
+  $(document).ready(function(){
+    $('#dtalimits_fa_help').click(function(){
+      $('#dtalimits_fa_help').popover('toggle');
+    }).focusout(function() {
+      $('#dtalimits_fa_help').popover('hide');
+    });
+  });
+</script>
+
+<style type="text/css">
+  .dtalimits_checkboxes input { float: left;}
+  .dtalimits_checkboxes label { display: block; margin-left: 3px; padding-top:2px;}
+
+  #dtalimits_fa_help {
+    float: left;
+    margin-left: 3px;
+  }
+
+  #dtalimits_fa_help i.help-icon {
+    font-size: 1.1em;
+    margin-top:-7px;
+
+  }
+
+  #facet-dtalimits_fa .popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: none;
+    max-width: 276px;
+    padding: 1px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.42857143;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    font-size: 14px;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color:#333333;
+  }
+
+  #facet-dtalimits_fa .popover-title { display: none; }
+
+
+  .dtalimits_checkboxes {
+    clear:both;
+  }
+
+
+
+  .dtalimits_selected {
+    color: rgb(60, 118, 61);
+    background-color: rgb(223, 240, 216);
+    border-bottom-color: rgb(214, 233, 198);
+    border-left-color: rgb(214, 233, 198);
+    border-right-color: rgb(214, 233, 198);
+    border-top-color: rgb(214, 233, 198);
+
+  }
+
+  .panel-dta_limits {
+    padding-top:7px;
+    padding-bottom: 7px;
+    padding-right:0px;
+    margin-right:0px;
+    padding-left:12px;
+  }
+</style>
+
+
+  <div class="panel panel-default facet_limit blacklight-dtalimits_fa <%if facet_in_params?(:dtalimits, "ex_fa")%>dtalimits_selected<%end%>">
+    <div id="facet-dtalimits_fa" class="panel-collapse facet-content in">
+      <div class="panel-body panel-dta_limits">
+        <div class="dtalimits_checkboxes">
+          <% dtalimits_item = 'ex_fa'
+             dtalimits_facet_field = 'dtalimits'
+          %>
+          <% if facet_in_params?(:dtalimits, "ex_fa") %>
+              <% dtalimits_path = search_action_path(remove_facet_params(dtalimits_facet_field, dtalimits_item, params)) %>
+              <%= check_box_tag 'exclude_finding_aids', 'exclude_finding_aids', true, :id => 'exclude_finding_aids_checkbox', :onclick=>"window.location.assign('#{dtalimits_path}');this.disabled=true;" %>
+          <% else %>
+              <% dtalimits_path = path_for_facet(dtalimits_facet_field, dtalimits_item) %>
+              <%= check_box_tag 'exclude_finding_aids', 'exclude_finding_aids', false, :id => 'exclude_finding_aids_checkbox', :onclick=>"window.location.assign('#{dtalimits_path}');this.disabled=true;" %>
+          <% end %>
+          <%= label_tag(:online_only, "Exclude Finding Aids", :id => "exclude_finding_aids_checkbox_label", :style=>"font-weight:normal; float:left;") %>
+          <%= link_to '#', id: "dtalimits_fa_help", rel: 'popover'.freeze,
+                      'data-content' => 'Check this box to limit your search results to digital or digitized historical materials. Finding aids are documents that describe collections held in archives and they may not be relevant for all researchers.', 'data-original-title' => 'Exclude Finding Aids',
+                      'aria-label' => 'Exclude Finding Aids', 'data-trigger' => 'manual', 'data-placement' => 'bottom' do
+            content_tag 'i', nil, "aria-hidden" => true, class: "help-icon"
+          end %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>

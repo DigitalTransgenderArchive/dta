@@ -1,0 +1,225 @@
+/* styles for index views */
+
+$very_dark_gray: #555555 !default;
+$darker_gray: #666666 !default;
+$dark_gray: #A29E9E !default;
+$light_gray: #CACACA !default;
+$lighter_gray: #F1F1F1 !default;
+
+$bootstrap_text: #333333 !default;
+
+$bl_link: #428BCA !default;
+$bl_link_hover: #005580 !default;
+
+$well_bg_color: #F5F5F5 !default;
+$well_border_color: #E3E3E3 !default;
+$facets_border: #DDDDDD !default;
+
+$navbarBorder: #D4D4D4 !default;
+
+$dropdown-hover-background: #0081C2 !default;
+$dropdown-hover-background-gradient-start:#0088CC !default;
+$dropdown-hover-background-gradient-end: #0077B3 !default;
+
+$error_text: #b94a48 !default;
+$error_bg: #f2dede !default;
+$error_border: #eed3d7 !default;
+
+$viewer_bg: #111111 !default;
+
+
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+  box-shadow: $shadow;
+}
+
+body.blacklight-catalog-index {
+
+  #main-container {
+    padding-top: 115px;
+  }
+
+}
+
+
+#search_mode_tabs {
+  li.active a {
+    font-weight: bold;
+  }
+}
+
+#appliedParams {
+  padding: 16px 9px;
+
+  #constraintsLinks {
+    margin-bottom: 0;
+
+    & > li:first-child {
+      padding-left: 4px;
+    }
+
+    & > li {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+  }
+
+  .appliedFilter {
+    z-index: 1;
+
+    .constraint-value, .remove {
+      background-color: #E2EDFE;
+    }
+
+    .filterName:after {
+      padding-left: 2px;
+    }
+
+  }
+
+}
+
+h4.suggest {
+  font-size: 14px;
+}
+
+#sortAndPerPage {
+  @include rounded-corners(3px);
+  @include box-shadow(0 1px 1px rgba(0, 0, 0, 0.05) inset);
+  padding: 9px;
+  background-color: #F5F5F5;
+  border: 1px solid #E3E3E3;
+  margin-bottom: 10px;
+
+  .page_links {
+    padding: 6px 6px 6px 0;
+  }
+
+  .search-widgets {
+
+    .btn {
+      padding: 6px 5px;
+    }
+
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+      color:#FFFFFF;
+      background-color: $dropdown-hover-background;
+      background-image: linear-gradient(to bottom, $dropdown-hover-background-gradient-start, $dropdown-hover-background-gradient-end);
+      background-repeat: repeat-x;
+    }
+
+  }
+
+}
+
+.css-dropdown ul {
+  /* make sure dropdowns aren't hidden behind images */
+  z-index:1;
+}
+
+
+div.record-padding {
+  float: left;
+  width: 100%;
+
+  #pagination_links {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
+
+
+#search_tips_list li {
+  padding-bottom: 10px;
+}
+
+
+/* responsive styles */
+
+
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 991px) {
+
+  #sortAndPerPage {
+
+    .page_links {
+      font-size: 12px;
+      width: auto;
+      padding: 6px 3px 6px 0;
+    }
+
+    .search-widgets {
+
+      .btn {
+        padding: 6px 3px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+    }
+
+  }
+
+
+}
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+  #sortAndPerPage {
+
+    .page_links {
+      font-size: 12px;
+    }
+
+    .search-widgets {
+
+      .btn {
+        padding: 5px 6px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      a.view-type-slideshow, a.view-type-masonry {
+        display: none;
+      }
+
+      a.view-type-gallery {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+      }
+
+    }
+
+  }
+
+
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+
+  #sortAndPerPage {
+
+    .page_links, .search-widgets {
+      float:left !important;
+    }
+
+    .view-type-group {
+      display: none;
+    }
+
+  }
+
+}
+

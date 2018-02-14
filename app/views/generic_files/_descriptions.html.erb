@@ -1,0 +1,54 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    //alert($('#filedata').attr('required'));
+    if($('#generic_file_hosted_elsewhere').is(':checked')){
+      $("#hosted_elsewhere").show();
+    } else {
+      $("#hosted_elsewhere").hide();
+    }
+
+    $('#generic_file_hosted_elsewhere').click(function(){
+      if($(this).is(':checked')){
+        $("#hosted_elsewhere").show();
+      } else {
+        $("#hosted_elsewhere").hide();
+      }
+
+    });
+  });
+</script>
+
+<div id="descriptions_display" class="tab-pane active">
+  <%= simple_form_for [sufia, @form], html: { multipart: true } do |f| %>
+    <%= hidden_field_tag('redirect_tab', 'descriptions') %>
+    <h1>Descriptions <span class="pull-right required"><abbr title="required">*</abbr> indicates required fields</span></h1>
+      <div class="well">
+
+        <%= render partial: 'generic_files/upload/to_collection' %>
+
+        <div class="form-group">
+          <div class="col-xs-12">
+            <%= f.input_field :hosted_elsewhere, as: :boolean %> This item is hosted elsewhere.
+          </div>
+        </div>
+
+        <div class="tab-content">
+          <div class="tab-pane" id="hosted_elsewhere" aria-labelledby="hosted_elsewhere_tab" role="tabpanel">
+            <% [:is_shown_at].each do |term| %>
+                <%= render_edit_field_partial(term, f: f) %>
+            <% end %>
+          </div>
+        </div>
+
+        <% (f.object.terms - [:hosted_elsewhere, :is_shown_at, :preview]).each do |term| %>
+          <%= render_edit_field_partial(term, f: f) %>
+        <% end %>
+
+      </div><!-- /well -->
+    <div>
+      <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "update_descriptions", data: { disable_with: "Please wait..." } do %>
+        <i class="glyphicon glyphicon-floppy-disk"></i> Save Descriptions
+      <% end %>
+    </div>
+  <% end %>
+</div>
