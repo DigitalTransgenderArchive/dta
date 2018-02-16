@@ -354,6 +354,8 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "directory"
     t.string "sha256"
     t.string "mime_type"
+    t.string "original_filename"
+    t.string "original_extension", limit: 10
     t.boolean "low_res", default: false, null: false
     t.boolean "fedora_imported", default: false, null: false
     t.integer "views", default: 0, null: false

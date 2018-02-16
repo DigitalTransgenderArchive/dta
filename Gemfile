@@ -8,6 +8,7 @@ gem 'leaflet-rails', '0.7.7'
 # Fonts
 gem 'lato-rails'
 
+
 #gem 'mysql2', '0.4.10'
 # Temporary
 gem 'active-fedora', '11.5.2'

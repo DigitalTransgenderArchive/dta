@@ -197,6 +197,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :directory
         t.string :sha256
         t.string :mime_type
+        t.string :original_filename
+        t.string :original_extension, limit: 10
 
         t.boolean :low_res, :null => false, :default => false
         t.boolean :fedora_imported, :null => false, :default => false
