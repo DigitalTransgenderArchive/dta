@@ -13,7 +13,6 @@ class Pid
   end
 
   def self.mint
-    raise 'I should not be here'
     conflicts = true
     while conflicts do
       pid = service.mint

@@ -1,0 +1,21 @@
+<% content_for :head do %>
+    <%= stylesheet_link_tag    "audits_common/admin/default", media: "all" %>
+    <%= javascript_include_tag "audits_common/admin/admin" %>
+<% end %>
+<% content_for :content do %>
+    <div class="row" data-turbolinks="false">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <%= render partial: "audits_common/admin/partials/admin_nav.html.erb" %>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" data-turbolinks="false">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="well well-information"><%= @section_title %><% if @audit.present? %> For <%= @audit.title %><% end %></div>
+          </div>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<%= render template: "layouts/audits_common/application" %>

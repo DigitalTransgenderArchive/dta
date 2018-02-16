@@ -1,5 +1,7 @@
 module ApplicationHelper
-
+  def nav_li(text, path, link_options={})
+    content_tag(:li, link_to(text, path, link_options), class: "#{ current_page?(path) ? 'active' : ''}")
+  end
   # returns a hash with the location of the OpenSeadragon custom images
   def osd_nav_images(path_to_directory)
     {

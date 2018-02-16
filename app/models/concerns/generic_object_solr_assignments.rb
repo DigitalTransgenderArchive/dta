@@ -36,11 +36,11 @@ module GenericObjectSolrAssignments
     doc[:resource_type_tesim] = self.resource_types.pluck(:label)
     doc[:creator_tesim] = self.creators.pluck(:label)
     doc[:creator_ssim] = doc[:creator_tesim]
-    doc[:contributor_tesim] = self.contributors.pluck(:label)
-    doc[:contributor_ssim] = doc[:contributor_tesim]
+    doc[:contributor_tesim] = self.contributors.pluck(:label) unless self.contributors.blank?
+    doc[:contributor_ssim] = doc[:contributor_tesim] unless self.contributors.blank?
     doc[:rights_tesim] = self.rights.pluck(:label)
-    doc[:publisher_tesim] = self.publishers
-    doc[:publisher_ssim] = doc[:publisher_tesim]
+    doc[:publisher_tesim] = self.publishers unless self.publishers.blank?
+    doc[:publisher_ssim] = doc[:publisher_tesim] unless self.publishers.blank?
 
     doc[:language_tesim] = self.languages
     doc[:based_near_tesim] = self.geonames.pluck(:uri)
@@ -160,16 +160,16 @@ module GenericObjectSolrAssignments
 
 
     # Adding in manually
-    doc[:toc_tesim] = [self.toc]
-    doc[:analog_format_tesim] = self.analog_format
-    doc[:digital_format_tesim] = self.digital_format
-    doc[:is_shown_at_tesim] = [self.is_shown_at]
-    doc[:is_shown_at_ssim] = doc[:is_shown_at_tesim]
-    doc[:preview_tesim] = [self.preview]
-    doc[:preview_ssim] = doc[:preview_tesim]
-    doc[:hosted_elsewhere_ssi] = self.hosted_elsewhere
-    doc[:rights_free_text_tesim] = self.rights_free_text
-    doc[:rights_free_text_ssim] = doc[:rights_free_text_tesim]
+    doc[:toc_tesim] = [self.toc] unless self.toc.blank?
+    doc[:analog_format_tesim] = self.analog_format unless self.analog_format.blank?
+    doc[:digital_format_tesim] = self.digital_format unless self.digital_format.blank?
+    doc[:is_shown_at_tesim] = [self.is_shown_at] unless self.is_shown_at.blank?
+    doc[:is_shown_at_ssim] = doc[:is_shown_at_tesim] unless self.is_shown_at.blank?
+    doc[:preview_tesim] = [self.preview] unless self.preview.blank?
+    doc[:preview_ssim] = doc[:preview_tesim] unless self.preview.blank?
+    doc[:hosted_elsewhere_ssi] = self.hosted_elsewhere unless self.hosted_elsewhere.blank?
+    doc[:rights_free_text_tesim] = self.rights_free_text unless self.rights_free_text.blank?
+    doc[:rights_free_text_ssim] = doc[:rights_free_text_tesim] unless self.rights_free_text.blank?
 
     # More Transfer
     if self.base_files.present? && self.base_files.first.ocr.present?
@@ -202,7 +202,7 @@ module GenericObjectSolrAssignments
       doc[:subject_geojson_facet_ssim] << geo.geo_json_hash.to_json
       doc[:subject_coordinates_geospatial] << "#{geo.lat},#{geo.lng}"
       geo.hierarchy_full.each do |it|
-        doc[:subject_geographic_ssim] << it
+        doc[:subject_geographic_ssim] << it if it.present?
       end
       #    t.text :hierarchy_full
       #t.text :hierarchy_display
@@ -214,13 +214,13 @@ module GenericObjectSolrAssignments
     doc[:dta_altLabel_all_subject_ssim] = []
     self.homosaurus_subjects.each do |subj|
       subj.alt_labels.each do |lbl|
-        doc[:dta_altLabel_all_subject_ssim] << lbl
+        doc[:dta_altLabel_all_subject_ssim] << lbl if lbl.present?
       end
     end
 
     self.lcsh_subjects.each do |subj|
       subj.alt_labels.each do |lbl|
-        doc[:dta_altLabel_all_subject_ssim] << lbl
+        doc[:dta_altLabel_all_subject_ssim] << lbl if lbl.present?
       end
     end
 
@@ -235,7 +235,7 @@ module GenericObjectSolrAssignments
 
     doc[:blacklight_display_ssi] = 'generic_file'
     doc[:has_file_content_ssi] = self.base_files.present?.to_s
-
+    doc[:new_model_ssi] = 'GenericObject'
 
     doc
   end

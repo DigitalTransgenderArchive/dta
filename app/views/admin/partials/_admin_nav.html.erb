@@ -1,0 +1,20 @@
+<ul class="nav nav-sidebar nav-sidebar-first">
+  <li><strong>Primary Links:</strong></li>
+  <% [
+         ["Home", admin_home_path],
+         ["Add An Object", new_generic_file_path]
+     ].each do |text, path| %>
+      <%= nav_li text, path, data: {turbolinks: false} %>
+  <% end %>
+</ul>
+
+    <ul class="nav nav-sidebar">
+      <li><strong>Other Sections:</strong></li>
+      <% [
+             #["Initialize Audit", "TODO"],
+             ["Jobs", '/sidekiq']
+         ].each do |text, path| %>
+          <%= nav_li text, path, data: {turbolinks: false} %>
+      <% end %>
+
+    </ul>

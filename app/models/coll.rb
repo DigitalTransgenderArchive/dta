@@ -1,7 +1,7 @@
 class Coll < ActiveRecord::Base
   include CommonSolrAssignments
-  before_destroy :remove_from_solr
-  after_initialize :mint
+  #before_destroy :remove_from_solr
+  #after_initialize :mint
   #after_save :send_solr
 
   has_many :generic_objects
@@ -50,6 +50,7 @@ class Coll < ActiveRecord::Base
     doc[:institution_name_ssim] = self.insts.pluck(:name)
     doc[:institution_pid_ssi] = self.insts.first.pid if self.insts.present?
     doc[:thumbnail_ident_ss] = self.generic_object.id if self.generic_object.present?
+    doc[:new_model_ssi] = 'Inst'
 
     doc
   end

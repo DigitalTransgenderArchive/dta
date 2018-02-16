@@ -1,0 +1,43 @@
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#institution').unbind('change').change(function() {
+      if($(this).val() == '') {
+        $('#collection option:gt(0)').remove();
+      } else {
+        $.getJSON({
+              url: "<%=generic_files_update_collections_no_id_path%>/" + $(this).val(),
+              /*            beforeSend: function( xhr ) {
+               xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+               }*/
+            })
+            .done(function( data ) {
+              $('#collection option:gt(0)').remove();
+              json_obj = data;
+
+              for (i = 0; i < json_obj.length; i++)
+              {
+                if(json_obj[i] && json_obj[i] != '' && json_obj[i] != [])
+                {
+                  $('#collection').append($("<option></option>").attr("value", json_obj[i][1]).text(json_obj[i][0]));
+                }
+              }
+            });
+
+      }
+
+    });
+
+  });
+</script>
+
+<p>
+  <label class="no_repeat_field_value required control-label"><abbr title="required">*</abbr> Select the Institution: </label>
+  <%= select_tag 'institution', options_for_select(@selectable_institution, @institution_id), required: true, include_blank: true, class: 'form-control form_single_style' %>
+</p>
+<p>&nbsp;</p>
+
+<p>
+  <label class="no_repeat_field_value required control-label"><abbr title="required">*</abbr> Upload to Collection: </label>
+  <%= select_tag 'collection', options_for_select(@selectable_collection, @collection_id), required: true, include_blank: true, class: 'form-control form_single_style' %>
+</p>
+<p>&nbsp;</p>

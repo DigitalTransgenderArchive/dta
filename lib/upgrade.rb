@@ -73,7 +73,7 @@ class Upgrade
         coll.description = old_collection.description
         coll.pid = old_collection.id
 
-        solr_content = DSolr.solr_by_id old_collection.id
+        solr_content = DSolr.find_by_id old_collection.id
         if solr_content["is_public_ssi"] == "true"
           coll.visibility = "public"
         else
@@ -93,7 +93,7 @@ class Upgrade
   def self.upgrade_collection_images
     Collection.all.each do |old_collection|
         coll = Coll.find_by(pid: old_collection.id)
-        unless coll.base_file.present? || old_collection.thumbnail_ident.blank?
+        unless coll.generic_object.present? || old_collection.thumbnail_ident.blank?
           coll.generic_object = GenericObject.find_by(pid: old_collection.thumbnail_ident)
           coll.save!
         end
@@ -201,7 +201,7 @@ class Upgrade
 
       #open
       #restricted
-      solr_content = DSolr.solr_by_id file.id
+      solr_content = DSolr.find_by_id file.id
       if solr_content["visibiliy_ssi"] == "open"
         obj.visibility = "public"
       elsif solr_content["visibiliy_ssi"] == "restricted"
@@ -213,7 +213,9 @@ class Upgrade
       obj.updated_at = solr_content["system_modified_dtsi"].to_datetime
 
       if file.content.present?
-        if file.content.mime_type.starts_with?('application/pdf')
+        if file.content.mime_type.starts_with?('application/octet-stream')
+          obj.add_pdf(file.content.content, 'application/pdf')
+        elsif file.content.mime_type.starts_with?('application/pdf')
           obj.add_pdf(file.content.content, file.content.mime_type)
         elsif file.content.mime_type.starts_with?('image')
           obj.add_image(file.content.content, file.content.mime_type)

@@ -8,10 +8,24 @@ Rails.application.routes.draw do
     end
   end
 
+  # Autocomplete Routes
+  get 'creators_autocomplete', to: "autocomplete#creators", as: :creators_autocomplete
+  get 'contributors_autocomplete', to: "autocomplete#contributors", as: :contributors_autocomplete
+  get 'publishers_autocomplete', to: "autocomplete#publishers", as: :publishers_autocomplete
+  get 'language_autocomplete', to: "autocomplete#languages", as: :languages_autocomplete
+  get 'dates_autocomplete', to: "autocomplete#dates", as: :dates_autocomplete
+
+  # Added Collection Routes
+  get 'collections/member_visibility/:id' => 'collections#change_member_visibility', as: :collection_member_visibility
+  get 'collections/collection_invisible/:id' => 'collections#collection_invisible', as: :collection_invisible
+  get 'collections/collection_visible/:id' => 'collections#collection_visible', as: :collection_visible
+  get 'collections/collection_thumbnail_set/:id/:item_id' => 'collections#collection_thumbnail_set', as: :collection_thumbnail_set
+
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
   root to: 'homepage#index'
   devise_for :users
+  mount Hydra::RoleManagement::Engine => '/'
 
   concern :range_searchable, BlacklightRangeLimit::Routes::RangeSearchable.new
   concern :searchable, Blacklight::Routes::Searchable.new

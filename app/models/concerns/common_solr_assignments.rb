@@ -16,13 +16,11 @@ module CommonSolrAssignments
   end
 
   def send_solr
-    raise 'I should not be here'
     doc = generate_solr_content
     DSolr.put doc
   end
 
   def remove_from_solr
-    raise 'I should not be here'
     DSolr.delete_by_id self.pid
   end
 end

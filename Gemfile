@@ -16,6 +16,9 @@ gem 'active-fedora', '11.5.2'
 gem 'noid-rails'
 gem 'geomash', github: 'samvera-labs/geomash'
 gem 'secondbase'
+gem "hydra-role-management"
+gem 'bpl_enrich', github: 'scande3/bpl_enrich'
+gem 'google-api-client', '~> 0.11' # Not using this yet...
 
 ruby '2.4.0'
 

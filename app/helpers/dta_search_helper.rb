@@ -10,7 +10,18 @@ module DtaSearchHelper
         path = download_path document["thumbnail_ident_ss"], file: 'thumbnail'
         options[:alt] = ""
         return image_tag path, options
+      elsif document["hasCollectionMember_ssim"].present?
+        document["hasCollectionMember_ssim"].each do |member|
+          visibility_check = DSolr.find({id:"#{member}", rows: '1', fl: 'id,is_public_ssi,flagged_tesim,mime_type_tesim'} ).first
+          if visibility_check.present? and visibility_check['visibility_ssi'] == 'public' and visibility_check['flagged_tesim'] != ['Explicit content in thumbnail'] and visibility_check['mime_type_tesim'].present? and visibility_check['mime_type_tesim'].any? {|v| v.include?('image') || v.include?('pdf') }
+            path = download_path member, file: 'thumbnail'
+            options[:alt] = ""
+            return image_tag path, options
+          end
+        end
       end
+      options[:alt] = ""
+      return image_tag "site_images/collection-icon.svg", options
     elsif document.institution?
     elsif document.object?
           path =

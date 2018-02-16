@@ -6,6 +6,9 @@ class Settings
     @filestore_path
   end
 
+  def self.google_analytics_id
+    @google_analytics_id ||= Settings.dta_config["google_analytics_id"]
+  end
 
 
   def self.solr_url

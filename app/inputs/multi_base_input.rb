@@ -39,13 +39,11 @@ class MultiBaseInput < SimpleForm::Inputs::CollectionInput
              <div class="input-group col-sm-12">
               #{yield}
               <span class="input-group-btn regular_audits_duplicate_span">
-<!--  regular_audits_duplicate_field -->
                 <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
               </span>
-<!-- regular_audits_delete_span-->
-                    <span class="input-group-btn">
-                      <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
-                    </span>
+              <span class="input-group-btn">
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+              </span>
               </div>
           </li>
     HTML

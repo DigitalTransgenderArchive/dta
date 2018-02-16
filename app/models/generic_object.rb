@@ -4,8 +4,8 @@ class GenericObject < ActiveRecord::Base
   include GenericObjectSolrAssignments
   has_paper_trail # on: [:update, :destroy]
 
-  before_destroy :remove_from_solr
-  after_initialize :mint
+  #before_destroy :remove_from_solr
+  #after_initialize :mint
   #after_save :send_solr
 
   serialize :descriptions, Array
@@ -52,6 +52,10 @@ class GenericObject < ActiveRecord::Base
   has_many :contributors, dependent: :destroy
   has_many :creators, dependent: :destroy
   has_many :other_subjects, dependent: :destroy
+
+  def required? key
+   ['title', 'creators', 'contributors'].include? key.to_s
+  end
 
   def mint
     self.pid = Pid.mint if self.pid.nil?

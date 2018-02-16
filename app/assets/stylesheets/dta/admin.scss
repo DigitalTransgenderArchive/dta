@@ -1,0 +1,283 @@
+.admin-row {
+  /*
+ * Global add-ons
+ */
+
+  .sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /*
+   * Top navigation
+   * Hide default border to remove 1px line.
+   */
+  .header {
+    z-index: 10;
+    position: relative;
+  }
+
+  /*
+   * Sidebar
+   */
+
+  /* Hide for mobile, show later */
+  .sidebar {
+    display: none;
+
+  }
+  @media (min-width: 768px) {
+    .sidebar {
+      position: fixed;
+      top: 0px;
+      bottom: 0;
+      left: 0;
+      display: block;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+      background-color: #f5f5f5;
+      border-right: 1px solid #eee;
+      z-index: 1;
+    }
+  }
+
+  /* Sidebar navigation */
+  .nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+  }
+  .nav-sidebar-first {
+    margin-top: 80px;
+  }
+  .nav-sidebar > li > a,  .nav-sidebar > li > strong {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin: 0;
+  }
+
+  /* select drop-down */
+  #audit_id_wrapper {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    margin: 0;
+  }
+
+  .nav-sidebar > .active > a,
+  .nav-sidebar > .active > a:hover,
+  .nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #428bca;
+  }
+
+
+  /*
+   * Main content
+   */
+
+  .main {
+    padding: 20px;
+  }
+  @media (min-width: 768px) {
+    .main {
+      padding-right: 40px;
+      padding-left: 40px;
+    }
+  }
+  .main .page-header {
+    margin-top: 0;
+  }
+
+
+  /*
+   * Placeholder dashboard ideas
+   */
+
+  .placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  .placeholders h4 {
+    margin-bottom: 0;
+  }
+  .placeholder {
+    margin-bottom: 20px;
+  }
+  .placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+  }
+
+  /* Form styles */
+  .repeat_field_value .listing, .no_repeat_field_value .listing {
+    margin-left: 0;
+    max-width: 50em;
+    padding-left: 0px;
+  }
+  .field-wrapper {
+    padding-bottom: 3px;
+  }
+  .repeat_field_value .field-wrapper, .no_repeat_field_value .field-wrapper {
+    list-style-type: none;
+    width: 100%;
+  }
+
+  .input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+  }
+
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 23px;
+  }
+
+  label.boolean {
+    padding-left: 5px;
+    font-weight: normal;
+  }
+
+  .form_table {
+    width: 100%;
+  }
+  .form_table tr {
+    border-top: 1px solid #ddd;
+  }
+  .form_table tr > td {
+    padding-top:5px;
+    padding-bottom:2px;
+  }
+
+  #information-box {
+    max-width: 50em;
+  }
+  #verification-box {
+    max-width: 100em;
+  }
+
+  .well-information {
+    font-size:18px;
+    font-weight: bold;
+    margin-bottom:15px;
+  }
+
+  label.collection_radio_buttons {
+    padding-left: 5px;
+    padding-right:15px;
+    font-weight: normal;
+  }
+
+  .form-group {
+    margin-bottom: 23px;
+  }
+
+  .admin-bottom-buttons {
+    margin-top: 30px;
+  }
+  .admin-bottom-buttons div.pull-left {
+    margin-top: 9px;
+  }
+  .admin-bottom-buttons input.btn-primary {
+    margin-left:6px;
+    margin-top:-7px;
+  }
+
+
+  /* Table verification styles */
+  table.verification, .verification th, .verification td {
+    border: 1px solid black;
+  }
+  table.verification {
+    border-spacing: 10px;
+    margin-bottom: 0px;
+  }
+  .verification td {
+    padding: 5px;
+  }
+  .verification th {
+    padding-left: 5px;
+  }
+  .verification ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 12px;
+  }
+  /* */
+
+  /* modal styles */
+  #verification-modal {
+
+    .modal-dialog {
+      width:98%;
+      margin:10px auto;
+
+      .modal-content {
+
+        .modal-header {
+          border-bottom: 0;
+          padding: 3px 10px;
+          text-align: left;
+          height: 29px;
+          overflow: hidden;
+          background-color: rgb(249, 249, 249);
+
+          .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            width: 95%;
+          }
+
+        }
+
+        .modal-body {
+          padding-top:0px;
+          margin-top: 10px;
+
+          .panel-heading h3 {
+            padding-top:0px;
+            margin-top:0px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+          }
+
+          .panel-body {
+            margin-bottom: 20px;
+            padding-bottom: 0px;
+          }
+
+        }
+
+      }
+
+    }
+  }
+
+  /* Landscape phone to portrait tablet */
+  @media (max-width: 767px) {
+    #verification-modal {
+
+      .modal-dialog {
+
+        .modal-content {
+
+          .modal-header {
+
+            .modal-title {
+              font-size: 14px;
+              font-weight: normal;
+            }
+
+          }
+
+        }
+
+      }
+    }
+  }
+}
+

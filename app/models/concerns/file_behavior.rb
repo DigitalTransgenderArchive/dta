@@ -50,12 +50,13 @@ module FileBehavior
     unless File.exists? full_path
       FileUtils.mkpath self.full_directory
       File.open(self.full_path, 'wb' ) do |output|
-        output.write content
+        output.write value
       end
     end
   end
 
   def content
+    raise 'Got here: ' + File.join(Settings.filestore, self.path).to_s
     ::File.open(File.join(Settings.filestore, self.path), 'rb') { |f| f.read }
   end
 
