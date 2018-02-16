@@ -1,5 +1,5 @@
 class Institution < ActiveFedora::Base
-  include Pid
+  include LegacyPid
 
   #contains "content", class_name: 'FileContentDatastream'
   #contains "thumbnail"

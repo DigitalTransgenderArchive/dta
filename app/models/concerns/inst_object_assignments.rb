@@ -1,13 +1,12 @@
 module InstObjectAssignments
 
   def add_image(value, mime_type)
-    sha256 = BaseFile.calculate_sha256 value
-    obj = ImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type)
-    obj.put(value)
+    sha256 = InstImageFile.calculate_sha256 value
+    obj = InstImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type)
+    self.inst_image_files << obj
+    obj.content = value
     obj.low_res = true
     obj.fedora_imported = true
-    obj.inst_image = true
-    self.base_file = obj
   end
 
   def geonames=(value)

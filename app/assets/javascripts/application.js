@@ -27,6 +27,7 @@
 //= require 'blacklight_range_limit'
 //= require ahoy
 //= require onmount
+//= require 'openseadragon'
 
 //= require_tree .
 

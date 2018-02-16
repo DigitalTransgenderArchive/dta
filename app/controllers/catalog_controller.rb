@@ -4,7 +4,6 @@ class CatalogController < ApplicationController
   include DtaSearchHelper
 
   include Blacklight::Catalog
-  include DtaSearchBuilder
   include DtaStaticBuilder
 
   #layout "sufia-one-column"
@@ -58,8 +57,8 @@ class CatalogController < ApplicationController
     config.search_builder_class = ::DefaultSearchBuilder
 
     config.index.title_field = 'title_tesim'
-    config.index.display_type_field = 'has_model_ssim'
-    config.index.thumbnail_field = :dta_thumbnail_tag
+    config.index.display_type_field = 'blacklight_display_ssi'
+    config.index.thumbnail_method = :dta_thumbnail_tag
 
     config.add_facet_field 'dtalimits', label: "Limit", :show => false, query: {
         :ex_fa => { label: 'Exclude Finding Aids', fq: '-genre_ssim:"Finding Aids"' }
@@ -165,17 +164,8 @@ class CatalogController < ApplicationController
     blacklight_config.facet_fields['collection_name_ssim'].show = false
     blacklight_config.facet_fields['collection_name_ssim'].if = false
 
-
-=begin
-    blacklight_config.facet_fields['institution_name_ssim'].show = true
-    blacklight_config.facet_fields['institution_name_ssim'].if = true
-    blacklight_config.facet_fields['institution_name_ssim'].collapse = false
-=end
-
-
     blacklight_config.facet_fields['institution_name_ssim'].show = false
     blacklight_config.facet_fields['institution_name_ssim'].if = false
-
 
     #Needs to be fixed...
     blacklight_config.facet_fields['dta_dates_ssim'].show = false

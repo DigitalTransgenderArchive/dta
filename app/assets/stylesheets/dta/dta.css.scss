@@ -45,6 +45,37 @@ body {
   font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
 }
 
+/* Added for 2.0 */
+.thumbnail {
+  text-align: center;
+}
+#previousNextDocument {
+  margin-top: 8px;
+}
+
+#page-positioner {
+  background-color:#ffffff;
+}
+#page-positioner h1, #page-positioner h2, #page-positioner .modal-title, #page-positioner h3, #page-positioner h4, #page-positioner h5, #page-positioner h6, #page-positioner .attribute-label {
+  font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
+}
+#page-positioner h1, #page-positioner h2, #page-positioner .modal-title {
+  font-weight: 300;
+}
+.file-show-term {
+  border-top: 2px solid #DDD;
+  padding-top: 1em;
+}
+
+.catalog img {
+  max-width: 100%;
+  max-height: auto;
+}
+h2 small {
+  color: red;
+}
+/* End Added */
+
 //Fix a bug in Safari where documents need to be set to display: block
 #documents.gallery {
   display: -webkit-box;
@@ -166,11 +197,14 @@ div.search_select_wrapper {
 }
 //End Static pages
 
-#wrapper {
+#outer-wrapper {
   margin:0px;
   background-color:#818e9e;
   font-family: Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(to bottom, #E1E1E1 0%, #fff 100%);
 }
+
+
 
 #content_wrapper {
     margin:0px;

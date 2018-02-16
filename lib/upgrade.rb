@@ -9,15 +9,33 @@ class Upgrade
 
     Upgrade.upgrade_objects
 
-    # Add Objects
+    Upgrade.upgrade_collection_images
 
-    # Add Collection Images
+    #Upgrade.send_solr
+  end
+
+  def self.send_solr
+    Inst.all.each do |inst|
+      inst.send_solr
+    end
+
+    Coll.all.each do |coll|
+      coll.send_solr
+    end
+
+    HomosaurusSubject.all.each do |subj|
+      subj.send_solr
+    end
+
+    GenericObject.all.each do |file|
+      file.send_solr
+    end
   end
 
   def self.upgrade_institutions
     Institution.all.each do |old_inst|
       unless Inst.find_by(pid: old_inst.id).present?
-        inst = Inst.new
+        inst = Inst.new(pid: old_inst.id)
 
         inst.created_at = old_inst.date_created.to_date
         inst.name = old_inst.name
@@ -28,8 +46,7 @@ class Upgrade
         inst.email = old_inst.email
         inst.phone = old_inst.phone
         inst.institution_url = old_inst.institution_url
-        inst.pid = old_inst.id
-        inst.visibility = 'open'
+        inst.visibility = 'public'
 
         if old_inst.content.present?
           inst.add_image(old_inst.content.content, old_inst.content.mime_type)
@@ -48,7 +65,7 @@ class Upgrade
   def self.upgrade_collections
     Collection.all.each do |old_collection|
       unless Coll.find_by(pid: old_collection.id).present?
-        coll = Coll.new
+        coll = Coll.new(pid: old_collection.id)
 
         coll.created_at = old_collection.date_created[0].to_date
         coll.depositor = old_collection.depositor
@@ -70,6 +87,16 @@ class Upgrade
 
         coll.save!
       end
+    end
+  end
+
+  def self.upgrade_collection_images
+    Collection.all.each do |old_collection|
+        coll = Coll.find_by(pid: old_collection.id)
+        unless coll.base_file.present? || old_collection.thumbnail_ident.blank?
+          coll.generic_object = GenericObject.find_by(pid: old_collection.thumbnail_ident)
+          coll.save!
+        end
     end
   end
 
@@ -107,9 +134,19 @@ class Upgrade
     end
   end
 
+  def self.upgrade_users
+    OldUser.find_in_batches.each do |old_users|
+      old_users.each do |old_user|
+        unless old_user.email.starts_with? 'guest_' || User.find_by(email: old_user.email).present?
+          User.create(id: old_user.id, email: old_user.email, encrypted_password: old_user.encrypted_password, created_at: old_user.created_at )
+        end
+      end
+    end
+  end
+
   def self.upgrade_object(file)
     unless GenericObject.find_by(pid: file.id).present?
-      obj = GenericObject.new
+      obj = GenericObject.new(pid: file.id)
       raise "No Institution For #{file.id}" if file.institutions.blank?
       obj.inst = Inst.find_by(pid: file.institutions.first.id)
       raise "No Collection For #{file.id}" if file.collections.blank?
@@ -135,7 +172,6 @@ class Upgrade
       obj.related_urls = file.related_url.to_a
       obj.rights_free_text = file.rights_free_text.to_a
       obj.languages = file.language.to_a
-      obj.pid = file.id
 
       # has_many
       o_subjs = []
@@ -183,6 +219,8 @@ class Upgrade
           obj.add_image(file.content.content, file.content.mime_type)
         elsif file.content.mime_type.starts_with?('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
           obj.add_document(file.content.content, file.content.mime_type)
+        elsif file.content.mime_type.starts_with?('application/msword')
+          obj.add_document(file.content.content, file.content.mime_type)
         else
           raise "Unkown content type for: #{file.id}"
         end
@@ -214,14 +252,15 @@ class Upgrade
         end
 
         if file.thumbnail.present?
-          thumb = ThumbnailDerivative.create(base_file: obj.base_files.first, mime_type: 'image/jpeg')
-          thumb.put(file.thumbnail.content)
+          # FIXME: Create is broken with this approach...
+          thumb = ThumbnailDerivative.new(base_file: obj.base_files.first, mime_type: 'image/jpeg')
+          thumb.content = file.thumbnail.content
+          thumb.save!
         end
 
       end
 
       obj.save!
-
     end
   end
 

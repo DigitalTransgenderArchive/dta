@@ -5,6 +5,29 @@ module DtaSearchHelper
   # example:
   #   config.index.thumbnail_method = :sufia_thumbnail_tag
   def dta_thumbnail_tag(document, options)
+    if document.collection?
+      if document["thumbnail_ident_ss"].present?
+        path = download_path document["thumbnail_ident_ss"], file: 'thumbnail'
+        options[:alt] = ""
+        return image_tag path, options
+      end
+    elsif document.institution?
+    elsif document.object?
+          path =
+              if document['flagged_tesim'] == ['Explicit content in thumbnail']
+                "shared/dta_default_icon.jpg"
+              elsif document.has_thumbnail?
+                download_path document, file: 'thumbnail'
+              elsif document.audio?
+                #"audio.png"
+                "shared/dta_audio_icon.jpg"
+              else
+                "shared/dta_default_icon.jpg"
+              end
+          options[:alt] = ""
+          return image_tag path, options
+    end
+
 
     return image_tag "default.png"
     # collection

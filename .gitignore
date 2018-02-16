@@ -10,6 +10,7 @@ capybara-*.html
 /log/*
 /tmp/*
 /db/*.sqlite3
+/db/secondbase
 /public/system/*
 /coverage/
 /spec/tmp/*

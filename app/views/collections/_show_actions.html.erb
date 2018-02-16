@@ -1,0 +1,18 @@
+<h2 class="sr-only">Actions</h2>
+<div class="actions-controls-collections">
+  <% if can? :edit, @collection %>
+      <% if current_user.admin? %>
+          <span class="label label-default"><%= link_to t("sufia.collection.show.edit.label"), collections.edit_collection_path, title: t("sufia.collection.show.edit.label") %></span> &nbsp;&nbsp;
+          <span class="label label-default"><%= link_to 'Make All Visible', collection_member_visibility_path(@collection.id), title: 'Make All Visible' %></span> &nbsp;&nbsp;
+          <span class="label label-default"><%= link_to 'Hide Collection + Items', collection_invisible_path(@collection.id), title: 'Hide Collection' %></span> &nbsp;&nbsp;
+          <span class="label label-default"><%= link_to 'Make Collection Only Visible', collection_visible_path(@collection.id), title: 'Make Collection Only Visible' %></span> &nbsp;&nbsp;
+      <% end %>
+
+      <span class="label label-default"><%= link_to t("sufia.collection.show.add_files.label"),  sufia.dashboard_files_path( add_files_to_collection: @collection.id ), title: t("sufia.collection.show.add_files.label") %></span>
+      <% if Sufia.config.upload_to_collection %>
+          <div class="actions-controls-collections-line2">
+            <span class="label label-default"><%= link_to t("sufia.collection.show.upload_files.label"),  sufia.new_generic_file_path( collection: @collection.id ), title: t("sufia.collection.show.upload_files.desc") %></span>
+          </div>
+      <%end %>
+  <%end %>
+</div>

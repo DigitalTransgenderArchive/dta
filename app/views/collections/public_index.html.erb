@@ -1,0 +1,16 @@
+<% @page_title = t('blacklight.collections.index.page_title', :application_name => application_name) + " - " +  application_name %>
+<% content_for(:head) { render_opensearch_response_metadata } %>
+
+<div id="content" class="col-sm-12 collections-list">
+  <div class="inst_collection_table" style="margin-bottom:20px;">
+    <h2>Collections</h2>
+  </div>
+
+  <!-- also removed A-Z list...-->
+  <%= render 'collections/az_links', :documents => @document_list %>
+
+  <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+
+  <%= render 'collections/show_document_public_list', :documents => @document_list %>
+
+</div>

@@ -3,7 +3,7 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
     unless ActiveRecord::Base.connection.table_exists?(:generic_objects)
 
       create_table :insts do |t|
-        t.string :pid, index: { unique: true }
+        t.string :pid, index: { unique: true }, limit: 64
         t.string :name, index: { unique: true }
         t.text :description
         t.string :contact_person
@@ -11,7 +11,7 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :email
         t.string :phone
         t.string :institution_url
-        t.string :visibility
+        t.string :visibility, limit: 50
 
         # Need to handle file upload
         #t.string :inst_image_id
@@ -20,11 +20,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         #t.string :inst_image_content_type
 
         t.belongs_to :geonames
-        t.belongs_to :base_file
 
-        #t.references :generic_objects
-        #t.references :colls
-
+        t.integer :views, :null => false, :default => 0
         t.timestamps null: false
       end
 
@@ -37,31 +34,32 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
       # Collections can belong to many institutions?
       create_table :colls do |t|
         #t.references :insts
-        t.string :pid, index: { unique: true }
+        t.string :pid, index: { unique: true }, limit: 64
         t.string :title, index: { unique: true }
         t.text :description
         t.string :depositor
-        t.string :visibility
-        t.belongs_to :base_file
+        t.string :visibility, limit: 50
+        t.belongs_to :generic_object # Essentially what object to steal an image from
         t.belongs_to :inst
         #t.references :generic_objects
         t.timestamps null: false
+        t.integer :views, :null => false, :default => 0
       end
 
       create_table :generic_objects do |t|
-        t.string :pid, index: { unique: true }
-        t.string :title
+        t.string :pid, index: { unique: true }, limit: 64
+        t.string :title, limit: 355
         t.text :toc
         t.string :analog_format
         t.string :digital_format
         t.string :flagged
         t.string :is_shown_at
         t.string :preview
-        t.string :hosted_elsewhere
+        t.string :hosted_elsewhere, limit: 10
         t.string :identifier
 
         t.string :depositor
-        t.string :visibility
+        t.string :visibility, limit: 50
 
         # These are serialized arrays. Used for display data mainly. May change in the future.
         t.text :descriptions
@@ -191,10 +189,28 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :label
       end
 
+      create_table :inst_image_files do |t|
+        t.belongs_to :inst
+
+        t.string :parent_pid
+        t.string :path
+        t.string :directory
+        t.string :sha256
+        t.string :mime_type
+
+        t.boolean :low_res, :null => false, :default => false
+        t.boolean :fedora_imported, :null => false, :default => false
+
+        t.integer :views, :null => false, :default => 0
+
+        t.timestamps null: false
+      end
+
       create_table :base_files do |t|
         t.belongs_to :generic_object
         t.string :type
 
+        t.string :parent_pid, limit: 64
         t.string :path
         t.string :directory
         t.string :sha256
@@ -204,7 +220,6 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.text :fits
         t.boolean :low_res, :null => false, :default => false
         t.boolean :fedora_imported, :null => false, :default => false
-        t.boolean :inst_image, :null => false, :default => false
 
         t.integer :views, :null => false, :default => 0
         t.integer :downloads, :null => false, :default => 0
@@ -212,6 +227,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
 
         t.timestamps null: false
       end
+      # May need to remove this as what about large books where blank pages are re-used as placeholders...
+      add_index :base_files, [:parent_pid, :sha256], unique: true
 
       create_table :base_derivatives do |t|
         t.belongs_to :base_file
@@ -222,6 +239,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :path
         t.string :mime_type, :null => false, :default => 'image/jpeg'
         t.string :sha256
+        t.string :parent_sha256
+        t.string :parent_pid, limit: 64 # technically a parent sha256 value
         t.text :ocr, limit: 1.megabytes
 
         t.integer :views, :null => false, :default => 0

@@ -1,0 +1,8 @@
+<a href="<%= collections.collection_path %>" target="_new">
+<% if @collection.thumbnail_ident.present? %>
+      <% path = sufia.download_path @collection.thumbnail_ident, file: 'thumbnail' %>
+      <%= image_tag path, class: "collection-icon" %>
+<% else %>
+      <%= image_tag "site_images/collection-icon.svg", class: "collection-icon" %>
+<% end %>
+</a>

@@ -3,13 +3,14 @@
     include Blacklight::Solr::SearchBuilderBehavior
     include BlacklightRangeLimit::RangeLimitBuilder
     include BlacklightAdvancedSearch::AdvancedSearchBuilder
-    #self.default_processor_chain += [:add_advanced_parse_q_to_solr, :add_advanced_search_to_solr, :exclude_unwanted_models]
-    self.default_processor_chain += [:add_advanced_search_to_solr, :exclude_unwanted_models]
+    include CommonSearchBuilder
+    self.default_processor_chain += [:add_advanced_search_to_solr, :exclude_unwanted_models, :set_visibility]
 
-    def exclude_unwanted_models(solr_parameters = {}, wtf=nil)
+    def exclude_unwanted_models(solr_parameters = {}, otherval=nil)
       solr_parameters[:fq] ||= []
-      solr_parameters[:fq] << "-active_fedora_model_ssi:\"Institution\""
-      solr_parameters[:fq] << "-active_fedora_model_ssi:\"Collection\""
+      solr_parameters[:fq] << "-model_ssi:\"Institution\""
+      solr_parameters[:fq] << "-model_ssi:\"Collection\""
+      solr_parameters[:fq] << "-model_ssi:\"Homosaurus\""
     end
 
 

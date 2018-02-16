@@ -1,0 +1,90 @@
+$dark_gray: #A29E9E !default;
+$light_gray: #CACACA !default;
+
+$viewer_bg: #111111 !default;
+
+/* image viewer */
+#img_viewer_modal {
+
+  .modal-dialog {
+    width:98%;
+    margin:10px auto;
+
+    .modal-content {
+      background-color: $light_gray;
+
+      .modal-header {
+        border-bottom: 0;
+        padding: 3px 10px;
+        text-align: left;
+        height: 29px;
+        overflow: hidden;
+
+        .modal-title {
+          font-size: 16px;
+          font-weight: bold;
+          width: 95%;
+        }
+
+      }
+
+      #img_viewer_osd {
+        background-color: $viewer_bg;
+        margin: 0 5px;
+        padding: 0;
+        border: 1px solid $dark_gray;
+
+        /* OSd navigator */
+        .openseadragon-container > div.openseadragon-canvas + div + div {
+          right: 3px !important;
+          top: 3px !important;
+        }
+
+        /* OSd controls */
+        .openseadragon-container > div.openseadragon-canvas + div + div + div {
+          right: 3px !important;
+          padding: 1px 1px 0 !important;
+          border-radius: 5px 5px 0 0;
+          background: rgb(17, 17, 17) !important; /* fallback for browsers w/o RGBa support */
+          background: rgba(17, 17, 17, 0.4) !important;
+          filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66111111, endColorstr=#66111111); /* for IE 5.5-7 */
+          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#66111111, endColorstr=#66111111)"; /* for IE8 */
+        }
+
+      }
+
+      .modal-footer {
+        border-top: 0;
+        padding: 2px;
+      }
+
+    }
+
+  }
+
+}
+/* end image viewer */
+
+
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+  #img_viewer_modal {
+
+    .modal-dialog {
+
+      .modal-content {
+
+        .modal-header {
+
+          .modal-title {
+            font-size: 14px;
+            font-weight: normal;
+          }
+
+        }
+
+      }
+
+    }
+  }
+}

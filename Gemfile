@@ -1,12 +1,21 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Outdated to make this work
+gem 'leaflet-rails', '0.7.7'
+
+# Fonts
+gem 'lato-rails'
+
+#gem 'mysql2', '0.4.10'
 # Temporary
 gem 'active-fedora', '11.5.2'
 
 # Maybe Temporary
 gem 'noid-rails'
 gem 'geomash', github: 'samvera-labs/geomash'
+gem 'secondbase'
 
 ruby '2.4.0'
 
@@ -27,7 +36,7 @@ gem "blacklight_advanced_search"
 gem "blacklight", "~> 6"
 gem "blacklight-gallery"
 gem "blacklight_range_limit"
-gem "blacklight-maps"
+gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
 # End Blacklight
 
 # Authentication

@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  # Generic file routes
+  resources :generic_files, path: :files, except: :index do
+    member do
+      get 'stats'
+      get 'citation'
+    end
+  end
+
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
   root to: 'homepage#index'
@@ -26,12 +34,7 @@ Rails.application.routes.draw do
     end
   end
   
-  # Generic file routes
-  resources :generic_files, path: :files, except: :index do
-    member do
-      get 'stats'
-    end
-  end
+
 
   # advanced routes for advanced search
   get 'search' => 'advanced#index', as: :advanced

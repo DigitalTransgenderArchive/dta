@@ -1,0 +1,30 @@
+<div class="btn-group">
+  <button class="btn btn-sm dropdown-toggle" data-toggle="dropdown">Select an action <span class="caret"></span></button>
+  <ul class="dropdown-menu dropdown-menu-right">
+
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-picture"></i> Set as Thumbnail'), collection_thumbnail_set_path(:id=>@collection_id, :item_id=>id),
+                  class: 'itemicon', title: 'Set as Thumbnail' %>
+    </li>
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-link over"></i> Single-Use Link to File'), '#',
+                  class: "copypaste itemicon itemcode", title: "Single-Use Link to File", id: "copy_link_#{id}" %>
+    </li>
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-pencil"></i> Edit File'), sufia.edit_generic_file_path(id),
+                  class: 'itemicon itemedit', title: 'Edit File' %>
+    </li>
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-download-alt"></i> Download File'), sufia.download_path(id),
+                  class: 'itemicon itemdownload', title: 'Download File', target: '_new' %>
+    </li>
+    <li>
+      <%= display_trophy_link(@user, id) do |text| %>
+          <i class='glyphicon glyphicon-star'></i> <%= text %>
+      <% end %>
+    </li>
+    <li>
+      <%=  button_for_remove_from_collection(gf, 'Remove from Collection (FIXME)') %>
+    </li>
+  </ul>
+</div>

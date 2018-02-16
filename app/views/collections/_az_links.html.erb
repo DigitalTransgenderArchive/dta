@@ -1,0 +1,17 @@
+<% if should_render_col_az? %>
+    <div id="collection_az_links" class="well well-sm">
+      <%= content_tag(:span,
+                      'Browse by title:',
+                      :class => 'col_a-z_label') %>
+      <%= link_to 'All', collections_public_path, :class => 'col_a-z_link' %>
+      <% ('A'..'Z').each do |letter| %>
+          <% if ['Q','X'].include? letter %>
+              <%= content_tag(:span, letter, :class => 'col_a-z_nolink') %>
+          <% elsif params.has_key?(:filter) and letter.include?(params[:filter])%>
+                  <%= content_tag(:span, letter, :class => 'col_a-z_matched_link') %>
+          <% else %>
+              <%= link_to_cols_start_with(letter) %>
+          <% end %>
+      <% end %>
+    </div>
+<% end %>

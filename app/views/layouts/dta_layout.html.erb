@@ -25,11 +25,15 @@
   <%= content_for(:head) %>
 </head>
 <body class="<%= render_body_class %>">
+<div id="outer-wrapper">
+<div class="container-fluid">
+  <div id="page-positioner">
 <%= render :partial => 'shared/header_navbar' %>
 
 <%= render partial: 'shared/ajax_modal' %>
-
+    <div style="clear:both;"></div>
 <div id="main-container" class="container-fluid <%# container_classes %>">
+  <div class="col-xs-12">
   <%= content_tag :h1, application_name, class: 'sr-only application-heading' %>
 
   <%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>
@@ -37,7 +41,11 @@
   <div class="row">
     <%= yield %>
   </div>
+  </div>
 </div>
 <%= render :partial => 'shared/footer' %>
+  </div>
+</div>
+</div>
 </body>
 </html>

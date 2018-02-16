@@ -1,0 +1,62 @@
+<% @page_title = "#{@collection.title} - #{application_name}" %>
+<div style="max-width:1400px; margin: 0 auto">
+
+<h2 class="collection-title"><%= @collection_title %></h2>
+<h4 class="collection-provenance">
+      <% @collection.insts.pluck(:name).sort.each do |inst_name| %>
+        <%= inst_name %> <br />
+      <% end %>
+</h4>
+
+<div class="document">
+
+  <div itemscope itemtype="http://schema.org/CollectionPage" class="row">
+
+    <div class="col-sm-9">
+      <div id="collection_img">
+        <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
+      </div>
+
+      <div id="collection_search_tools" class="well well-sm">
+        <%= render :partial => 'search_form_collection', :locals => {:document => @document} %>
+        <span class="collection_search_separator">or</span>
+        <div id="collection_view_all">
+
+              <%= link_to_all_col_items(@collection.title,
+                                        nil,
+                                        'btn btn-info view-all-col') %>
+
+        </div>
+      </div>
+
+      <div id="collection_desc">
+        <% if @document[:description_tesim] %>
+            <% @document[:description_tesim].each do |abstract| %>
+                <%=
+                  make_links_clickable(abstract).html_safe
+                %>
+            <% end %>
+        <% end %>
+      </div>
+
+      <% # map for collections#show view %>
+      <% unless @response.aggregations[map_facet_field].items.empty? %>
+          <div id="blacklight-collection-map-container">
+            <h4><%= t('blacklight.collections.map.title') %></h4>
+            <%= render :partial => 'catalog/index_map',
+                       :locals => {:geojson_features => serialize_geojson(map_facet_values,
+                                                                          'index')} %>
+          </div>
+          </div>
+      <% end %>
+
+      </div>
+
+  <div id="sidebar" class="col-sm-3">
+    <%= render 'search_sidebar' %>
+  </div>
+
+
+</div>
+</div>
+</div>

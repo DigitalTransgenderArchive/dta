@@ -5,7 +5,7 @@ module CommonSolrAssignments
     doc[:system_modified_dtsi] = "#{self.updated_at.iso8601}"
     doc[:date_uploaded_dtsi] = doc[:system_create_dtsi]
     doc[:date_modified_dtsi] = doc[:date_modified_dtsi]
-    doc[:active_fedora_model_ssi] = self.model_name
+    doc[:model_ssi] = self.model_name
     doc[:has_model_ssim] = [self.model_name]
 
     doc[:date_created_tesim] = [self.created_at.iso8601.split('T')[0]]
@@ -16,11 +16,13 @@ module CommonSolrAssignments
   end
 
   def send_solr
+    raise 'I should not be here'
     doc = generate_solr_content
     DSolr.put doc
   end
 
   def remove_from_solr
+    raise 'I should not be here'
     DSolr.delete_by_id self.pid
   end
 end

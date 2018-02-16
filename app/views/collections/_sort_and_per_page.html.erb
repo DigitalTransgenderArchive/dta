@@ -1,0 +1,16 @@
+<div class="batch-info">
+  <div>
+    <%= render partial: 'collections/form_for_select_collection', locals: { user_collections: @user_collections }  %>
+  </div>
+
+  <% if  params[:action] == "edit" %>
+  <div class="batch-toggle">
+     <% session[:batch_edit_state] = "on" %>
+    <%= button_for_remove_selected_from_collection @collection %>
+   </div>
+  <%end %>
+   <div class="sort-toggle">
+     <%# kind of hacky way to get this to work on catalog and folder controllers.  May be able to simple do {action: "index"} but I'm not sure -%>
+
+   </div>
+</div>

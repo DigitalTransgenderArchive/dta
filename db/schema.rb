@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "path"
     t.string "mime_type", default: "image/jpeg", null: false
     t.string "sha256"
+    t.string "parent_sha256"
+    t.string "parent_pid", limit: 64
     t.text "ocr", limit: 1048576
     t.integer "views", default: 0, null: false
     t.integer "downloads", default: 0, null: false
@@ -80,6 +82,7 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
   create_table "base_files", force: :cascade do |t|
     t.integer "generic_object_id"
     t.string "type"
+    t.string "parent_pid", limit: 64
     t.string "path"
     t.string "directory"
     t.string "sha256"
@@ -89,13 +92,13 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.text "fits"
     t.boolean "low_res", default: false, null: false
     t.boolean "fedora_imported", default: false, null: false
-    t.boolean "inst_image", default: false, null: false
     t.integer "views", default: 0, null: false
     t.integer "downloads", default: 0, null: false
     t.integer "order", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generic_object_id"], name: "index_base_files_on_generic_object_id"
+    t.index ["parent_pid", "sha256"], name: "index_base_files_on_parent_pid_and_sha256", unique: true
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -208,16 +211,17 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
   end
 
   create_table "colls", force: :cascade do |t|
-    t.string "pid"
+    t.string "pid", limit: 64
     t.string "title"
     t.text "description"
     t.string "depositor"
-    t.string "visibility"
-    t.integer "base_file_id"
+    t.string "visibility", limit: 50
+    t.integer "generic_object_id"
     t.integer "inst_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["base_file_id"], name: "index_colls_on_base_file_id"
+    t.integer "views", default: 0, null: false
+    t.index ["generic_object_id"], name: "index_colls_on_generic_object_id"
     t.index ["inst_id"], name: "index_colls_on_inst_id"
     t.index ["pid"], name: "index_colls_on_pid", unique: true
     t.index ["title"], name: "index_colls_on_title", unique: true
@@ -266,18 +270,18 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
   end
 
   create_table "generic_objects", force: :cascade do |t|
-    t.string "pid"
-    t.string "title"
+    t.string "pid", limit: 64
+    t.string "title", limit: 355
     t.text "toc"
     t.string "analog_format"
     t.string "digital_format"
     t.string "flagged"
     t.string "is_shown_at"
     t.string "preview"
-    t.string "hosted_elsewhere"
+    t.string "hosted_elsewhere", limit: 10
     t.string "identifier"
     t.string "depositor"
-    t.string "visibility"
+    t.string "visibility", limit: 50
     t.text "descriptions"
     t.text "temporal_coverage"
     t.text "date_issued"
@@ -341,8 +345,23 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.index ["inst_id"], name: "index_inst_colls_on_inst_id"
   end
 
+  create_table "inst_image_files", force: :cascade do |t|
+    t.integer "inst_id"
+    t.string "parent_pid"
+    t.string "path"
+    t.string "directory"
+    t.string "sha256"
+    t.string "mime_type"
+    t.boolean "low_res", default: false, null: false
+    t.boolean "fedora_imported", default: false, null: false
+    t.integer "views", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inst_id"], name: "index_inst_image_files_on_inst_id"
+  end
+
   create_table "insts", force: :cascade do |t|
-    t.string "pid"
+    t.string "pid", limit: 64
     t.string "name"
     t.text "description"
     t.string "contact_person"
@@ -350,12 +369,11 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "email"
     t.string "phone"
     t.string "institution_url"
-    t.string "visibility"
+    t.string "visibility", limit: 50
     t.integer "geonames_id"
-    t.integer "base_file_id"
+    t.integer "views", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["base_file_id"], name: "index_insts_on_base_file_id"
     t.index ["geonames_id"], name: "index_insts_on_geonames_id"
     t.index ["name"], name: "index_insts_on_name", unique: true
     t.index ["pid"], name: "index_insts_on_pid", unique: true
@@ -565,7 +583,7 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object", limit: 1073741823
-    t.datetime "created_at"
+    t.datetime "created_at", precision: 6
     t.integer "transaction_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"

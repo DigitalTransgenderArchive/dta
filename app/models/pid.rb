@@ -1,21 +1,34 @@
 require 'noid-rails'
 
-module Pid
+class Pid
   extend ActiveSupport::Concern
 
-  ## This overrides the default behavior, which is to ask Fedora for an id
-  # @see ActiveFedora::Persistence.assign_id
-  def assign_id
-    service.mint
+  def self.tree(id)
+    Noid::Rails.treeify(id)
   end
 
-  def to_param
-    id
+  def self.stump(path)
+    @baseparts ||= 2 + [(Noid::Rails.config.template.gsub(/\.[rsz]/, '').length.to_f / 2).ceil, 4].min
+    return path.to_s.split('/', @baseparts).last
+  end
+
+  def self.mint
+    raise 'I should not be here'
+    conflicts = true
+    while conflicts do
+      pid = service.mint
+      conflicts = false unless GenericObject.exists?(pid: pid) || Coll.exists?(pid: pid) || Inst.exists?(pid: pid)
+    end
+    return pid
+  end
+
+  def self.assign_id
+    self.forge
   end
 
   private
 
-  def service
+  def self.service
     @service ||= Noid::Rails::Service.new
   end
 end

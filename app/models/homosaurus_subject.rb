@@ -33,7 +33,7 @@ class HomosaurusSubject < ActiveRecord::Base
     doc[:id] = "homosaurus/terms/#{self.identifier}"
     doc[:system_create_dtsi] = "#{self.created_at.iso8601}"
     doc[:system_modified_dtsi] = "#{self.updated_at.iso8601}"
-    doc[:active_fedora_model_ssi] = self.model_name
+    doc[:model_ssi] = self.model_name
     doc[:has_model_ssim] = [self.model_name]
     doc[:date_created_tesim] = [self.created_at.iso8601.split('T')[0]]
     doc[:date_created_ssim] = doc[:date_created_tesim]
