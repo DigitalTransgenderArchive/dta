@@ -1,8 +1,12 @@
 module InstObjectAssignments
 
-  def add_image(value, mime_type)
+  def add_image(value, mime_type, original_name=nil)
     sha256 = InstImageFile.calculate_sha256 value
     obj = InstImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type)
+    if original_name.present?
+      obj.original_filename = original_name.content.original_name.gsub(File.extname(original_name.content.original_name), '')
+      obj.original_extension = File.extname(original_name.content.original_name)
+    end
     self.inst_image_files << obj
     obj.content = value
     obj.low_res = true

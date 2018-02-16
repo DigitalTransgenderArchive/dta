@@ -49,7 +49,7 @@ class Upgrade
         inst.visibility = 'public'
 
         if old_inst.content.present?
-          inst.add_image(old_inst.content.content, old_inst.content.mime_type)
+          inst.add_image(old_inst.content.content, old_inst.content.mime_type, old_inst.content.original_name)
         end
 
         #geo_result = Geonames.search(old_inst.name.split(',').last.strip, 'S')
@@ -214,15 +214,15 @@ class Upgrade
 
       if file.content.present?
         if file.content.mime_type.starts_with?('application/octet-stream')
-          obj.add_pdf(file.content.content, 'application/pdf')
+          obj.add_pdf(file.content.content, 'application/pdf', file.content.original_name)
         elsif file.content.mime_type.starts_with?('application/pdf')
-          obj.add_pdf(file.content.content, file.content.mime_type)
+          obj.add_pdf(file.content.content, file.content.mime_type, file.content.original_name)
         elsif file.content.mime_type.starts_with?('image')
-          obj.add_image(file.content.content, file.content.mime_type)
+          obj.add_image(file.content.content, file.content.mime_type, file.content.original_name)
         elsif file.content.mime_type.starts_with?('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-          obj.add_document(file.content.content, file.content.mime_type)
+          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name)
         elsif file.content.mime_type.starts_with?('application/msword')
-          obj.add_document(file.content.content, file.content.mime_type)
+          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name)
         else
           raise "Unkown content type for: #{file.id}"
         end
