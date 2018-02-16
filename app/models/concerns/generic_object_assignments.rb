@@ -21,8 +21,8 @@ module GenericObjectAssignments
     obj = ImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     if original_name.present?
-      obj.original_filename = original_name.content.original_name.gsub(File.extname(original_name.content.original_name), '')
-      obj.original_extension = File.extname(original_name.content.original_name)
+      obj.original_filename = original_name.gsub(File.extname(original_name), '')
+      obj.original_extension = File.extname(original_name)
     end
     obj.content = value
   end
@@ -32,8 +32,8 @@ module GenericObjectAssignments
     obj = PdfFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     if original_name.present?
-      obj.original_filename = original_name.content.original_name.gsub(File.extname(original_name.content.original_name), '')
-      obj.original_extension = File.extname(original_name.content.original_name)
+      obj.original_filename = original_name.gsub(File.extname(original_name), '')
+      obj.original_extension = File.extname(original_name)
     end
     obj.content = value
   end
@@ -43,8 +43,8 @@ module GenericObjectAssignments
     obj = DocumentFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     if original_name.present?
-      obj.original_filename = original_name.content.original_name.gsub(File.extname(original_name.content.original_name), '')
-      obj.original_extension = File.extname(original_name.content.original_name)
+      obj.original_filename = original_name.gsub(File.extname(original_name), '')
+      obj.original_extension = File.extname(original_name)
     end
     obj.content = value
   end

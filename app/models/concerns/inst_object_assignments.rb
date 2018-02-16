@@ -4,8 +4,8 @@ module InstObjectAssignments
     sha256 = InstImageFile.calculate_sha256 value
     obj = InstImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type)
     if original_name.present?
-      obj.original_filename = original_name.content.original_name.gsub(File.extname(original_name.content.original_name), '')
-      obj.original_extension = File.extname(original_name.content.original_name)
+      obj.original_filename = original_name.gsub(File.extname(original_name), '')
+      obj.original_extension = File.extname(original_name)
     end
     self.inst_image_files << obj
     obj.content = value
