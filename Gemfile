@@ -51,6 +51,7 @@ gem 'devise-guests'
 # Other
 gem 'friendly_id', '5.1.0'
 gem 'gon'
+gem 'rest-client'
 # End Other
 
 # Adding in form dependencies

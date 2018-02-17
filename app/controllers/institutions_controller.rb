@@ -10,10 +10,10 @@ class InstitutionsController < ApplicationController
 
 
 
-  before_filter :remove_unwanted_views, :only => [:public_index]
+  before_action :remove_unwanted_views, :only => [:public_index]
 
   # remove collection facet and collapse others
-  before_filter :institution_base_blacklight_config, :only => [:public_show]
+  #before_filter :institution_base_blacklight_config, :only => [:public_show]
 
 
   def enforce_show_permissions
@@ -27,7 +27,7 @@ class InstitutionsController < ApplicationController
   end
 
   def update_collections
-    term_query = Collection.find_with_conditions("isMemberOfCollection_ssim:#{params[:id]}", rows: '10000', fl: 'id,title_tesim' )
+    term_query = DSolr.find({q: "isMemberOfCollection_ssim:#{params[:id]} and model_ssi:Collection", rows: '10000', fl: 'id,title_tesim' })
     term_query = term_query.sort_by { |term| term["title_tesim"].first }
     @selectable_collection = []
     term_query.each { |term| @selectable_collection << [term["title_tesim"].first, term["id"]] }

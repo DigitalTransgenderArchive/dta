@@ -4,6 +4,6 @@
 <%=
     if include_help
       help_label ||= label_val
-      render partial: "audits_common/partials/help_icon", locals: { help_label: help_label, help_content: include_help }
+      render partial: "partials/help_icon", locals: { help_label: help_label, help_content: include_help }
   end
 %>

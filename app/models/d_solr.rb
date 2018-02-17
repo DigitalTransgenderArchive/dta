@@ -8,7 +8,7 @@ class DSolr
 
   def self.find(args)
     solr = RSolr.connect :url => Settings.solr_url
-    response = solr.get 'select', :params => {:q => args}
+    response = solr.get 'select', :params => args
     response["response"]["docs"]
   end
 

@@ -84,7 +84,7 @@ class GenericObject < ActiveRecord::Base
     false
   end
 
-  def model_name
+  def solr_model_name
     "GenericFile"
   end
 

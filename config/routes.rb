@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   get 'collections/collection_visible/:id' => 'collections#collection_visible', as: :collection_visible
   get 'collections/collection_thumbnail_set/:id/:item_id' => 'collections#collection_thumbnail_set', as: :collection_thumbnail_set
 
+  # Added Institution Routes
+  get 'ajax/cols/:id', :to => 'institutions#update_collections', :as => 'generic_files_update_collections'
+  get 'ajax/cols', :to => 'institutions#update_collections', :as => 'generic_files_update_collections_no_id'
+
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
   root to: 'homepage#index'
@@ -88,7 +92,9 @@ Rails.application.routes.draw do
   # subject browse
   get 'topic', :to => 'catalog#topic_facet', :as => 'topic_facet'
 
-  mount Blazer::Engine => '/analytics'
+  authenticate :user, -> (user) { user.admin? } do
+    mount Blazer::Engine => '/analytics'
+  end
 
   require 'sidekiq/web'
   require 'tilt/erb' # Required for sidekiq-statistic to work

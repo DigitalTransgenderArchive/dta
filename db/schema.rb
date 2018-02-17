@@ -51,7 +51,14 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.integer "visit_id"
     t.integer "user_id"
     t.string "param1"
-    t.string "pid"
+    t.string "param1_type"
+    t.string "param2"
+    t.string "param2_type"
+    t.string "pid", limit: 64
+    t.string "collection_pid", limit: 64
+    t.string "institution_pid", limit: 64
+    t.string "model", limit: 128
+    t.string "search_term"
     t.string "name"
     t.text "properties"
     t.datetime "time"
@@ -70,10 +77,11 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "sha256"
     t.string "parent_sha256"
     t.string "parent_pid", limit: 64
-    t.text "ocr", limit: 1048576
+    t.text "ocr", limit: 2097152
     t.integer "views", default: 0, null: false
     t.integer "downloads", default: 0, null: false
     t.integer "order", default: 0, null: false
+    t.integer "size", limit: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["base_file_id"], name: "index_base_derivatives_on_base_file_id"
@@ -89,14 +97,15 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "mime_type"
     t.string "original_filename"
     t.string "original_extension", limit: 10
-    t.text "original_ocr", limit: 1048576
-    t.text "ocr", limit: 1048576
+    t.text "original_ocr", limit: 2097152
+    t.text "ocr", limit: 2097152
     t.text "fits"
     t.boolean "low_res", default: false, null: false
     t.boolean "fedora_imported", default: false, null: false
     t.integer "views", default: 0, null: false
     t.integer "downloads", default: 0, null: false
     t.integer "order", default: 0, null: false
+    t.integer "size", limit: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["generic_object_id"], name: "index_base_files_on_generic_object_id"
@@ -356,9 +365,12 @@ ActiveRecord::Schema.define(version: 2018_02_14_050842) do
     t.string "mime_type"
     t.string "original_filename"
     t.string "original_extension", limit: 10
+    t.text "fits"
     t.boolean "low_res", default: false, null: false
     t.boolean "fedora_imported", default: false, null: false
     t.integer "views", default: 0, null: false
+    t.integer "order", default: 0, null: false
+    t.integer "size", limit: 8
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["inst_id"], name: "index_inst_image_files_on_inst_id"

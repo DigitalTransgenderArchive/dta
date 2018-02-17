@@ -43,6 +43,7 @@ module FileBehavior
 
   # Content handles most of the pathing logic
   def content=(value)
+    raise 'No value was passed for the file...' if value.blank?
     self.sha256 = Digest::SHA256.hexdigest value # Can calculate twice...
     self.set_parent_pid
     self.attempt_initialize!
@@ -56,7 +57,6 @@ module FileBehavior
   end
 
   def content
-    raise 'Got here: ' + File.join(Settings.filestore, self.path).to_s
     ::File.open(File.join(Settings.filestore, self.path), 'rb') { |f| f.read }
   end
 
@@ -79,6 +79,7 @@ module FileBehavior
   end
 
   def verify_content_set
+    # Should check this at end: || !File.exists?(self.path)
     error! if self.parent_pid.blank? || self.sha256.blank? || self.path.blank? || self.directory.blank?
   end
 

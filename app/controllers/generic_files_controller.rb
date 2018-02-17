@@ -28,6 +28,7 @@ class GenericFilesController < ApplicationController
     if @generic_file.visibility == "hidden" and !current_or_guest_user.contributor?
       redirect_to root_path
     else
+      ahoy.track_visit
       ahoy.track "Object View", {title: @generic_file.title, collection: @generic_file.coll.pid, pid: params[:id], param1: @generic_file.coll.pid}
       respond_to do |format|
         format.html do
@@ -40,7 +41,6 @@ class GenericFilesController < ApplicationController
 
   def new
     @generic_object = GenericObject.new
-    session[:object_pid] = @generic_object.pid
 
     if session[:unsaved_generic_file].present?
       begin
@@ -54,8 +54,8 @@ class GenericFilesController < ApplicationController
 
     institutions = Institution.all.map do |u|
       {
-          id: id,
-          text: name
+          id: u.id,
+          text: u.name
       }
     end
     @selectable_institution = institutions.sort_by { |key, val| val }.reverse

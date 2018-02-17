@@ -26,7 +26,7 @@ class Coll < ActiveRecord::Base
     self.pid = Pid.mint if self.pid.nil?
   end
 
-  def model_name
+  def solr_model_name
     "Collection"
   end
 

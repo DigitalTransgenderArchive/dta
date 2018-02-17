@@ -10,6 +10,7 @@ class BaseDerivative < ActiveRecord::Base
 
   # Content handles most of the pathing logic
   def content=(value)
+    raise 'No value was passed for the file...' if value.blank?
     self.sha256 = Digest::SHA256.hexdigest value
     self.set_parent_pid
     self.attempt_initialize!
@@ -17,7 +18,7 @@ class BaseDerivative < ActiveRecord::Base
     unless File.exists? full_path
       FileUtils.mkpath self.full_directory
       File.open(self.full_path, 'wb' ) do |output|
-        output.write content
+        output.write value
       end
     end
   end
@@ -47,7 +48,5 @@ class BaseDerivative < ActiveRecord::Base
   def local_name
     raise "You should have this set in things that extend this class."
   end
-
-
 
 end

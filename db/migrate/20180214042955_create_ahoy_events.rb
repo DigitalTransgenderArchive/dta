@@ -8,7 +8,14 @@ class CreateAhoyEvents < ActiveRecord::Migration[5.2]
       # add t.string :user_type if polymorphic
 
       t.string :param1
-      t.string :pid
+      t.string :param1_type
+      t.string :param2
+      t.string :param2_type
+      t.string :pid, limit: 64
+      t.string :collection_pid, limit: 64
+      t.string :institution_pid, limit: 64
+      t.string :model, limit: 128
+      t.string :search_term
       t.string :name
       t.text :properties
       t.timestamp :time

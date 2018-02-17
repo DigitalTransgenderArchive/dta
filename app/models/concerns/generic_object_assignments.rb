@@ -16,36 +16,39 @@ module GenericObjectAssignments
   end
 
   # Custom
-  def add_image(value, mime_type, original_name=nil)
+  def set_original_info(obj, mime_type, original_name, original_size)
+    if original_name.present?
+      if File.extname(original_name).size < 6
+        obj.original_filename = original_name.gsub(File.extname(original_name), '')
+        obj.original_extension = File.extname(original_name)
+      else
+        obj.original_filename = original_name
+        obj.original_extension = BaseFile.calculate_extension(mime_type)
+      end
+    end
+    obj.size = original_size if original_size.present?
+  end
+  def add_image(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
     obj = ImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
-    if original_name.present?
-      obj.original_filename = original_name.gsub(File.extname(original_name), '')
-      obj.original_extension = File.extname(original_name)
-    end
+    self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
   end
 
-  def add_pdf(value, mime_type, original_name=nil)
+  def add_pdf(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
     obj = PdfFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
-    if original_name.present?
-      obj.original_filename = original_name.gsub(File.extname(original_name), '')
-      obj.original_extension = File.extname(original_name)
-    end
+    self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
   end
 
-  def add_document(value, mime_type, original_name=nil)
+  def add_document(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
     obj = DocumentFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
-    if original_name.present?
-      obj.original_filename = original_name.gsub(File.extname(original_name), '')
-      obj.original_extension = File.extname(original_name)
-    end
+    self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
   end
 

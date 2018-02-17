@@ -120,6 +120,35 @@ class CatalogController < ApplicationController
       }
     end
 
+    config.add_search_field('publisher') do |field|
+      field.solr_parameters = { :'spellcheck.dictionary' => 'publisher' }
+
+      field.solr_local_parameters = {
+          qf: '$publisher_qf',
+          pf: '$publisher_pf'
+      }
+    end
+
+    config.add_search_field('othersubject') do |field|
+      field.label = 'People / Organizations'
+      field.solr_parameters = { :'spellcheck.dictionary' => 'othersubject' }
+
+      field.solr_local_parameters = {
+          qf: '$othersubject_qf',
+          pf: '$othersubject_pf'
+      }
+    end
+
+    config.add_search_field('identifier') do |field|
+      field.label = 'People / Organizations'
+      field.solr_parameters = { :'spellcheck.dictionary' => 'identifier' }
+
+      field.solr_local_parameters = {
+          qf: '$identifier_qf',
+          pf: '$identifier_pf'
+      }
+    end
+
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
     # whether the sort is ascending or descending (it must be asc or desc

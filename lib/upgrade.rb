@@ -49,7 +49,7 @@ class Upgrade
         inst.visibility = 'public'
 
         if old_inst.content.present?
-          inst.add_image(old_inst.content.content, old_inst.content.mime_type, old_inst.content.original_name)
+          inst.add_image(old_inst.content.content, old_inst.content.mime_type, old_inst.content.original_name, old_inst.content.size)
         end
 
         #geo_result = Geonames.search(old_inst.name.split(',').last.strip, 'S')
@@ -214,15 +214,15 @@ class Upgrade
 
       if file.content.present?
         if file.content.mime_type.starts_with?('application/octet-stream')
-          obj.add_pdf(file.content.content, 'application/pdf', file.content.original_name)
+          obj.add_pdf(file.content.content, 'application/pdf', file.content.original_name, file.content.size)
         elsif file.content.mime_type.starts_with?('application/pdf')
-          obj.add_pdf(file.content.content, file.content.mime_type, file.content.original_name)
+          obj.add_pdf(file.content.content, file.content.mime_type, file.content.original_name, file.content.size)
         elsif file.content.mime_type.starts_with?('image')
-          obj.add_image(file.content.content, file.content.mime_type, file.content.original_name)
+          obj.add_image(file.content.content, file.content.mime_type, file.content.original_name, file.content.size)
         elsif file.content.mime_type.starts_with?('application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name)
+          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name, file.content.size)
         elsif file.content.mime_type.starts_with?('application/msword')
-          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name)
+          obj.add_document(file.content.content, file.content.mime_type, file.content.original_name, file.content.size)
         else
           raise "Unkown content type for: #{file.id}"
         end
@@ -242,20 +242,21 @@ class Upgrade
           end
           obj.base_files.first.original_ocr = obj.base_files.first.ocr
         end
-
-        if file.characterization.present?
-          if file.characterization.content.encoding.to_s == "ASCII-8BIT"
-            obj.base_files.first.fits = file.characterization.content.force_encoding("UTF-8")
-          elsif file.characterization.content.encoding.to_s == 'UTF-8'
-            obj.base_files.first.fits = file.characterization.content
-          else
-            raise 'Find encoding for FITS: ' + file.id
+        unless file.id == 'k643b143j'
+          if file.characterization.present?
+            if file.characterization.content.encoding.to_s == "ASCII-8BIT"
+              obj.base_files.first.fits = file.characterization.content.force_encoding("UTF-8")
+            elsif file.characterization.content.encoding.to_s == 'UTF-8'
+              obj.base_files.first.fits = file.characterization.content
+            else
+              raise 'Find encoding for FITS: ' + file.id
+            end
           end
         end
 
         if file.thumbnail.present?
           # FIXME: Create is broken with this approach...
-          thumb = ThumbnailDerivative.new(base_file: obj.base_files.first, mime_type: 'image/jpeg')
+          thumb = ThumbnailDerivative.new(base_file: obj.base_files.first, mime_type: 'image/jpeg', size: file.thumbnail.size)
           thumb.content = file.thumbnail.content
           thumb.save!
         end

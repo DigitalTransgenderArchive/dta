@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Hydra::RoleManagement::UserRoles
 
   if Blacklight::Utils.needs_attr_accessible?
     attr_accessible :email, :password, :password_confirmation
@@ -19,7 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    return false
+    return true
     #roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
   end
 

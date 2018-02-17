@@ -12,7 +12,7 @@ module DtaSearchHelper
         return image_tag path, options
       elsif document["hasCollectionMember_ssim"].present?
         document["hasCollectionMember_ssim"].each do |member|
-          visibility_check = DSolr.find({id:"#{member}", rows: '1', fl: 'id,is_public_ssi,flagged_tesim,mime_type_tesim'} ).first
+          visibility_check = DSolr.find({q: "id:#{member}", rows: '1', fl: 'id,is_public_ssi,flagged_tesim,mime_type_tesim'} ).first
           if visibility_check.present? and visibility_check['visibility_ssi'] == 'public' and visibility_check['flagged_tesim'] != ['Explicit content in thumbnail'] and visibility_check['mime_type_tesim'].present? and visibility_check['mime_type_tesim'].any? {|v| v.include?('image') || v.include?('pdf') }
             path = download_path member, file: 'thumbnail'
             options[:alt] = ""
@@ -23,6 +23,13 @@ module DtaSearchHelper
       options[:alt] = ""
       return image_tag "site_images/collection-icon.svg", options
     elsif document.institution?
+      if document['has_image_ssi'] == 'true'
+        path = download_path document, file: 'content'
+        options[:alt] = ""
+        return image_tag path, options
+      end
+      options[:alt] = ""
+      image_tag "shared/institution_icon.png", options
     elsif document.object?
           path =
               if document['flagged_tesim'] == ['Explicit content in thumbnail']

@@ -119,7 +119,6 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
       end
       add_index :object_lcsh_subjects, [:generic_object_id, :lcsh_subject_id], unique: true, name: 'index_object_lcsh_subjects_go_lcsh_subjects'
 
-      # Missing Hierarchy
       create_table :lcsh_subjects do |t|
         t.string :uri, index: { unique: true }
         t.string :label
@@ -199,11 +198,15 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :mime_type
         t.string :original_filename
         t.string :original_extension, limit: 10
+        t.text :fits
 
         t.boolean :low_res, :null => false, :default => false
         t.boolean :fedora_imported, :null => false, :default => false
 
         t.integer :views, :null => false, :default => 0
+        t.integer :order, :null => false, :default => 0
+
+        t.integer :size, :limit => 8   # bigint (8 bytes)
 
         t.timestamps null: false
       end
@@ -219,8 +222,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :mime_type
         t.string :original_filename
         t.string :original_extension, limit: 10
-        t.text :original_ocr, limit: 1.megabytes
-        t.text :ocr, limit: 1.megabytes
+        t.text :original_ocr, limit: 2.megabytes
+        t.text :ocr, limit: 2.megabytes
         t.text :fits
         t.boolean :low_res, :null => false, :default => false
         t.boolean :fedora_imported, :null => false, :default => false
@@ -228,6 +231,8 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.integer :views, :null => false, :default => 0
         t.integer :downloads, :null => false, :default => 0
         t.integer :order, :null => false, :default => 0
+
+        t.integer :size, :limit => 8   # bigint (8 bytes)
 
         t.timestamps null: false
       end
@@ -245,11 +250,13 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
         t.string :sha256
         t.string :parent_sha256
         t.string :parent_pid, limit: 64 # technically a parent sha256 value
-        t.text :ocr, limit: 1.megabytes
+        t.text :ocr, limit: 2.megabytes
 
         t.integer :views, :null => false, :default => 0
         t.integer :downloads, :null => false, :default => 0
         t.integer :order, :null => false, :default => 0
+
+        t.integer :size, :limit => 8   # bigint (8 bytes)
 
         t.timestamps null: false
       end

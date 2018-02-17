@@ -18,10 +18,11 @@
   });
 </script>
 
-<%= simple_form_for @generic_object, html: { multipart: true, id: 'fileuploadsingle' } do |f| %>
+<%= simple_form_for @generic_object, :url => generic_files_path, html: { multipart: true, id: 'fileuploadsingle' }, method: :post do |f| %>
      <%= hidden_field_tag 'upload_type', 'single' %>
      <%= hidden_field_tag "file_coming_from", "local" %>
      <%= hidden_field_tag "visibility", "private" %>
+     <%= hidden_field_tag "pid", @generic_object.pid %>
     <div class="well">
       <%= render partial: 'generic_files/upload/to_collection' %>
 
