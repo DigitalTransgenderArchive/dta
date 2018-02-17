@@ -8,7 +8,7 @@ module InstObjectAssignments
       obj.original_extension = File.extname(original_name)
     else
       obj.original_filename = original_name
-      obj.original_extension = BaseFile.calculate_extension(mime_type)
+      obj.original_extension = ".#{BaseFile.calculate_extension(mime_type)}"
     end
     obj.size = original_size
     self.inst_image_files << obj
