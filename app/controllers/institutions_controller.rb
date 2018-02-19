@@ -5,6 +5,8 @@ class InstitutionsController < ApplicationController
 
   copy_blacklight_config_from(CatalogController)
 
+  before_action :get_latest_content
+
   before_action :update_search_builder, only: [:index]
 
   before_action :verify_admin, except: [:index, :show, :facet]

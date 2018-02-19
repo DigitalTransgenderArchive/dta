@@ -10,7 +10,7 @@ class CatalogController < ApplicationController
   #layout "sufia-one-column"
   #layout "local_blacklight"
 
-  #before_action :get_latest_content
+  before_action :get_latest_content
   #before_action :enforce_show_permissions, only: :show
   #skip_before_action :default_html_head
 

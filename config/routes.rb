@@ -39,7 +39,24 @@ Rails.application.routes.draw do
   get 'collections/collection_visible/:id' => 'collections#collection_visible', as: :collection_visible
   get 'collections/collection_thumbnail_set/:id/:item_id' => 'collections#collection_thumbnail_set', as: :collection_thumbnail_set
 
+  #Static Paths
+  resources :abouts, only: [:new, :edit, :create, :update, :show], :path => :about
+  resources :learns, only: [:new, :edit, :create, :update, :show], :path => :learn
+  resources :posts, path: :news
 
+  get 'feedback' => 'abouts#feedback', as: :feedback
+  post 'feedback' => 'abouts#feedback'
+  get 'feedback_complete' => 'abouts#feedback_complete', as: :feedback_complete
+  get 'subscribe' => 'abouts#subscribe', as: :subscribe
+
+  #get 'about' => 'about#index', as: :about
+  get 'about/project' => 'abouts#project', as: :about_project
+  #get 'about/news' => 'abouts#news', as: :about_news
+  get 'about/team' => 'abouts#team', as: :about_team
+  get 'about/board' => 'abouts#board', as: :about_board
+  get 'about/poli
+ies' => 'abouts#policies', as: :about_policies
+  get 'about/contact' => 'abouts#contact', as: :about_contact
 
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
@@ -75,22 +92,6 @@ Rails.application.routes.draw do
   
   resources :downloads, only: 'show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  #Static Paths
-  resources :abouts, only: [:new, :edit, :create, :update, :show], :path => :about
-  resources :learns, only: [:new, :edit, :create, :update, :show], :path => :learn
-
-  get 'feedback' => 'abouts#feedback', as: :feedback
-  post 'feedback' => 'abouts#feedback'
-  get 'feedback_complete' => 'abouts#feedback_complete', as: :feedback_complete
-  get 'subscribe' => 'abouts#subscribe', as: :subscribe
-
-  #get 'about' => 'about#index', as: :about
-  get 'about/project' => 'abouts#project', as: :about_project
-  #get 'about/news' => 'abouts#news', as: :about_news
-  get 'about/team' => 'abouts#team', as: :about_team
-  get 'about/board' => 'abouts#board', as: :about_board
-  get 'about/policies' => 'abouts#policies', as: :about_policies
-  get 'about/contact' => 'abouts#contact', as: :about_contact
 
   # formats browse
   get 'genre', :to => 'catalog#genre_facet', :as => 'genre_facet'

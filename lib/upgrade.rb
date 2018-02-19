@@ -112,13 +112,13 @@ class Upgrade
         homo.created_at = old_homo.issued.to_date
         homo.updated_at = old_homo.modified.to_date
         homo.alt_labels = old_homo.altLabel.to_a
-        homo.broader.each do |obj|
+        old_homo.broader.each do |obj|
           homo.broader << obj.identifier
         end
-        homo.narrower.each do |obj|
+        old_homo.narrower.each do |obj|
           homo.narrower << obj.identifier
         end
-        homo.related.each do |obj|
+        old_homo.related.each do |obj|
           homo.related << obj.identifier
         end
         homo.closeMatch = old_homo.closeMatch.to_a
@@ -144,6 +144,30 @@ class Upgrade
     end
   end
 
+  def self.fix_visibility
+    self.fix_homosaurus
+    GenericFile.find_each do |file|
+      Upgrade.upgrade_object(file)
+    end
+  end
+
+
+  def self.fix_homosaurus
+    Homosaurus.all.each do |old_homo|
+      homo = HomosaurusSubject.find_by(identifier: old_homo.identifier)
+        old_homo.broader.each do |obj|
+          homo.broader << obj.identifier
+        end
+        old_homo.narrower.each do |obj|
+          homo.narrower << obj.identifier
+        end
+        old_homo.related.each do |obj|
+          homo.related << obj.identifier
+        end
+        homo.save!
+      end
+  end
+
   def self.fix_visibility(file)
     obj = GenericObject.new(pid: file.id)
     if obj.visibility.blank?
@@ -152,15 +176,15 @@ class Upgrade
         obj.visibility = "public"
       elsif solr_content["visibiliy_ssi"] == "restricted"
         obj.visibility = "private"
-      elsif solr_content["visibiliy_ssi"].present?
+      elsif solr_content["visibiliy_ssi"] == "authenticated"   # this is authenticated... see: rf55z772c
         obj.visibility = "hidden"
       elsif solr_content["read_access_group_ssim"] == ["public"] || solr_content["is_public_ssi"] == "true"
         obj.visibility = "public"
       else
-        obj.visibilit = "hidden"
+        obj.visibility = "hidden"
       end
     end
-    obj.save
+    obj.save!
   end
 
   def self.upgrade_object(file)

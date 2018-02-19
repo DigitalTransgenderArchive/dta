@@ -5,6 +5,8 @@ class CollectionsController < ApplicationController
 
   copy_blacklight_config_from(CatalogController)
 
+  before_action :get_latest_content
+
   before_action :update_search_builder, only: :index
 
   before_action :authenticate_user!, :except => [:show, :index, :facet]
