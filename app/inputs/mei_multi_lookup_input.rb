@@ -1,5 +1,4 @@
 class MeiMultiLookupInput < MultiBaseInput
-  include WithHelpIcon
 
   # Overriding this so that the class is correct and the javascript for multivalue will work on this.
   def input_type
@@ -12,7 +11,7 @@ class MeiMultiLookupInput < MultiBaseInput
              <div class="input-group col-sm-12">
               #{yield}
 
-             <button style="width:auto;" type="button" class="btn btn-default" data-toggle="modal" data-target="#meiLookupModal_#{attribute_name}">Lookup</button>
+             <span class="input-group-btn"><button style="width:auto; margin-right: 10px;" type="button" class="btn btn-default" data-toggle="modal" data-target="#meiLookupModal_#{attribute_name}">Lookup</button></span>
               <span class="input-group-btn regular_audits_duplicate_span">
                 <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
               </span>

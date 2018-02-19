@@ -3,7 +3,7 @@
   <ol class="catalog" start="<%= document_counter_with_offset(0) %>">
     <%#= render documents, as: :document %>
     <% documents.each do |document| %>
-        <%= render partial: 'generic_files/generic_file', locals: {document: document} %>
+        <%= render partial: 'generic_objects/generic_object_list', locals: {document: document} %>
     <% end %>
   </ol>
 </div>

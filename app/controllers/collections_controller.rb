@@ -5,102 +5,17 @@ class CollectionsController < ApplicationController
 
   copy_blacklight_config_from(CatalogController)
 
-  before_action :update_search_builder
-  #before_action :has_access?, except: [:show, :public_index, :public_show, :facet]
-  #before_action :build_breadcrumbs, only: [:edit, :show, :public_show, :facet]
-  #before_filter :authenticate_user!, :except => [:show, :public_index, :public_show, :facet]
+  before_action :update_search_builder, only: :index
+
+  before_action :authenticate_user!, :except => [:show, :index, :facet]
 
   before_action :collection_base_blacklight_config, :only => [:show, :public_show, :facet]
 
-  before_action :verify_admin, except: [:show, :public_index, :public_show, :facet] #FIXME on change member
+  before_action :verify_admin, except: [:show, :index, :facet] #FIXME on change member
 
   #skip_load_and_authorize_resource :only => [:index, :facet], instance_name: :collection
 
-  def update_search_builder
-    blacklight_config.search_builder_class = ::CollectionSearchBuilder
-  end
-
-  def index
-
-  end
-
-  def show
-    super
-  end
-
-  def destroy
-    if @collection.member_ids.present?
-      raise "Cannot delete a collection with items associated with it"
-    end
-
-    super
-  end
-
-  #override
-  def add_members_to_collection collection = nil
-    collection ||= @collection
-    return if batch.nil? || batch.size < 1
-    items = ActiveFedora::Base.find(batch)
-    items.each do |item|
-      item.institutions.each do |inst|
-        acquire_lock_for(inst.id) do
-          inst.reload
-          inst.files.delete(item)
-          #inst.save
-        end
-      end
-
-      item.collections.each do |coll|
-        acquire_lock_for(coll.id) do
-          coll.reload
-          coll.members.delete(item)
-          #coll.save
-        end
-      end
-
-      item.institutions = []
-      item.collections = []
-    end
-
-    acquire_lock_for(collection.id) do
-      collection.reload
-      collection.members << items
-      collection.save
-    end
-
-    acquire_lock_for(collection.institutions.first.id) do
-      collection.institutions.first.reload
-      collection.institutions.first.files << items
-      collection.institutions.first.save
-    end
-
-    items.each do |item|
-      item = GenericFile.find(item.id)
-      item.update_index
-    end
-  end
-
-  def public_show
-    @nav_li_active = 'explore'
-    @show_response, @document = fetch(params[:id])
-
-    # add params[:f] for proper facet links
-    params[:f] = set_collection_facet_params(@collection_title, @document)
-
-    # get the response for the facets representing items in collection
-    (@response, @document_list) = search_results({:f => params[:f]})
-
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  # set the correct facet params for facets from the collection
-  def set_collection_facet_params(collection_title, document)
-    facet_params = {blacklight_config.collection_field => [collection_title]}
-    #facet_params[blacklight_config.institution_field] = document[blacklight_config.institution_field.to_sym]
-    facet_params
-  end
+  before_action :add_catalog_folder, only: [:index, :show, :facet]
 
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
@@ -109,9 +24,30 @@ class CollectionsController < ApplicationController
   end
   helper_method :search_action_url
 
-  def public_index
+  def update_search_builder
+    blacklight_config.search_builder_class = ::CollectionSearchBuilder
+  end
+
+  def collection_base_blacklight_config
+    @skip_dta_limits_render = true
+    blacklight_config.facet_fields['collection_name_ssim'].show = false
+    blacklight_config.facet_fields['collection_name_ssim'].if = false
+
+    blacklight_config.facet_fields['institution_name_ssim'].show = false
+    blacklight_config.facet_fields['institution_name_ssim'].if = false
+
+    #Needs to be fixed...
+    blacklight_config.facet_fields['dta_dates_ssim'].show = false
+    blacklight_config.facet_fields['dta_dates_ssim'].if = false
+  end
+
+  def range_limit
+    redirect_to range_limit_catalog_path(params.except('controller', 'action')) and return
+  end
+
+  def index
     @nav_li_active = 'explore'
-      (@response, @document_list) = search_results({:f => {'model_ssi' => 'Collection'}, :rows => 300, :sort => 'title_primary_ssort asc'})
+    (@response, @document_list) = search_results({:f => {'model_ssi' => 'Collection'}, :rows => 300, :sort => 'title_primary_ssort asc'})
 
     if params[:filter].present?
       new_doc_list = []
@@ -127,6 +63,42 @@ class CollectionsController < ApplicationController
     respond_to do |format|
       format.html
     end
+  end
+
+  def show
+    @nav_li_active = 'explore'
+    @show_response, @document = fetch(params[:id])
+
+    # Get the ActiveRecord for this collection
+    @collection = Coll.find_by(pid: params[:id])
+
+    # add params[:f] for proper facet links
+    params[:f] = set_collection_facet_params(@collection.title, @document)
+
+    # get the response for the facets representing items in collection
+    (@response, @document_list) = search_results({:f => params[:f]})
+
+    ahoy.track_visit
+    ahoy.track "Collection View", {title: @collection.title}, {pid: params[:id], model: "Collection"}
+
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def destroy
+    if @collection.member_ids.present?
+      raise "Cannot delete a collection with items associated with it"
+    end
+
+    super
+  end
+
+  # set the correct facet params for facets from the collection
+  def set_collection_facet_params(collection_title, document)
+    facet_params = {blacklight_config.collection_field => [collection_title]}
+    #facet_params[blacklight_config.institution_field] = document[blacklight_config.institution_field.to_sym]
+    facet_params
   end
 
   def new
@@ -184,15 +156,6 @@ class CollectionsController < ApplicationController
     end
 
 
-    super
-  end
-
-  def after_update
-    if @reindex_members
-      @collection.members.each do |file|
-        file.update_index
-      end
-    end
     super
   end
 

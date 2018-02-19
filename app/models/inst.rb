@@ -1,9 +1,9 @@
 class Inst < ActiveRecord::Base
   include CommonSolrAssignments
 
-  #before_destroy :remove_from_solr
-  #after_initialize :mint
-  #after_save :send_solr
+  before_destroy :remove_from_solr
+  after_initialize :mint
+  after_save :send_solr
 
   include ::InstObjectAssignments
 
@@ -18,7 +18,7 @@ class Inst < ActiveRecord::Base
   def around_save
     do_member_reindex = self.title_changed? || self.colls_ids_changed?
     yield #saves
-    #reindex_members if do_member_reindex
+    reindex_members if do_member_reindex
   end
 
   def reindex_members
@@ -50,7 +50,6 @@ class Inst < ActiveRecord::Base
     doc[:description_ssim] = doc[:description_tesim]
     doc[:institution_url_tesim] = [self.institution_url]
     doc[:has_image_ssi] = self.inst_image_files.present?.to_s
-    doc[:new_model_ssi] = 'Coll'
     doc
   end
 

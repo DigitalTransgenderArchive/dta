@@ -1,0 +1,51 @@
+<div id="static_holder" class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4 col-sm-4 static_side_nav_container">
+      <%= render partial: '/shared/static_news_nav' %>
+
+    </div>
+    <div class="col-xs-8 col-sm-8">
+      <div id="static_holder_content">
+        <h2>Update</h2>
+
+        <%= simple_form_for(@post, :url => post_path(:id => @post), :as => :posts, multipart: true) do |f| %>
+
+            <%= f.input :title, :required=>true, :input_html => {:value=>@post.title}  %>
+
+            <% my_toolbar = [
+                { name: 'document', items: [ 'Maximize', 'ShowBlocks','-', 'Source','-','About'] },
+                { name: 'clipboard', items: [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo', '-', 'Find', 'Replace', '-',  'SpellChecker', 'Scayt'] },
+                '/',
+                { name: 'styles', items: [ 'Styles', 'Format', 'FontSize' ] },
+                { name: 'links', items: [ 'Link','Unlink','Anchor' ] },
+                { name: 'insert', items: [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+                '/',
+                { name: 'basicstyles', items: [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
+                { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                { name: 'paragraph', items: [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
+                                              '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
+
+
+            ]; %>
+
+            <%= f.input :content, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => my_toolbar, :height=>'500'}, :value=>@post.content}, :required=>true %>
+
+
+
+            <%= f.input :abstract, :as=>:text, :input_html => {:value=>@post.abstract}  %>
+
+            <%= f.input :tag_list, :input_html => {:value=>@post.tag_list.join(', ')}, :placeholder=>'Tags seperated by commas'  %>
+
+            <% if current_user.present? and current_user.superuser? %>
+              <%= f.input :published, as: :boolean, :label=>'Visible?', :input_html => {:value=>@post.published}  %>
+            <% end %>
+
+            <%= f.button :submit %>
+
+        <% end %>
+      </div>
+
+    </div>
+
+  </div>
+</div>

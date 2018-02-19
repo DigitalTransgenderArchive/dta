@@ -1,14 +1,14 @@
-$( document ).ready(function() {
-   // initialize the bootstrap popovers
-    $("a[data-toggle=popover]").popover({html: true})
+// initialize the bootstrap popovers
+$.onmount("a[data-toggle=popover]", function () {
+    $(this).popover({html: true})
         .click(function () {
             return false;
         });
 });
 
 function duplicate_field_click(event) {
-    original_element = $(event.target).parent().parent().parent().children().children();
-    original_id = original_element.attr("id");
+    // Get the top root element than find the correct child element within that
+    original_element = $(event.target).closest(".field-wrapper").find('.duplicateable');
     is_autocomplete_select2 = $(original_element).is("[endpoint]");
 
     if(is_autocomplete_select2) {
@@ -22,28 +22,33 @@ function duplicate_field_click(event) {
     cloned_element.find("textarea").val("");
     cloned_element.find("select").val("");
 
-    $(event.target).parent().parent().parent().after(cloned_element);
+    //Insert after the root element
+    $(event.target).closest(".field-wrapper").after(cloned_element);
 
     // Cloned elements with the select2 code need to have the duplicate buttons re-initialized
     if(is_autocomplete_select2) {
         $.onmount(); // Re-initialize the onclick handlers
     }
-
 }
 
 function delete_field_click(event) {
-    local_field_name = $(event.target).parent().prev().prev().attr('name');
+    original_element = $(event.target).closest(".field-wrapper").find('.duplicateable');
+    is_autocomplete_select2 = $(original_element).is("[endpoint]");
 
-    //Current hack for lookup fields... may need more when I add hidden fields...
-    if(local_field_name == undefined) {
-        local_field_name = $(event.target).parent().prev().prev().prev().attr('name');
-    }
+    local_field_name = $(original_element).attr('name');
+    $(event.target).closest(".field-wrapper").find('.duplicateable').val(null).trigger('change');
+
     if ($('input[name*="' + local_field_name + '"]').length == 1) {
-        $(event.target).parent().parent().parent().find("input").val("");
+        $(original_element).val("");
     } else if($('select[name*="' + local_field_name + '"]').length == 1) {
-        $(event.target).parent().parent().parent().find("select").val("");
+        if(is_autocomplete_select2 === true) {
+            $(original_element).val(null).trigger('change');
+        } else {
+            $(original_element).val("");
+        }
     } else {
-        $(event.target).parent().parent().parent().remove();
+        // There is more than one of these so allow the removal
+        $(event.target).closest(".field-wrapper").remove();
     }
 }
 

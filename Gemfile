@@ -23,6 +23,12 @@ gem 'google-api-client', '~> 0.11' # Not using this yet...
 
 ruby '2.4.0'
 
+# Linked Data
+gem 'iso-639'
+
+# CSS additions
+gem "font-awesome-rails"
+
 # File Upload Library
 gem "refile", require: "refile/rails"
 gem 'mime-types'

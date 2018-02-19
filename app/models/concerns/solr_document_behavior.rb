@@ -39,7 +39,7 @@ module SolrDocumentBehavior
     self['model_ssi']
   end
 
-  def to_model2
+  def to_db_model
     self['new_model_ssi'].constantize.find_by(pid: self.id)
   end
 

@@ -1,0 +1,20 @@
+<h1>Edit Institution</h1>
+<div style="width:50em;">
+  <%= simple_form_for(@institution, :url => institution_path(:id => @institution.id), :as => :institution, html: { multipart: true, id: 'fileupload' }) do |f| %>
+      <p>Select an image to upload: <%= file_field_tag "filedata" %></p>
+      <% @institution.terms.each do |key| %>
+          <% if key.to_s == 'description' %>
+
+              <% if f.object.class.multiple? key %>
+                  <%= f.input :description, as: :multi_string, input_html: { rows: '9', type: 'textarea'}, required: f.object.required?(key)  %>
+              <% else %>
+                  <%= f.input :description, as: :single_text, input_html: { rows: '9' }, required: f.object.required?(key) %>
+              <% end %>
+          <% else %>
+              <%= render :partial => "/records/edit_fields/default", :locals => {:key => key, :f => f} %>
+          <% end %>
+
+      <% end %>
+      <%= f.button :submit %>
+  <% end %>
+</div>

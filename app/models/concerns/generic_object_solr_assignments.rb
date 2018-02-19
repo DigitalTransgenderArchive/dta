@@ -180,10 +180,11 @@ module GenericObjectSolrAssignments
       if lang.match(/eng$/)
         doc['language_label_ssim'] << 'English'
       else
-        result = BplEnrich::Authorities.parse_language(lang.split('/').last)
-        if result.present?
-          doc['language_label_ssim'] << result[:label]
-        end
+        #result = BplEnrich::Authorities.parse_language(lang.split('/').last)
+        #if result.present?
+          #doc['language_label_ssim'] << result[:label]
+        #end
+        doc['language_label_ssim'] << ISO_639.find(lang.split('/').last).english_name
       end
     end
 

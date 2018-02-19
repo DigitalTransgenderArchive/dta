@@ -1,4 +1,4 @@
-class AutocompleteController
+class AutocompleteController < ActionController::Base
 
   # This will need to be fixed
   def publishers
@@ -30,7 +30,7 @@ class AutocompleteController
 
     publisher_array << [original_param, '(Add New)'] unless publisher_array.select {|arr| arr[0].downcase == params[:q] }
 
-    publishers_array = publishers_array.take(params[:per_page]) if params.has_key? :per_page
+    publishers_array = publishers_array.take(params[:per_page].to_i) if params.has_key? :per_page
 
     items = publisher_array.map do |u|
       {
@@ -62,7 +62,7 @@ class AutocompleteController
 
     contributors_array << [original_param, '(Add New)'] unless contributors_array.select {|arr| arr[0].downcase == params[:q] }
 
-    contributors_array = contributors_array.take(params[:per_page]) if params.has_key? :per_page
+    contributors_array = contributors_array.take(params[:per_page].to_i) if params.has_key? :per_page
 
     items = contributors_array.map do |u|
       {
@@ -92,14 +92,73 @@ class AutocompleteController
       creators_array << create_includes unless creators_array.select { |arr| arr == create_includes }
     end
 
-    creators_array << [original_param, '(Add New)'] unless creators_array.select {|arr| arr[0].downcase == params[:q] }
+    unless (creators_array.select {|arr| arr[0].downcase == params[:q] }).present?
+      creators_array.prepend([original_param, "Add New"])
+    end
 
-    creators_array = creators_array.take(params[:per_page]) if params.has_key? :per_page
+    creators_array = creators_array.take(params[:per_page].to_i) if params.has_key? :per_page
 
     items = creators_array.map do |u|
       {
           id: u[0],
           text: "#{u[0]} (#{u[1]})"
+      }
+    end
+
+    render json: {
+        total_count: items.size,
+        items: items
+    }
+  end
+
+  def homosaurus_subject
+    authority_result = HomosaurusAutocomplete.find(params[:q])
+    authority_result = [] if authority_result.blank?
+
+    render json: authority_result
+  end
+
+  def lcsh_subject
+    authority_check = Mei::Loc.new('subjects')
+    authority_result = authority_check.search(params[:q]) #URI escaping doesn't work for Baseball fields?
+    authority_result = [] if authority_result.blank?
+
+    render json: authority_result
+  end
+
+  def geonames_subject
+    authority_check = Mei::Geonames.new(params[:e])
+    authority_result = authority_check.search(params[:q]) #URI escaping doesn't work for Baseball fields?
+    authority_result = [] if authority_result.blank?
+
+    render json: authority_result
+  end
+
+  def homosaurus_subject_partial
+    params[:q] ||= ''
+    original_param = params[:q]
+    params[:q] = params[:q].downcase
+
+    homosaurus_start_with = HomosaurusSubject.includes(:object_homosaurus_subject).where('lower(homosaurus_subjects.label) like ?', "#{params[:q]}%")
+    homosaurus_includes = HomosaurusSubject.includes(:object_homosaurus_subject).where('lower(homosaurus_subjects.label) like ?', "%#{params[:q]}%")
+
+    homosaurus_start_with.sort_by{ |val| val.object_homosaurus_subject.size }.reverse
+    homosaurus_includes.sort_by{ |val| val.object_homosaurus_subject.size }.reverse
+
+    homosaurus_arr1 = homosaurus_start_with.map do |homo| { id: homo.uri, text: "#{homo.label} (#{homo.object_homosaurus_subject.size})" } end
+    homosaurus_arr2 = homosaurus_includes.map do |homo| { id: homo.uri, text: "#{homo.label} (#{homo.object_homosaurus_subject.size})" } end
+
+    # Don't use + as eliminates sorting
+    homosaurus_arr2.each do |homo_includes|
+      homosaurus_arr1 << homo_includes unless homosaurus_arr1.select { |arr| arr == homo_includes }
+    end
+
+    homosaurus_arr1 = homosaurus_arr1.take(params[:per_page].to_i) if params.has_key? :per_page
+
+    items = homosaurus_arr1.map do |u|
+      {
+          id: u[:id],
+          text: "#{u[:text]}"
       }
     end
 
@@ -121,7 +180,7 @@ class AutocompleteController
       }
     else
       readable = self.humanize_edtf(date)
-      items = [{id: date, text: "#{date} (#{readable})"}]
+      items = [{id: params[:q], text: "#{params[:q]} (#{readable})"}]
       render json: {
           total_count: items.size,
           items: items

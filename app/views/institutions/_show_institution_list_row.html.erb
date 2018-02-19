@@ -1,0 +1,23 @@
+<% id = document.id %>
+<tr id="document_<%= id %>" class="<%= cycle("", "zebra") %>">
+  <% gf = document.to_db_model%>
+  <td>&nbsp;
+
+  </td>
+  <td>
+    <div class="media">
+      <%= link_to institution_path(document), class: "media-left media-middle" do %>
+          <%= render_thumbnail_tag document, { class: "hidden-xs inst_collection_listing_thumbnail" }, { suppress_link: true } %>
+      <% end %>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <%= link_to document["name_tesim"].first, institution_path(document), id: "src_copy_link#{id}", class: "document-title" %>
+          <a href="#" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+        </h4>
+        <p><%= document["description_tesim"].first if document["description_tesim"].present? %></p>
+
+      </div>
+    </div>
+  </td>
+
+</tr>

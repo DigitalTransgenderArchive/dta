@@ -1,3 +1,9 @@
 en:
   blacklight:
     application_name: 'Blacklight'
+    collections:
+      map:
+        title: 'Map View'
+    institutions:
+      map:
+        title: 'Map View'

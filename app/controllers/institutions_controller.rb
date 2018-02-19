@@ -1,24 +1,63 @@
 class InstitutionsController < ApplicationController
-  include CatalogLikeBehavior
+  include Blacklight::Catalog
+  include DtaSearchHelper
   include DtaStaticBuilder
 
-  #before_action :verify_admin, except: [:public_index, :public_show, :facet]
-  #before_action :verify_superuser, only: [:destroy, :edit]
+  copy_blacklight_config_from(CatalogController)
+
+  before_action :update_search_builder, only: [:index]
+
+  before_action :verify_admin, except: [:index, :show, :facet]
+  before_action :verify_superuser, only: [:destroy, :edit]
 
   #include Blacklight::Configurable
   #include Blacklight::SearchHelper
 
-
-
-  before_action :remove_unwanted_views, :only => [:public_index]
+  before_action :remove_unwanted_views, :only => [:index]
 
   # remove collection facet and collapse others
-  #before_filter :institution_base_blacklight_config, :only => [:public_show]
+  before_action :institution_base_blacklight_config, :only => [:show]
 
+  before_action :add_catalog_folder, only: [:index, :show, :facet]
 
-  def enforce_show_permissions
-    #DO NOTHING
+  # FIXME... this isn't working?
+=begin
+  def render_body_class
+    'blacklight-institution'
   end
+=end
+
+  # Blacklight uses #search_action_url to figure out the right URL for
+  # the global search box
+  def search_action_url options = {}
+    search_catalog_url(options.except(:controller, :action))
+  end
+  helper_method :search_action_url
+
+  def update_search_builder
+    blacklight_config.search_builder_class = ::InstitutionSearchBuilder
+  end
+
+  def institution_base_blacklight_config
+    # don't show collection facet
+    @skip_dta_limits_render = true
+    blacklight_config.facet_fields['collection_name_ssim'].show = false
+    blacklight_config.facet_fields['collection_name_ssim'].if = false
+
+    blacklight_config.facet_fields['institution_name_ssim'].show = false
+    blacklight_config.facet_fields['institution_name_ssim'].if = false
+
+    #Needs to be fixed...
+    blacklight_config.facet_fields['dta_dates_ssim'].show = false
+    blacklight_config.facet_fields['dta_dates_ssim'].if = false
+
+    # collapse remaining facets
+    #blacklight_config.facet_fields['subject_facet_ssim'].collapse = true
+    #blacklight_config.facet_fields['subject_geographic_ssim'].collapse = true
+    #blacklight_config.facet_fields['date_facet_ssim'].collapse = true
+    #blacklight_config.facet_fields['genre_basic_ssim'].collapse = true
+  end
+
   # remove grid view from blacklight_config for index view
   def remove_unwanted_views
     blacklight_config.view.delete(:gallery)
@@ -26,69 +65,34 @@ class InstitutionsController < ApplicationController
     blacklight_config.view.delete(:slideshow)
   end
 
-  def update_collections
-    term_query = DSolr.find({q: "isMemberOfCollection_ssim:#{params[:id]} and model_ssi:Collection", rows: '10000', fl: 'id,title_tesim' })
-    term_query = term_query.sort_by { |term| term["title_tesim"].first }
-    @selectable_collection = []
-    term_query.each { |term| @selectable_collection << [term["title_tesim"].first, term["id"]] }
-
-    respond_to do |format|
-      if @selectable_collection.present?
-        format.html { render html: @selectable_collection.to_s }
-        format.json { render json: @selectable_collection.to_json, status: :created }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @selectable_collection, status: :unprocessable_entity }
-      end
-    end
-
-  end
-
   def index
-    #@terms = Homosaurus.all.sort_by { |term| term.preferred_label }
-    #@terms = Homosaurus.all
-    @institutions = Institution.find_with_conditions("*:*", rows: '1000', fl: 'id,name_ssim' )
-    @institutions = @institutions.sort_by { |term| term["name_ssim"].first }
-  end
+    @nav_li_active = 'explore'
+    (@response, @document_list) = search_results({:f => {'model_ssi' => 'Institution'},:rows => 300, :sort => 'title_primary_ssort asc'})
 
-  def show
-    @institution = Institution.find(params[:id])
+    params[:view] = 'list'
+    params[:sort] = 'title_primary_ssort asc'
 
     respond_to do |format|
       format.html
-      #format.nt { render body: @homosaurus.full_graph.dump(:ntriples), :content_type => Mime::NT }
-      #format.jsonld { render body: @homosaurus.full_graph.dump(:jsonld, standard_prefixes: true), :content_type => Mime::JSONLD }
     end
   end
 
-  def public_show
+  def show
     @nav_li_active = 'explore'
     @show_response, @document = fetch(params[:id])
-    @institution_title = @document[:institution_name_ssim].first
+    @institution = Inst.find_by(pid: params[:id])
 
     # get the response for collection objects
     @collex_response, @collex_documents = search_results({:f => {'model_ssi' => 'Collection','institution_pid_ssi' => params[:id]},:rows => 100, :sort => 'title_info_ssort asc'})
 
     # add params[:f] for proper facet links
-    params[:f] = {blacklight_config.institution_field => [@institution_title]}
+    params[:f] = {blacklight_config.institution_field => [@institution.name]}
 
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
 
-    respond_to do |format|
-      format.html
-    end
-
-  end
-
-  def public_index
-    @nav_li_active = 'explore'
-    (@response, @document_list) = search_results({:f => {'model_ssi' => 'Institution'},:rows => 100, :sort => 'title_primary_ssort asc'})
-    #params[:per_page] = params[:per_page].presence || '50'
-    #(@response, @document_list) = search_results(params, search_params_logic)
-
-    params[:view] = 'list'
-    params[:sort] = 'title_primary_ssort asc'
+    ahoy.track_visit
+    ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
 
     respond_to do |format|
       format.html

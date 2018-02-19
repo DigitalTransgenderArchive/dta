@@ -11,6 +11,7 @@ module CommonSolrAssignments
     doc[:date_created_tesim] = [self.created_at.iso8601.split('T')[0]]
     doc[:date_created_ssim] = doc[:date_created_tesim]
     doc[:visibility_ssi] = self.visibility
+    doc[:new_model_ssi] = self.class.name
 
     doc
   end

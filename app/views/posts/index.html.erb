@@ -1,0 +1,73 @@
+<% @page_title = "News -  #{application_name}" %>
+<div id="static_holder" class="container-fluid">
+  <div class="row">
+    <div class="col-xs-4 col-sm-4 static_side_nav_container">
+      <%= render partial: '/shared/static_news_nav' %>
+
+    </div>
+    <div class="col-xs-8 col-sm-8">
+      <div id="static_holder_content" class="about_section">
+        <h2>News
+        <div style="float:right;"><%= link_to posts_path(:format=>:rss) do %>
+          <span style="font-size: 13px;">RSS</span>
+             <%=fa_icon "rss"%>
+          <% end %></div>
+        </h2>
+
+        <div class="about_subtitle">
+          <% if current_user.present? and current_user.admin? %>
+              <%= link_to 'Create Post', new_post_path  %>
+          <% end %>
+          <% if current_user.present? and current_user.superuser? %>
+              &nbsp;&nbsp;&nbsp;<%= link_to 'Change Order', edit_about_path(:id=>'news')  %>
+          <% end %>
+        </div>
+
+        <% if @current_tag.present? %>
+            Showing posts tagged: <strong><%= @current_tag %></strong> <%= link_to '(Undo)', posts_path %>
+        <% end %>
+
+        <table class="table table-zebra-striped inst_collection_table">
+          <tbody>
+          <% @posts.each do |post| %>
+          <% id = post.id %>
+          <tr id="document_<%= id %>" class="<%= cycle("", "zebra") %>">
+            <td>&nbsp;
+
+            </td>
+            <td>
+              <div class="media">
+                <% if post.thumbnail.present? %>
+                    <%= link_to post_path(post), class: "media-left" do %>
+                    <img src="<%= post.thumbnail %>" class="hidden-xs inst_collection_listing_thumbnail" />
+                    <% end %>
+                <% end %>
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    <%= link_to post.title, post_path(post), class: "#{'document-title'}" %>
+                    <a href="<%=post_path(post)%>" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+                    <% if !post.published %><em style="color:red;">(Unpublished)</em><%end%>
+                  </h4>
+                  <span style="font-size:10px"><em>Published: <%= post.created_ymd %></em></span> <br />
+                  <p><%= post.abstract %></p>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+              <%end%>
+          </tbody>
+        </table>
+
+
+
+        <%= paginate @posts,  theme: 'blacklight' %>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+

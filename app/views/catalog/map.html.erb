@@ -1,0 +1,7 @@
+<div id="content" class="col-md-12 col-sm-12">
+  <br />
+  <%= render 'search_results' %>
+</div>
+
+<%# have to put this at the end so it overrides 'catalog/search_results' %>
+<% @page_title = t('blacklight.maps.title', :application_name => application_name) %>

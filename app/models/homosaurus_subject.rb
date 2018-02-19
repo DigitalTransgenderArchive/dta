@@ -48,6 +48,7 @@ class HomosaurusSubject < ActiveRecord::Base
     doc[:exactMatch_ssim] = self.exactMatch
     doc[:altLabel_tesim] = self.alt_labels
     doc[:altLabel_ssim] = doc[:altLabel_tesim]
+    doc[:identifier_ssi] = self.identifier
 
     doc[:dta_homosaurus_lcase_prefLabel_ssi] = self.label.downcase
     doc[:dta_homosaurus_lcase_altLabel_ssim] = []

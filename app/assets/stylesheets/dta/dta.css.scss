@@ -66,6 +66,9 @@ body {
   border-top: 2px solid #DDD;
   padding-top: 1em;
 }
+.file-show-term dd {
+  word-wrap: break-word;
+}
 
 .catalog img {
   max-width: 100%;

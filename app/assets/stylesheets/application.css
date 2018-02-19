@@ -15,6 +15,8 @@
  *
  * Used by blacklight_range_limit
  *= require  'blacklight_range_limit'
+ *= require select2
+ *= require select2-bootstrap
  */
 
 

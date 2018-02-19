@@ -91,15 +91,13 @@ module Mei
 
       #count = ActiveFedora::Base.find_with_conditions("subject_tesim:#{data.id.gsub('info:lc', 'http://id.loc.gov').gsub(':','\:')}", rows: '100', fl: 'id' ).length
       #FIXME
-      count = ActiveFedora::Base.find_with_conditions("lcsh_subject_ssim:#{solr_clean(data.id.gsub('info:lc', 'http://id.loc.gov'))}", rows: '100', fl: 'id' ).length
-
+      #count = ActiveFedora::Base.find_with_conditions("lcsh_subject_ssim:#{solr_clean(data.id.gsub('info:lc', 'http://id.loc.gov'))}", rows: '100', fl: 'id' ).length
+      count = ObjectLcshSubject.joins(:LcshSubject).where(lcsh_subjects: {uri: "#{data.id.gsub('info:lc', 'http://id.loc.gov')}"}).size
       if count >= 99
         count = "99+"
       else
         count = count.to_s
       end
-
-
 
       {
           "uri_link" => data.id.gsub('info:lc', 'http://id.loc.gov') || data.title,

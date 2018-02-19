@@ -144,6 +144,25 @@ class Upgrade
     end
   end
 
+  def self.fix_visibility(file)
+    obj = GenericObject.new(pid: file.id)
+    if obj.visibility.blank?
+      solr_content = DSolr.find_by_id file.id
+      if solr_content["visibiliy_ssi"] == "open"
+        obj.visibility = "public"
+      elsif solr_content["visibiliy_ssi"] == "restricted"
+        obj.visibility = "private"
+      elsif solr_content["visibiliy_ssi"].present?
+        obj.visibility = "hidden"
+      elsif solr_content["read_access_group_ssim"] == ["public"] || solr_content["is_public_ssi"] == "true"
+        obj.visibility = "public"
+      else
+        obj.visibilit = "hidden"
+      end
+    end
+    obj.save
+  end
+
   def self.upgrade_object(file)
     unless GenericObject.find_by(pid: file.id).present?
       obj = GenericObject.new(pid: file.id)
@@ -208,6 +227,10 @@ class Upgrade
         obj.visibility = "private"
       elsif solr_content["visibiliy_ssi"].present?
         obj.visibility = "hidden"
+      elsif solr_content["read_access_group_ssim"] == ["public"] || solr_content["is_public_ssi"] == "true"
+        obj.visibility = "public"
+      else
+        obj.visibilit = "hidden"
       end
       obj.created_at = solr_content["system_create_dtsi"].to_datetime
       obj.updated_at = solr_content["system_modified_dtsi"].to_datetime

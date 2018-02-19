@@ -1,0 +1,156 @@
+<% if @document[:flagged_tesim] && @document[:flagged_tesim].first != "No explicit content"%>
+<%= render :partial => 'catalog/_show_partials/show_flagged_notice' %>
+<% end %>
+
+<% @page_title = "#{@document[:title_tesim].first} -  #{application_name}" %>
+
+<style type="text/css">
+  figcaption {
+    display:none;
+  }
+
+  /* line 6, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb {
+    /*    padding: 8px 15px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-radius: 4px;*/
+    padding-right: 15px;
+    list-style: none;
+    float: left;
+  }
+  /* line 13, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > li {
+    display: inline-block;
+  }
+  /* line 16, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > li + li:before {
+    content: "/ ";
+    padding: 0 5px;
+    color: #ccc;
+  }
+  /* line 25, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > .active {
+    color: #777777;
+  }
+
+  div.show-top-navigation {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    /*    margin-bottom: 20px;
+        padding-bottom: 15px;
+        padding-top: 15px;*/
+    height: 36px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+  }
+
+  div.show-bot-navigation {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    /*    margin-bottom: 20px;
+        padding-bottom: 15px;
+        padding-top: 15px;*/
+    height: 36px;
+    background-color: #f5f5f5;
+    margin-top: 15px;
+    margin-bottom: -4px;
+  }
+
+  div.show-bot-navigation ul.breadcrumb {
+    margin-bottom: 0px;
+  }
+</style>
+
+<%#= javascript_include_tag 'https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4ff1d986721ebb24' %>
+
+<%= javascript_tag do %>
+    var addthis_config = {"data_track_addressbar":false};
+<% end %>
+
+<% if @previous_document || @next_document || current_search_session %>
+    <div id='previousNextDocument' class='show-top-navigation'>
+
+      <%# if current_search_session[:query_params][:controller].present? and current_search_session[:query_params][:controller].include? 'my/files' %>
+      <%# back_content = render_breadcrumbs builder: Sufia::BootstrapBreadcrumbsBuilder %>
+      <%# back_content %>
+      <%# else %>
+      <ul class="breadcrumb">
+        <li><%= link_back_to_catalog label: 'Back to search results' %></li>
+      </ul>
+      <%# end %>
+      <% if @previous_document || @next_document %>
+          <div class="page_links pull-right">
+            <%= link_to_previous_document @previous_document %> |
+
+            <%= item_page_entry_info %> |
+
+            <%= link_to_next_document @next_document %>
+          </div>
+      <% end %>
+    </div>
+<% end %>
+
+
+
+<div class="container-fluid" id="document">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4">
+      <%= render 'generic_objects/media_display_public' %>
+      <%= render 'generic_objects/show_actions_dta' %>
+      <!--    <div style="margin-left:15px;" class="well">
+            <strong>Download: </strong> PDF File
+          </div>-->
+
+
+      <% if @document['subject_geographic_hier_ssim'] %>
+
+          <!-- can div to adjust size... -->
+          <div style="width:80%; margin-left:15px; margin-top:15px; max-width:400px;">
+            <%= render partial: 'catalog/show_maplet_default' %>
+          </div>
+
+          </div>
+      <%end%>
+
+      </div>
+  <div itemscope itemtype="http://id.loc.gov/vocabulary/resourceTypes/art" class="col-xs-12 col-sm-8" style="max-width:1000px;min-width:310px;">
+    <h1 class="visibility"><%= display_multiple @generic_file.title %></h1>
+    <h4 class="visibility" style="margin-top:-10px; margin-bottom:20px;">
+      <% if @document[:alternative_tesim] %>
+          <% @document[:alternative_tesim].each do |alternative_title| %>
+              <em><%= alternative_title %></em><br />
+          <% end %>
+      <% end %>
+    </h4>
+    <p class="genericfile_description"><%= display_multiple(@generic_file.descriptions).html_safe %></p>
+    <%= render 'show_descriptions' %>
+  </div><!-- /columns second -->
+</div> <!-- /.row -->
+</div><!-- /.container-fluid -->
+
+<% if @previous_document || @next_document || current_search_session %>
+    <div id='previousNextDocumentBot' class='show-bot-navigation'>
+      <%# if current_search_session[:query_params][:controller].present? and current_search_session[:query_params][:controller].include? 'my/files' %>
+      <%# back_content = render_breadcrumbs builder: Sufia::BootstrapBreadcrumbsBuilder %>
+      <%# back_content %>
+      <%# else %>
+      <ul class="breadcrumb">
+        <li><%= link_back_to_catalog label: 'Back to search results' %></li>
+      </ul>
+      <%# end %>
+      <% if @previous_document || @next_document %>
+          <div class="page_links pull-right">
+            <%= link_to_previous_document @previous_document %> |
+
+            <%= item_page_entry_info %> |
+
+            <%= link_to_next_document @next_document %>
+          </div>
+      <% end %>
+    </div>
+<% end %>
+
+<%= render :partial => '/dta_seadragon', :locals=> {:object_title=> @generic_file.title[0], :iiif_id=>@generic_file.iiif_id} %>

@@ -1,0 +1,31 @@
+<script style="text/javascript">
+  function verifyDeleteInst() {
+    result = confirm('Are you sure you wish to delete this institution? Any items tagged with it will lose this association.');
+    return result;
+  }
+</script>
+
+<h2><%= @institution.name %> (<%= @institution.institution_url %>)</h2>
+
+<p><div style="clear:both;"><%= button_to "Add Another Institution", new_institution_path, :method => "get", class: 'btn btn-default', style:"float:left;" %>
+  <%= button_to "Edit This Institution", polymorphic_path([:edit, @institution]), :method => "get", class: 'btn btn-default', style:"float:left; margin-left:20px;" %>
+  <%= button_to "Delete This Institution", institution_path(@institution), :method => "delete", class: 'btn btn-danger', style:"float:right;", onclick:"return verifyDeleteInst();" %></div>
+<br/>
+<br/>
+<br/>
+</p>
+
+<dl>
+  <% @institution.show_fields.each do |field| %>
+    <dt><%= field.to_s.humanize %>:</dt>
+    <% @institution.get_values(field).each do |value| %>
+      <dd><%= value %></dd>
+    <% end %>
+  <% end %>
+</dl>
+
+<h3>Collections:</h3>
+  <% @institution.members.each do |collection| %>
+    <div style="padding-left:20px;"><%= link_to "#{collection.title}", collections.collection_path(:id => collection.id)%></div>
+  <% end %>
+

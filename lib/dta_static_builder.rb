@@ -1,6 +1,6 @@
 module DtaStaticBuilder
   def get_latest_content
-    @latest_documents = GenericFile.find_with_conditions("is_public_ssi:true", rows: '4', :sort => 'date_uploaded_dtsi desc' )
+    @latest_documents = DSolr.find({q: "visibility_ssi:open AND model_ssi:GenericFile", rows: '4', :sort => 'date_uploaded_dtsi desc' })
 
     @recent_posts = Posts.where(:published=>true).order("created DESC").limit(3)
 

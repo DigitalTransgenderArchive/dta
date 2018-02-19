@@ -1,0 +1,12 @@
+<h1>Insitutions</h1>
+
+<%= button_to "Add A New Institution", new_institution_path, :method => "get", class: 'btn btn-default' %>
+
+<h4>Current Institution List</h4>
+<ul>
+  <% @institutions.each do |institution| %>
+      <li>
+        <%= link_to institution['name_ssim'].first, institution_path(:id => institution['id']) %>
+      </li>
+  <% end %>
+</ul>

@@ -1,0 +1,158 @@
+<div class="modal fade" id="meiLookupModal_#{key}" tabindex="-1" role="dialog" aria-labelledby="meiLookupModalLabel_#{key}" style="width:90%;">
+  <div class="modal-dialog" role="document" style="width:90%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="meiLookupModalLabel_#{key}">Add LCSH Term</h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group">
+            <div class="row">
+              <div class="col-xs-6">
+
+              <label for="recipient-name" class="control-label">Search Term:</label>
+              <input type="text" class="form-control" id="mei_lcsh_term_#{key}">
+                </div>
+                <div class="col-xs-4">
+
+                  <div style="padding-top:23px;"><button type="button" class="btn btn-default" onClick="mei_lookup_#{key}();">Lookup</button></div>
+                </div></div>
+
+          </div>
+          <div class="form-group">
+
+            <label for="message-text" class="control-label">Results:</label>
+
+            <div id="mei_results_#{key}"></div>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Send message</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var mei_element_to_update_#{key};
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        //alert(button.prev().val());
+        mei_element_to_update_#{key} = button.prev();
+        $('#mei_results_#{key}').text('');
+        $('#mei_lcsh_term_#{key}').val('')
+        //var recipient = button.data('whatever') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        //var modal = $(this)
+        //modal.find('.modal-title').text('New message to ' + recipient)
+        //modal.find('.modal-body input').val(recipient)
+    })
+
+  function mei_lookup()
+  {
+      $('#mei_results_#{key}').text('LOADING...');
+      $.getJSON( "/authorities/generic_files/" + key, {
+          q: $("#mei_lcsh_term_#{key}").val()
+      }, function( data ) {
+          //var json_obj = $.parseJSON(data);//parse JSON
+          json_obj = data;
+
+          counter = 0;
+          var output='<table border="1" class="mei_table_style"><tr class="mei_alt_table_row"><th>Broader</th><th>Actual Term</th><th>Narrower</th><th>Select?</th></tr>';
+          for (var i in json_obj)
+          {
+              counter++;
+              if(counter % 2 == 0) {
+                  output+='<tr class="mei_alt_table_row"><td>';
+              } else {
+                  output+='<tr><td>';
+              }
+
+
+              for (var j in json_obj[i].broader)
+              {
+                  output+= '<a href="#" onClick="setMeiSearchField(\'' + json_obj[i].broader[j].label + '\'); return false">' + json_obj[i].broader[j].label + '</a> &nbsp;';
+                  output+='<a href="' + json_obj[i].broader[j].uri_link + '" target="_blank"><span class="glyphicon glyphicon-globe" aria-hidden="true"><span></a><br />';
+              }
+              output+="</td><td width='35%'>";
+
+              output+='<a href="#" onClick="alert(\'URI is: ' + json_obj[i].uri_link + '\'); return false;"><strong>' + json_obj[i].label + '</strong></a> (' + json_obj[i].count + ') &nbsp;';
+              output+= '<a href="' + json_obj[i].uri_link + '" target="_blank"><span class="glyphicon glyphicon-globe" aria-hidden="true"><span></a><br />';
+              if(json_obj[i].variants)
+              {
+                  output+='(<em>'
+                  /*              for (var j in json_obj[i].variants)
+                   {
+                   output+='<em>'
+                   }*/
+                  output+=json_obj[i].variants.join(', ')
+                  output+='</em>)'
+              }
+
+
+              output+="</td><td>";
+
+              for (var j in json_obj[i].narrower)
+              {
+                  output+= '<a href="#" onClick="setMeiSearchField(\'' + json_obj[i].narrower[j].label + '\'); return false">' + json_obj[i].narrower[j].label + '</a> &nbsp;';
+                  output+='<a href="' + json_obj[i].narrower[j].uri_link + '" target="_blank"><span class="glyphicon glyphicon-globe" aria-hidden="true"><span></a><br />';
+              }
+              output+="</td><td>";
+
+              output+='<input type="button" class="btn btn-default"  data-dismiss="modal" onClick="setMeiLCSHSubjVal(\'' + json_obj[i].uri_link + '\')" value="Select" />';
+
+              output+="</td></tr>"
+          }
+          output+="</table>";
+
+          //$('#mei_results').innerHTML = output;
+          $("#mei_results_#{key}").html(output);
+          //$('mei_lcsh_term').value = 'wtf man';
+
+          //alert(output);
+
+/*          var items = [];
+          $.each( data, function( key, val ) {
+              $.each( val, function( key2, val2 ) {
+                  items.push( "<li id='" + key2 + "'>" + val2 + "</li>" );
+              });
+
+          });
+
+          alert(items[1]);
+
+          $( "<ul/>", {
+              "class": "my-new-list",
+              html: items.join( "" )
+          }).appendTo( $('results') );*/
+      });
+
+  }
+
+    function setMeiSearchField(val) {
+        $("#mei_lcsh_term_#{key}").val(val)
+        mei_lookup_#{key}();
+    }
+
+        function setMeiLCSHSubjVal(val) {
+            mei_element_to_update.val(val);
+        }
+
+    function clearMeiFieldValue() {
+        if(mei_element_to_update.val() != '') {
+            prompt_result = confirm("Are you sure you want to delete the value of: " + mei_element_to_update.val() + "?")
+            if(!prompt_result) {
+                return false;
+            }
+        }
+
+        mei_element_to_update.val('');
+        $('#exampleModal').modal('toggle');
+        return true;
+    }
+
+</script>

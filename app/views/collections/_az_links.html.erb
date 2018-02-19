@@ -3,7 +3,7 @@
       <%= content_tag(:span,
                       'Browse by title:',
                       :class => 'col_a-z_label') %>
-      <%= link_to 'All', collections_public_path, :class => 'col_a-z_link' %>
+      <%= link_to 'All', collections_path, :class => 'col_a-z_link' %>
       <% ('A'..'Z').each do |letter| %>
           <% if ['Q','X'].include? letter %>
               <%= content_tag(:span, letter, :class => 'col_a-z_nolink') %>

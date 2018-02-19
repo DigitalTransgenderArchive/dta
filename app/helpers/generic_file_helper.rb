@@ -39,7 +39,7 @@ module GenericFileHelper
   end
 
   def render_collection_list(gf)
-      ("Is part of: " + gf.insts.map { |c| link_to(c.name, institutions_public_path(c)) }.join(", ")).html_safe unless gf.insts.empty?
+      ("From Institution(s): " + gf.insts.map { |c| link_to(c.name, institutions_public_path(c.pid)) }.join(", ")).html_safe unless gf.insts.empty?
   end
 
   def display_multiple(value)

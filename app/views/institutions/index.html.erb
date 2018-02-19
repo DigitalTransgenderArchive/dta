@@ -1,0 +1,16 @@
+<% @page_title = "Institutions -  #{application_name}" %>
+<% content_for(:head) {  } %>
+
+<div id="content" class="col-sm-12 collections-list">
+  <div class="inst_collection_table">
+    <h2>Institutions</h2>
+  </div>
+
+
+  <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+
+  <%= render 'institutions/show_institution_list', :documents => @document_list %>
+
+  <%= render 'catalog/results_pagination' %>
+
+</div>

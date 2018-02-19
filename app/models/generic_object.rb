@@ -2,11 +2,10 @@ class GenericObject < ActiveRecord::Base
   include CommonSolrAssignments
   include GenericObjectAssignments
   include GenericObjectSolrAssignments
-  has_paper_trail # on: [:update, :destroy]
+  has_paper_trail ignore: [:visibility, :views, :downloads] # on: [:update, :destroy]
 
-  #before_destroy :remove_from_solr
-  #after_initialize :mint
-  #after_save :send_solr
+  before_destroy :remove_from_solr
+  after_initialize :mint
 
   serialize :descriptions, Array
   serialize :temporal_coverage, Array
@@ -52,6 +51,15 @@ class GenericObject < ActiveRecord::Base
   has_many :contributors, dependent: :destroy
   has_many :creators, dependent: :destroy
   has_many :other_subjects, dependent: :destroy
+
+  def around_save
+    send_to_solr = true
+    if views_changed? || downloads.changed?
+      send_to_solr = false
+    end
+    yield
+    send_solr if send_to_solr
+  end
 
   def required? key
    ['title', 'creators', 'contributors'].include? key.to_s

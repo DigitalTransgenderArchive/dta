@@ -1,19 +1,37 @@
 Rails.application.routes.draw do
 
   # Generic file routes
-  resources :generic_files, path: :files, except: :index do
+  resources :generic_objects, path: :files, except: :index do
     member do
       get 'stats'
       get 'citation'
     end
   end
 
+  # Collection routes
+  resources :collections, path: :col, only: [:show, :index, :new, :edit, :create, :update]
+  #get 'col', :to => 'collections#public_index', :as => 'collections_public'
+  #get 'col/:id', :to => 'collections#public_show', :as => 'collections_public_show'
+  get 'col/facet/:id', :to => 'collections#facet', :as => 'collections_facet'
+  # Added Institution Routes
+  get 'ajax/cols/:id', :to => 'institutions#update_collections', :as => 'generic_files_update_collections'
+  get 'ajax/cols', :to => 'institutions#update_collections', :as => 'generic_files_update_collections_no_id'
+
+  get 'places', :to => 'catalog#map', :as => 'places'
+
+  resources :institutions, path: :inst, only: [:show, :index, :new, :edit, :create, :update]
+  get 'inst/facet/:id', :to => 'institutions#facet', :as => 'institutions_facet'
+
   # Autocomplete Routes
-  get 'creators_autocomplete', to: "autocomplete#creators", as: :creators_autocomplete
-  get 'contributors_autocomplete', to: "autocomplete#contributors", as: :contributors_autocomplete
-  get 'publishers_autocomplete', to: "autocomplete#publishers", as: :publishers_autocomplete
-  get 'language_autocomplete', to: "autocomplete#languages", as: :languages_autocomplete
-  get 'dates_autocomplete', to: "autocomplete#dates", as: :dates_autocomplete
+  get '/autocomplete/creators', to: "autocomplete#creators", as: :creators_autocomplete
+  get '/autocomplete/contributors', to: "autocomplete#contributors", as: :contributors_autocomplete
+  get '/autocomplete/publishers', to: "autocomplete#publishers", as: :publishers_autocomplete
+  get '/autocomplete/language', to: "autocomplete#languages", as: :languages_autocomplete
+  get '/autocomplete/dates', to: "autocomplete#dates", as: :dates_autocomplete
+  get '/autocomplete/homosaurus_subject', to: "autocomplete#homosaurus_subject", as: :homosaurus_subject_autocomplete
+  get '/autocomplete/geonames_subject', to: "autocomplete#geonames_subject", as: :geonames_subject_autocomplete
+  get '/autocomplete/lcsh_subject', to: "autocomplete#lcsh_subject", as: :lcsh_subject_autocomplete
+  get '/autocomplete/other_subject', to: "autocomplete#other_subject", as: :other_subject_autocomplete
 
   # Added Collection Routes
   get 'collections/member_visibility/:id' => 'collections#change_member_visibility', as: :collection_member_visibility
@@ -21,9 +39,7 @@ Rails.application.routes.draw do
   get 'collections/collection_visible/:id' => 'collections#collection_visible', as: :collection_visible
   get 'collections/collection_thumbnail_set/:id/:item_id' => 'collections#collection_thumbnail_set', as: :collection_thumbnail_set
 
-  # Added Institution Routes
-  get 'ajax/cols/:id', :to => 'institutions#update_collections', :as => 'generic_files_update_collections'
-  get 'ajax/cols', :to => 'institutions#update_collections', :as => 'generic_files_update_collections_no_id'
+
 
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
@@ -75,16 +91,6 @@ Rails.application.routes.draw do
   get 'about/board' => 'abouts#board', as: :about_board
   get 'about/policies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
-
-  get 'places', :to => 'catalog#map', :as => 'places'
-
-  get 'col', :to => 'collections#public_index', :as => 'collections_public'
-  get 'col/:id', :to => 'collections#public_show', :as => 'collections_public_show'
-  get 'col/facet/:id', :to => 'collections#facet', :as => 'collections_facet'
-
-  get 'inst', :to => 'institutions#public_index', :as => 'institutions_public'
-  get 'inst/:id', :to => 'institutions#public_show', :as => 'institutions_public_show'
-  get 'inst/facet/:id', :to => 'institutions#facet', :as => 'institutions_facet'
 
   # formats browse
   get 'genre', :to => 'catalog#genre_facet', :as => 'genre_facet'

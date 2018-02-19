@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    return true
+    return false
     #roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
   end
 

@@ -9,7 +9,6 @@
     def collections_only(solr_parameters = {}, other_param=nil)
       solr_parameters[:fq] ||= []
       solr_parameters[:fq] << "+model_ssi:\"Collection\""
-      solr_parameters[:fq] << "+visibility_ssi:\"public\""
     end
 
     ##

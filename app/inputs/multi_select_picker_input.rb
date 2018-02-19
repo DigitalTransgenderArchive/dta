@@ -9,28 +9,12 @@ class MultiSelectPickerInput < MultiBaseInput
     end
   end
 
-  def inner_wrapper
-    <<-HTML
-          <li class="field-wrapper">
-             <div class="input-group col-sm-12">
-              #{yield}
-              <span class="input-group-btn regular_audits_duplicate_span">
-                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
-              </span>
-              <span class="input-group-btn">
-                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
-              </span>
-              </div>
-          </li>
-    HTML
-  end
-
   def build_field(value, _index)
     html_options = input_html_options.dup
     @rendered_first_element = true
 
     html_options[:class] ||= []
-    html_options[:class] += ["#{input_dom_id} form-control user-picker"]
+    html_options[:class] += ["#{input_dom_id} form-control user-picker duplicateable"]
     html_options[:data] ||= {}
 
     html_options[:data][:endpoint] = html_options[:endpoint]

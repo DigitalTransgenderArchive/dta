@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-  class CollectionSearchBuilder < Blacklight::SearchBuilder
+  class InstitutionSearchBuilder < Blacklight::SearchBuilder
     include Blacklight::Solr::SearchBuilderBehavior
     include BlacklightRangeLimit::RangeLimitBuilder
     include BlacklightAdvancedSearch::AdvancedSearchBuilder
     include CommonSearchBuilder
-    #self.default_processor_chain += [:add_advanced_parse_q_to_solr, :add_advanced_search_to_solr, :exclude_unwanted_models]
     self.default_processor_chain += [:institutions_only, :set_visibility]
 
     def institutions_only(solr_parameters = {}, other_param=nil)

@@ -6,15 +6,17 @@ module CollectionsHelper
     facet_params[blacklight_config.institution_field] = institution_name if institution_name
 #, :sort=>"dta_sortable_date_dtsi+asc%2C+title_primary_ssort+asc"
     link_to(t('blacklight.collections.browse.all'),
-            catalog_index_path(:f => facet_params, :sort=>"dta_sortable_date_dtsi asc, title_primary_ssort asc"),
+            search_catalog_path(:f => facet_params, :sort=>"dta_sortable_date_dtsi asc, title_primary_ssort asc"),
             :class => link_class)
+    # search_catalog_url ?
+    # catalog_index_path
   end
 
   # link to collections starting with a specific letter
   def link_to_cols_start_with(letter)
     link_to(letter,
             #collections_public_path(:q => 'title_info_primary_ssort:' + letter + '*'),
-            collections_public_path(:filter=>letter),
+            collections_path(:filter=>letter),
             :class => 'col_a-z_link')
   end
 

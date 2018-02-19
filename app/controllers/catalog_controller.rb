@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class CatalogController < ApplicationController
   include BlacklightRangeLimit::ControllerOverride
+  include BlacklightMaps::ControllerOverride
   include DtaSearchHelper
 
   include Blacklight::Catalog
@@ -140,7 +141,7 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('identifier') do |field|
-      field.label = 'People / Organizations'
+      field.label = 'Identifier'
       field.solr_parameters = { :'spellcheck.dictionary' => 'identifier' }
 
       field.solr_local_parameters = {
@@ -166,39 +167,6 @@ class CatalogController < ApplicationController
     # Configuration for autocomplete suggestor
     config.autocomplete_enabled = true
     config.autocomplete_path = 'suggest'
-  end
-
-  def institution_base_blacklight_config
-    # don't show collection facet
-    @skip_dta_limits_render = true
-    blacklight_config.facet_fields['collection_name_ssim'].show = false
-    blacklight_config.facet_fields['collection_name_ssim'].if = false
-
-    blacklight_config.facet_fields['institution_name_ssim'].show = false
-    blacklight_config.facet_fields['institution_name_ssim'].if = false
-
-    #Needs to be fixed...
-    blacklight_config.facet_fields['dta_dates_ssim'].show = false
-    blacklight_config.facet_fields['dta_dates_ssim'].if = false
-
-    # collapse remaining facets
-    #blacklight_config.facet_fields['subject_facet_ssim'].collapse = true
-    #blacklight_config.facet_fields['subject_geographic_ssim'].collapse = true
-    #blacklight_config.facet_fields['date_facet_ssim'].collapse = true
-    #blacklight_config.facet_fields['genre_basic_ssim'].collapse = true
-  end
-
-  def collection_base_blacklight_config
-    @skip_dta_limits_render = true
-    blacklight_config.facet_fields['collection_name_ssim'].show = false
-    blacklight_config.facet_fields['collection_name_ssim'].if = false
-
-    blacklight_config.facet_fields['institution_name_ssim'].show = false
-    blacklight_config.facet_fields['institution_name_ssim'].if = false
-
-    #Needs to be fixed...
-    blacklight_config.facet_fields['dta_dates_ssim'].show = false
-    blacklight_config.facet_fields['dta_dates_ssim'].if = false
   end
 
   # displays values and pagination links for Format field
