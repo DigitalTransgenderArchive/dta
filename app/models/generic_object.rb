@@ -58,7 +58,7 @@ class GenericObject < ActiveRecord::Base
       send_to_solr = false
     end
     yield
-    send_solr if send_to_solr
+    #send_solr if send_to_solr
   end
 
   def required? key

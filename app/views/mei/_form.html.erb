@@ -68,7 +68,8 @@
     $("#meiLookupModal_<%=key%>").on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         //alert(button.prev().val());
-        mei_element_to_update_<%=key%> = button.prev();
+        //mei_element_to_update_<%=key%> = button.prev();
+        mei_element_to_update_<%=key%> = button.closest(".field-wrapper").find('.duplicateable');
         $('#mei_results_<%=key%>').text('');
         $('#mei_lcsh_term_<%=key%>').val('');
         //var recipient = button.data('whatever') // Extract info from data-* attributes

@@ -34,9 +34,8 @@ module Mei
       end_response = []
 
       @raw_response["geonames"].each do |geoname|
-        #count = ObjectHomosaurusSubject.joins(:homosaurus_subject).where(homosaurus_subjects: {uri: 'http://homosaurus.org/terms/crossdressing'}).size
-        #count = ActiveFedora::Base.find_with_conditions("based_near_ssim:#{solr_clean("http://www.geonames.org/#{geoname["geonameId"]}")}", rows: '100', fl: 'id' ).length
-        count = ObjectGeoname.joins(:geoname).where(geonames: {uri: "http://www.geonames.org/#{geoname['geonameId']}"}).size
+        count = DSolr.find({q: "based_near_ssim:#{solr_clean("http://www.geonames.org/#{geoname["geonameId"]}")}", rows: '100', fl: 'id' }).length
+        #count = ObjectGeoname.joins(:geoname).where(geonames: {uri: "http://www.geonames.org/#{geoname['geonameId']}"}).size
         if count >= 99
           count = "99+"
         else

@@ -134,6 +134,59 @@ class AutocompleteController < ActionController::Base
     render json: authority_result
   end
 
+  def other_subject
+    params[:q] ||= ''
+    original_param = params[:q]
+    params[:q] = params[:q].downcase
+
+    subjects_start_with = GenericObject.joins(:other_subjects).group('other_subjects.label').where('lower(other_subjects.label) like ?', "#{params[:q]}%").size
+    subjects_includes = GenericObject.joins(:other_subjects).group('other_subjects.label').where('lower(other_subjects.label) like ?', "%#{params[:q]}%").size
+
+    subjects_array = subjects_start_with.sort_by { |key, val| val }.reverse
+
+    # Don't use + as eliminates sorting
+    subjects_includes.sort_by { |key, val| val }.reverse.each do |subject_includes|
+      subjects_array << subjects_includes unless subjects_array.select { |arr| arr == subjects_includes }
+    end
+
+    unless (subjects_array.select {|arr| arr[0].downcase == params[:q] }).present?
+      subjects_array.prepend([original_param, "Add New"])
+    end
+
+    subjects_array = subjects_array.take(params[:per_page].to_i) if params.has_key? :per_page
+
+    items = subjects_array.map do |u|
+      {
+          id: u[0],
+          text: "#{u[0]} (#{u[1]})"
+      }
+    end
+
+    render json: {
+        total_count: items.size,
+        items: items
+    }
+  end
+
+  def languages
+    params[:q] ||= ''
+    #original_param = params[:q]
+    #params[:q] = params[:q].downcase
+
+    authority_check = Qa::Authorities::Loc.subauthority_for('iso639-2')
+    authority_result = authority_check.search(URI.escape(params[:q])+'*')
+    if authority_result.present?
+      authority_result.map! { |item| { text: item["label"], id: item["id"].gsub('info:lc', 'http://id.loc.gov') } }
+    else
+      authority_result = []
+    end
+
+    render json: {
+        total_count: authority_result.size,
+        items: authority_result
+    }
+  end
+
   def homosaurus_subject_partial
     params[:q] ||= ''
     original_param = params[:q]

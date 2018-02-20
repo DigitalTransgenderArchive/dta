@@ -15,6 +15,14 @@ class Inst < ActiveRecord::Base
   has_many :inst_colls, dependent: :destroy
   has_many :colls, :through=>:inst_colls
 
+  def title
+    self.name
+  end
+
+  def title=(value)
+    self.name = value
+  end
+
   def around_save
     do_member_reindex = self.title_changed? || self.colls_ids_changed?
     yield #saves

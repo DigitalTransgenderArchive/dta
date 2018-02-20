@@ -87,6 +87,7 @@ gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-statistic'
 gem 'tilt' # Required for sidekiq-statistic
+gem 'concurrent-ruby', require: 'concurrent'
 
 # Versioning
 gem 'paper_trail'

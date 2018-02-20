@@ -30,7 +30,7 @@ module Mei
     end
 
     def self.repo
-      @repo ||= ::RDF::Blazegraph::Repository.new(Mei::Loc.blazegraph_config[:url])
+      @repo ||= ::RDF::Blazegraph::Repository.new(uri: Mei::Loc.blazegraph_config[:url])
     end
 
     def self.qskos value
@@ -64,16 +64,20 @@ module Mei
       #end_response = Array.new(20)
       end_response = []
       position_counter = 0
-      @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
-          threaded_responses << Thread.new(position_counter) { |local_pos|
-            end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
-          }
-          position_counter+=1
-          #sleep(0.05)
 
-        #loc_response_to_qa(response_to_struct(response))
+      @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
+        threaded_responses << Thread.new(position_counter) { |local_pos|
+          Rails.application.reloader.wrap do
+            end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
+          end
+        }
+        position_counter+=1
       end
-      threaded_responses.each { |thr|  thr.join }
+
+        ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+          threaded_responses.each { |thr|  thr.join } # outer thread waits here, but has no lock
+        end
+
       end_response
     end
 
@@ -89,10 +93,9 @@ module Mei
         broader, narrower, variants = get_skos_concepts(json_link.gsub('.json',''))
       end
 
-      #count = ActiveFedora::Base.find_with_conditions("subject_tesim:#{data.id.gsub('info:lc', 'http://id.loc.gov').gsub(':','\:')}", rows: '100', fl: 'id' ).length
-      #FIXME
-      #count = ActiveFedora::Base.find_with_conditions("lcsh_subject_ssim:#{solr_clean(data.id.gsub('info:lc', 'http://id.loc.gov'))}", rows: '100', fl: 'id' ).length
-      count = ObjectLcshSubject.joins(:LcshSubject).where(lcsh_subjects: {uri: "#{data.id.gsub('info:lc', 'http://id.loc.gov')}"}).size
+      #FIXME: Hitting ActiveRecord causes problems
+      count = DSolr.find({q: "lcsh_subject_ssim:#{solr_clean(data.id.gsub('info:lc', 'http://id.loc.gov'))}", rows: '100', fl: 'id' }).length
+      #count = ObjectLcshSubject.joins(:lcsh_subject).where(lcsh_subjects: {uri: "#{data.id.gsub('info:lc', 'http://id.loc.gov')}"}).size
       if count >= 99
         count = "99+"
       else
@@ -187,144 +190,5 @@ module Mei
       return broader_list, narrower_list, variant_list
     end
 
-    def get_skos_concepts_working subject
-      broader_list = []
-      narrower_list = []
-      variant_list = []
-
-      #xml_response = Nokogiri::XML(response).remove_namespaces!
-
-      Mei::Loc.repo.query(:subject=>::RDF::URI.new(subject), :predicate=>Mei::Loc.qskos('broader')).each_statement do |result_statement|
-        if !result_statement.object.literal? and result_statement.object.uri?
-          broader_label = nil
-          broader_uri = result_statement.object.to_s
-          #if Mei::Loc.repo.query(:subject=>::RDF::URI.new(broader_uri), :predicate=>Mei::Loc.qskos('narrower'), :object=>::RDF::URI.new(subject)).count > 0
-            Mei::Loc.repo.query(:subject=>::RDF::URI.new(broader_uri), :predicate=>Mei::Loc.qskos('prefLabel')).each_statement do |broader_statement|
-              broader_label ||= broader_statement.object.value if broader_statement.object.literal?
-            end
-            broader_label ||= broader_uri
-            broader_list << {:uri_link=>broader_uri, :label=>broader_label}
-          #end
-        end
-      end
-
-      Mei::Loc.repo.query(:subject=>::RDF::URI.new(subject), :predicate=>Mei::Loc.qskos('narrower')).each_statement do |result_statement|
-        if !result_statement.object.literal? and result_statement.object.uri?
-          narrower_label = nil
-          narrower_uri = result_statement.object.to_s
-          Mei::Loc.repo.query(:subject=>::RDF::URI.new(narrower_uri), :predicate=>Mei::Loc.qskos('prefLabel')).each_statement do |narrower_statement|
-            narrower_label ||= narrower_statement.object.value if narrower_statement.object.literal?
-          end
-          narrower_label ||= narrower_uri
-          narrower_list << {:uri_link=>narrower_uri, :label=>narrower_label}
-        end
-      end
-
-      Mei::Loc.repo.query(:subject=>::RDF::URI.new(subject), :predicate=>Mei::Loc.qskos('altLabel')).each_statement do |result_statement|
-        variant_list << result_statement.object.value if result_statement.object.literal?
-      end
-
-      return broader_list, narrower_list, variant_list
-    end
-
-    def get_skos_concepts_newer_but_old xml_response
-      broader_list = []
-      narrower_list = []
-      variant_list = []
-
-      #xml_response = Nokogiri::XML(response).remove_namespaces!
-
-      xml_response.xpath("//broader/Description[@about]").each do |broader|
-        broader_uri = broader.attributes['about'].value
-
-        broader_label = nil
-        broader.xpath("./prefLabel").each do |prefLabel|
-          broader_label ||= prefLabel.text
-        end
-        broader_label ||= broader_uri
-        broader_list << {:uri_link=>broader_uri, :label=>broader_label}
-      end
-
-      xml_response.xpath("//narrower/Description[@about]").each do |narrower|
-        narrower_uri = narrower.attributes['about'].value
-        narrower_label = nil
-        narrower.xpath("./prefLabel").each do |prefLabel|
-          narrower_label ||= prefLabel.text
-        end
-        narrower_label ||= narrower_uri
-        narrower_list << {:uri_link=>narrower_uri, :label=>narrower_label}
-      end
-
-      xml_response.xpath("//altLabel/Description/literalForm").each do |varient|
-        variant_list << varient.text
-      end
-
-      return broader_list, narrower_list, variant_list
-    end
-
-    def get_skos_concepts_loc_broke response
-      broader_list = []
-      narrower_list = []
-      variant_list = []
-
-      response.each_with_index do |resp, index|
-        if resp.has_key?("http://www.loc.gov/mads/rdf/v1#hasBroaderAuthority")
-          resp["http://www.loc.gov/mads/rdf/v1#hasBroaderAuthority"].each do |broader|
-            if broader["@id"].present?
-              #broken for stuff like labor
-              begin
-
-              broader_uri = broader["@id"]
-
-              broader_label = response.select { |broader_resp| broader_resp["@id"] == broader_uri and broader_resp.has_key?("http://www.loc.gov/mads/rdf/v1#authoritativeLabel") and !broader_resp.has_key?("http://www.loc.gov/mads/rdf/v1#elementList") }
-
-              broader_label = broader_label[0]["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-
-              broader_list << {:uri_link=>broader_uri, :label=>broader_label}
-              rescue
-                #ignored for now
-              end
-            end
-          end
-        end
-        if resp.has_key?("http://www.loc.gov/mads/rdf/v1#hasNarrowerAuthority")
-          resp["http://www.loc.gov/mads/rdf/v1#hasNarrowerAuthority"].each do |narrower|
-            if narrower["@id"].present?
-              begin
-              narrower_uri = narrower["@id"]
-
-
-              narrower_label = response.select { |narrower_resp| narrower_resp["@id"] == narrower_uri and narrower_resp.has_key?("http://www.loc.gov/mads/rdf/v1#authoritativeLabel") and !narrower_resp.has_key?("http://www.loc.gov/mads/rdf/v1#elementList") }
-              narrower_label = narrower_label[0]["http://www.loc.gov/mads/rdf/v1#authoritativeLabel"][0]["@value"]
-
-              narrower_list << {:uri_link=>narrower_uri, :label=>narrower_label}
-              rescue
-              end
-            end
-
-          end
-
-        end
-
-        if resp.has_key?("http://www.loc.gov/mads/rdf/v1#variantLabel")
-          resp["http://www.loc.gov/mads/rdf/v1#variantLabel"].each do |variant|
-            if variant["@value"].present?
-              varient_label = variant["@value"]
-=begin
-              if variant["@language"].present?
-                varient_label += "@#{variant["@language"]}"
-              end
-=end
-
-              variant_list << varient_label
-            end
-
-          end
-
-        end
-      end
-
-      return broader_list, narrower_list, variant_list
-    end
   end
 end

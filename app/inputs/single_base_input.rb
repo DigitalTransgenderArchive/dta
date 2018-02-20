@@ -1,4 +1,4 @@
-class MultiBaseInput < SimpleForm::Inputs::CollectionInput
+class SingleBaseInput < SimpleForm::Inputs::CollectionInput
   include WithLabelOptions
 
   # Overriding this so that the class is correct and the javascript for multivalue will work on this.
@@ -38,12 +38,6 @@ class MultiBaseInput < SimpleForm::Inputs::CollectionInput
           <li class="field-wrapper">
              <div class="input-group col-sm-12">
               #{yield}
-              <span class="input-group-btn regular_audits_duplicate_span">
-                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
-              </span>
-              <span class="input-group-btn">
-                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
-              </span>
               </div>
           </li>
     HTML
@@ -75,7 +69,6 @@ class MultiBaseInput < SimpleForm::Inputs::CollectionInput
 
   def build_field(value, index)
     options = build_field_options(value, index)
-    options[:class] += ["duplicateable"]
     if options.delete(:type) == 'textarea'.freeze
       @builder.text_area(attribute_name, options)
     else

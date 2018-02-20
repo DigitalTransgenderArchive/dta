@@ -28,6 +28,7 @@
 //= require ahoy
 //= require onmount
 //= require 'openseadragon'
+//= require ckeditor/init
 
 //= require_tree .
 

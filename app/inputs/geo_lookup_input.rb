@@ -1,5 +1,4 @@
 class GeoLookupInput < MeiMultiLookupInput
-  include WithHelpIcon
 
   def buffer_each(collection)
     collection.each_with_object('').with_index do |(value, buffer), index|

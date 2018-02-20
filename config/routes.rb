@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
 
   # Generic file routes
   resources :generic_objects, path: :files, except: :index do

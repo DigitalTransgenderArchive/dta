@@ -36,7 +36,6 @@ function delete_field_click(event) {
     is_autocomplete_select2 = $(original_element).is("[endpoint]");
 
     local_field_name = $(original_element).attr('name');
-    $(event.target).closest(".field-wrapper").find('.duplicateable').val(null).trigger('change');
 
     if ($('input[name*="' + local_field_name + '"]').length == 1) {
         $(original_element).val("");

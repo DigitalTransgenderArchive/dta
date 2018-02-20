@@ -25,17 +25,12 @@ class MeiMultiLookupInput < MultiBaseInput
 
   def build_field(value, index)
     options = build_field_options(value, index)
+    options[:class] += ["duplicateable"]
     if options.delete(:type) == 'textarea'.freeze
       @builder.text_area(attribute_name, options)
     else
       @builder.text_field(attribute_name, options)
     end
   end
-
-
-
-
-
-
 
 end

@@ -144,10 +144,10 @@ class Upgrade
     end
   end
 
-  def self.fix_visibility
+  def self.fix_all
     self.fix_homosaurus
     GenericFile.find_each do |file|
-      Upgrade.upgrade_object(file)
+      Upgrade.fix_visibility(file)
     end
   end
 
@@ -169,7 +169,7 @@ class Upgrade
   end
 
   def self.fix_visibility(file)
-    obj = GenericObject.new(pid: file.id)
+    obj = GenericObject.find_by(pid: file.id)
     if obj.visibility.blank?
       solr_content = DSolr.find_by_id file.id
       if solr_content["visibiliy_ssi"] == "open"
@@ -249,12 +249,12 @@ class Upgrade
         obj.visibility = "public"
       elsif solr_content["visibiliy_ssi"] == "restricted"
         obj.visibility = "private"
-      elsif solr_content["visibiliy_ssi"].present?
+      elsif solr_content["visibiliy_ssi"] == "authenticated"   # this is authenticated... see: rf55z772c
         obj.visibility = "hidden"
       elsif solr_content["read_access_group_ssim"] == ["public"] || solr_content["is_public_ssi"] == "true"
         obj.visibility = "public"
       else
-        obj.visibilit = "hidden"
+        obj.visibility = "hidden"
       end
       obj.created_at = solr_content["system_create_dtsi"].to_datetime
       obj.updated_at = solr_content["system_modified_dtsi"].to_datetime

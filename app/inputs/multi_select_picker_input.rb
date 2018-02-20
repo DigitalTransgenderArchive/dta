@@ -27,7 +27,10 @@ class MultiSelectPickerInput < MultiBaseInput
     html_options[:data][:param2] = html_options[:param2]
     html_options[:data][:param1] ||= ''
     html_options[:data][:param2] ||= ''
-
+    #html_options[:"data-select2-tags"] = '[{"id": "1", "text": "One"}]'
+    #html_options[:"data-data"] = '[{"id": "1", "text": "One"}]'
+    #html_options[:"data-tags"] = 'true'
+    
     html_options.merge!(options.slice(:include_blank))
     template.select_tag(attribute_name, template.options_for_select(select_options, value), html_options)
   end
