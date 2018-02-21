@@ -10,7 +10,7 @@ class DownloadsController < ApplicationController
       else
 
         mime_type = base_file.mime_type
-        if params[:institution].empty?
+        if params.blank? || params[:institution].blank?
           file_name = "#{base_object.title.gsub(/[,;]/, '')}.#{base_file.path.split('.').last}"
           ahoy.track_visit
           ahoy.track "Object Download", {title: @object.title}, {collection_pid: @object.coll.pid, institution_pid: @object.inst.pid, pid: params[:id], model: "GenericObject", search_term: session[:search_term]}
