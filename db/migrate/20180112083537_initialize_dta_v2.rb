@@ -138,6 +138,7 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
 
      # Missing Hierarchy
       create_table :homosaurus_subjects do |t|
+        t.string :pid, index: { unique: true }, limit: 128
         t.string :uri, index: { unique: true }
         t.string :identifier, index: { unique: true }
         t.string :label
@@ -191,7 +192,7 @@ class InitializeDtaV2 < ActiveRecord::Migration[5.1]
       create_table :inst_image_files do |t|
         t.belongs_to :inst
 
-        t.string :parent_pid
+        t.string :parent_pid, limit: 64
         t.string :path
         t.string :directory
         t.string :sha256

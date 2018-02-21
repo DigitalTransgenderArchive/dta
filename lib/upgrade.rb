@@ -106,6 +106,7 @@ class Upgrade
       unless HomosaurusSubject.find_by(identifier: old_homo.identifier).present?
         homo = HomosaurusSubject.new
         homo.uri = "http://homosaurus.org/terms/#{old_homo.identifier}"
+        homo.pid = old_homo.id
         homo.identifier = old_homo.identifier
         homo.label = old_homo.prefLabel
         homo.version = "v1"
