@@ -126,7 +126,7 @@ class GenericObjectsController < ApplicationController
 
         # These were missing
         @generic_object.genres = form_fields[:genres].reject { |c| c.empty? }
-        @generic_object.resource_types = form_fields[:resource_types].reject { |c| c.empty? }
+        @generic_object.resource_types = form_fields[:resource_types].reject { |c| c.empty? } if form_fields[:resource_types][0].present?
 
         @generic_object.inst = Inst.find_by(pid: params[:institution])
         @generic_object.coll = Coll.find_by(pid: params[:collection])
