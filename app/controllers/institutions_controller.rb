@@ -21,7 +21,13 @@ class InstitutionsController < ApplicationController
   before_action :institution_base_blacklight_config, :only => [:show]
 
   before_action :add_catalog_folder, only: [:index, :show, :facet]
-  
+
+  before_action  only: :show do
+    if current_user.present? and current_user.contributor?
+      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+    end
+  end
+
   def update_collections
     term_query = DSolr.find({q: "isMemberOfCollection_ssim:#{params[:id]} AND model_ssi:Collection", rows: '10000', fl: 'id,title_tesim'})
     term_query = term_query.sort_by { |term| term["title_tesim"].first }
@@ -111,7 +117,7 @@ class InstitutionsController < ApplicationController
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
 
-    unless current_user.present? and current_user.is_contributor?
+    unless current_user.present? and current_user.contributor?
       ahoy.track_visit
       ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
     end

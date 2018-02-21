@@ -34,7 +34,7 @@
     </dd>
     
     <%# if can? :edit, @generic_file %>
-    <% if current_or_guest_user.contributor? %>
+    <% if 1==0 and current_or_guest_user.contributor? %>
         <dt style="padding-left:0px;width:80px;">Edit</dt>
         <dd style="padding-left:0px;margin-left: 100px;">
           <% if @generic_file.processing? %>
@@ -63,7 +63,7 @@
         </dd>
     <% end %>
 
-    <% if current_user.present? and current_user.admin? %>
+    <% if 1==0 and current_user.present? and current_user.admin? %>
         <dt style="padding-left:0px;width:80px;">Analytics</dt>
         <dd style="padding-left:0px;margin-left: 100px;">
           <%= link_to "View Analytics", stats_generic_object_path(@generic_file.pid), id: 'stats' %>

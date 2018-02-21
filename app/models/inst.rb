@@ -1,9 +1,9 @@
 class Inst < ActiveRecord::Base
   include CommonSolrAssignments
 
-  #before_destroy :remove_from_solr
-  #after_initialize :mint
-  #after_save :send_solr
+  before_destroy :remove_from_solr
+  after_initialize :mint
+  after_save :send_solr
 
   include ::InstObjectAssignments
 
@@ -26,7 +26,7 @@ class Inst < ActiveRecord::Base
   def around_save
     do_member_reindex = self.title_changed? || self.colls_ids_changed?
     yield #saves
-    #reindex_members if do_member_reindex
+    reindex_members if do_member_reindex
   end
 
   def reindex_members

@@ -16,6 +16,16 @@ class CatalogController < ApplicationController
 
   #CatalogController.search_params_logic += [:add_access_controls_to_solr_params, :add_advanced_parse_q_to_solr, :exclude_unwanted_models]
 
+  before_action  only: :index do
+    if current_user.present? and current_user.contributor?
+      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+    end
+  end
+
+  def has_search_parameters?
+    params[:dtalimits].present? || super
+  end
+
   configure_blacklight do |config|
     # collection name field
     config.collection_field = 'collection_name_ssim'

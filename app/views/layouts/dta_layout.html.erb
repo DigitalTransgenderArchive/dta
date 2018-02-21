@@ -38,8 +38,10 @@
 
       <%= render partial: 'shared/ajax_modal' %>
       <div style="clear:both;"></div>
+      <%= render partial: '/controls' %>
       <div id="main-container" class="container-fluid <%# container_classes %>">
         <div class="col-xs-12">
+
           <%= content_tag :h1, application_name, class: 'sr-only application-heading' %>
 
           <%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>

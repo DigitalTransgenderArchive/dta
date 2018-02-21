@@ -19,6 +19,12 @@ class CollectionsController < ApplicationController
 
   before_action :add_catalog_folder, only: [:index, :show, :facet]
 
+  before_action  only: :show do
+    if current_user.present? and current_user.contributor?
+      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+    end
+  end
+
   # Blacklight uses #search_action_url to figure out the right URL for
   # the global search box
   def search_action_url options = {}
@@ -79,7 +85,7 @@ class CollectionsController < ApplicationController
 
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
-    unless current_user.present? and current_user.is_contributor?
+    unless current_user.present? and current_user.contributor?
       ahoy.track_visit
       ahoy.track "Collection View", {title: @collection.title}, {pid: params[:id], model: "Collection"}
     end

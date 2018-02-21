@@ -10,8 +10,9 @@ class Settings
     @google_analytics_id ||= Settings.dta_config["google_analytics_id"]
   end
 
+  # FIXME!
   def self.fits_path
-    @fits_path ||= Settings.dta_config["fits_path"]
+    @fits_path ||= Settings.dta_config["libreoffice_path"]
     raise "fits path in dta.yml could not be detected" if @fits_path.blank?
     @fits_path
   end

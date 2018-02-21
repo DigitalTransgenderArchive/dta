@@ -2,11 +2,12 @@ class GenericObject < ActiveRecord::Base
   include CommonSolrAssignments
   include GenericObjectAssignments
   include GenericObjectSolrAssignments
-  has_paper_trail ignore: [:visibility, :views, :downloads] # on: [:update, :destroy]
+  has_paper_trail ignore: [:visibility, :views, :downloads, :pid] # on: [:update, :destroy]
 
-  #before_destroy :before_destroy_actions
-  #after_destroy :after_destroy_actions
-  #after_initialize :mint
+  after_save :after_save_actions
+  before_destroy :before_destroy_actions
+  after_destroy :after_destroy_actions
+  after_initialize :mint
 
   serialize :descriptions, Array
   serialize :temporal_coverage, Array
@@ -56,7 +57,7 @@ class GenericObject < ActiveRecord::Base
   def after_save_actions
     if !self.id_changed? && (self.views_was != views || self.downloads_was != downloads)
     else
-      send_solr if send_to_solr
+      send_solr
     end
   end
 

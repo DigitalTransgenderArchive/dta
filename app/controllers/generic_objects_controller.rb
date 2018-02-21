@@ -33,7 +33,7 @@ class GenericObjectsController < ApplicationController
       search_term = current_search_session.present? ? current_search_session.query_params["q"].to_s : 'N/A: Directly Linked'
       session[:search_term] = search_term
 
-      unless current_user.present? and current_user.is_contributor?
+      unless current_user.present? and current_user.contributor?
         ahoy.track_visit
         ahoy.track "Object View", {title: @generic_file.title}, {collection_pid: @generic_file.coll.pid, institution_pid: @generic_file.inst.pid, pid: params[:id], model: "GenericObject", search_term: search_term}
       end
@@ -72,99 +72,96 @@ class GenericObjectsController < ApplicationController
         redirect_back(fallback_location: new_generic_object_path)
       else
 
-      @generic_object = GenericObject.find_or_initialize_by(pid: params[:pid])
-      form_fields = params['generic_object']
+        @generic_object = GenericObject.find_or_initialize_by(pid: params[:pid])
+        #@generic_object = GenericObject.new
+        form_fields = params['generic_object']
 
-      @generic_object.title = form_fields[:title]
-      @generic_object.alt_titles = form_fields[:alt_titles] if form_fields[:alt_titles][0].present?
-      @generic_object.creators = form_fields[:creators] if form_fields[:creators][0].present?
-      @generic_object.contributors = form_fields[:contributors] if form_fields[:contributors][0].present?
-      @generic_object.date_created = form_fields[:date_created] if form_fields[:date_created][0].present?
-      @generic_object.date_issued = form_fields[:date_issued] if form_fields[:date_issued][0].present?
-      @generic_object.temporal_coverage = form_fields[:temporal_coverage] if form_fields[:temporal_coverage][0].present?
+        @generic_object.title = form_fields[:title]
+        @generic_object.alt_titles = form_fields[:alt_titles] if form_fields[:alt_titles][0].present?
+        @generic_object.creators = form_fields[:creators] if form_fields[:creators][0].present?
+        @generic_object.contributors = form_fields[:contributors] if form_fields[:contributors][0].present?
+        @generic_object.date_created = form_fields[:date_created] if form_fields[:date_created][0].present?
+        @generic_object.date_issued = form_fields[:date_issued] if form_fields[:date_issued][0].present?
+        @generic_object.temporal_coverage = form_fields[:temporal_coverage] if form_fields[:temporal_coverage][0].present?
 
-      form_fields[:lcsh_subjects].each_with_index do |s, index|
-        if s.present?
-          form_fields[:lcsh_subjects][index] = s.split('(').last
-          form_fields[:lcsh_subjects][index].gsub!(/\)$/, '')
-        end
-      end
-      form_fields[:geonames].each_with_index do |s, index|
-        if s.present?
-          form_fields[:geonames][index] = s.split('(').last
-          form_fields[:geonames][index].gsub!(/\)$/, '')
-        end
-      end
-      form_fields[:homosaurus_subjects].each_with_index do |s, index|
-        if s.present?
-          form_fields[:homosaurus_subjects][index] = s.split('(').last
-          form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
-        end
-      end
-      @generic_object.geonames = form_fields[:geonames] if form_fields[:geonames][0].present?
-      @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects] if form_fields[:homosaurus_subjects][0].present?
-      @generic_object.lcsh_subjects = form_fields[:lcsh_subjects] if form_fields[:lcsh_subjects][0].present?
-      @generic_object.other_subjects = form_fields[:other_subjects] if form_fields[:other_subjects][0].present?
-
-      @generic_object.flagged = form_fields[:flagged]
-      @generic_object.analog_format = form_fields[:analog_format] if form_fields[:analog_format][0].present?
-      @generic_object.digital_format = form_fields[:digital_format] if form_fields[:digital_format][0].present?
-
-      @generic_object.descriptions = form_fields[:descriptions] if form_fields[:descriptions][0].present?
-      @generic_object.toc = form_fields[:toc] if form_fields[:toc][0].present?
-      @generic_object.languages = form_fields[:languages] if form_fields[:languages][0].present?
-
-      @generic_object.publishers = form_fields[:publishers] if form_fields[:publishers][0].present?
-      @generic_object.related_urls = form_fields[:related_urls] if form_fields[:related_urls][0].present?
-      @generic_object.rights = form_fields[:rights] if form_fields[:rights][0].present?
-      @generic_object.rights_free_text = form_fields[:rights_free_text] if form_fields[:rights_free_text][0].present?
-      @generic_object.depositor = current_user.to_s
-
-      @generic_object.is_shown_at = form_fields[:is_shown_at] if form_fields[:is_shown_at][0].present?
-      @generic_object.hosted_elsewhere = form_fields[:hosted_elsewhere]
-
-      @generic_object.inst = Inst.find_by(pid: params[:institution])
-      @generic_object.coll = Coll.find_by(pid: params[:collection])
-
-      @generic_object.visibility = "private"
-
-      if params[:generic_object][:hosted_elsewhere] != "0"
-        if params.key?(:filedata)
-          file = params[:filedata]
-
-          image = MiniMagick::Image.open(file.path())
-
-          if File.extname(file.original_filename) == '.pdf'
-            image.format('jpg', 0, {density: '300'})
-          else
-            image.format "jpg"
+        form_fields[:lcsh_subjects].each_with_index do |s, index|
+          if s.present?
+            form_fields[:lcsh_subjects][index] = s.split('(').last
+            form_fields[:lcsh_subjects][index].gsub!(/\)$/, '')
           end
-
-          image.resize "500,600"
-
-          @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
         end
-      else
-        file = params[:filedata]
-        @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
-      end
+        form_fields[:geonames].each_with_index do |s, index|
+          if s.present?
+            form_fields[:geonames][index] = s.split('(').last
+            form_fields[:geonames][index].gsub!(/\)$/, '')
+          end
+        end
+        form_fields[:homosaurus_subjects].each_with_index do |s, index|
+          if s.present?
+            form_fields[:homosaurus_subjects][index] = s.split('(').last
+            form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
+          end
+        end
+        @generic_object.geonames = form_fields[:geonames] if form_fields[:geonames][0].present?
+        @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects] if form_fields[:homosaurus_subjects][0].present?
+        @generic_object.lcsh_subjects = form_fields[:lcsh_subjects] if form_fields[:lcsh_subjects][0].present?
+        @generic_object.other_subjects = form_fields[:other_subjects] if form_fields[:other_subjects][0].present?
 
-      @generic_object.save!
+        @generic_object.flagged = form_fields[:flagged]
+        @generic_object.analog_format = form_fields[:analog_format] if form_fields[:analog_format][0].present?
+        @generic_object.digital_format = form_fields[:digital_format] if form_fields[:digital_format][0].present?
 
-     ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
-      redirect_to generic_object_path(@generic_object.pid), notice: "This object has been created."
+        @generic_object.descriptions = form_fields[:descriptions] if form_fields[:descriptions][0].present?
+        @generic_object.toc = form_fields[:toc] if form_fields[:toc][0].present?
+        @generic_object.languages = form_fields[:languages] if form_fields[:languages][0].present?
+
+        @generic_object.publishers = form_fields[:publishers] if form_fields[:publishers][0].present?
+        @generic_object.related_urls = form_fields[:related_urls] if form_fields[:related_urls][0].present?
+        @generic_object.rights = form_fields[:rights] if form_fields[:rights][0].present?
+        @generic_object.rights_free_text = form_fields[:rights_free_text] if form_fields[:rights_free_text][0].present?
+        @generic_object.depositor = current_user.to_s
+
+        @generic_object.is_shown_at = form_fields[:is_shown_at] if form_fields[:is_shown_at][0].present?
+        @generic_object.hosted_elsewhere = form_fields[:hosted_elsewhere]
+
+        @generic_object.inst = Inst.find_by(pid: params[:institution])
+        @generic_object.coll = Coll.find_by(pid: params[:collection])
+
+        @generic_object.visibility = "private"
+
+        if params[:generic_object][:hosted_elsewhere] != "0"
+          if params.key?(:filedata)
+            file = params[:filedata]
+
+            image = MiniMagick::Image.open(file.path())
+
+            if File.extname(file.original_filename) == '.pdf'
+              image.format('jpg', 0, {density: '300'})
+            else
+              image.format "jpg"
+            end
+
+            image.resize "500x600"
+
+            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
+          end
+        else
+          file = params[:filedata]
+          @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+        end
+
+        @generic_object.save!
+
+        # Make this better
+        @generic_object.coll.send_solr
+        @generic_object.inst.send_solr
+
+        #ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
+        @generic_object.base_files[0].create_derivatives
+        redirect_to generic_object_path(@generic_object.pid), notice: "This object has been created."
       end
 
     end
-  end
-
-  def swap_visibility
-    if @generic_object.visibility == "public"
-      @generic_object.visibility = "private"
-    else
-      @generic_object.visibility = "public"
-    end
-    @generic_object.save!
   end
 
   def destroy
@@ -233,16 +230,17 @@ class GenericObjectsController < ApplicationController
   end
 
   def swap_visibility
-    #update_visibility
-    obj = ActiveFedora::Base.find(params[:id])
-    if obj.visibility == 'restricted'
-      obj.visibility = 'open'
+
+    obj = GenericObject.find_by(pid: params[:id])
+    if obj.visibility == 'private'
+      obj.visibility = 'public'
     else
-      obj.visibility = 'restricted'
+      obj.visibility = 'private'
     end
-    obj.save
+    obj.save!
     flash[:notice] = "Visibility of object was changed!"
-    redirect_to request.referrer
+    redirect_to generic_object_path(obj.pid)
+    #redirect_to request.referrer
   end
 
   # this is provided so that implementing application can override this behavior and map params to different attributes
