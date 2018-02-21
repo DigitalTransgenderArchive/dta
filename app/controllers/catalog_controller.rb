@@ -19,6 +19,19 @@ class CatalogController < ApplicationController
   before_action  only: :index do
     if current_user.present? and current_user.contributor?
       blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+
+      uploaded_field = 'date_uploaded_dtsi'
+      modified_field = 'date_modified_dtsi'
+      blacklight_config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
+      blacklight_config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
+      blacklight_config.add_sort_field "#{modified_field} desc", label: "date modified \u25BC"
+      blacklight_config.add_sort_field "#{modified_field} asc", label: "date modified \u25B2"
+
+      blacklight_config.add_sort_field 'collection_name_ssort asc, dta_sortable_date_dtsi asc', :label => "collection \u25B2"
+      blacklight_config.add_sort_field 'collection_name_ssort desc, dta_sortable_date_dtsi asc', :label => "collection \u25BC"
+
+      blacklight_config.add_sort_field 'visibility_ssi asc, dta_sortable_date_dtsi asc', :label => "visibility \u25B2"
+      blacklight_config.add_sort_field 'visibility_ssi desc, dta_sortable_date_dtsi asc', :label => "visibility \u25BC"
     end
   end
 
