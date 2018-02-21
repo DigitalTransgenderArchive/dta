@@ -23,7 +23,7 @@ module FileBehavior
         when 'image/png'
           return '.png'
         when 'image/tiff'
-          return '.tiff'
+          return '.tif'
         when 'image/gif'
           return '.gif'
         when 'application/pdf'
