@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     email
   end
 
+  def username
+    email
+  end
+
   def admin?
     #return false
     roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
