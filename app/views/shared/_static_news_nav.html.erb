@@ -1,0 +1,33 @@
+
+<section id="secondary" class="widget-area span4" role="complementary">
+  <aside id="current_section_nav" class="widget well widget_side_nav">		<h2 class="widget-title" style="margin-top:-10px;"><%=@nav_section%></h2>		<ul>
+    <% @nav_items.each do |nav|%>
+    <li>
+      <%=nav.html_safe%>
+    </li>
+    <% end %>
+  </ul>
+  </aside>
+
+  <% if @tag_links.present? %>
+  <aside id="tags_section" class="widget well widget_tags">		<h2 class="widget-title" style="margin-top:-10px;">Post Tags</h2>		<ul>
+    <% @tag_links.each do |tag|%>
+        <li>
+          <%=tag.html_safe%>
+        </li>
+    <% end %>
+  </ul>
+  </aside>
+  <% end %>
+
+<aside id="text-2" class="widget well widget_text" style="margin-top:-10px;"><h2 class="widget-title" style="margin-top:-10px; margin-bottom:15px;">Follow Us!</h2>
+  <div class="textwidget static_follow_div">
+      <a href='https://www.facebook.com/digitaltransarc' title='Digital Transgender Archive' target='_TOP'><img src='https://badge.facebook.com/badge/1037238479651181.2647.1069946817.png' class='img facebook_follow_image'  alt='Digital Transgender Facebook icon' /> <!--<%= image_tag asset_path('logos/facebook_logo_72.png')%>--></a>
+  </div>
+
+  <div class="textwidget static_follow_div twitter_with_follow" style="margin-top:25px;"><a href="https://twitter.com/digitaltransarc" class="twitter-follow-button" data-show-count="true" data-size="large" data-show-screen-name="true">Follow</a> <!-- @digitaltransarc-->
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div>
+  <div class="textwidget static_follow_div twitter_without_follow" style="margin-top:25px;"><a href="https://twitter.com/digitaltransarc" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="true">Follow</a> <!-- @digitaltransarc-->
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div>
+  <div style="clear:both;"></div>
+</aside></section>
