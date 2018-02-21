@@ -1,6 +1,6 @@
 <li>
   <h2>
-    <%= link_to document.title, generic_file_path(document) %>
+    <%= link_to document.title, generic_object_path(document) %>
     <% if document.has_file_content? %><small>[<%= link_to 'Download', download_path(document), target: '_new' %>]</small><% end %>
   </h2>
   <div class="row">
