@@ -32,9 +32,7 @@
                   citation_solr_document_path(:id => @document),
                   {:id => 'citeLink', :data => {:ajax_modal => 'trigger'}} %>
     </dd>
-
-
-
+    
     <%# if can? :edit, @generic_file %>
     <% if current_or_guest_user.contributor? %>
         <dt style="padding-left:0px;width:80px;">Edit</dt>
@@ -42,15 +40,33 @@
           <% if @generic_file.processing? %>
               <%= t('sufia.upload.processing') %>
           <% else %>
-              <%= link_to "Edit Object", sufia.edit_generic_file_path(@generic_file) %>
+              <%= link_to "Edit Object", edit_generic_object_path(@generic_file.pid) %>
           <% end %>
         </dd>
     <% end %>
 
-    <% if current_user.present? and current_user.admin? and Sufia.config.analytics %>
+    <% if current_or_guest_user.contributor? %>
+        <dt style="padding-left:0px;width:80px;">Delete</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <%= link_to 'Delete',url_for(action: :destroy, controller: :generic_objects, id: @document['id']),method: :delete, data: {confirm: "Are you want to delete this object?"} %>
+        </dd>
+    <% end %>
+
+    <% if current_or_guest_user.contributor? %>
+        <dt style="padding-left:0px;width:80px;">Change Visibility</dt>
+        <dd style="padding-left:0px;margin-left: 100px;">
+          <% if @generic_file.visibility == 'public' %>
+              <%= link_to "Make Private", swap_visibility_generic_object_path(@generic_file.pid) %>
+          <% else %>
+              <%= link_to "Make Public", swap_visibility_generic_object_path(@generic_file.pid) %>
+          <% end %>
+        </dd>
+    <% end %>
+
+    <% if current_user.present? and current_user.admin? %>
         <dt style="padding-left:0px;width:80px;">Analytics</dt>
         <dd style="padding-left:0px;margin-left: 100px;">
-          <%= link_to "View Analytics", sufia.stats_generic_file_path(@generic_file), id: 'stats' %>
+          <%= link_to "View Analytics", stats_generic_object_path(@generic_file.pid), id: 'stats' %>
         </dd>
     <% end %>
   </dl>

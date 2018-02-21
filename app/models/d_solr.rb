@@ -46,4 +46,33 @@ class DSolr
     solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
   end
 
+
+  def self.reindex_v2(model)
+    threads = []
+    model.constantize.find_in_batches(batch_size: 200) do |model_batch|
+      threads << Thread.new {
+        Rails.application.reloader.wrap do
+          solr = RSolr.connect :url => Settings.solr_url, update_format: :json
+          model_batch.each do |obj|
+            doc = obj.generate_solr_content({})
+            solr.add [doc]
+          end
+        end
+      }
+      ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+        threads.each { |thr|  thr.join } # outer thread waits here, but has no lock
+      end
+    end
+    # Commit the reindex
+    solr = RSolr.connect :url => Settings.solr_url, update_format: :json
+    solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
+  end
+
+  def self.reindex_all
+    reindex("Inst")
+    reindex("Coll")
+    reindex("HomosaurusSubject")
+    reindex("GenericObject")
+  end
+
 end

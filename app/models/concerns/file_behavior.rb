@@ -19,7 +19,7 @@ module FileBehavior
     def calculate_extension(mime_type)
       case mime_type
         when 'image/jpeg'
-          return '.jpeg'
+          return '.jpg'
         when 'image/png'
           return '.png'
         when 'image/tiff'

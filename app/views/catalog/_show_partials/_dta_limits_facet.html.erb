@@ -6,6 +6,7 @@
   $(document).ready(function(){
     $('#dtalimits_fa_help').click(function(){
       $('#dtalimits_fa_help').popover('toggle');
+      return false;
     }).focusout(function() {
       $('#dtalimits_fa_help').popover('hide');
     });
@@ -107,8 +108,8 @@
           <%= label_tag(:online_only, "Exclude Finding Aids", :id => "exclude_finding_aids_checkbox_label", :style=>"font-weight:normal; float:left;") %>
           <%= link_to '#', id: "dtalimits_fa_help", rel: 'popover'.freeze,
                       'data-content' => 'Check this box to limit your search results to digital or digitized historical materials. Finding aids are documents that describe collections held in archives and they may not be relevant for all researchers.', 'data-original-title' => 'Exclude Finding Aids',
-                      'aria-label' => 'Exclude Finding Aids', 'data-trigger' => 'manual', 'data-placement' => 'bottom' do
-            content_tag 'i', nil, "aria-hidden" => true, class: "help-icon"
+                      'aria-label' => 'Exclude Finding Aids', 'data-trigger' => 'manual', 'data-placement' => 'bottom', style: "padding-top: 3px;" do
+            content_tag 'i', nil, "aria-hidden" => true, class: "help-icon glyphicon glyphicon-question-sign"
           end %>
 
         </div>

@@ -10,14 +10,14 @@
           <div class="search_frame">
             <div class="nav_buttons">
               <ul>
-                <li><%= link_to 'Admin', sufia.dashboard_index_path, :class=>"nav_button" %></li>
+                <li><%= link_to 'Upload', new_generic_object_path, :class=>"nav_button" %></li>
                 <li class="divider"></li>
                 <% if current_user.superuser? %>
                     <li><%= link_to 'Roles', role_management.roles_path, :class=>"nav_button" %></li>
                     <li class="divider"></li>
-                    <li><%= link_to 'Commands', admin_actions_path, :class=>"nav_button" %></li>
+                    <li><%#= link_to 'Commands', admin_actions_path, :class=>"nav_button" %></li>
                     <li class="divider"></li>
-                    <li><%= link_to 'Jobs', '/admin/queues', :class=>"nav_button" %></li>
+                    <li><%= link_to 'Jobs', '/sidekiq', :class=>"nav_button" %></li>
                     <li class="divider"></li>
                 <% end %>
                 <li><%= render partial: '/user_util_links' %></li>

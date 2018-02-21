@@ -28,6 +28,17 @@ module GenericObjectAssignments
     end
     obj.size = original_size if original_size.present?
   end
+
+  def add_file(content, mime_type, original_name)
+    if mime_type.include? 'image'
+      self.add_image(content, mime_type, original_name)
+    elsif mime_type.include? 'pdf'
+      self.add_pdf(content, mime_type, original_name)
+    else
+      raise 'Unsupported yet'
+    end
+  end
+
   def add_image(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
     obj = ImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)

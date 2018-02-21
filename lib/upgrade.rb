@@ -100,6 +100,7 @@ class Upgrade
     end
   end
 
+  # FIXME... or not?
   def self.upgrade_homosaurus
     Homosaurus.all.each do |old_homo|
       unless HomosaurusSubject.find_by(identifier: old_homo.identifier).present?

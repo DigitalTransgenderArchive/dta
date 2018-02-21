@@ -19,28 +19,32 @@ class User < ActiveRecord::Base
     email
   end
 
+  def name
+    email
+  end
+
   def admin?
-    return false
-    #roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
+    #return false
+    roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
   end
 
   def superuser?
-    return false
-  	#roles.where(name: 'superuser').exists?
+    #return false
+  	roles.where(name: 'superuser').exists?
   end
 
   def contributor?
-    return false
-    #roles.where(name: 'contributor').exists? || roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
+    #return false
+    roles.where(name: 'contributor').exists? || roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
   end
 
   def homosaurus?
-    return false
-    #roles.where(name: 'homosaurus').exists? || roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
+    #return false
+    roles.where(name: 'homosaurus').exists? || roles.where(name: 'admin').exists? || roles.where(name: 'superuser').exists?
   end
 
   def is_infosec?
-    return self.superuser?
+    return self.admin?
   end
 
 end

@@ -1,13 +1,13 @@
 <script type="text/javascript">
   $(document).ready(function(){
     //alert($('#filedata').attr('required'));
-    if($('#generic_file_hosted_elsewhere').is(':checked')){
+    if($('#generic_object_hosted_elsewhere').is(':checked')){
       $("#hosted_elsewhere").show();
     } else {
       $("#hosted_elsewhere").hide();
     }
 
-    $('#generic_file_hosted_elsewhere').click(function(){
+    $('#generic_object_hosted_elsewhere').click(function(){
       if($(this).is(':checked')){
         $("#hosted_elsewhere").show();
       } else {
@@ -18,7 +18,7 @@
   });
 </script>
 
-<%= simple_form_for @generic_object, html: { multipart: true, id: 'fileuploadsingle' }, method: :post do |f| %>
+<%= simple_form_for @generic_object, html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" }, method: :post do |f| %>
      <%= hidden_field_tag 'upload_type', 'single' %>
      <%= hidden_field_tag "file_coming_from", "local" %>
      <%= hidden_field_tag "visibility", "private" %>
@@ -36,8 +36,8 @@
       </div>
 
       <div class="tab-content">
-        <div class="tab-pane" id="hosted_elsewhere" aria-labelledby="hosted_elsewhere_tab" role="tabpanel">
-          <%= f.input :is_shown_at %>
+        <div class="tab-pane" id="hosted_elsewhere" aria-labelledby="hosted_elsewhere_tab" role="tabpanel" style="width: 583px;">
+          <%= f.input :is_shown_at, class: 'form-control' %>
         </div>
       </div>
 
@@ -66,7 +66,7 @@
                                 endpoint: creators_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.creator"),
                                 help_label: 'Creator',
-                                placeholder: ''}, label: 'Creator'
+                                placeholder: ''}, label: 'Creator', required: true
       %>
 
       <%= f.input :contributors, as: :multi_select_picker,
@@ -101,39 +101,60 @@
                                 placeholder: 'Enter a EDTF style date'}, label: 'Temporal Coverage'
       %>
 
-      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:geonames} %>
+      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:geonames, :dropdown_opts=>[
+          ['Cities', 'P'],
+          ['Building', 'S'],
+          ['State/Country/Region', 'A'],
+          ['Geographic Territory', 'T'],
+          ['Continent/Area', 'L']
+      ]} %>
       <%= f.input :geonames, as: :geo_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.based_near"),
                                 help_label: 'Spatial Coverage'},
-                  required: false, disabled: true, label: 'Spatial Coverage'
+                  required: false, readonly: true, label: 'Spatial Coverage'
       %>
 
-      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_subject} %>
-      <%= f.input :homosaurus_subject, as: :homosaurus_lookup,
+      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_subjects} %>
+      <%= f.input :homosaurus_subjects, as: :homosaurus_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.homosaurus_subject"),
-                                help_label: 'Subject Coverage–Homosaurus'}, required: false, disabled: true, label: 'Subject Coverage–Homosaurus'
+                                help_label: 'Subject Coverage–Homosaurus'}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus'
       %>
 
-      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:lcsh_subject} %>
-      <%= f.input :lcsh_subject, as: :lcsh_lookup,
+      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:lcsh_subjects} %>
+      <%= f.input :lcsh_subjects, as: :lcsh_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
                                 help_label: 'Subject Coverage–LC Subject Headings'},
-                                required: false, disabled: true, label: 'Subject Coverage–LC Subject Headings'
+                                required: false, readonly: true, label: 'Subject Coverage–LC Subject Headings'
       %>
 
-      <%= f.input :other_subject, as: :multi_select_picker,
+      <%= f.input :other_subjects, as: :multi_select_picker,
                   input_html: { include_blank: true,
-                                endpoint: other_subject_autocomplete_path,
+                                endpoint: other_subjects_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.other_subject"),
                                 help_label: 'Subject Coverage–Other',
                                 placeholder: ''}, label: 'Subject Coverage–Other'
+      %>
+
+
+      <%= f.input :flagged, as: :single_select, collection: ["No explicit content", "Explicit content in thumbnail", "Explicit content, but not in thumbnail"],
+                  input_html: {
+                      include_help: t("simple_form.metadata_help.generic_file.flagged"),
+                      help_label: 'Explicit Content', include_blank: false
+                  }, required: true
+      %>
+
+      <%= f.input :resource_types, as: :multi_select, collection: ResourceType.all.pluck(:label),
+                  input_html: {
+                      include_help: t("simple_form.metadata_help.generic_file.resource_type"),
+                      help_label: 'Type', include_blank: true
+                  }, required: true, label: 'Type'
       %>
 
       <%= f.input :genres, as: :multi_select, collection: Genre.all.pluck(:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.genre"),
                       help_label: 'Genres', include_blank: true
-                       }
+                       }, required: true
       %>
 
       <div class="form-group" style="width: 583px;">
@@ -141,6 +162,7 @@
           <%= render partial: 'partials/label_with_help',
                      locals: {f: f,
                               label_val: 'Analog Format',
+                              required: false,
                               include_help: t("simple_form.metadata_help.generic_file.analog_format")} %>
         </div>
         <div style="clear:both"></div>
@@ -154,6 +176,7 @@
           <%= render partial: 'partials/label_with_help',
                      locals: {f: f,
                               label_val: 'Digital Format',
+                              required: false,
                               include_help: t("simple_form.metadata_help.generic_file.digital_format")} %>
         </div>
         <div style="clear:both"></div>
@@ -162,7 +185,7 @@
         </div>
       </div>
 
-      <%= f.input :description, as: :multi_base,
+      <%= f.input :descriptions, as: :multi_base,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.description"),
                                 help_label: 'Description',
                                 rows: '9', type: 'textarea',
@@ -175,20 +198,22 @@
           <%= render partial: 'partials/label_with_help',
                      locals: {f: f,
                               label_val: 'Table of Contents',
+                              required: false,
                               include_help: t("simple_form.metadata_help.generic_file.toc")} %>
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :toc, required: false, label: false, class: 'form-control' %>
+          <%= f.input :toc, required: false, label: false, class: 'form-control', input_html: { rows: '9', type: 'textarea' } %>
         </div>
       </div>
 
-      <%= f.input :lanuages, as: :multi_select_picker,
+      <%= f.input :languages, as: :multi_select_picker,
                   input_html: { include_blank: true,
                                 endpoint: languages_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.language"),
                                 help_label: 'Language',
-                                placeholder: ''}, label: 'Language', collection: Genre.all.pluck(:label)
+                                placeholder: '',
+                                param2: 'http://id.loc.gov/vocabulary/iso639-2/eng'}, label: 'Language', collection: [['English', 'http://id.loc.gov/vocabulary/iso639-2/eng']]
       %>
 
       <%= f.input :publishers, as: :multi_select_picker,
@@ -206,11 +231,11 @@
                   required: false, label: 'Relation'
       %>
 
-      <%= f.input :rights, as: :single_base, collection: Rights.all.pluck(:label),
+      <%= f.input :rights, as: :single_select, collection: Rights.all.collect(&:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.rights"),
-                      help_label: 'Rights', include_blank: true
-                  }
+                      help_label: 'Rights', include_blank: false
+                  }, required: true
       %>
 
       <%= f.input :rights_free_text, as: :multi_base,

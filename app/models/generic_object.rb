@@ -4,7 +4,8 @@ class GenericObject < ActiveRecord::Base
   include GenericObjectSolrAssignments
   has_paper_trail ignore: [:visibility, :views, :downloads] # on: [:update, :destroy]
 
-  before_destroy :remove_from_solr
+  before_destroy :before_destroy_actions
+  after_destroy :after_destroy_actions
   after_initialize :mint
 
   serialize :descriptions, Array
@@ -52,13 +53,22 @@ class GenericObject < ActiveRecord::Base
   has_many :creators, dependent: :destroy
   has_many :other_subjects, dependent: :destroy
 
-  def around_save
-    send_to_solr = true
-    if views_changed? || downloads.changed?
-      send_to_solr = false
+  def after_save_actions
+    if !self.id_changed? && (self.views_was != views || self.downloads_was != downloads)
+    else
+      send_solr if send_to_solr
     end
-    yield
-    #send_solr if send_to_solr
+  end
+
+  def before_destroy_actions
+    self.remove_from_solr
+    @coll = self.coll
+    @inst = self.inst
+  end
+
+  def after_destroy_actions
+    @coll.send_solr
+    @inst.send_solr
   end
 
   def required? key

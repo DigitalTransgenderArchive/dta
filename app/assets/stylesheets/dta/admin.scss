@@ -3,6 +3,10 @@ label.required abbr, span.required abbr {
   font-size: small;
 }
 
+.field-wrapper select.singleton {
+  width: 583px;
+}
+
 .admin-row {
   /*
  * Global add-ons

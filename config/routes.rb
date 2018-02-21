@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     member do
       get 'stats'
       get 'citation'
+      get 'swap_visibility'
     end
   end
 
@@ -29,10 +30,10 @@ Rails.application.routes.draw do
   get '/autocomplete/publishers', to: "autocomplete#publishers", as: :publishers_autocomplete
   get '/autocomplete/language', to: "autocomplete#languages", as: :languages_autocomplete
   get '/autocomplete/dates', to: "autocomplete#dates", as: :dates_autocomplete
-  get '/autocomplete/homosaurus_subject', to: "autocomplete#homosaurus_subject", as: :homosaurus_subject_autocomplete
-  get '/autocomplete/geonames_subject', to: "autocomplete#geonames_subject", as: :geonames_subject_autocomplete
-  get '/autocomplete/lcsh_subject', to: "autocomplete#lcsh_subject", as: :lcsh_subject_autocomplete
-  get '/autocomplete/other_subject', to: "autocomplete#other_subject", as: :other_subject_autocomplete
+  get '/autocomplete/homosaurus_subjects', to: "autocomplete#homosaurus_subject", as: :homosaurus_subject_autocomplete
+  get '/autocomplete/geonames', to: "autocomplete#geonames_subject", as: :geonames_subject_autocomplete
+  get '/autocomplete/lcsh_subjects', to: "autocomplete#lcsh_subject", as: :lcsh_subject_autocomplete
+  get '/autocomplete/other_subjects', to: "autocomplete#other_subject", as: :other_subjects_autocomplete
 
   # Added Collection Routes
   get 'collections/member_visibility/:id' => 'collections#change_member_visibility', as: :collection_member_visibility

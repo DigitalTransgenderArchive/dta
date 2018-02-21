@@ -87,7 +87,7 @@ class HomosaurusAutocomplete
 
     if broader_uris.present?
       broader_uris.each do |broader_single_uri|
-        broader_label = DSolr.find({q: "id:#{solr_clean(broader_single_uri)} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
+        broader_label = DSolr.find({q: "id:#{solr_clean("homosaurus/terms/#{broader_single_uri}")} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
         broader_list << {:uri_link=>"http://homosaurus.org/terms/#{broader_single_uri.split('/').last}", :label=>broader_label[0]["prefLabel_ssim"][0]}
       end
     end
@@ -100,7 +100,7 @@ class HomosaurusAutocomplete
 
     if narrower_uris.present?
       narrower_uris.each do |narrower_single_uri|
-        narrower_label = DSolr.find({q: "id:#{solr_clean(narrower_single_uri)} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
+        narrower_label = DSolr.find({q: "id:#{solr_clean("homosaurus/terms/#{narrower_single_uri}")} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
         narrower_list << {:uri_link=>"http://homosaurus.org/terms/#{narrower_single_uri.split('/').last}", :label=>narrower_label[0]["prefLabel_ssim"][0]}
       end
     end
@@ -113,7 +113,7 @@ class HomosaurusAutocomplete
 
     if related_uris.present?
       related_uris.each do |related_single_uri|
-        related_label = DSolr.find({q: "id:#{solr_clean(related_single_uri)} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
+        related_label = DSolr.find({q: "id:#{solr_clean("homosaurus/terms/#{related_single_uri}")} AND model_ssi:Homosaurus", rows: '1', fl: 'prefLabel_ssim' })
         related_list << {:uri_link=>"http://homosaurus.org/terms/#{related_single_uri.split('/').last}", :label=>related_label[0]["prefLabel_ssim"][0]}
       end
     end

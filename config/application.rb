@@ -15,6 +15,8 @@ module Dta
 
     config.encoding = "utf-8"
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.action_mailer.delivery_method = :sendmail
     config.action_mailer.default_url_options = { :host => 'www.digitaltransgenderarchive.net' }
 

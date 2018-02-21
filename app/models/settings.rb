@@ -10,6 +10,11 @@ class Settings
     @google_analytics_id ||= Settings.dta_config["google_analytics_id"]
   end
 
+  def self.fits_path
+    @fits_path ||= Settings.dta_config["fits_path"]
+    raise "fits path in dta.yml could not be detected" if @fits_path.blank?
+    @fits_path
+  end
 
   def self.solr_url
     @solr_url ||= Settings.solr_config["url"]

@@ -32,8 +32,12 @@ class GenericObjectsController < ApplicationController
     else
       search_term = current_search_session.present? ? current_search_session.query_params["q"].to_s : 'N/A: Directly Linked'
       session[:search_term] = search_term
-      ahoy.track_visit
-      ahoy.track "Object View", {title: @generic_file.title}, {collection_pid: @generic_file.coll.pid, institution_pid: @generic_file.inst.pid, pid: params[:id], model: "GenericObject", search_term: search_term}
+
+      unless current_user.present? and current_user.is_contributor?
+        ahoy.track_visit
+        ahoy.track "Object View", {title: @generic_file.title}, {collection_pid: @generic_file.coll.pid, institution_pid: @generic_file.inst.pid, pid: params[:id], model: "GenericObject", search_term: search_term}
+      end
+
       respond_to do |format|
         format.html do
           setup_next_and_previous_documents
@@ -46,110 +50,126 @@ class GenericObjectsController < ApplicationController
   def new
     @generic_object = GenericObject.new
 
-    if session[:unsaved_generic_file].present?
+    if session[:unsaved_generic_object].present?
       begin
-        @generic_file.update(ActiveSupport::HashWithIndifferentAccess.new(session[:unsaved_generic_file]))
+        @generic_object.update(ActiveSupport::HashWithIndifferentAccess.new(session[:unsaved_generic_object]))
       rescue => ex
       end
-      session[:unsaved_generic_file] = nil
+      session[:unsaved_generic_object] = nil
     end
 
     @selectable_collection = []
 
-    institutions = Inst.all.pluck(:name, :id)
+    institutions = Inst.all.pluck(:name, :pid)
     @selectable_institution = institutions.sort_by { |key, val| key }
   end
 
   def create
     if params.key?(:upload_type) and params[:upload_type] == 'single'
-      if !validate_metadata(params, 'create')
-
-        if params[:generic_file][:other_subject].present?
-          params[:generic_file][:other_subject].collect!{|x| x.strip || x }
-          params[:generic_file][:other_subject].reject!{ |x| x.blank? }
-        end
-
-        #FIXME: This should be done elsewhere...
-        params[:generic_file][:lcsh_subject].each_with_index do |s, index|
-          #s.gsub!(/^[^(]+\(/, '')
-          if s.present?
-            params[:generic_file][:lcsh_subject][index] = s.split('(').last
-            params[:generic_file][:lcsh_subject][index].gsub!(/\)$/, '')
-          end
-        end
-
-        params[:generic_file][:homosaurus_subject].each do |s|
-          s.gsub!(/^[^(]+\(/, '')
-          #s = s.split('(').last
-          s.gsub!(/\)$/, '')
-        end
-
-        params[:generic_file][:based_near].each do |s|
-          s.gsub!(/^[^(]+\(/, '')
-          #s = s.split('(').last
-          s.gsub!(/\)$/, '')
-        end
-
-        params[:generic_file][:title] = [params[:generic_file][:title]]
-        session[:unsaved_generic_file] = params[:generic_file]
-        redirect_to sufia.new_generic_file_path
+      unless validate_metadata(params, 'create')
+        session[:unsaved_generic_object] = params[:generic_object]
+        #redirect_to new_generic_object_path
+        redirect_back(fallback_location: new_generic_object_path)
       else
-        #Batch.find_or_create(params[:batch_id])
-        # This is a security concern... Save the pid in the session?
-        form = params[:generic_object]
-        @generic_object = ::GenericObject.new(form[:pid])
 
-        # Set all fields
-        @generic_object.title = form[:title]
-        @generic_object.alt_titles = form[:alt_titles]
-        @generic_object.creators = form[:creators]
-        @generic_object.contributors = form[:contributors]
-        @generic_object.date_created = form[:date_created]
-        @generic_object.date_issued = form[:date_issued]
-        @generic_object.temporal_coverage = form[:temporal_coverage]
+      @generic_object = GenericObject.find_or_initialize_by(pid: params[:pid])
+      form_fields = params['generic_object']
 
-        # Don't forget about depositor
+      @generic_object.title = form_fields[:title]
+      @generic_object.alt_titles = form_fields[:alt_titles] if form_fields[:alt_titles][0].present?
+      @generic_object.creators = form_fields[:creators] if form_fields[:creators][0].present?
+      @generic_object.contributors = form_fields[:contributors] if form_fields[:contributors][0].present?
+      @generic_object.date_created = form_fields[:date_created] if form_fields[:date_created][0].present?
+      @generic_object.date_issued = form_fields[:date_issued] if form_fields[:date_issued][0].present?
+      @generic_object.temporal_coverage = form_fields[:temporal_coverage] if form_fields[:temporal_coverage][0].present?
 
-        if form[:hosted_elsewhere] != "0"
-          if params.key?(:filedata)
-            file = params[:filedata]
-            img = Magick::Image.read(file.path()).first
-            img = Magick::Image.from_blob( img.to_blob { self.format = "jpg" } ).first
-
-            if File.extname(file.original_filename) == '.pdf'
-              thumb = img.resize_to_fit(500,600) #338,493
-            else
-              thumb = img.resize_to_fit(500,600) #FIXME?
-            end
-
-            @generic_object.add_image(thumb.to_blob, 'image/jpeg')
-
-            # File.basename(file.original_filename,File.extname(file.original_filename))
-
-            # Start a worker for derivative?
-          end
-        else
-          file = params[:filedata]
-          @generic_object.add_image(file.read, file.content_type)
+      form_fields[:lcsh_subjects].each_with_index do |s, index|
+        if s.present?
+          form_fields[:lcsh_subjects][index] = s.split('(').last
+          form_fields[:lcsh_subjects][index].gsub!(/\)$/, '')
         end
+      end
+      form_fields[:geonames].each_with_index do |s, index|
+        if s.present?
+          form_fields[:geonames][index] = s.split('(').last
+          form_fields[:geonames][index].gsub!(/\)$/, '')
+        end
+      end
+      form_fields[:homosaurus_subjects].each_with_index do |s, index|
+        if s.present?
+          form_fields[:homosaurus_subjects][index] = s.split('(').last
+          form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
+        end
+      end
+      @generic_object.geonames = form_fields[:geonames] if form_fields[:geonames][0].present?
+      @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects] if form_fields[:homosaurus_subjects][0].present?
+      @generic_object.lcsh_subjects = form_fields[:lcsh_subjects] if form_fields[:lcsh_subjects][0].present?
+      @generic_object.other_subjects = form_fields[:other_subjects] if form_fields[:other_subjects][0].present?
 
-        @generic_object.collection = ::Coll.find(params[:collection])
-        @generic_object.institution = ::Inst.find(params[:institution])
-        @generic_object.save!
+      @generic_object.flagged = form_fields[:flagged]
+      @generic_object.analog_format = form_fields[:analog_format] if form_fields[:analog_format][0].present?
+      @generic_object.digital_format = form_fields[:digital_format] if form_fields[:digital_format][0].present?
 
-        # To do: this in the object
-        ::Inst.find(params[:institution]).send_solr
-        ::Coll.find(params[:collection]).send_solr
+      @generic_object.descriptions = form_fields[:descriptions] if form_fields[:descriptions][0].present?
+      @generic_object.toc = form_fields[:toc] if form_fields[:toc][0].present?
+      @generic_object.languages = form_fields[:languages] if form_fields[:languages][0].present?
 
-        Sufia.queue.push(CharacterizeJob.new(@generic_object.id))
+      @generic_object.publishers = form_fields[:publishers] if form_fields[:publishers][0].present?
+      @generic_object.related_urls = form_fields[:related_urls] if form_fields[:related_urls][0].present?
+      @generic_object.rights = form_fields[:rights] if form_fields[:rights][0].present?
+      @generic_object.rights_free_text = form_fields[:rights_free_text] if form_fields[:rights_free_text][0].present?
+      @generic_object.depositor = current_user.to_s
 
-        redirect_to sufia.dashboard_files_path, notice: render_to_string(partial: 'generic_files/asset_updated_flash', locals: { generic_file: @generic_object })
+      @generic_object.is_shown_at = form_fields[:is_shown_at] if form_fields[:is_shown_at][0].present?
+      @generic_object.hosted_elsewhere = form_fields[:hosted_elsewhere]
+
+      @generic_object.inst = Inst.find_by(pid: params[:institution])
+      @generic_object.coll = Coll.find_by(pid: params[:collection])
+
+      @generic_object.visibility = "private"
+
+      if params[:generic_object][:hosted_elsewhere] != "0"
+        if params.key?(:filedata)
+          file = params[:filedata]
+
+          image = MiniMagick::Image.open(file.path())
+
+          if File.extname(file.original_filename) == '.pdf'
+            image.format('jpg', 0, {density: '300'})
+          else
+            image.format "jpg"
+          end
+
+          image.resize "500,600"
+
+          @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
+        end
+      else
+        file = params[:filedata]
+        @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
       end
 
+      @generic_object.save!
 
-    else
-      create_from_upload(params)
+     ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
+      redirect_to generic_object_path(@generic_object.pid), notice: "This object has been created."
+      end
+
     end
+  end
+
+  def swap_visibility
+    if @generic_object.visibility == "public"
+      @generic_object.visibility = "private"
+    else
+      @generic_object.visibility = "public"
+    end
+    @generic_object.save!
+  end
+
+  def destroy
+    GenericObject.find_by(pid: params[:id]).destroy!
+    redirect_to root_path, notice: "This object has been removed from the system."
   end
 
   def add_default_metadata
@@ -170,34 +190,34 @@ class GenericObjectsController < ApplicationController
 
 
   def validate_metadata(params, type)
-    if !params.key?(:filedata) && params[:generic_file][:hosted_elsewhere] != "1" && type != 'update'
+    if !params.key?(:filedata) && params[:generic_object][:hosted_elsewhere] != "1" && type != 'update'
       flash[:error] = 'No file was uploaded!'
 
       return false
     end
 
-    params[:generic_file][:date_created].each do |date_created|
+    params[:generic_object][:date_created].each do |date_created|
       if date_created.present? and Date.edtf(date_created).nil?
         flash[:error] = 'Incorrect format for date created. Please check the EDTF guidelines.'
         return false
       end
     end
 
-    params[:generic_file][:date_issued].each do |date_issued|
+    params[:generic_object][:date_issued].each do |date_issued|
       if date_issued.present? and Date.edtf(date_issued).nil?
         flash[:error] = 'Incorrect format for date issued. Please check the EDTF guidelines.'
         return false
       end
     end
 
-    params[:generic_file][:temporal_coverage].each do |temporal_coverage|
+    params[:generic_object][:temporal_coverage].each do |temporal_coverage|
       if temporal_coverage.present? and Date.edtf(temporal_coverage).nil?
         flash[:error] = 'Incorrect format for temporal coverage. Please check the EDTF guidelines.'
         return false
       end
     end
 
-    params[:generic_file][:language].each do |language|
+    params[:generic_object][:languages].each do |language|
       if language.present? and !language.match(/id\.loc\.gov\/vocabulary\/iso639\-2\/\w\w\w/)
         flash[:error] = 'Language was not selected from the autocomplete?'
         return false

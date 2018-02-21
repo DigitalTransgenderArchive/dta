@@ -28,9 +28,11 @@ class AutocompleteController < ActionController::Base
       publisher_array << pub_includes
     end
 
-    publisher_array << [original_param, '(Add New)'] unless publisher_array.select {|arr| arr[0].downcase == params[:q] }
+    unless (publisher_array.select {|arr| arr[0].downcase == params[:q] }).present?
+      publisher_array.prepend([original_param, "Add New"])
+    end
 
-    publishers_array = publishers_array.take(params[:per_page].to_i) if params.has_key? :per_page
+    publisher_array = publisher_array.take(params[:per_page].to_i) if params.has_key? :per_page
 
     items = publisher_array.map do |u|
       {
@@ -60,7 +62,9 @@ class AutocompleteController < ActionController::Base
       contributors_array << contrib_includes unless contributors_array.select { |arr| arr == contrib_includes }
     end
 
-    contributors_array << [original_param, '(Add New)'] unless contributors_array.select {|arr| arr[0].downcase == params[:q] }
+    unless (contributors_array.select {|arr| arr[0].downcase == params[:q] }).present?
+      contributors_array.prepend([original_param, "Add New"])
+    end
 
     contributors_array = contributors_array.take(params[:per_page].to_i) if params.has_key? :per_page
 
@@ -233,7 +237,7 @@ class AutocompleteController < ActionController::Base
       }
     else
       readable = self.humanize_edtf(date)
-      items = [{id: params[:q], text: "#{params[:q]} (#{readable})"}]
+      items = [{id: params[:q], text: "#{params[:q]} (Display: #{readable})"}]
       render json: {
           total_count: items.size,
           items: items

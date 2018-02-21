@@ -57,7 +57,7 @@ class HomosaurusSubject < ActiveRecord::Base
     end
 
     @broadest_terms = []
-    get_broadest(self.uri)
+    get_broadest(self.identifier)
     doc[:topConcept_ssim] = @broadest_terms if @broadest_terms.present?
     doc[:new_model_ssi] = 'HomosaurusSubject'
 
@@ -65,10 +65,10 @@ class HomosaurusSubject < ActiveRecord::Base
   end
 
   def get_broadest(item)
-    if HomosaurusSubject.find_by(uri: item).broader.blank?
+    if HomosaurusSubject.find_by(identifier: item).broader.blank?
       @broadest_terms << item.split('/').last
     else
-      HomosaurusSubject.find_by(uri: item).broader.each do |current_broader|
+      HomosaurusSubject.find_by(identifier: item).broader.each do |current_broader|
         get_broadest(current_broader)
       end
     end

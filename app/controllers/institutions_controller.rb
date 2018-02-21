@@ -21,6 +21,24 @@ class InstitutionsController < ApplicationController
   before_action :institution_base_blacklight_config, :only => [:show]
 
   before_action :add_catalog_folder, only: [:index, :show, :facet]
+  
+  def update_collections
+    term_query = DSolr.find({q: "isMemberOfCollection_ssim:#{params[:id]} AND model_ssi:Collection", rows: '10000', fl: 'id,title_tesim'})
+    term_query = term_query.sort_by { |term| term["title_tesim"].first }
+    @selectable_collection = []
+    term_query.each { |term| @selectable_collection << [term["title_tesim"].first, term["id"]] }
+
+    respond_to do |format|
+      if @selectable_collection.present?
+        format.html { render html: @selectable_collection.to_s }
+        format.json { render json: @selectable_collection.to_json, status: :created }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @selectable_collection, status: :unprocessable_entity }
+      end
+    end
+
+  end
 
   # FIXME... this isn't working?
 =begin
@@ -93,8 +111,10 @@ class InstitutionsController < ApplicationController
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
 
-    ahoy.track_visit
-    ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
+    unless current_user.present? and current_user.is_contributor?
+      ahoy.track_visit
+      ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
+    end
 
     respond_to do |format|
       format.html

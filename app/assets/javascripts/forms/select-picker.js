@@ -39,4 +39,10 @@ $.onmount("[data-js-select-picker]", function () {
     picker.parents("form").on("reset", function () {
         picker.val('').trigger('change');
     });
+
+    if ($(this).attr('data-param2'))
+    {
+        console.log($(this).attr('data-param2'));
+        picker.val($(this).attr('data-param2')).trigger('change');
+    }
 });

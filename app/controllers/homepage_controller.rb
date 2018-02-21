@@ -4,9 +4,9 @@ class HomepageController < ApplicationController
   include Blacklight::Configurable
   include Blacklight::SearchHelper
 
-  #include DtaStaticBuilder
+  include DtaStaticBuilder
 
-  #before_action :get_latest_content
+  before_action :get_latest_content
   copy_blacklight_config_from(CatalogController)
 
   layout 'home'
