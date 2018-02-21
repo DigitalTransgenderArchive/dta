@@ -14,14 +14,14 @@ class DSolr
 
   def self.delete_by_id(id)
     solr = RSolr.connect :url => Settings.solr_url, update_format: :json
-    solr.delete_by_id "#{id}"
+    #solr.delete_by_id "#{id}"
   end
 
   def self.put(doc)
     raise 'No valid :id found' if doc.blank? || doc[:id].blank? || !doc[:id].match(/.....+/)
     solr = RSolr.connect :url => Settings.solr_url, update_format: :json
     solr.add [doc]
-    solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
+    #solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
   end
 
   def self.reindex(model)

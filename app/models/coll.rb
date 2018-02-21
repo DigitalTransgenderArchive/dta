@@ -1,8 +1,8 @@
 class Coll < ActiveRecord::Base
   include CommonSolrAssignments
-  before_destroy :remove_from_solr
-  after_initialize :mint
-  after_save :send_solr
+  #before_destroy :remove_from_solr
+  #after_initialize :mint
+  #after_save :send_solr
 
   has_many :generic_objects
   belongs_to :generic_object, optional: true
@@ -13,7 +13,7 @@ class Coll < ActiveRecord::Base
   def around_save
     do_member_reindex = self.title_changed? || self.inst_id_changed?
     yield #saves
-    reindex_members if do_member_reindex
+    #reindex_members if do_member_reindex
   end
 
   def reindex_members

@@ -4,9 +4,9 @@ class GenericObject < ActiveRecord::Base
   include GenericObjectSolrAssignments
   has_paper_trail ignore: [:visibility, :views, :downloads] # on: [:update, :destroy]
 
-  before_destroy :before_destroy_actions
-  after_destroy :after_destroy_actions
-  after_initialize :mint
+  #before_destroy :before_destroy_actions
+  #after_destroy :after_destroy_actions
+  #after_initialize :mint
 
   serialize :descriptions, Array
   serialize :temporal_coverage, Array
