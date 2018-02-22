@@ -6,10 +6,7 @@ class GeoLookupInput < MeiMultiLookupInput
       if  value.blank? and !@rendered_first_element
         buffer << yield(value, index)
       elsif value.present?
-        r = RestClient.get 'http://api.geonames.org/getJSON', {:params => {:geonameId=>"#{value.split('/').last}", :username=>"boston_library"}, accept: :json}
-        result = JSON.parse(r)
-
-        buffer << yield("#{result['name']} (#{value})", index)
+        buffer << yield("#{value.label} (#{value.uri})", index)
       end
     end
   end

@@ -18,7 +18,7 @@
   });
 </script>
 
-<%= simple_form_for @generic_object, html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" }, method: :post do |f| %>
+<%= simple_form_for @generic_object, html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" } do |f| %>
      <%= hidden_field_tag 'upload_type', 'single' %>
      <%= hidden_field_tag "file_coming_from", "local" %>
      <%= hidden_field_tag "visibility", "private" %>
@@ -77,7 +77,7 @@
                                 placeholder: ''}, label: 'Contributor'
       %>
 
-      <%= f.input :date_created, as: :multi_select_picker,
+      <%= f.input :date_created, as: :dates_lookup,
                   input_html: { include_blank: true,
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.date_created"),
@@ -85,7 +85,7 @@
                                 placeholder: 'Enter a EDTF style date'}, label: 'Date Created'
       %>
 
-      <%= f.input :date_issued, as: :multi_select_picker,
+      <%= f.input :date_issued, as: :dates_lookup,
                   input_html: { include_blank: true,
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.date_issued"),
@@ -93,7 +93,7 @@
                                 placeholder: 'Enter a EDTF style date'}, label: 'Date Issued'
       %>
 
-      <%= f.input :temporal_coverage, as: :multi_select_picker,
+      <%= f.input :temporal_coverage, as: :dates_lookup,
                   input_html: { include_blank: true,
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.temporal_coverage"),
@@ -207,13 +207,12 @@
         </div>
       </div>
 
-      <%= f.input :languages, as: :multi_select_picker,
+      <%= f.input :languages, as: :language_lookup,
                   input_html: { include_blank: true,
                                 endpoint: languages_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.language"),
                                 help_label: 'Language',
-                                placeholder: '',
-                                param2: 'http://id.loc.gov/vocabulary/iso639-2/eng'}, label: 'Language', collection: [['English', 'http://id.loc.gov/vocabulary/iso639-2/eng']]
+                                placeholder: '', label: 'Language' }
       %>
 
       <%= f.input :publishers, as: :multi_select_picker,

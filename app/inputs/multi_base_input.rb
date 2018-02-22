@@ -92,8 +92,13 @@ class MultiBaseInput < SimpleForm::Inputs::CollectionInput
   end
 
   def collection
+=begin
+    if attribute_name.to_s == 'alt_titles'
+      raise 'Got Here ' + object.send(attribute_name).to_s
+    end
+=end
     if object.present?
-      @collection ||= Array.wrap(object[attribute_name]).reject { |value| value.to_s.strip.blank? } + ['']
+      @collection ||= Array.wrap(object.send(attribute_name)).reject { |value| value.to_s.strip.blank? } + ['']
     else
       ['']
     end

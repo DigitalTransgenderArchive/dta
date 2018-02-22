@@ -40,9 +40,9 @@ $.onmount("[data-js-select-picker]", function () {
         picker.val('').trigger('change');
     });
 
-    if ($(this).attr('data-param2'))
+    if ($(this).attr('data-initial'))
     {
-        console.log($(this).attr('data-param2'));
-        picker.val($(this).attr('data-param2')).trigger('change');
+        console.log($(this).attr('data-initial'));
+        picker.val($(this).attr('data-initial')).trigger('change');
     }
 });

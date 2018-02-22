@@ -22,7 +22,10 @@ function duplicate_field_click(event) {
     cloned_element.find("textarea").val("");
     cloned_element.find("select").val("");
 
-    $(cloned_element).find('.duplicateable').removeAttr('data-param2');
+    // Remove any initial values
+    if(is_autocomplete_select2) {
+        $(cloned_element).find('.duplicateable').removeAttr('data-initial_value');
+    }
 
     //Insert after the root element
     $(event.target).closest(".field-wrapper").after(cloned_element);

@@ -34,7 +34,7 @@
     </dd>
     
     <%# if can? :edit, @generic_file %>
-    <% if 1==0 and current_or_guest_user.contributor? %>
+    <% if current_or_guest_user.contributor? %>
         <dt style="padding-left:0px;width:80px;">Edit</dt>
         <dd style="padding-left:0px;margin-left: 100px;">
           <% if @generic_file.processing? %>
