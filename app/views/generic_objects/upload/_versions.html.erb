@@ -1,0 +1,12 @@
+<h2>Current Version</h2>
+<ul>
+  <li><%= link_to "Current Version", edit_generic_object_path(@generic_object.pid) %></li>
+</ul>
+<h2>Other Versions: </h2>
+<ul>
+  <% @generic_object.versions.reverse.each do |ver| %>
+      <% unless ver.event == 'create' %>
+          <li>Version: <%= link_to ver.created_at, edit_generic_object_path(@generic_object.pid, version_id: ver.id) %></li>
+      <% end %>
+  <% end %>
+</ul>

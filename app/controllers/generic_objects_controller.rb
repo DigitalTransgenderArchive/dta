@@ -188,7 +188,34 @@ class GenericObjectsController < ApplicationController
         # There is a bug with completely removing a value
         self.set_object(form_fields)
 
+        if params.key?(:filedata)
+          # FIXME: This does it before save...
+          @generic_object.base_files.clear
+
+          file = params[:filedata]
+
+          if params[:generic_object][:hosted_elsewhere] != "0"
+            image = MiniMagick::Image.open(file.path())
+
+            if File.extname(file.original_filename) == '.pdf'
+              image.format('jpg', 0, {density: '300'})
+            else
+              image.format "jpg"
+            end
+
+            image.resize "500x600"
+
+            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
+          else
+            @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+          end
+        end
+
         @generic_object.save!
+
+        if params.key?(:filedata)
+          @generic_object.base_files[0].create_derivatives
+        end
 
         # Make this better
         @generic_object.coll.send_solr
@@ -262,7 +289,11 @@ class GenericObjectsController < ApplicationController
   end
 
   def edit
-    @generic_object = GenericObject.find_by(pid: params[:id])
+    if params[:version_id].present?
+      @generic_object = PaperTrail::Version.find(params[:version_id]).reify
+    else
+      @generic_object = GenericObject.find_by(pid: params[:id])
+    end
 
     institutions = Inst.all.pluck(:name, :pid)
     @selectable_institution = institutions.sort_by { |key, val| key }

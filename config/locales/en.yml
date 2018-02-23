@@ -22,10 +22,10 @@
 en:
   blacklight:
     email:
-          reply_to: 'info@digitaltransgenderarchive.net'
+          reply_to: 'digitaltransarchive@gmail.com' # info@digitaltransgenderarchive.net
           record_mailer:
             name: 'Digital Transgender Archive'
-            email: 'info@digitaltransgenderarchive.net'
+            email: 'digitaltransarchive@gmail.com'
           text:
             subject: 'Digital Transgender Archive E-mail: link to item'
     feedback:

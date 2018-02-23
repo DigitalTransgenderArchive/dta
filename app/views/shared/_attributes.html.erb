@@ -1,4 +1,16 @@
 <table class="table">
+  <% if current_user.present? and current_user.contributor? %>
+      <tr>
+        <th><span class="attribute-label h4">Visibility:</span></th>
+        <td>
+          <% if work[:visibility_ssi] == 'public' %>
+              <span style="color:green"><%= work[:visibility_ssi].capitalize %></span>
+          <% else %>
+              <span style="color:red"><%= work[:visibility_ssi].capitalize %></span>
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
   <tr>
     <th><span class="attribute-label h4">Collection:</span></th>
     <td><%= work[:collection_name_ssim].first if work[:collection_name_ssim].present? %></td>
@@ -58,4 +70,5 @@
     </td>
   </tr>
   <% end %>
+
 </table>

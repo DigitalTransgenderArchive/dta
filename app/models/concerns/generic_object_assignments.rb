@@ -41,26 +41,29 @@ module GenericObjectAssignments
 
   def add_image(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
-    obj = ImageFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
+    obj = ImageFile.find_or_initialize_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
+    obj.save!
   end
 
   def add_pdf(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
-    obj = PdfFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
+    obj = PdfFile.find_or_initialize_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
+    obj.save!
   end
 
   def add_document(value, mime_type, original_name=nil, original_size=nil)
     sha256 = BaseFile.calculate_sha256 value
-    obj = DocumentFile.find_or_create_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
+    obj = DocumentFile.find_or_initialize_by(sha256: sha256, mime_type: mime_type, generic_object_id: self.id)
     self.base_files << obj unless self.base_files.include? obj
     self.set_original_info(obj, mime_type, original_name, original_size)
     obj.content = value
+    obj.save!
   end
 
   # Has Many Relationships

@@ -2,9 +2,11 @@ require 'fileutils'
 require 'digest'
 
 class BaseFile < ActiveRecord::Base
+  has_paper_trail
+
   include FileBehavior
 
-  before_save :verify_content_set
+  #before_save :verify_content_set
 
   belongs_to :generic_object
 

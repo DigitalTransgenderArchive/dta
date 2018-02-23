@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  alias_attribute :username, :email
+  alias_attribute :user_key, :email
+
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account.
@@ -20,10 +23,6 @@ class User < ActiveRecord::Base
   end
 
   def name
-    email
-  end
-
-  def username
     email
   end
 

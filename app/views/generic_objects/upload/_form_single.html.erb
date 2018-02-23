@@ -27,6 +27,11 @@
       <%= render partial: 'generic_objects/upload/to_collection' %>
 
 
+      <% if @generic_object.base_files.present? %>
+        <% if @generic_object.base_files[0].thumbnail_derivatives.present? %>
+              <%= image_tag((download_path @generic_object.pid, file: 'thumbnail'), height: '140') %>
+        <% end %>
+      <% end %>
       <p>Select a file to upload: <%= file_field_tag "filedata" %></p>
 
       <div class="form-group">
@@ -40,6 +45,8 @@
           <%= f.input :is_shown_at, class: 'form-control' %>
         </div>
       </div>
+
+     <br />
 
       <div class="form-group" style="width: 583px;">
         <div style="float:left">
