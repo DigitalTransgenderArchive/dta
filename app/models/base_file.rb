@@ -2,7 +2,7 @@ require 'fileutils'
 require 'digest'
 
 class BaseFile < ActiveRecord::Base
-  has_paper_trail
+  #has_paper_trail
 
   include FileBehavior
 
