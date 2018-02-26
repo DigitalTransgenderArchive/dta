@@ -49,7 +49,7 @@ class Coll < ActiveRecord::Base
     doc[:title_primary_ssort] = self.title.gsub(/^The /, '').gsub(/^A /, '').gsub(/^An /, '')
     doc[:institution_name_ssim] = self.insts.pluck(:name)
     doc[:institution_pid_ssi] = self.insts.first.pid if self.insts.present?
-    doc[:institution_pid_ssim] = self.insts
+    doc[:institution_pid_ssim] = self.insts.pluck(:id)
     doc[:thumbnail_ident_ss] = self.generic_object.pid if self.generic_object.present?
 
     doc
