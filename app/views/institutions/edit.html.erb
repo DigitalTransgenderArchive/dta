@@ -1,20 +1,17 @@
-<h1>Edit Institution</h1>
-<div style="width:50em;">
-  <%= simple_form_for(@institution, :url => institution_path(:id => @institution.id), :as => :institution, html: { multipart: true, id: 'fileupload' }) do |f| %>
-      <p>Select an image to upload: <%= file_field_tag "filedata" %></p>
-      <% @institution.terms.each do |key| %>
-          <% if key.to_s == 'description' %>
+<h2>Edit <%= @institution.name %></h2>
 
-              <% if f.object.class.multiple? key %>
-                  <%= f.input :description, as: :multi_string, input_html: { rows: '9', type: 'textarea'}, required: f.object.required?(key)  %>
-              <% else %>
-                  <%= f.input :description, as: :single_text, input_html: { rows: '9' }, required: f.object.required?(key) %>
-              <% end %>
-          <% else %>
-              <%= render :partial => "/records/edit_fields/default", :locals => {:key => key, :f => f} %>
-          <% end %>
+<%= simple_form_for @institution, :url => institution_path(:id => @institution.pid), :as => :institution, html: { multipart: true, id: 'fileupload', autocomplete: "off" } do |f| %>
+    <div class="well" style="width:50em;">
+      <span class="sr-only"><%= t("sufia.upload.single_file_computer.sr_instructions") %></span>
+      <%= render partial: 'institutions/partials/form', locals: {f: f} %>
 
-      <% end %>
+      <%= f.input :visibility, as: :single_select, collection: ['public', 'restricted', 'private'],
+                  input_html: {
+                      include_help: 'Visibility of this institution.',
+                      help_label: 'Visibility', include_blank: false
+                  }, required: true
+      %>
+
       <%= f.button :submit %>
-  <% end %>
-</div>
+    </div>
+<% end %>

@@ -6,7 +6,7 @@
       <h5 class="index_title document-title-heading col-md-12">
       <%= link_to  truncate((document[:title_primary_ssi] || document[:id]),
                                     separator: ' ',
-                                    length: index_title_length), collection_path(document) %>
+                                    length: index_title_length), collection_path(document[:id]) %>
       </h5>
     </div>
   </div>

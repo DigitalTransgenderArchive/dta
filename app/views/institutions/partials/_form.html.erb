@@ -1,0 +1,118 @@
+<% if @institution.inst_image_files.present? %>
+        <%= image_tag((download_path @institution.pid, file: 'thumbnail', institution: 'true'), height: '140') %>
+<% end %>
+<p>Select an image to upload: <%= file_field_tag "filedata" %></p>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        label_val: 'Name',
+                        include_help: 'The name of this institution'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :name, required: true, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group" style="width: 583px;">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        label_val: 'Description',
+                        include_help: 'Information about this institution.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :description, required: true, label: false, class: 'form-control', input_html: { rows: '9', type: 'textarea' } %>
+  </div>
+</div>
+
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        required: false,
+                        label_val: 'Contact Person',
+                        include_help: 'The person who the DTA contacts at this institution.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :contact_person, required: false, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        required: false,
+                        label_val: 'Address',
+                        include_help: 'The human readable address of this institution.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :address, required: false, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        required: false,
+                        label_val: 'Latitude and Longitude',
+                        include_help: 'The latitude and longitude location of this institution.'} %>
+  </div>
+  <div class="clearfix"></div>
+  <div style="float: left; width: 200px;">
+    Lat: <%= f.input :lat, required: false, label: false, class: 'form-control' %>
+  </div>
+  <div style="float: left; width: 200px; margin-left: 75px">
+    Lng: <%= f.input :lng, required: false, label: false, class: 'form-control' %>
+  </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        required: false,
+                        label_val: 'Email',
+                        include_help: 'The email to contact this institution at.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :email, required: false, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        required: false,
+                        label_val: 'Phone',
+                        include_help: 'The phone number to contact this institution at.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :phone, required: false, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        label_val: 'Institution URL',
+                        include_help: 'The url this institution uses.'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :institution_url, required: true, label: false, class: 'form-control' %>
+  </div>
+</div>

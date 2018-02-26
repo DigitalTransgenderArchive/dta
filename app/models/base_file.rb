@@ -6,6 +6,7 @@ class BaseFile < ActiveRecord::Base
 
   include FileBehavior
 
+  #FIXME
   #before_save :verify_content_set
 
   belongs_to :generic_object

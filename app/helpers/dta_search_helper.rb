@@ -5,7 +5,8 @@ module DtaSearchHelper
   # example:
   #   config.index.thumbnail_method = :sufia_thumbnail_tag
   def dta_thumbnail_tag(document, options)
-    if document.collection?
+    # Hash check is odd..
+    if document['model_ssi'] == 'Collection' || document.collection?
       if document["thumbnail_ident_ss"].present?
         path = download_path document["thumbnail_ident_ss"], file: 'thumbnail'
         options[:alt] = ""

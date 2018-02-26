@@ -44,6 +44,14 @@ class Inst < ActiveRecord::Base
     "Institution"
   end
 
+  def destroy
+    if self.colls.present? || self.generic_objects.present?
+      raise 'Cannot Delete an Institution with Collections or Objects associated to it.'
+    end
+
+    super
+  end
+
   def delete
     self.destroy
   end
@@ -58,6 +66,18 @@ class Inst < ActiveRecord::Base
     doc[:description_ssim] = doc[:description_tesim]
     doc[:institution_url_tesim] = [self.institution_url]
     doc[:has_image_ssi] = self.inst_image_files.present?.to_s
+
+=begin
+    if self.lng.present? and self.lat.present?
+      geojson_hash_base = {type: 'Feature', geometry: {type: 'Point'}}
+      geojson_hash_base[:geometry][:coordinates] = [self.lng,self.lat]
+      geojson_hash_base[:properties] = {placename: self.name}
+
+      doc[:inst_geojson_hash_ssi] = geojson_hash_base.to_json
+      doc[:inst_coordinates_geospatial] = ["#{self.lat},#{self.lng}"]
+    end
+=end
+
     doc
   end
 

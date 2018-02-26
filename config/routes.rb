@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   get 'places', :to => 'catalog#map', :as => 'places'
 
-  resources :institutions, path: :inst, only: [:show, :index, :new, :edit, :create, :update]
+  resources :institutions, path: :inst, only: [:show, :index, :new, :edit, :create, :update, :destroy]
   get 'inst/facet/:id', :to => 'institutions#facet', :as => 'institutions_facet'
 
   # Autocomplete Routes

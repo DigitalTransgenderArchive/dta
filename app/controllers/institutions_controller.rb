@@ -8,6 +8,7 @@ class InstitutionsController < ApplicationController
   before_action :get_latest_content
 
   before_action :update_search_builder, only: [:index]
+  #before_action :update_show_search_builder, only: [:show]
 
   before_action :verify_admin, except: [:index, :show, :facet]
   before_action :verify_superuser, only: [:destroy, :edit]
@@ -26,6 +27,10 @@ class InstitutionsController < ApplicationController
     if current_user.present? and current_user.contributor?
       blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
     end
+  end
+
+  def update_show_search_builder
+    blacklight_config.search_builder_class = ::InstitutionShowSearchBuilder
   end
 
   def update_collections
@@ -77,6 +82,15 @@ class InstitutionsController < ApplicationController
     blacklight_config.facet_fields['dta_dates_ssim'].show = false
     blacklight_config.facet_fields['dta_dates_ssim'].if = false
 
+    # blacklight-maps stuff
+    # blacklight_config.view.maps.geojson_field = 'inst_geojson_hash_ssi'
+    # blacklight_config.view.maps.coordinates_field = 'inst_coordinates_geospatial'
+    # blacklight_config.view.maps.placename_field = 'institution_name_ssim'
+    # blacklight_config.view.maps.maxzoom = 13
+    # blacklight_config.view.maps.show_initial_zoom = 9
+    # blacklight_config.view.maps.facet_mode = 'geojson'
+    # blacklight_config.views.maps.catalogpath = 'inst'
+
     # collapse remaining facets
     #blacklight_config.facet_fields['subject_facet_ssim'].collapse = true
     #blacklight_config.facet_fields['subject_geographic_ssim'].collapse = true
@@ -109,8 +123,11 @@ class InstitutionsController < ApplicationController
     @institution = Inst.find_by(pid: params[:id])
 
     # get the response for collection objects
-    @collex_response, @collex_documents = search_results({:f => {'model_ssi' => 'Collection','institution_pid_ssi' => params[:id]},:rows => 100, :sort => 'title_info_ssort asc'})
-
+    #@collex_response, @collex_documents = search_results({:f => {'model_ssi' => 'Collection','institution_pid_ssi' => params[:id]},:rows => 100, :sort => 'title_info_ssort asc'})
+    @collex_documents = DSolr.find({q:"model_ssi:Collection and institution_pid_ssim:#{params[:id]}",:rows => 100, :sort => 'title_info_ssort asc'})
+    @collex_documents.each_with_index do |hash, index|
+      @collex_documents[index].merge!(@collex_documents[index].symbolize_keys)
+    end
     # add params[:f] for proper facet links
     params[:f] = {blacklight_config.institution_field => [@institution.name]}
 
@@ -128,92 +145,44 @@ class InstitutionsController < ApplicationController
   end
 
   def new
-    @institution = Institution.new
-    collection_query = Collection.find_with_conditions("*:*", rows: '100000', fl: 'id,title_tesim' )
-    @all_collections = []
-    collection_query.each { |term| @all_collections << [term["title_tesim"], term["id"]] }
-
+    @institution = Inst.new
   end
 
   def create
-    @institution = Institution.new(institution_params)
+    @institution = Inst.new(institution_params)
 
-    current_time = Time.now
-    @institution.date_created =   current_time.strftime("%Y-%m-%d")
-    @institution.permissions_attributes = [{ type: 'group', name: 'public', access: 'read' }, {type: 'group', name: 'admin', access: 'edit'}, {type: 'group', name: 'superuser', access: 'edit'}]
-    @institution.visibility = 'public'
+    @institution.visibility = 'private'
 
     if params.key?(:filedata)
       file = params[:filedata]
-      @institution.add_file(file, path: 'content', original_name: file.original_filename, mime_type: file.content_type)
+      @institution.add_image(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
     end
-
-=begin
-    if params[:homosaurus][:broader_ids].present?
-      params[:homosaurus][:broader_ids].each do |broader|
-        if broader.present?
-          broader_object = Homosaurus.find(broader)
-          @homosaurus.broader = @homosaurus.broader + [broader_object]
-          broader_object.narrower = broader_object.narrower + [@homosaurus]
-          broader_object.save
-        end
-      end
-    end
-=end
-
 
     if @institution.save
-      redirect_to institution_path(:id => @institution.id)
+      redirect_to institution_path(:id => @institution.pid)
     else
       redirect_to new_institution_path
     end
   end
 
   def edit
-    @institution = Institution.find(params[:id])
-    collection_query = Collection.find_with_conditions("*:*", rows: '100000', fl: 'id,title_tesim' )
-    @all_collections = []
-    collection_query.each { |term| @all_collections << [term["title_tesim"], term["id"]] }
+    @institution = Inst.find_by(pid: params[:id])
   end
 
   def update
     @reindex_members = false
-    @institution = Institution.find(params[:id])
-
-    if @institution.label != params[:institution][:name]
-      @reindex_members = true
-    end
+    @institution = Inst.find_by(pid: params[:id])
 
     @institution.update(institution_params)
 
     if params.key?(:filedata)
       file = params[:filedata]
-      @institution.add_file(file, path: 'content', original_name: file.original_filename, mime_type: file.content_type)
+      @institution.inst_image_files[0].delete
+      @institution.add_image(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
     end
-
-    if @reindex_members
-      @institution.files.each do |file|
-        file.update_index
-      end
-    end
-
-
-=begin
-    if params[:homosaurus][:broader_ids].present?
-      params[:homosaurus][:broader_ids].each do |broader|
-        if broader.present?
-          broader_object = Homosaurus.find(broader)
-          @homosaurus.broader = @homosaurus.broader + [broader_object]
-          broader_object.narrower = broader_object.narrower + [@homosaurus]
-          broader_object.save
-        end
-      end
-    end
-=end
-
 
     if @institution.save
-      redirect_to institution_path(:id => @institution.id), notice: "Institution was updated!"
+      redirect_to institution_path(:id => @institution.pid), notice: "Institution was updated!"
     else
       redirect_to new_institution_path
     end
@@ -221,31 +190,15 @@ class InstitutionsController < ApplicationController
 
   def destroy
     #do nothing at fist
-    @institution = Institution.find(params[:id])
+    @institution = Inst.find_by(pid: params[:id])
 
-    @institution.members.each do |coll|
-      #acquire_lock_for(coll.id) do
-        @institution.reload
-        @institution.members.delete(coll)
-        coll.update_index
-      #end
-
-    end
-
-    @institution.files.each do |file|
-      file.institutions.delete(@institution)
-      file.save
-    end
-
-    @institution.reload
-
-    @institution.delete
+    @institution.destroy!
 
     redirect_to institutions_path, notice: "Institution was deleted!"
   end
 
 
   def institution_params
-    params.require(:institution).permit(:name, :description, :contact_person, :address, :email, :phone, :institution_url)
+    params.require(:institution).permit(:name, :description, :contact_person, :address, :email, :phone, :institution_url, :pid, :lat, :lng, :visibility)
   end
 end

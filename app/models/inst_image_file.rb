@@ -1,7 +1,8 @@
 class InstImageFile < ActiveRecord::Base
   include FileBehavior
 
-  before_save :verify_content_set
+  # FIXME
+  #before_save :verify_content_set
 
   belongs_to :inst
 

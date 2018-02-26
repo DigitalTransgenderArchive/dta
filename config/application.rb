@@ -11,7 +11,8 @@ module Dta
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    #config.autoload_paths += %W(#{config.root}/lib)
+    config.eager_load_paths << Rails.root.join('lib')
 
     config.encoding = "utf-8"
 

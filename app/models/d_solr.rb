@@ -15,6 +15,7 @@ class DSolr
   def self.delete_by_id(id)
     solr = RSolr.connect :url => Settings.solr_url, update_format: :json
     solr.delete_by_id "#{id}"
+    solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
   end
 
   def self.put(doc)
