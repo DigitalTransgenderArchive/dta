@@ -56,7 +56,7 @@ module GenericFileHelper
   def download_image_tag(title = nil)
     content_tag :figure do
       if title.nil?
-        if @generic_file.resource_type.include?('Audio') || @generic_file.genre.include?('Sound Recordings')
+        if @generic_file.resource_types.include?('Audio') || @generic_file.genres.include?('Sound Recordings')
           concat image_tag "shared/dta_audio_icon.jpg", alt: "No preview available", class: "img-responsive"
         else
           concat image_tag "default.png", alt: "No preview available", class: "img-responsive"
