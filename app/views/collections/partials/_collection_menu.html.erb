@@ -1,0 +1,23 @@
+
+<div class="btn-group">
+  <button class="btn btn-sm dropdown-toggle btn-primary" data-toggle="dropdown">Select an action <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-right">
+
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Edit Collection'), edit_collection_path(pid),
+                  class: "itemicon itemcode", title: "Edit Collection" %>
+    </li>
+
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-eye-close" aria-hidden="true"></i> Make All Private'), collection_member_private_path(pid),
+                  class: "itemicon itemcode", title: "Make All Private", :confirm => 'Are you sure you want to make this collection and all of its members invisible?' %>
+    </li>
+
+    <li>
+      <%= link_to raw('<i class="glyphicon glyphicon-eye-open" aria-hidden="true"></i> Make All Public'), collection_member_public_path(pid),
+                  class: "itemicon itemcode", title: "Make All Public", :confirm => 'Are you sure you want to make this collection and all of its members visibile?' %>
+    </li>
+
+  </ul>
+</div>

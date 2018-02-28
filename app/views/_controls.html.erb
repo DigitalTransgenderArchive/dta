@@ -13,7 +13,10 @@
                 <li><%= link_to 'Upload', new_generic_object_path, :class=>"nav_button" %></li>
                 <li class="divider"></li>
                 <% if current_user.superuser? %>
-                    <li><%= link_to 'Institution Create', new_institution_path, :class=>"nav_button" %></li>
+                    <li><%= link_to 'Inst Create', new_institution_path, :class=>"nav_button" %></li>
+                    <li class="divider"></li>
+                    <li><%= link_to 'Coll Create', new_collection_path, :class=>"nav_button" %></li>
+                    <li class="divider"></li>
                     <li><%= link_to 'Roles', role_management.roles_path, :class=>"nav_button" %></li>
                     <li class="divider"></li>
                     <li><%#= link_to 'Commands', admin_actions_path, :class=>"nav_button" %></li>

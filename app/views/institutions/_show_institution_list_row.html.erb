@@ -12,8 +12,9 @@
       <div class="media-body">
         <h4 class="media-heading">
           <%= link_to document["name_tesim"].first, institution_path(document), id: "src_copy_link#{id}", class: "document-title" %>
-          <a href="#" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
-          <% if document["visibility_ssi"] == "private" %><span style="color:red;">Private Visibility</span><% end %>
+          <% if document["visibility_ssi"] == "private" %><span style="color:red;">(Private Visibility)</span><% end %>
+          <a href="<%= institution_path(document) %>" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+
         </h4>
         <p><%= document["description_tesim"].first if document["description_tesim"].present? %></p>
 

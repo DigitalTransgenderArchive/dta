@@ -40,7 +40,13 @@ class MultiSelectInput < MultiBaseInput
           #else
           #buffer << yield([value.label, value.label], index)
           #end
-          buffer << yield([value.label, value.label], index)
+          if value.respond_to?('label')
+            buffer << yield([value.label, value.label], index)
+          elsif value.respond_to?('title') and value.respond_to?('pid')
+            buffer << yield([value.title, value.pid], index)
+          else
+            raise 'Cannot set value :('
+          end
         end
       end
     end

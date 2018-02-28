@@ -1,0 +1,9 @@
+<h2>Create New Collection</h2>
+
+<%= simple_form_for @collection, :url => collections_path, :as => :collection, html: { multipart: true, id: 'fileupload', autocomplete: "off" } do |f| %>
+    <%= hidden_field_tag "collection[pid]", @collection.pid %>
+    <div class="well" style="width:50em;">
+    <%= render partial: 'collections/partials/form', locals: {f: f} %>
+      <%= f.button :submit %>
+  </div>
+<% end %>

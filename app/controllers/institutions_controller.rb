@@ -170,7 +170,6 @@ class InstitutionsController < ApplicationController
   end
 
   def update
-    @reindex_members = false
     @institution = Inst.find_by(pid: params[:id])
 
     @institution.update(institution_params)

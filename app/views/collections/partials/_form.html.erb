@@ -1,0 +1,33 @@
+<%= f.input :insts, as: :multi_select, collection: Inst.all.pluck(:name, :pid),
+            input_html: {
+                include_help: 'The Institutions this collection belongs to',
+                help_label: 'Institutions', include_blank: true
+            }, required: true, label: 'Institutions'
+%>
+
+<div class="form-group singleton">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        label_val: 'Collection Title',
+                        include_help: 'The title of this collection'} %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :title, required: true, label: false, class: 'form-control' %>
+  </div>
+</div>
+
+<div class="form-group" style="width: 583px;">
+  <div style="float:left">
+    <%= render partial: 'partials/label_with_help',
+               locals: {f: f,
+                        label_val: 'Collection Abstract',
+                        include_help: 'Information about this collection.'},
+                        required: false %>
+  </div>
+  <div style="clear:both"></div>
+  <div>
+    <%= f.input :description, required: false, label: false, class: 'form-control', input_html: { rows: '9', type: 'textarea' } %>
+  </div>
+</div>

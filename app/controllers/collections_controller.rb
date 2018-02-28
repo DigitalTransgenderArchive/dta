@@ -96,11 +96,13 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
-    if @collection.member_ids.present?
+    if @collection.generic_objects.present?
       raise "Cannot delete a collection with items associated with it"
+    else
+      @collection.destroy!
+      flash[:notice] = "Collection was deleted."
+      redirect_to collections_path
     end
-
-    super
   end
 
   # set the correct facet params for facets from the collection
@@ -111,81 +113,76 @@ class CollectionsController < ApplicationController
   end
 
   def new
-    term_query = Institution.find_with_conditions("*:*", rows: '10000', fl: 'id,name_ssim' )
-    term_query = term_query.sort_by { |term| term["name_ssim"].first }
-    @all_institutions = []
-    term_query.each { |term| @all_institutions << [term["name_ssim"].first, term["id"]] }
-
-    flash[:notice] = nil if flash[:notice] == "Select something first"
-    super
+    @collection = Coll.new
   end
 
   def edit
-    @collection_id = @collection.id
-    term_query = Institution.find_with_conditions("*:*", rows: '10000', fl: 'id,name_ssim' )
-    term_query = term_query.sort_by { |term| term["name_ssim"].first }
-    @all_institutions = []
-    term_query.each { |term| @all_institutions << [term["name_ssim"].first, term["id"]] }
-    super
-  end
-
-  def update
-    #Update is called from other areas like moving an item to a collection... need to fix that...
-    @reindex_members = false
-    if params[:collection][:institution_ids].present?
-      @collection.institutions.each do |institution|
-        institution.members.delete(@collection)
-        institution.save
-      end
-      @collection.reload
-      @collection.institutions = []
-
-      params[:collection][:institution_ids].each do |institution_id|
-        institution = Institution.find(institution_id)
-        @collection.institutions = @collection.institutions + [institution]
-        institution.members = institution.members + [@collection]
-        institution.save
-      end
-
-      if @collection.title != params[:collection][:title]
-        @reindex_members = true
-      end
-    #FIXME: Detect updates outside of collection form elsewhere...
-    else
-      if params[:collection][:members] == "add"
-        params["batch_document_ids"].each do |pid|
-          collection_query = Collection.find_with_conditions("hasCollectionMember_ssim:#{pid}", rows: '100000', fl: 'id' )
-          collection_query.each do |collect_pid|
-            collect_obj = Collection.find(collect_pid["id"])
-            collect_obj.members.delete(ActiveFedora::Base.find(pid))
-            collect_obj.save
-          end
-        end
-      end
-    end
-
-
-    super
+    @collection = Coll.find_by(pid: params[:id])
   end
 
   def create
-    current_time = Time.now
-    @collection[:date_created] =   [current_time.strftime("%Y-%m-%d")]
-    #Contributor not being saved.... , {type: 'group', name: 'contributor', access: 'read'}
-    @collection.permissions_attributes = [{type: 'group', name: 'admin', access: 'edit'}, {type: 'group', name: 'superuser', access: 'edit'}]
-    #@collection.visibility = 'restricted'
-    if params[:collection][:institution_ids].present?
-      params[:collection][:institution_ids].each do |institution_id|
-        institution = Institution.find(institution_id)
-        @collection.institutions = @collection.institutions + [institution]
-        #institution.members = institution.members + [@collection]
+    @collection = Coll.new(collection_params)
+    @collection.insts = Inst.where(pid: params['collection']['insts'])
+    @collection.visibility = 'private'
 
+    if @collection.save
+      redirect_to collection_path(:id => @collection.pid), notice: "Collection was created!"
+    else
+      redirect_to new_collection_path
+    end
+  end
+
+
+  def update
+    @collection = Coll.find_by(pid: params[:id])
+
+    @collection.update(collection_params)
+    @collection.insts = Inst.where(pid: params['collection']['insts'])
+
+    if @collection.save
+      redirect_to collection_path(:id => @collection.pid), notice: "Collection was updated!"
+    else
+      redirect_to new_collection_path
+    end
+  end
+
+  def members_public
+    collection = Coll.find_by(pid: params[:id])
+    collection.generic_objects.each do |obj|
+      if obj.visibility == 'private'
+        obj.visibility = 'public'
+        obj.save!
       end
     end
 
-    super
+    if collection.visibility == 'private'
+      collection.visibility = 'public'
+      collection.save!
+    end
+
+    flash[:notice] = "Visibility of all objects was made public!"
+    redirect_to request.referrer
   end
 
+  def members_private
+    collection = Coll.find_by(pid: params[:id])
+    collection.generic_objects.each do |obj|
+      if obj.visibility == 'public'
+        obj.visibility = 'private'
+        obj.save!
+      end
+    end
+
+    if collection.visibility == 'public'
+      collection.visibility = 'private'
+      collection.save!
+    end
+
+    flash[:notice] = "Visibility of all objects was made private!"
+    redirect_to request.referrer
+  end
+
+  # FIXME
   def collection_thumbnail_set
     if @collection.thumbnail_ident != params[:item_id]
       @collection.thumbnail_ident = params[:item_id]
@@ -198,23 +195,7 @@ class CollectionsController < ApplicationController
     redirect_to request.referrer
   end
 
-  def change_member_visibility
-    collection = ActiveFedora::Base.find(params[:id])
-    collection.members.each do |obj|
-      if obj.visibility == 'restricted'
-        obj.visibility = 'open'
-        obj.save
-      end
-    end
 
-    if collection.visibility == 'restricted'
-      collection.visibility = 'open'
-      collection.save
-    end
-
-    flash[:notice] = "Visibility of all objects was changed!"
-    redirect_to request.referrer
-  end
 
   def collection_invisible
     collection = ActiveFedora::Base.find(params[:id])
@@ -243,9 +224,7 @@ class CollectionsController < ApplicationController
   end
 
   def collection_params
-    form_class.model_attributes(
-        params.require(:collection).permit(:title, :description, :members, :date_created)
-    )
+    params.require(:collection).permit(:title, :description, :pid, :visibility)
   end
 
 end

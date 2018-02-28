@@ -15,6 +15,10 @@
     <div class="col-sm-9">
       <div id="collection_img">
         <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
+        <% if current_user.present? and current_user.admin? %>
+            <br /><br />
+            <%= render partial: 'collections/partials/collection_menu', locals: { pid: @collection.pid } %>
+        <% end %>
       </div>
 
       <div id="collection_search_tools" class="well well-sm">

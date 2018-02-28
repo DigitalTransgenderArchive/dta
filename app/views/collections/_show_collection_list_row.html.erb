@@ -12,7 +12,12 @@
       <div class="media-body">
         <h4 class="media-heading">
           <%= link_to document.title, collection_path(document), id: "src_copy_link#{id}", class: "document-title" %>
-          <a href="#" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+          <% if document["visibility_ssi"] == "private" %><span style="color:red;">(Private Visibility)</span><% end %>
+          <a href="<%=collection_path(document)%>" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+          <% if current_user.present? and current_user.admin? %>
+              <%= render partial: 'collections/partials/collection_menu', locals: { pid: document['id']} %>
+          <% end %>
+
         </h4>
         <p>
           <%=
@@ -21,6 +26,7 @@
         </p>
 
         <%= render_collection_list(gf) %>
+
       </div>
     </div>
   </td>

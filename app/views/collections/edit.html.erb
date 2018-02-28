@@ -1,0 +1,16 @@
+<h2>Edit <%= @collection.title %></h2>
+
+<%= simple_form_for @collection, :url => collection_path(:id => @collection.pid), :as => :collection, html: { multipart: true, id: 'fileupload', autocomplete: "off" } do |f| %>
+    <div class="well" style="width:50em;">
+      <%= render partial: 'collections/partials/form', locals: {f: f} %>
+
+      <%= f.input :visibility, as: :single_select, collection: ['public', 'restricted', 'private'],
+                  input_html: {
+                      include_help: 'Visibility of this collection.',
+                      help_label: 'Visibility', include_blank: false
+                  }, required: true
+      %>
+
+      <%= f.button :submit %>
+    </div>
+<% end %>

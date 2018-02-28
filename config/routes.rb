@@ -36,7 +36,8 @@ Rails.application.routes.draw do
   get '/autocomplete/other_subjects', to: "autocomplete#other_subject", as: :other_subjects_autocomplete
 
   # Added Collection Routes
-  get 'collections/member_visibility/:id' => 'collections#change_member_visibility', as: :collection_member_visibility
+  get 'collections/members_public/:id' => 'collections#members_public', as: :collection_member_public
+  get 'collections/members_private/:id' => 'collections#members_private', as: :collection_member_private
   get 'collections/collection_invisible/:id' => 'collections#collection_invisible', as: :collection_invisible
   get 'collections/collection_visible/:id' => 'collections#collection_visible', as: :collection_visible
   get 'collections/collection_thumbnail_set/:id/:item_id' => 'collections#collection_thumbnail_set', as: :collection_thumbnail_set
