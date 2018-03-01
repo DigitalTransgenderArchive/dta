@@ -124,7 +124,7 @@ class InstitutionsController < ApplicationController
 
     # get the response for collection objects
     #@collex_response, @collex_documents = search_results({:f => {'model_ssi' => 'Collection','institution_pid_ssi' => params[:id]},:rows => 100, :sort => 'title_info_ssort asc'})
-    @collex_documents = DSolr.find({q:"model_ssi:Collection and institution_pid_ssim:#{params[:id]}",:rows => 100, :sort => 'title_info_ssort asc'})
+    @collex_documents = DSolr.find({q:"model_ssi:Collection and institution_pid_ssim:#{params[:id]} and visibility_ssi:public",:rows => 100, :sort => 'title_primary_ssort asc'})
     @collex_documents.each_with_index do |hash, index|
       @collex_documents[index].merge!(@collex_documents[index].symbolize_keys)
     end
