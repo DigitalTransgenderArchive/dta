@@ -93,8 +93,8 @@
         </div>
 
 
-        <div id="sidebar" class="col-sm-3">
-          <%= render 'search_sidebar' %>
+        <div id="sidebar" class="col-sm-3" style="margin-top:-20px;">
+          <%= render partial: '/catalog/facets', locals: { skip_title: true } %>
         </div>
 
       </div>

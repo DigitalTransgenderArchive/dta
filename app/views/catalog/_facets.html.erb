@@ -1,5 +1,5 @@
 <% # main container for facets/limits menu -%>
-
+<% skip_title ||= false %>
 
 <% if has_facet_values?  %>
 <div id="facets" class="facets sidenav">
@@ -12,11 +12,12 @@
       <span class="icon-bar"></span>
     </button>
 
-  <h4 class='facets-heading'>
-
-  	<%= t('blacklight.search.facets.title') %>
-  </h4>
-    </div>
+    <% unless skip_title %>
+        <h4 class='facets-heading'>
+          <%= t('blacklight.search.facets.title') %>
+        </h4>
+    <% end %>
+  </div>
   <div id="facet-panel-collapse" class="collapse panel-group">
     <%= render 'catalog/_show_partials/dta_limits_facet' unless @skip_dta_limits_render  %>
 

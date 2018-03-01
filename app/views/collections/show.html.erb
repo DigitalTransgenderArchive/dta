@@ -1,12 +1,6 @@
 <% @page_title = "#{@collection.title} - #{application_name}" %>
 <div style="max-width:1400px; margin: 0 auto">
 
-<h2 class="collection-title"><%= @collection_title %></h2>
-<h4 class="collection-provenance">
-      <% @collection.insts.pluck(:name).sort.each do |inst_name| %>
-        <%= inst_name %> <br />
-      <% end %>
-</h4>
 
 <div class="document">
 
@@ -14,6 +8,7 @@
 
     <div class="col-sm-9">
       <div id="collection_img">
+        <h2 class="collection-title" style="text-align: center; margin-top: 18px;"><%= @collection.title %></h2>
         <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
         <% if current_user.present? and current_user.admin? %>
             <br /><br />
@@ -21,7 +16,7 @@
         <% end %>
       </div>
 
-      <div id="collection_search_tools" class="well well-sm">
+      <div id="collection_search_tools" class="well well-sm" style="margin-top:53px;">
         <%= render :partial => 'search_form_collection', :locals => {:document => @document} %>
         <span class="collection_search_separator">or</span>
         <div id="collection_view_all">
@@ -41,6 +36,19 @@
                 %>
             <% end %>
         <% end %>
+
+        <p>    <br />
+          <% if @collection.insts.size == 1 %>
+              This collection has been provided by:
+          <% else %>
+              The following institutions have contributed to this collection:
+        <% end %>
+            <ul>
+              <% @collection.insts.pluck(:name, :pid).sort.each do |inst_name, inst_pid| %>
+                  <li><%= link_to inst_name, institution_path(inst_pid) %></li>
+              <% end %>
+            </ul>
+        </p>
       </div>
 
       <% # map for collections#show view %>
@@ -56,8 +64,8 @@
 
       </div>
 
-  <div id="sidebar" class="col-sm-3">
-    <%= render partial: '/catalog/facets' %>
+  <div id="sidebar" class="col-sm-3" style="margin-top: 32px;">
+    <%= render partial: '/catalog/facets', locals: {skip_title: true} %>
   </div>
 
 
