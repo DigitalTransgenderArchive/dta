@@ -4,6 +4,7 @@ class Inst < ActiveRecord::Base
   before_destroy :remove_from_solr
   after_initialize :mint
   after_save :send_solr
+  around_save :around_save_actions
 
   include ::InstObjectAssignments
 
@@ -23,17 +24,19 @@ class Inst < ActiveRecord::Base
     self.name = value
   end
 
-  def around_save
-    do_member_reindex = self.title_changed? || self.colls_ids_changed?
+  def around_save_actions
+    # || self.coll_ids_changed?
+    do_member_reindex = self.name_changed?
     yield #saves
     reindex_members if do_member_reindex
   end
 
   def reindex_members
     self.colls.each do |obj|
-      obj.send_solr
+      obj.send_solr false
       obj.reindex_members
     end
+    DSolr.commit # Ensure all was comitted
   end
 
   def mint

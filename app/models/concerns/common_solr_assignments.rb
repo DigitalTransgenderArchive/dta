@@ -16,9 +16,9 @@ module CommonSolrAssignments
     doc
   end
 
-  def send_solr
+  def send_solr(commit=true)
     doc = generate_solr_content
-    DSolr.put doc
+    DSolr.put(doc, commit)
   end
 
   def remove_from_solr
