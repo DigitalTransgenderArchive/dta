@@ -28,6 +28,7 @@ module GenericObjectSolrAssignments
     doc[:title_tesim] = [self.title]
     doc[:title_ssim] = doc[:title_tesim]
     doc[:label_tesim] = doc[:title_tesim]
+    doc[:title_primary_ssort] = doc[:title_tesim]
     doc[:description_tesim] = [self.descriptions]
 
     doc[:mime_type_tesim] = self.base_files.pluck(:mime_type)

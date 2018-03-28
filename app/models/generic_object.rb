@@ -96,7 +96,11 @@ class GenericObject < ActiveRecord::Base
   end
 
   def download_name
-    "#{self.title.gsub(/[,;]/, '')}.#{self.base_files[0].path.split('.').last}"
+    if self.base_files[0].path.present?
+      "#{self.title.gsub(/[,;]/, '')}.#{self.base_files[0].path.split('.').last}"
+    else
+      'No file exists'
+    end
   end
 
   def processing?
