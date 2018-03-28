@@ -116,7 +116,7 @@ class GenericObject < ActiveRecord::Base
   end
 
   def iiif_id
-    if self.base_files.present?
+    if self.base_files.present? and self.base_files[0].path.present?
       path = self.base_files[0].path
       path.gsub!('/', '%2F')
     else
