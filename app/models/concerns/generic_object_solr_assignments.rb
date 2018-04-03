@@ -239,6 +239,8 @@ module GenericObjectSolrAssignments
     doc[:has_file_content_ssi] = self.base_files.present?.to_s
     doc[:new_model_ssi] = 'GenericObject'
 
+    doc[:related_url_tesim] = self.related_urls
+
     doc
   end
 
