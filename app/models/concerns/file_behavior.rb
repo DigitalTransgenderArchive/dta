@@ -48,7 +48,7 @@ module FileBehavior
     self.set_parent_pid
     self.attempt_initialize!
 
-    unless File.exists? full_path
+    unless File.exists?(full_path) and !self.class.name.include?("File")
       FileUtils.mkpath self.full_directory
       File.open(self.full_path, 'wb' ) do |output|
         output.write value
