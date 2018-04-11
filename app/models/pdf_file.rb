@@ -4,11 +4,17 @@ class PdfFile < BaseFile
 
     img = MiniMagick::Image.read(self.content)
 
+    #img.background '#FFFFFF'
+    #img.alpha 'remove'
+    #img.flatten
+
     img.combine_options do |c|
       c.trim "+repage"
-      c.background '#FFFFFF'
-      c.alpha 'remove'
+      #c.flatten
+      #c.background '#FFFFFF'
+      #c.alpha 'remove'
     end
+
     img.format('jpg', 0, {density: '300'})
     img.resize '338x493'
     derivative.mime_type = 'image/jpeg'
