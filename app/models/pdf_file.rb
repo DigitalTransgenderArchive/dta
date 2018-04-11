@@ -6,6 +6,8 @@ class PdfFile < BaseFile
 
     img.combine_options do |c|
       c.trim "+repage"
+      c.background '#FFFFFF'
+      c.alpha 'remove'
     end
     img.format('jpg', 0, {density: '300'})
     img.resize '338x493'
