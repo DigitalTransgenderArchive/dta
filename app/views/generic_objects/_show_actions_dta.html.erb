@@ -63,6 +63,13 @@
         </dd>
     <% end %>
 
+    <% if current_or_guest_user.contributor? %>
+      <dt style="padding-left:0px;width:80px;">Regenerate Thumbnail</dt>
+      <dd style="padding-left:0px;margin-left: 100px;">
+          <%= link_to "Regenerate", regenerate_thumbnail_generic_object_path(@generic_file.pid) %>
+      </dd>
+    <% end %>
+
     <% if 1==0 and current_user.present? and current_user.admin? %>
         <dt style="padding-left:0px;width:80px;">Analytics</dt>
         <dd style="padding-left:0px;margin-left: 100px;">

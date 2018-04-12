@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get 'stats'
       get 'citation'
       get 'swap_visibility'
+      get 'regenerate_thumbnail'
     end
   end
 

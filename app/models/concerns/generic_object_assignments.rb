@@ -5,7 +5,7 @@ module GenericObjectAssignments
       when 'String'
         return [value]
       when 'Array'
-        return value
+        return value.uniq
       when 'Integer'
         return [value.to_s]
       when '' # nil case

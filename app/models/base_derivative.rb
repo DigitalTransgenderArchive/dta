@@ -9,13 +9,15 @@ class BaseDerivative < ActiveRecord::Base
   belongs_to :base_file
 
   # Content handles most of the pathing logic
+  # FIXME: how different from file behavior?
   def content=(value)
     raise 'No value was passed for the file...' if value.blank?
     self.sha256 = Digest::SHA256.hexdigest value
     self.set_parent_pid
     self.attempt_initialize!
 
-    unless File.exists? full_path
+    unless File.exists?(full_path) and self.content == value
+      puts 'Doing the derivative'
       FileUtils.mkpath self.full_directory
       File.open(self.full_path, 'wb' ) do |output|
         output.write value

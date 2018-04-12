@@ -282,10 +282,11 @@ class GenericObjectsController < ApplicationController
     #redirect_to request.referrer
   end
 
-  def regenerate
-    Sufia.queue.push(CharacterizeJob.new(params[:id]))
-    flash[:notice] = "Thumbnail scheduled to be regenerated!"
-    redirect_to sufia.dashboard_files_path
+  def regenerate_thumbnail
+    obj = GenericObject.find_by(pid: params[:id])
+    obj.base_files[0].create_derivatives
+    flash[:notice] = "Thumbnail was regenerated!"
+    redirect_to generic_object_path(obj.pid)
   end
 
   def edit
