@@ -96,8 +96,9 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
+    @collection = Coll.find_by(pid: params[:id])
     if @collection.generic_objects.present?
-      raise "Cannot delete a collection with items associated with it"
+      raise "Cannot delete a collection with items associated with it."
     else
       @collection.destroy!
       flash[:notice] = "Collection was deleted."

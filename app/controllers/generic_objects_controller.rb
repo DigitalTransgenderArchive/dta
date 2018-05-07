@@ -66,12 +66,43 @@ class GenericObjectsController < ApplicationController
 
   def set_object(form_fields)
     @generic_object.title = form_fields[:title]
-    @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? } if form_fields[:alt_titles][0].present?
-    @generic_object.creators = form_fields[:creators].reject { |c| c.empty? } if form_fields[:creators][0].present?
-    @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? } if form_fields[:contributors][0].present?
-    @generic_object.date_created = form_fields[:date_created].reject { |c| c.empty? } if form_fields[:date_created][0].present?
-    @generic_object.date_issued = form_fields[:date_issued].reject { |c| c.empty? } if form_fields[:date_issued][0].present?
-    @generic_object.temporal_coverage = form_fields[:temporal_coverage].reject { |c| c.empty? } if form_fields[:temporal_coverage][0].present?
+    if form_fields[:alt_titles][0].present?
+      @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? }
+    elsif @generic_object.alt_titles.present?
+      @generic_object.alt_titles = []
+    end
+
+    if form_fields[:creators][0].present?
+      @generic_object.creators = form_fields[:creators].reject { |c| c.empty? }
+    elsif @generic_object.creators.present?
+      @generic_object.creators = []
+    end
+
+    if form_fields[:contributors][0].present?
+      @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? }
+    elsif @generic_object.contributors.present?
+      @generic_object.contributors = []
+    end
+
+    if form_fields[:date_created][0].present?
+      @generic_object.date_created = form_fields[:date_created].reject { |c| c.empty? }
+    elsif @generic_object.date_created.present?
+      @generic_object.date_created = []
+    end
+
+    if form_fields[:date_issued][0].present?
+      @generic_object.date_issued = form_fields[:date_issued].reject { |c| c.empty? }
+    elsif @generic_object.date_issued.present?
+      @generic_object.date_issued = []
+    end
+
+    if form_fields[:temporal_coverage][0].present?
+      @generic_object.temporal_coverage = form_fields[:temporal_coverage].reject { |c| c.empty? }
+    elsif @generic_object.temporal_coverage.present?
+      @generic_object.temporal_coverage = []
+    end
+
+
 
     form_fields[:lcsh_subjects].each_with_index do |s, index|
       if s.present?
@@ -91,31 +122,107 @@ class GenericObjectsController < ApplicationController
         form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
       end
     end
-    @generic_object.geonames = form_fields[:geonames].reject { |c| c.empty? } if form_fields[:geonames][0].present?
-    @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects].reject { |c| c.empty? } if form_fields[:homosaurus_subjects][0].present?
-    @generic_object.lcsh_subjects = form_fields[:lcsh_subjects].reject { |c| c.empty? } if form_fields[:lcsh_subjects][0].present?
-    @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? } if form_fields[:other_subjects][0].present?
+
+    if form_fields[:geonames][0].present?
+      @generic_object.geonames = form_fields[:geonames].reject { |c| c.empty? }
+    elsif @generic_object.geonames.present?
+      @generic_object.geonames = []
+    end
+
+    if form_fields[:homosaurus_subjects][0].present?
+      @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects].reject { |c| c.empty? }
+    elsif @generic_object.homosaurus_subjects.present?
+      @generic_object.homosaurus_subjects = []
+    end
+
+    if form_fields[:lcsh_subjects][0].present?
+      @generic_object.lcsh_subjects = form_fields[:lcsh_subjects].reject { |c| c.empty? }
+    elsif @generic_object.lcsh_subjects.present?
+      @generic_object.lcsh_subjects = []
+    end
+
+    if form_fields[:other_subjects][0].present?
+      @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? }
+    elsif @generic_object.other_subjects.present?
+      @generic_object.other_subjects = []
+    end
 
     @generic_object.flagged = form_fields[:flagged]
-    @generic_object.analog_format = form_fields[:analog_format] if form_fields[:analog_format][0].present?
-    @generic_object.digital_format = form_fields[:digital_format] if form_fields[:digital_format][0].present?
 
-    @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? } if form_fields[:descriptions][0].present?
-    @generic_object.toc = form_fields[:toc].reject { |c| c.empty? } if form_fields[:toc][0].present?
-    @generic_object.languages = form_fields[:languages].reject { |c| c.empty? } if form_fields[:languages][0].present?
+    if form_fields[:analog_format][0].present?
+      @generic_object.analog_format = form_fields[:analog_format]
+    elsif @generic_object.analog_format.present?
+      @generic_object.analog_format = nil
+    end
 
-    @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? } if form_fields[:publishers][0].present?
-    @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? } if form_fields[:related_urls][0].present?
-    @generic_object.rights = form_fields[:rights] if form_fields[:rights][0].present?
-    @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? } if form_fields[:rights_free_text][0].present?
+    if form_fields[:digital_format][0].present?
+      @generic_object.digital_format = form_fields[:digital_format]
+    elsif @generic_object.digital_format.present?
+      @generic_object.digital_format = nil
+    end
+
+    if form_fields[:descriptions][0].present?
+      @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? }
+    elsif @generic_object.descriptions.present?
+      @generic_object.descriptions = []
+    end
+
+    if form_fields[:toc][0].present?
+      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }
+    elsif @generic_object.toc.present?
+      @generic_object.toc = []
+    end
+
+    if form_fields[:languages][0].present?
+      @generic_object.languages = form_fields[:languages].reject { |c| c.empty? }
+    elsif @generic_object.languages.present?
+      @generic_object.languages = []
+    end
+
+    if form_fields[:publishers][0].present?
+      @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? }
+    elsif @generic_object.publishers.present?
+      @generic_object.publishers = []
+    end
+
+    if form_fields[:related_urls][0].present?
+      @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? }
+    elsif @generic_object.related_urls.present?
+      @generic_object.related_urls = []
+    end
+
+    # This likely shouldn't be checking index 0...
+    if form_fields[:rights][0].present?
+      @generic_object.rights = form_fields[:rights]
+    elsif @generic_object.rights.present?
+      @generic_object.rights = nil
+    end
+
+    if form_fields[:rights_free_text][0].present?
+      @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? }
+    elsif @generic_object.rights_free_text.present?
+      @generic_object.rights_free_text = []
+    end
+
+    if form_fields[:is_shown_at][0].present?
+      @generic_object.is_shown_at = form_fields[:is_shown_at]
+    elsif @generic_object.is_shown_at.present?
+      @generic_object.is_shown_at = nil
+    end
+
+    if form_fields[:resource_types][0].present?
+      @generic_object.resource_types = form_fields[:resource_types].reject { |c| c.empty? }
+    elsif @generic_object.resource_types.present?
+      @generic_object.resource_types = []
+    end
+
     @generic_object.depositor = current_user.to_s
 
-    @generic_object.is_shown_at = form_fields[:is_shown_at] if form_fields[:is_shown_at][0].present?
     @generic_object.hosted_elsewhere = form_fields[:hosted_elsewhere]
 
     # These were missing
     @generic_object.genres = form_fields[:genres].reject { |c| c.empty? }
-    @generic_object.resource_types = form_fields[:resource_types].reject { |c| c.empty? } if form_fields[:resource_types][0].present?
+
 
     @generic_object.inst = Inst.find_by(pid: params[:institution])
     @generic_object.coll = Coll.find_by(pid: params[:collection])

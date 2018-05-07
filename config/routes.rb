@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   # Collection routes
-  resources :collections, path: :col, only: [:show, :index, :new, :edit, :create, :update]
+  resources :collections, path: :col, only: [:show, :index, :new, :edit, :create, :update, :destroy]
   #get 'col', :to => 'collections#public_index', :as => 'collections_public'
   #get 'col/:id', :to => 'collections#public_show', :as => 'collections_public_show'
   get 'col/facet/:id', :to => 'collections#facet', :as => 'collections_facet'

@@ -5,11 +5,11 @@
 
   </td>
   <td>
-    <div class="media">
+    <div class="media" style="overflow: visible;">
       <%= link_to collection_path(document), class: "media-left" do %>
           <%= render_thumbnail_tag document, { class: "hidden-xs inst_collection_listing_thumbnail" }, { suppress_link: true } %>
       <% end %>
-      <div class="media-body">
+      <div class="media-body" style="overflow: visible;">
         <h4 class="media-heading">
           <%= link_to document.title, collection_path(document), id: "src_copy_link#{id}", class: "document-title" %>
           <% if document["visibility_ssi"] == "private" %><span style="color:red;">(Private Visibility)</span><% end %>
