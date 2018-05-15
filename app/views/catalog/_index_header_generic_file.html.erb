@@ -6,7 +6,10 @@
   -%>
   <% document_actions = capture do %>
       <%# # bookmark functions for items/docs -%>
-      <%# render_index_doc_actions document, wrapping_class: "index-document-functions col-sm-3 col-lg-2" %>
+     <% if current_or_guest_user.contributor? %>
+      <%= render_index_doc_actions document, wrapping_class: "index-document-functions col-sm-3 col-lg-2" %>
+     <% end %>
+
   <% end %>
 
   <h3 class="index_title document-title-heading <%= document_actions.present? ? "col-sm-9 col-lg-10" : "col-md-12" %>">

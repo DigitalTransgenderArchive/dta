@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get 'citation'
       get 'swap_visibility'
       get 'regenerate_thumbnail'
+      get 'make_coll_image'
     end
   end
 

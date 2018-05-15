@@ -70,6 +70,14 @@
       </dd>
     <% end %>
 
+    <% if current_or_guest_user.admin? %>
+      <dt style="padding-left:0px;width:80px;">Collection Thumbnail</dt>
+      <dd style="padding-left:0px;margin-left: 100px;">
+        <%= link_to "Make Collection Thumbnail", make_coll_image_generic_object_path(@generic_file.pid) %>
+      </dd>
+    <% end %>
+
+
     <% if 1==0 and current_user.present? and current_user.admin? %>
         <dt style="padding-left:0px;width:80px;">Analytics</dt>
         <dd style="padding-left:0px;margin-left: 100px;">

@@ -396,6 +396,19 @@ class GenericObjectsController < ApplicationController
     redirect_to generic_object_path(obj.pid)
   end
 
+  def make_coll_image
+    obj = GenericObject.find_by(pid: params[:id])
+    coll = obj.coll
+    if coll.present?
+      coll.generic_object = obj
+      coll.save!
+    else
+      raise 'Error: This object does not have a collection?'
+    end
+    flash[:notice] = "This collection has had its image updated!"
+    redirect_to collection_path(coll.pid)
+  end
+
   def edit
     if params[:version_id].present?
       @generic_object = PaperTrail::Version.find(params[:version_id]).reify
