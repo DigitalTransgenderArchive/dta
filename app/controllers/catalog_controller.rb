@@ -18,6 +18,7 @@ class CatalogController < ApplicationController
 
   before_action  only: :index do
     if current_user.present? and current_user.contributor?
+      config.add_facet_field 'publisher_ssim', :label => 'Publisher', :limit => 6, :sort => 'index', :collapse => true, :show => true
       blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
 
       uploaded_field = 'date_uploaded_dtsi'
@@ -34,6 +35,8 @@ class CatalogController < ApplicationController
       blacklight_config.add_sort_field 'visibility_ssi desc, dta_sortable_date_dtsi asc', :label => "visibility \u25BC"
 
       blacklight_config.add_index_field 'visibility_ssi', :label => 'Visbility'
+    else
+      config.add_facet_field 'publisher_ssim', :label => 'Publisher', :limit => 6, :sort => 'index', :collapse => true, :show => false
     end
   end
 
@@ -95,7 +98,6 @@ class CatalogController < ApplicationController
     config.add_facet_field 'dta_dates_ssim', :label => 'Date', :range => { num_segments: 6}, :collapse => false
     config.add_facet_field 'genre_ssim', :label => 'Genre', :limit => 6, :sort => 'count', :collapse => true
     config.add_facet_field 'subject_geographic_ssim', :label => 'Location', :limit => 6, :sort => 'count', :collapse => true
-    config.add_facet_field 'publisher_ssim', :label => 'Publisher', :limit => 6, :sort => 'index', :collapse => true, :show => false
     config.add_facet_field 'collection_name_ssim', :label => 'Collection', :limit => 8, :sort => 'count', :collapse => true
     config.add_facet_field 'institution_name_ssim', :label => 'Institution', :limit => 8, :sort => 'count', :collapse => true
     config.add_facet_field 'subject_geojson_facet_ssim', :limit => -2, :label => 'Coordinates', :show => false
