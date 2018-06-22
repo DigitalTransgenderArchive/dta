@@ -223,6 +223,9 @@ class GenericObjectsController < ApplicationController
     # These were missing
     @generic_object.genres = form_fields[:genres].reject { |c| c.empty? }
 
+    # This is for hist
+    @generic_object.hist_whodunnit = current_user.to_s
+
 
     @generic_object.inst = Inst.find_by(pid: params[:institution])
     @generic_object.coll = Coll.find_by(pid: params[:collection])
@@ -411,7 +414,7 @@ class GenericObjectsController < ApplicationController
 
   def edit
     if params[:version_id].present?
-      @generic_object = PaperTrail::Version.find(params[:version_id]).reify
+      @generic_object = Hist::Version.find(params[:version_id]).reify
     else
       @generic_object = GenericObject.find_by(pid: params[:id])
     end

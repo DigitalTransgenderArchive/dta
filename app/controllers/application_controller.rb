@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   #layout 'blacklight'
   layout 'dta_layout'
 
-  before_action :set_paper_trail_whodunnit
+  #before_action :set_paper_trail_whodunnit
 
   def add_catalog_folder
     lookup_context.prefixes << "catalog"

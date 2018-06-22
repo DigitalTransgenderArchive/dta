@@ -4,6 +4,8 @@ class PdfFile < BaseFile
 
     img = MiniMagick::Image.read(self.content)
 
+    img.format('png', 0, {density: 300})
+
     img.combine_options do |c|
       c.trim "+repage"
       c.background '#FFFFFF'
@@ -22,13 +24,13 @@ class PdfFile < BaseFile
     if self.generic_object.identifier.present?
       ia_id = self.generic_object.identifier.split('/').last
       djvu_data_text_response = fetch("http://archive.org/download/#{ia_id}/#{ia_id}_djvu.txt")
-      text_content = djvu_data_text_response.body.squish if djvu_data_text_response.body.present?
-    else
-      text_content = pdf_ocr(self.content)
-    end
 
-    self.ocr = text_content
-    self.original_ocr = text_content
+      self.ocr = djvu_data_text_response.body.squish if djvu_data_text_response.body.present?
+      self.original_ocr = djvu_data_text_response.body if djvu_data_text_response.body.present?
+    else
+      self.ocr = pdf_ocr(self.content)
+      self.original_ocr = pdf_ocr_original(self.content)
+    end
 
     self.save!
   end

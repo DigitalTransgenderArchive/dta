@@ -12,10 +12,10 @@ class DSolr
     response["response"]["docs"]
   end
 
-  def self.delete_by_id(id)
+  def self.delete_by_id(id, commit=true)
     solr = RSolr.connect :url => Settings.solr_url, update_format: :json
     solr.delete_by_id "#{id}"
-    solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' }
+    solr.update data: '<commit/>', headers: { 'Content-Type' => 'text/xml' } if commit
   end
 
   def self.put(doc, commit=true)

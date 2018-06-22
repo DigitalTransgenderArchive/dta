@@ -90,7 +90,9 @@ gem 'tilt' # Required for sidekiq-statistic
 gem 'concurrent-ruby', require: 'concurrent'
 
 # Versioning
-gem 'paper_trail'
+#gem 'hist', path: '/Users/sanderso/root/rails/hist'
+gem 'hist', github: 'scande3/hist'
+gem 'ace-rails-ap'
 
 # Analytics
 gem 'ahoy_matey'

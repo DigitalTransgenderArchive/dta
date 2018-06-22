@@ -2,9 +2,18 @@ class GenericObject < ActiveRecord::Base
   include CommonSolrAssignments
   include GenericObjectAssignments
   include GenericObjectSolrAssignments
-  has_paper_trail ignore: [:visibility, :views, :downloads, :pid] # on: [:update, :destroy]
+  #has_paper_trail ignore: [:visibility, :views, :downloads, :pid] # on: [:update, :destroy]
 
-  after_save :after_save_actions
+  include ::Hist::Model
+  #after_save :after_save_actions
+  #around_save :hist_around_save
+
+  #has_hist associations: [:all] # Broken from through destroy on the join tables...?
+  # What happens when an id of a join table is removed?
+  has_hist associations: [:base_files, :genres, :geonames, :homosaurus_subjects, :lcsh_subjects, :resource_types, :rights, :contributors, :creators, :other_subjects]
+
+  #after_save :after_save_actions
+  around_save :around_save_actions
   before_destroy :before_destroy_actions
   after_destroy :after_destroy_actions
   after_initialize :mint
@@ -54,12 +63,36 @@ class GenericObject < ActiveRecord::Base
   has_many :creators, dependent: :destroy
   has_many :other_subjects, dependent: :destroy
 
+  def around_save_actions
+    #raise "Huh: " + self.views_was.to_s + " : " + views.to_s + " : " + self.id_changed?.to_s
+    self.class.transaction do
+      # FIXME: What happens on a version save? How to ensure this was set?
+      is_analytics = !self.id_changed? && (self.views_was != views || self.downloads_was != downloads)
+      yield
+
+      if !is_analytics
+        send_solr
+        whod = self.hist_whodunnit
+        extra = self.hist_extra
+        self.hist_save_actions(user: whod, extra: extra)
+      end
+
+    end
+  end
+
+=begin
   def after_save_actions
+    raise "Huh: " + self.views_was.to_s + " : " + views.to_s + " : " + self.id_changed?.to_s
     if !self.id_changed? && (self.views_was != views || self.downloads_was != downloads)
     else
       send_solr
+
+      self.class.transaction do
+        hist_save_actions
+      end
     end
   end
+=end
 
   def before_destroy_actions
     self.remove_from_solr

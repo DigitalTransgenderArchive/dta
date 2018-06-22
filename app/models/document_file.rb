@@ -16,10 +16,10 @@ class DocumentFile < BaseFile
     derivative.content = img.to_blob
     derivative.save!
 
-    text_content = pdf_ocr(File.open("#{self.full_directory}/#{self.sha256}.pdf", "rb").read)
 
-    self.ocr = text_content
-    self.original_ocr = text_content
+
+    self.ocr = pdf_ocr(File.open("#{self.full_directory}/#{self.sha256}.pdf", "rb").read)
+    self.original_ocr = pdf_ocr_original(File.open("#{self.full_directory}/#{self.sha256}.pdf", "rb").read)
 
     self.save!
   end

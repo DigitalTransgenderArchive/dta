@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # routes for Hist
+  mount Hist::Engine => '/hist'
+
   mount Ckeditor::Engine => '/ckeditor'
 
   # Generic file routes
