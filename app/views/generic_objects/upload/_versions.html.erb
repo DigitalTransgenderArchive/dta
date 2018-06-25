@@ -2,6 +2,7 @@
 <ul>
   <li><%= link_to "Current Version", edit_generic_object_path(@generic_object.pid) %></li>
 </ul>
+<% if @generic_object.versions.present? %>
 <h2>Other Versions: </h2>
 <ul>
   <% @generic_object.versions[1..-1].each do |ver| %>
@@ -13,5 +14,6 @@
     </li>
   <% end %>
 </ul>
+<% end %>
 
 <%= render partial: 'partials/hist/modal.html.erb' %>
