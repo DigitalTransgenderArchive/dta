@@ -11,6 +11,8 @@ task :solr_reindex_all => [ :environment ] do
   DSolr.reindex("GenericObject")
 end
 
+
+# Where is fetch?
 desc "Fix OCR data"
 task :fix_ocr_data => [ :environment ] do
   PdfFile.all.each do |obj|
@@ -18,7 +20,7 @@ task :fix_ocr_data => [ :environment ] do
       puts "ID is: " + obj.id.to_s
       if obj.generic_object.identifier.present?
         ia_id = obj.generic_object.identifier.split('/').last
-        djvu_data_text_response = fetch("http://archive.org/download/#{ia_id}/#{ia_id}_djvu.txt")
+        djvu_data_text_response = BaseFile.fetch("http://archive.org/download/#{ia_id}/#{ia_id}_djvu.txt")
 
         obj.ocr = djvu_data_text_response.body.squish if djvu_data_text_response.body.present?
         obj.original_ocr = djvu_data_text_response.body if djvu_data_text_response.body.present?

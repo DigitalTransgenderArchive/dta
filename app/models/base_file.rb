@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'digest'
+require "net/http"
 
 class BaseFile < ActiveRecord::Base
   include FileBehavior
@@ -82,6 +83,33 @@ class BaseFile < ActiveRecord::Base
     end
 
     return text_content
+  end
+
+  def self.fetch(uri_str, limit = 10)
+    # You should choose better exception.
+    raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+
+    url = URI.parse(uri_str)
+    req = Net::HTTP::Get.new(url.path, { 'User-Agent' => 'Mozilla/5.0 (etc...)' })
+    response = Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') { |http| http.request(req) }
+    case response
+      when Net::HTTPSuccess     then response
+      when Net::HTTPRedirection then fetch(response['location'], limit - 1)
+      else
+        response.error!
+    end
+  end
+
+  def self.get_redirect(uri_str)
+    # You should choose better exception.
+    url = URI.parse(uri_str)
+    req = Net::HTTP::Get.new(url.path, { 'User-Agent' => 'Mozilla/5.0 (etc...)' })
+    response = Net::HTTP.start(url.host, url.port, :use_ssl => url.scheme == 'https') { |http| http.request(req) }
+    case response
+      when Net::HTTPRedirection then return response['location']
+      else
+        response.error!
+    end
   end
 
 end

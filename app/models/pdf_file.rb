@@ -23,7 +23,7 @@ class PdfFile < BaseFile
     #Internet Archive Object
     if self.generic_object.identifier.present?
       ia_id = self.generic_object.identifier.split('/').last
-      djvu_data_text_response = fetch("http://archive.org/download/#{ia_id}/#{ia_id}_djvu.txt")
+      djvu_data_text_response = BaseFile.fetch("http://archive.org/download/#{ia_id}/#{ia_id}_djvu.txt")
 
       self.ocr = djvu_data_text_response.body.squish if djvu_data_text_response.body.present?
       self.original_ocr = djvu_data_text_response.body if djvu_data_text_response.body.present?
@@ -34,4 +34,6 @@ class PdfFile < BaseFile
 
     self.save!
   end
+
+
 end
