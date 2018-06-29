@@ -10,7 +10,10 @@ class GenericObject < ActiveRecord::Base
 
   #has_hist associations: [:all] # Broken from through destroy on the join tables...?
   # What happens when an id of a join table is removed?
-  has_hist associations: [:base_files, :genres, :geonames, :homosaurus_subjects, :lcsh_subjects, :resource_types, :rights, :contributors, :creators, :other_subjects]
+  #has_hist associations: [:base_files, :genres, :geonames, :homosaurus_subjects, :lcsh_subjects, :resource_types, :rights, :contributors, :creators, :other_subjects]
+  #has_hist associations: {all: {}}
+  has_hist associations: [base_files: {}, genres: {}, geonames: {}, homosaurus_subjects: {}, lcsh_subjects: {}, resource_types: {}, rights: {}, contributors: {}, creators: {}, other_subjects: {}]
+
 
   #after_save :after_save_actions
   around_save :around_save_actions
@@ -72,9 +75,7 @@ class GenericObject < ActiveRecord::Base
 
       if !is_analytics
         send_solr
-        whod = self.hist_whodunnit
-        extra = self.hist_extra
-        self.hist_save_actions(user: whod, extra: extra)
+        self.hist_save_actions
       end
 
     end

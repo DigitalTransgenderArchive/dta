@@ -15,7 +15,7 @@ en:
       form:
         q:
           label:          "Search DTA"
-          placeholder:    "Enter search terms"
+          placeholder:    "Search the Archive"
         option:
           all:
             label_short:  "All"

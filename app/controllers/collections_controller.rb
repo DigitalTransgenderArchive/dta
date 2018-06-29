@@ -197,33 +197,6 @@ class CollectionsController < ApplicationController
   end
 
 
-
-  def collection_invisible
-    collection = ActiveFedora::Base.find(params[:id])
-
-    collection.members.each do |obj|
-      if obj.visibility == 'open'
-        obj.visibility = 'restricted'
-        obj.save
-      end
-    end
-
-    collection.visibility = 'restricted'
-    collection.save
-
-    flash[:notice] = "Visibility of collection and all objects now private!"
-    redirect_to request.referrer
-  end
-
-  def collection_visible
-    collection = ActiveFedora::Base.find(params[:id])
-    collection.visibility = 'open'
-    collection.save
-
-    flash[:notice] = "Collection now set to public!"
-    redirect_to request.referrer
-  end
-
   def collection_params
     params.require(:collection).permit(:title, :description, :pid, :visibility)
   end

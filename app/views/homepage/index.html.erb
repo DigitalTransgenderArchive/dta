@@ -1,19 +1,10 @@
-<div id="home_container">
-    <div id="home_logo"></div>
 
+  <%= render partial: 'homepage/home_search' %>
+  <div style="clear: both; margin:0; padding: 0;"></div>
+  <%= render partial: 'homepage/home_map' %>
 
-  <div class="search_frame">
-    <div class="search_container">
-      <%= render_search_bar %>
-      <%= render partial: '/shared/dta_nav_bar' %>
-    </div>
-
-  </div>
-
-    <div id="home_people"><%= image_tag asset_path('home/home_people.png'), class: "img-responsive" %></div>
-</div>
-
-<% if current_user.present? and current_user.contributor? %>
+  <%= render partial: 'homepage/home_footer' %>
+<% if 1==0 and current_user.present? and current_user.contributor? %>
     <div style="margin-top:-850px;margin-left:-380px;">
       <%= render partial: '/controls' %>
     </div>

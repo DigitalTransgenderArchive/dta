@@ -8,10 +8,7 @@ gem 'leaflet-rails', '0.7.7'
 # Fonts
 gem 'lato-rails'
 
-
-#gem 'mysql2', '0.4.10'
-# Temporary
-gem 'active-fedora', '11.5.2'
+gem 'mysql2', '0.4.10'
 
 # Maybe Temporary
 gem 'noid-rails'
@@ -21,7 +18,7 @@ gem "hydra-role-management"
 gem 'bpl_enrich', github: 'scande3/bpl_enrich'
 gem 'google-api-client', '~> 0.11' # Not using this yet...
 
-ruby '2.4.0'
+#ruby '2.4.0'
 
 # Linked Data
 gem 'iso-639'
@@ -95,7 +92,7 @@ gem 'hist', github: 'scande3/hist'
 gem 'ace-rails-ap'
 
 # Analytics
-gem 'ahoy_matey'
+gem 'ahoy_matey', '1.6.1'
 
 # Blazer
 gem 'blazer', github: "scande3/blazer", branch: 'develop'
