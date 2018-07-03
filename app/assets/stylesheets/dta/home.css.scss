@@ -21,6 +21,15 @@ body.bodyoverride {
 
 #homepage {
 
+
+  .btn-round {
+    background-color: #002D59;
+    font-family: Avenir;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 30px 30px 30px 30px;
+  }
+
   #home_search {
     height: 600px;
     background-image: image-url('home/homepage_header_bg.png');
@@ -61,12 +70,23 @@ body.bodyoverride {
     color: white;
     font-family: Avenir;
 
+    .navbar-toggle {
+      background-color: gray;
+    }
+
     .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-      background-color: #337ab7;
-      border-color: #337ab7;
+      /*background-color: #337ab7;
+      border-color: #337ab7;*/
+      background-color: #FAA738;
+      border-color: #337ab7
     }
     .nav > li > a:hover, .nav > li > a:focus {
       text-decoration: none;
+      /*background-color: #337ab7;*/
+      background-color: #FAA738;
+    }
+
+    .dropdown-menu > li > a:hover {
       background-color: #337ab7;
     }
 
@@ -78,8 +98,9 @@ body.bodyoverride {
     }
 
     ul.dropdown-menu {
-      background-color: #002D59;
-      z-index: 100;
+      /*background-color: #002D59;*/
+      background-color: #FAA738;
+      z-index: 10000;
     }
   }
 
@@ -220,18 +241,17 @@ body.bodyoverride {
 
 
   #home_map {
-    height: 548px;
+    height: 416px;
     background-image: image-url('home/homepage_map_bg.png');
     background-repeat: repeat-x;
     background-position: left top;
-    margin-top: -45px;
 
     h1 {
       font-family: DTA;
       color: #002D59;
       letter-spacing: 2px;
       margin-left: 115px;
-      padding-top: 120px;
+      padding-top: 80px;
       margin-bottom: 0px;
       margin-top: 0px;
     }
@@ -246,22 +266,17 @@ body.bodyoverride {
     }
 
     #search_map_btn {
-      background-color: #002D59;
-      font-family: Avenir;
-      font-size: 16px;
-      letter-spacing: 1px;
       width: 220px;
       margin-left: 115px;
-      border-radius: 30px 30px 30px 30px;
+      text-transform: uppercase;
     }
   }
 
   #home_footer {
-    height: 189px;
+    height: 187px;
     background-image: image-url('shared/footer_bg.png');
     background-repeat: repeat-x;
     background-position: left top;
-    margin-top: -85px;
 
     .footer_logo {
       float: left;
@@ -305,6 +320,77 @@ body.bodyoverride {
       }
     }
 
+  }
+
+  #home_get_started {
+    background-color: #FFFFFF;
+
+    h2 {
+      font-family: DTA;
+      color: #002D59;
+      letter-spacing: 2px;
+      margin-left: 115px;
+      padding-top: 60px;
+      margin-bottom: 25px;
+      margin-top: 0px;
+      font-size: 36px;
+    }
+    div.icon_wrapper {
+      width: 200px;
+      margin: auto;
+      color: #002D59;
+      font-family: Avenir;
+
+      div.icon {
+        height: 180px;
+        margin-bottom: 30px;
+        position: relative;
+
+        img{
+          display: block;
+          max-width: 100%;
+          position: absolute;
+          bottom:0;
+          left:50%;
+          transform:translateX(-50%);
+        }
+
+      }
+
+      h3 {
+        text-transform: uppercase;
+        margin: 0px;
+        padding: 0px;
+        font-size: 25px;
+        font-weight: bold;
+      }
+
+      p {
+        font-size: 12px;
+        font-style: italic;
+        margin-top: 5px;
+        height: 68px;
+      }
+
+      div.icon_link {
+        a {
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+      }
+    }
+
+    div.btn_wrapper {
+      clear:both;
+      padding-top: 35px;
+      margin-left: 115px;
+      padding-bottom: 50px;
+
+      #search_guides_btn {
+        width: 300px;
+        text-transform: uppercase;
+      }
+    }
   }
 
 }
