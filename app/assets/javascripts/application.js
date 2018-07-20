@@ -24,6 +24,7 @@
 //= require 'bootstrap/dropdown'
 //= require 'bootstrap/button'
 //= require 'bootstrap/tab'
+//= require 'bootstrap/carousel'
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
