@@ -259,7 +259,10 @@ body.bodyoverride {
     p {
       color: #002D59;
       font-family: Avenir;
-      width: 550px;
+      /*width: 550px;
+      width: 100%;*/
+      max-width: 550px;
+      padding-right: 10px;
       margin-left: 115px;
       margin-top: 40px;
       margin-bottom: 25px;
@@ -281,8 +284,12 @@ body.bodyoverride {
     .footer_logo {
       float: left;
       margin-left: 60px;
-      margin-top: 35px;
-
+      margin-top:  35px;
+    }
+    .footer_logo_small {
+      display: none;
+      margin-left: 60px;
+      margin-top: 25px;
     }
 
 
@@ -321,6 +328,24 @@ body.bodyoverride {
     }
 
   }
+
+  @media (max-width: 699.75px) {
+    #home_footer {
+      height: 130px;
+      .footer_logo {
+        display: none;
+      }
+      .footer_logo_small {
+        display: inline;
+      }
+
+      ul.list-unstyled {
+        margin-top: 50px;
+      }
+    }
+  }
+
+
 
   #home_get_started {
     background-color: #FFFFFF;
@@ -403,14 +428,20 @@ body.bodyoverride {
   }
 
   #home_carousel {
-    height: 760px;
+    /*height: 760px;*/
+    width: 100%;
+    max-height: 760px;
     overflow-y: hidden;
 
     #myCarousel {
-      height: 760px;
+      /*height: 760px;*/
+      width: 100%;
+      max-height: 760px;
 
       .carousel-inner > .item > img {
-        height: 760px;
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
       }
 
       .carousel-inner > .item {
@@ -421,17 +452,14 @@ body.bodyoverride {
       }
 
 
-      ol.carousel-indicators {
-        bottom: auto;
-        top: 730px;
-      }
+
 
       .carousel-control .glyphicon-chevron-right,  .carousel-control .glyphicon-chevron-left{
-        top: 380px;
+        top: 50%;
       }
 
       .carousel-caption {
-        top: 500px;
+        top: 60%;
         bottom: auto;
         text-align: left;
         left: 10%;
@@ -462,7 +490,14 @@ body.bodyoverride {
           padding-right: 10%;
         }
 
-        @media (max-width: 699.75px) { p {display: none;} }
+
+      }
+
+      @media (max-width: 946px) {
+        .carousel-caption {
+          top: 65%;
+          p {display: none;}
+        }
       }
     }
 
@@ -504,6 +539,10 @@ body.bodyoverride {
     .navbar-nav>li>a {
       padding-top: 15px;
       padding-bottom: 15px;
+    }
+
+    .navbar-nav .open .dropdown-menu {
+      position: absolute;
     }
 
   }
@@ -580,7 +619,11 @@ body.bodyoverride {
 
 }
 /* For smaller sizes... fixme? */
-@media (max-width: 575px) {
+.container-fluid {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+@media (max-width: 699.75px) {
   .container-fluid {
     padding-left: 0px;
     padding-right: 0px;

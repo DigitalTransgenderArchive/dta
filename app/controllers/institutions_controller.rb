@@ -176,7 +176,9 @@ class InstitutionsController < ApplicationController
 
     if params.key?(:filedata)
       file = params[:filedata]
-      @institution.inst_image_files[0].delete
+      if @institution.inst_image_files[0].present?
+        @institution.inst_image_files[0].delete
+      end
       @institution.add_image(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
     end
 

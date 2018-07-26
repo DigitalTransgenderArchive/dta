@@ -11,7 +11,7 @@
     <div class="carousel-inner">
       <% @carousel.each_with_index do |item, index| %>
         <div class="item<% if index == 0 %> active<%end%>">
-          <img src="/downloads/<%=item[:image_pid]%>" alt="<%=item[:title]%>" style="width:100%;">
+          <img src="<%=item[:iiif]%>" alt="<%=item[:title]%>" style="width:100%;">
           <div class="carousel-caption">
             <h3><%= item[:title] %></h3>
             <p><%= item[:description] %></p>
