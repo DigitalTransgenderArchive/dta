@@ -417,6 +417,18 @@ body.bodyoverride {
       }
     }
 
+    @media (max-width: 767px) {
+      div.icon_wrapper {
+        clear:both;
+      }
+
+      div.btn_wrapper {
+        margin: auto;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
     @media (max-width: 575px) {
       h2 {
         margin-left: 15px;
@@ -459,7 +471,7 @@ body.bodyoverride {
       }
 
       .carousel-caption {
-        top: 60%;
+        top: 480px;
         bottom: auto;
         text-align: left;
         left: 10%;
@@ -497,6 +509,16 @@ body.bodyoverride {
         .carousel-caption {
           top: 65%;
           p {display: none;}
+        }
+      }
+
+      @media (max-width: 530px) {
+        .carousel-control .glyphicon-chevron-right,  .carousel-control .glyphicon-chevron-left{
+          top: 40%;
+        }
+        .carousel-caption {
+          top: 55%;
+          h3 { font-size: 18px;}
         }
       }
     }
