@@ -1,11 +1,9 @@
-<%= link_to "/" do %><div id="home_logo"></div><% end %>
-
 <nav class="navbar navbar-right">
   <div class="container-fluid">
     <div id="homeBrowseNavbar">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">BROWSE <span class="caret hideonsmall"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">BROWSE <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><%= link_to 'By Map', '/places' %></li>
             <li class="divider"></li>
@@ -22,7 +20,7 @@
         </li>
 
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">LEARN <span class="caret hideonsmall"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">LEARN <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <% @learn_section_links ||= []
                counter = @learn_section_links.length
@@ -42,7 +40,7 @@
         </li>
 
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">ABOUT <span class="caret hideonsmall"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">ABOUT <span class="caret"></span></a><!--- hideonsmall -->
           <ul class="dropdown-menu">
             <% @about_section_links ||= []
                counter = @about_section_links.length
@@ -60,7 +58,7 @@
             <% end %>
           </ul>
         </li>
-        <li><a href="#">CONTACT <span class="caret hideonsmall"></span></a></li>
+        <li><a href="#">CONTACT <span class="caret"></span></a></li>
         <li>
         <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
           Login
