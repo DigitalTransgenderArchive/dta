@@ -1,92 +1,96 @@
-/* styles for app/views/shared/footer */
-$footer_logo_image: 'shared/bottom_logo.png' !default;
+#footer {
+  height: 187px;
+  background-image: image-url('shared/footer_bg.png');
+  background-repeat: repeat-x;
+  background-position: left top;
 
-$very_dark_gray: #555555 !default;
-$darker_gray: #666666 !default;
-$dark_gray: #A29E9E !default;
-$light_gray: #CACACA !default;
-$lighter_gray: #F1F1F1 !default;
-
-$bootstrap_text: #333333 !default;
-
-$bl_link: #428BCA !default;
-$bl_link_hover: #005580 !default;
-
-$well_bg_color: #F5F5F5 !default;
-$well_border_color: #E3E3E3 !default;
-$facets_border: #DDDDDD !default;
-
-$navbarBorder: #D4D4D4 !default;
-
-$dropdown-hover-background: #0081C2 !default;
-$dropdown-hover-background-gradient-start:#0088CC !default;
-$dropdown-hover-background-gradient-end: #0077B3 !default;
-
-$error_text: #b94a48 !default;
-$error_bg: #f2dede !default;
-$error_border: #eed3d7 !default;
-
-$viewer_bg: #111111 !default;
+  .footer_logo {
+    float: left;
+    margin-left: 60px;
+    margin-top:  35px;
+  }
+  .footer_logo_small {
+    display: none;
+    margin-left: 60px;
+    margin-top: 25px;
+  }
 
 
-@mixin rounded-corners($radius) {
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
-  border-radius: $radius;
+  /*Change icons size here*/
+  ul.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+    margin-top: 90px;
+    margin-right: 50px;
+    float: right;
+  }
+  ul.list-inline li {
+    display: inline-block;
+    padding-right: 4px;
+    padding-left: 4px;
+    margin-bottom: 10px;
+
+    i {
+      color: #FAA738;
+      display: inline-block;
+      font-size: 50px;
+      width: 60px;
+      height: 60px;
+      line-height: 34px;
+      text-align: center;
+      vertical-align: middle;
+      margin: 0 1px 8px;
+      -webkit-border-radius: 17px;
+      -moz-border-radius: 17px;
+      border-radius: 17px;
+
+      &:hover {
+        color: #FAA738;
+      }
+    }
+  }
+
 }
 
-#footer {
-  width:100%;
-  height: 100px;
-  border-top: 1px solid $light_gray;
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-  padding: 0.5em 1em 0.7em;
-  margin-left:0px;
-  margin-right:0px;
-  background-color: #f9f9f9;
-  background-image: -moz-linear-gradient(top, #E6E6E6, #BFBFBF);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#E6E6E6), to(#BFBFBF));
-  background-image: -webkit-linear-gradient(top, #E6E6E6, #BFBFBF);
-  background-image: -o-linear-gradient(top, #E6E6E6, #BFBFBF);
-  background-image: linear-gradient(to bottom, #E6E6E6, #BFBFBF);
-  background-repeat: repeat-x;
-  border-color: #E6E6E6;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffE6E6E6', endColorstr='#ffBFBFBF', GradientType=0);
-  @include rounded-corners(5px);
-
-  #footer_logo {
-    float: left;
-/*
-    .footer-logo {
-      -moz-opacity: 0.50;
-      opacity: 0.50;
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+@media (max-width: 699.75px) {
+  #footer {
+    height: 130px;
+    .footer_logo {
+      display: none;
     }
-*/
-    #footer_logo_link {
-      background:transparent asset_url($footer_logo_image) no-repeat top left;
-      display: inline-block;
-      height: 85px;
-      width: 85px;
-      overflow: hidden;
-      text-indent: -200%;
+    .footer_logo_small {
+      display: inline;
     }
 
+    ul.list-unstyled {
+      margin-top: 50px;
+    }
   }
+}
 
-  #footer_address {
-    float: right;
-    text-align: right;
-    font-size: 12px;
-    color: $dark_gray;
-    line-height: 15px;
+@media (max-width: 485px) {
+  #footer {
+    height: 130px;
+    .footer_logo {
+      display: none;
+    }
+    .footer_logo_small {
+      display: inline;
+    }
+
+    ul.list-unstyled {
+      margin-top: 55px;
+    }
+    ul.list-unstyled {
+      margin-right: 10px;
+    }
+
+    ul.list-inline li {
+      i {
+        font-size: 40px;
+        width: 50px;
+        height: 50px;
+      }
+    }
   }
-
-  #footer_news {
-    font-size: 12px;
-    color: $dark_gray;
-    line-height: 15px;
-  }
-
 }
