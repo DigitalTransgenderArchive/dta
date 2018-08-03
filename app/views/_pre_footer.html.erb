@@ -1,0 +1,69 @@
+<div id="pre_footer">
+  <div class="custom-col-12 col-xs-7" id="pre_footer_links">
+  <div class="col-xs-4">
+    <ul>
+      <li class="heading">DTA</li>
+      <li><%= link_to 'Overview', about_path('overview') %></li>
+      <li><%= link_to 'Policies', about_path('policies') %></li>
+      <li><%= link_to 'News', about_path('news') %></li>
+      <li><%= link_to 'Our Team', about_path('team') %></li>
+      <li><%= link_to 'Advisory Board', about_path('board') %></li>
+      <li><%= link_to 'Contact', about_path('contact') %></li>
+      <li><%= link_to 'Newsletter', about_path('contact') %></li>
+    </ul>
+
+  </div>
+  <div class="col-xs-4">
+    <ul>
+    <li class="heading">Tools</li>
+    <li><%= link_to 'Starter Guide', learn_path('guide') %></li>
+    <li><%= link_to 'Browse By Institution', institutions_path %></li>
+    <li><%= link_to 'Browse By Topic', topic_facet_path %></li>
+    <li><%= link_to 'Browse By Map', '/places' %></li>
+    <li><%= link_to 'Browse By Gallery?', '/places' %></li>
+    <li><%= link_to 'Browse By Collection', collections_path %></li>
+    <li><%= link_to 'Browse By Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+  </ul>
+  </div>
+  <div class="col-xs-4">
+    <ul>
+      <li class="heading">Learn</li>
+      <li><%= link_to 'Starter Guide', learn_path('guide') %></li>
+      <li><%= link_to 'F.A.Q?', learn_path('guide') %></li>
+      <li><%= link_to 'Global Terms', learn_path('terms') %></li>
+      <li><%= link_to 'Glossary', learn_path('glossary') %></li>
+      <li><%= link_to 'Related Sites', learn_path('related') %></li>
+    </ul>
+  </div>
+  </div>
+
+
+  <div class="hidden-xs hidden-sm col-md-1">
+    <div id="pre_footer_seperator"></div>
+  </div>
+
+    <div class="custom-col-0 col-sm-5 col-md-4">
+      <div id="stay_in_loop">
+       <h3>Stay In The Loop</h3>
+      <p>Subscribe to our quarterly newsletter for the latest
+        additions to the collection, news, and events.</p>
+        <form action="//digitaltransgenderarchive.us12.list-manage.com/subscribe/post?u=d416c5f2e618c53a17606ff05&amp;id=b17e55bfdf" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <p>
+            <%= text_field_tag "EMAIL", '', placeholder: 'Email Address', class: "newsletter_footer_input form-control" %>
+          </p>
+          <p>
+            <%= text_field_tag "FNAME", '', placeholder: 'First Name', class: "newsletter_footer_input form-control" %>
+          </p>
+          <p>
+            <%= text_field_tag "LNAME", '', placeholder: 'Last Name', class: "newsletter_footer_input form-control" %>
+          </p>
+          <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_d416c5f2e618c53a17606ff05_b17e55bfdf" tabindex="-1" value=""></div>
+          <p class="pull-right">
+            <button type="submit" class="btn btn-primary newsletter_footer-btn" value="Sign Up">Sign Up</button>
+          </p>
+        </form>
+
+      </div>
+    </div>
+
+</div>

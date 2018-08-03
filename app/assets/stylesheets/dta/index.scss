@@ -39,6 +39,18 @@ $viewer_bg: #111111 !default;
   box-shadow: $shadow;
 }
 
+div.round-bar {
+  @include rounded-corners(30px);
+  width:90%;
+}
+
+div#appliedParams {
+  @include rounded-corners(30px);
+}
+
+
+/* Legacy below this */
+
 body.blacklight-catalog-index {
 
   #main-container {
