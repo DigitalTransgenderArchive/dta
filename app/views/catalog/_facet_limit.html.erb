@@ -2,10 +2,17 @@
   <% paginator = facet_paginator(facet_field, display_facet) %>
   <%= render_facet_limit_list paginator, field_name %>
 
-  <% unless paginator.last_page? || params[:action] == "facet" || @facet_no_more_link.present? %>
+  <% 1==1 || unless paginator.last_page? || params[:action] == "facet" || @facet_no_more_link.present? %>
     <li class="more_facets_link">
       <%= link_to t("more_#{field_name}_html", scope: 'blacklight.search.facets', default: :more_html, field_name: facet_field.label),
-        search_facet_url(id: field_name), class: "more_facets_link" %>
+                  search_facet_url(id: field_name), class: "more_facets_link" %>
     </li>
   <% end %>
 </ul>
+
+<% unless paginator.last_page? || params[:action] == "facet" || @facet_no_more_link.present? %>
+  <div class="more_facets_link">
+    <%= link_to "More #{facet_field.label} »",
+                search_facet_url(id: field_name), class: "more_facets_link" %>
+  </div>
+<% end %>
