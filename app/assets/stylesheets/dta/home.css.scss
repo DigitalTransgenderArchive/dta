@@ -460,7 +460,29 @@ body.bodyoverride {
 
 
   }
+  @media (min-width: 2000px) {
+    #home_carousel {
+      max-height: 1000px;
+      #myCarousel {
+        max-height: 1000px;
+        .carousel-caption {
+          top: 720px;
+        }
+      }
+    }
+  }
 
+  @media (min-width: 3000px) {
+    #home_carousel {
+      max-height: 1300px;
+      #myCarousel {
+        max-height: 1300px;
+        .carousel-caption {
+          top: 950px;
+        }
+      }
+    }
+  }
 
 
   /* navbar fix from: https://coderwall.com/p/wpjw4w/change-the-bootstrap-navbar-breakpoint */

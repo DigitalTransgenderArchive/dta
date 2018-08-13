@@ -234,7 +234,7 @@ div#search_results_bar:after {
 }
 
 
-/* Blacklight overrides */
+/* start constraints */
 .constraints-container {
   min-height: 20px;
   padding: 19px;
@@ -251,7 +251,6 @@ div#search_results_bar:after {
     font-weight: bold;
   }
 
-  /* start constraints */
   .constraint-value {
     @include rounded-corners(30px);
     color: #002D59;
@@ -268,9 +267,9 @@ div#search_results_bar:after {
     font-weight: bold;
     letter-spacing: 1px;
   }
-  /* end constraints */
+
 }
-/* End */
+/* end constraints */
 
 /* Modified Legacy */
 #sortAndPerPage {
@@ -426,6 +425,7 @@ div#search_results_bar:after {
 
   .appliedFilter {
     z-index: 1;
+    margin-bottom: 2px;
 
     .constraint-value, .remove {
       background-color: #E2EDFE;
@@ -437,6 +437,167 @@ div#search_results_bar:after {
 
   }
 
+}
+
+/* hack for row that seems part of bootstrap? */
+/*body.blacklight-catalog-index {
+  div.row:last-child {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}*/
+/* end */
+
+div.record-padding {
+  float: left;
+  width: calc(100% + 30px);
+  margin-left: -15px;
+  margin-right: 0px;
+
+  #pagination_links_large, #pagination_links_medium, #pagination_links_small {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2px;
+
+    ul {
+      li {
+        a {
+          background-color: #002D59;
+          color: white;
+          border: 1px solid #fff;
+          border-top: unset;
+          border-bottom: unset;
+        }
+        a:hover {
+          text-decoration: underline;
+        }
+        span {
+          border: 1px solid #fff;
+          border-top: unset;
+          border-bottom: unset;
+        }
+      }
+      li.active {
+        span {
+          background-color: #FAA738;
+        }
+      }
+      li.disabled {
+        a {
+          /*background-color: #999;*/
+          background-color: #ddd;
+          color: #777777;
+        }
+        a:hover {
+          text-decoration: none;
+        }
+        span {
+          background-color: #ddd;
+          /*color: white;*/
+        }
+      }
+      li:first-child > a, li:first-child > span {
+        border-bottom-left-radius: 30px;
+        border-top-left-radius: 30px;
+      }
+      li:last-child > a, li:last-child > span {
+        border-bottom-right-radius: 30px;
+        border-top-right-radius: 30px;
+      }
+
+      li:nth-child(2) > a, li:nth-child(2) > span {
+        width: 74px;
+      }
+    }
+  }
+
+  #pagination_links_medium {
+    display: none !important;
+  }
+  #pagination_links_small {
+    display: none !important;
+  }
+
+  @media (max-width: 1099.75px) {
+    #pagination_links_large {
+      display: none !important;
+    }
+    #pagination_links_medium {
+      display: block !important;
+    }
+  }
+  @media (max-width: 974.75px) {
+    #pagination_links_large {
+      display: none !important;
+    }
+    #pagination_links_medium {
+      display: none !important;
+    }
+    #pagination_links_small {
+      display: block !important;
+    }
+  }
+  @media (max-width: 829.75px) {
+    #pagination_links_large {
+      display: none !important;
+    }
+    #pagination_links_medium {
+      display: block !important;
+    }
+    #pagination_links_small {
+      display: none !important;
+    }
+
+    li:first-child > a, li:first-child > span, li:nth-child(2) > a, li:nth-child(2) > span {
+      display: none;
+    }
+    li:nth-child(3) > a, li:nth-child(3) > span {
+      border-bottom-left-radius: 30px;
+      border-top-left-radius: 30px;
+    }
+  }
+  @media (max-width: 767.75px) {
+    #pagination_links_large {
+      display: none !important;
+    }
+    #pagination_links_medium {
+      display: block !important;
+    }
+    #pagination_links_small {
+      display: none !important;
+    }
+
+    li:first-child > a, li:first-child > span, li:nth-child(2) > a, li:nth-child(2) > span {
+      display: block;
+    }
+    li:nth-child(3) > a, li:nth-child(3) > span {
+      border-bottom-left-radius: unset;
+      border-top-left-radius: unset;
+    }
+  }
+
+  @media (max-width: 639.75px) {
+    #pagination_links_large {
+      display: none !important;
+    }
+    #pagination_links_medium {
+      display: none !important;
+    }
+    #pagination_links_small {
+      display: block !important;
+    }
+  }
+
+  @media (max-width: 545.75px) {
+    li:first-child > a, li:first-child > span, li:nth-child(2) > a, li:nth-child(2) > span {
+      display: none;
+    }
+    li:nth-child(3) > a, li:nth-child(3) > span {
+      border-bottom-left-radius: 30px;
+      border-top-left-radius: 30px;
+    }
+  }
 }
 /* End Modified Legacy */
 
@@ -469,19 +630,6 @@ h4.suggest {
 .css-dropdown ul {
   /* make sure dropdowns aren't hidden behind images */
   z-index:1;
-}
-
-
-div.record-padding {
-  float: left;
-  width: 100%;
-
-  #pagination_links {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
 }
 
 
