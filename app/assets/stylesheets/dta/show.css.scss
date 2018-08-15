@@ -1,0 +1,146 @@
+@font-face {
+  font-family: Avenir;
+  src: url(font-path('avenir.ttf'))  format('truetype');
+}
+@font-face {
+  font-family: DTA;
+  src: url(font-path('4990810.ttf'))  format('truetype');
+}
+@font-face {
+  font-family: Gotham-Black;
+  src: url(font-path('Gotham-Black.otf'))  format('opentype');
+}
+@font-face {
+  font-family: Gotham-Ultra;
+  src: url(font-path('Gotham-Ultra.otf'))  format('opentype');
+}
+
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+  box-shadow: $shadow;
+}
+
+#obj_show {
+  div.show-breadcrumb-navigation {
+      @include rounded-corners(30px);
+      margin-left: 20px;
+      margin-right: 20px;
+      background-color: #002D59;
+      width: calc(100% - 40px);
+      /*margin: auto;*/
+      margin-top:15px;
+      margin-bottom: 0px;
+      height: 40px;
+      color: #FFFFFF;
+      font-family: Avenir;
+  }
+
+  div#previousNextDocumentBot {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    ul.breadcrumb {
+      margin-bottom: 0px;
+    }
+  }
+
+  div.show-breadcrumb-navigation:after {
+    clear: both;
+  }
+
+  div.page_links {
+    padding-top: 10px;
+    margin-bottom: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: #ccc;
+    font-size: 13px;
+    font-weight: normal;
+    letter-spacing: 1px;
+    a {
+      color: white;
+    }
+  }
+
+  /* line 6, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb {
+    /*    padding: 8px 15px;
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-radius: 4px;*/
+    padding-top: 10px;
+    margin-bottom: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    list-style: none;
+    float: left;
+    background-color: unset;
+    border-radius: unset;
+
+    a:before {
+      content: "\e079";
+      color: #FAA738;
+      font-family: 'Glyphicons Halflings';
+      font-size: 11px;
+    }
+    a {
+      font-weight: normal;
+      font-size: 15px;
+      text-transform: uppercase;
+      color: white;
+      letter-spacing: 1px;
+    }
+    /*padding: 8px 15px;
+    margin-bottom: 20px;*/
+  }
+  /* line 13, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > li {
+    display: inline-block;
+  }
+  /* line 16, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > li + li:before {
+    content: unset;
+    padding: 0 5px;
+    color: #fff;
+  }
+  /* line 25, /home/bluewolf/.rvm/gems/ruby-2.2.1/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_breadcrumbs.scss */
+  .breadcrumb > .active {
+    color: #F9A240;
+  }
+
+  @media (max-width: 600px) {
+    div.page_links {
+      padding-top: 11px;
+      font-size: 11px;
+      font-weight: normal;
+      a {
+        color: white;
+      }
+    }
+
+    .breadcrumb {
+      .large_back {
+        display: none !important;
+      }
+      .small_back {
+        display: block !important;
+      }
+      padding-top: 11px;
+      padding-left: 13px;
+      padding-right: 13px;
+
+      a:before {
+        font-size: 9px;
+      }
+      a {
+        font-size: 13px;
+        content: "Back"
+      }
+    }
+  }
+}

@@ -460,13 +460,26 @@ body.bodyoverride {
 
 
   }
+
+  @media (min-width: 1400px) {
+    #home_carousel {
+      max-height: 900px;
+      #myCarousel {
+        max-height: 900px;
+        .carousel-caption {
+          top: 620px;
+        }
+      }
+    }
+  }
+
   @media (min-width: 2000px) {
     #home_carousel {
-      max-height: 1000px;
+      max-height: 1100px;
       #myCarousel {
-        max-height: 1000px;
+        max-height: 1100px;
         .carousel-caption {
-          top: 720px;
+          top: 820px;
         }
       }
     }
@@ -474,11 +487,11 @@ body.bodyoverride {
 
   @media (min-width: 3000px) {
     #home_carousel {
-      max-height: 1300px;
+      max-height: 1400px;
       #myCarousel {
-        max-height: 1300px;
+        max-height: 1400px;
         .carousel-caption {
-          top: 950px;
+          top: 1050px;
         }
       }
     }
