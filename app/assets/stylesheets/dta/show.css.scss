@@ -27,6 +27,154 @@
 }
 
 #obj_show {
+  figcaption {
+    display:none;
+  }
+
+  /* show area */
+  #document {
+    max-width: 1920px;
+    font-family: Avenir;
+    color: #002D59;
+
+    #show_row {
+      margin-top: 15px;
+
+      #show_left {
+        margin-left: 23px;
+        margin-right: 23px;
+
+        .img-responsive {
+          display: unset;
+        }
+        h2 {
+          font-size: 25px;
+          font-weight: bold;
+        }
+
+        h3 {
+          font-size: 18px;
+          font-style: italic;
+          margin-top:-10px;
+          margin-bottom:20px;
+        }
+        p {
+
+        }
+      }
+
+      #show_right {
+        /*float: right;*/
+        margin-right: 23px;
+        margin-left: 23px;
+
+        /* Alternative is at 768px, to have it go under and get rid of the dl margin */
+        .show_actions {
+          overflow: auto;
+          overflow-wrap: break-word;
+          .dl-horizontal dt {
+            float: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+        }
+        h4 {
+          text-transform: uppercase;
+          margin: 0px;
+          padding: 0px;
+          font-size: 25px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+
+        .content {
+          border-top: 2px #BACBE7 dotted;
+          padding-top: 8px;
+        }
+        dt {
+          text-align: left;
+          font-weight: bold;
+          padding-left: 2px;
+          width: 75px;
+          margin-bottom: 10px;
+        }
+        dd {
+          padding-left:0px;
+          margin-left: 100px;
+          margin-bottom: 10px;
+        }
+
+        .show_leaflet {
+          width:80%;
+          margin-top:0px;
+          max-width:400px;
+        }
+      }
+
+      #item_information_banner:before {
+        clear: both;
+      }
+      #item_information_banner:after {
+        clear: both;
+      }
+      #item_information_banner {
+        @include rounded-corners(30px);
+        margin-left: 30px;
+        margin-right: 30px;
+        background-color: #002D59;
+        width: calc(100% - 60px);
+        /*margin: auto;*/
+        margin-top:15px;
+        margin-bottom: 0px;
+        height: 40px;
+        color: #FFFFFF;
+        font-family: Avenir;
+
+        h2 {
+          font-weight: bold;
+          font-size: 15px;
+          text-transform: uppercase;
+          color: white;
+          letter-spacing: 1px;
+          padding-top: 12px;
+          padding-left: 20px;
+        }
+      }
+
+      .file-show-term {
+        border: 0;
+      }
+
+      #item_metadata {
+        dt {
+          font-weight: bold;
+        }
+      }
+
+    }
+    #show_row:after {
+      clear: both;
+    }
+  }
+
+  @media (max-width: 767.75px) {
+    #document {
+      #show_row {
+        #item_metadata {
+          margin-left: 44px;
+
+          dd {
+            margin-bottom:15px;
+          }
+        }
+      }
+    }
+  }
+
+
+  /* header / footer navigation */
   div.show-breadcrumb-navigation {
       @include rounded-corners(30px);
       margin-left: 20px;
