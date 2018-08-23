@@ -63,11 +63,18 @@ module GenericFileHelper
         end
 
       else
-        concat image_tag download_path(@generic_file.pid, file: 'thumbnail'), class: "img-responsive", alt: "#{title} of #{@generic_file.title.first}"
+        if @generic_file.hosted_elsewhere == "1"
+          concat image_tag download_path(@generic_file.pid, file: 'preview'), class: "img-responsive", alt: "#{title} of #{@generic_file.title}"
+        else
+          concat image_tag download_path(@generic_file.pid, file: 'preview'), class: "img-responsive img-preview-large", alt: "#{title} of #{@generic_file.title}"
+          #concat content_tag(:i, "", class: "fa fa-search fa-2x")
+        end
       end
-      concat content_tag :figcaption, "Download the full sized image"
+      #concat content_tag :figcaption, "Download the full sized image"
     end
   end
+
+
 
   def render_visibility_badge
     if can? :edit, @generic_file

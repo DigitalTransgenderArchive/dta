@@ -109,6 +109,17 @@ class InstitutionsController < ApplicationController
     @nav_li_active = 'explore'
     (@response, @document_list) = search_results({:f => {'model_ssi' => 'Institution'},:rows => 300, :sort => 'title_primary_ssort asc'})
 
+
+    if params[:filter].present?
+      new_document_list = []
+      filter_list = params[:filter].split(',')
+      @document_list.each do |doc|
+        if filter_list.include?(doc['name_ssim'][0][0])
+          new_document_list << doc
+        end
+      end
+      @document_list = new_document_list
+    end
     params[:view] = 'list'
     params[:sort] = 'title_primary_ssort asc'
 

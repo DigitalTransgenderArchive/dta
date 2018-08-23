@@ -12,9 +12,15 @@ class Settings
 
   # FIXME!
   def self.fits_path
-    @fits_path ||= Settings.dta_config["libreoffice_path"]
+    @fits_path ||= Settings.dta_config["fits_path"]
     raise "fits path in dta.yml could not be detected" if @fits_path.blank?
     @fits_path
+  end
+
+  def self.libreoffice_path
+    @libreoffice_path ||= Settings.dta_config["libreoffice_path"]
+    raise "libr office path in dta.yml could not be detected" if @libreoffice_path.blank?
+    @libreoffice_path
   end
 
   def self.solr_url

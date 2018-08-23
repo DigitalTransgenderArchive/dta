@@ -12,6 +12,8 @@ class BaseFile < ActiveRecord::Base
 
   has_many :base_derivatives
   has_many :thumbnail_derivatives
+  has_many :preview_derivatives
+  has_many :carousel_derivatives
 
   def set_parent_pid
     self.parent_pid = self.generic_object.pid if self.parent_pid.nil?
@@ -23,6 +25,21 @@ class BaseFile < ActiveRecord::Base
     derivative.base_file = self
     derivative
   end
+
+  def start_preview
+    return self.preview_derivatives.first if self.preview_derivatives.present?
+    derivative = PreviewDerivative.new
+    derivative.base_file = self
+    derivative
+  end
+
+  def start_carousel
+    return self.carousel_derivatives.first if self.carousel_derivatives.present?
+    derivative = CarouselDerivative.new
+    derivative.base_file = self
+    derivative
+  end
+
 
 
   def pdf_ocr(passed_content)

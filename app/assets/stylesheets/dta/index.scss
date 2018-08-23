@@ -56,6 +56,14 @@ $viewer_bg: #111111 !default;
   box-shadow: $shadow;
 }
 
+/* fix to make header banner the same */
+body.blacklight-catalog-index {
+  #main-container {
+    padding-top: 5px; /* was 20px */
+  }
+}
+/* end */
+
 div.round-bar {
   @include rounded-corners(30px);
   width:90%;
@@ -603,14 +611,6 @@ div.record-padding {
 
 
 /* Legacy below this */
-
-body.blacklight-catalog-index {
-
-  #main-container {
-    padding-top: 20px; /* was 115px */
-  }
-
-}
 
 
 #search_mode_tabs {

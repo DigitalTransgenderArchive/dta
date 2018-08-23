@@ -48,21 +48,47 @@ class DownloadsController < ApplicationController
     else
       @thumbnail ||= base_file.thumbnail_derivatives[0]
     end
+  end
 
+  def preview
+    if params[:institution].present?
+      @file ||= base_file
+    else
+      @preview ||= base_file.preview_derivatives[0]
+    end
+  end
+
+  def carousel
+    if params[:institution].present?
+      @file ||= base_file
+    else
+      @carousel ||= base_file.carousel_derivatives[0]
+    end
   end
 
   def get_content
     return '' if base_file.nil?
 
-    if params["file"].present? and params["file"] == 'thumbnail'
-      if thumbnail.nil?
-        return base_file.content
-      else
+    if params["file"].present? and params["file"] == 'carousel'
+      unless carousel.nil?
+        return carousel.content
+      end
+    end
+
+    if params["file"].present? and params["file"] == 'preview'
+      unless preview.nil?
+        return preview.content
+      end
+    end
+
+    if params["file"].present? and (params["file"] == 'thumbnail' || params["file"] == 'preview')
+      unless thumbnail.nil?
         return thumbnail.content
       end
-    else
-      return base_file.content
     end
+
+
+    return base_file.content
   end
 
   def authorize!

@@ -33,7 +33,7 @@
 
   /* show area */
   #document {
-    max-width: 1920px;
+
     font-family: Avenir;
     color: #002D59;
 
@@ -46,7 +46,20 @@
 
         .img-responsive {
           display: unset;
+          border: #002D59 solid 1px;
         }
+
+        /*i {
+          color: #fff;
+          background-color: #002D59;
+          text-align: center;
+          position: absolute;
+          bottom: calc(0% + 57px);
+          right: calc(0% + 64px);
+          padding: 15px;
+          line-height: 1;
+        }*/
+
         h2 {
           font-size: 25px;
           font-weight: bold;
@@ -148,8 +161,20 @@
       }
 
       #item_metadata {
-        dt {
+        /*dt {
           font-weight: bold;
+        }*/
+        dt {
+          text-align: left;
+          font-weight: bold;
+          width: 150px;
+          margin-bottom: 20px;
+          padding-left: 50px;
+        }
+        dd {
+          margin-bottom: 20px;
+          padding-left:0px;
+          margin-left: 150px;
         }
       }
 
@@ -165,9 +190,17 @@
         #item_metadata {
           margin-left: 44px;
 
+          dt {
+            padding-left: 0px;
+            margin-bottom: 0px;
+          }
           dd {
             margin-bottom:15px;
+            margin-left: 0px;
           }
+        }
+        #show_right {
+          margin-top: 20px;
         }
       }
     }
@@ -206,7 +239,7 @@
     margin-bottom: 0px;
     padding-left: 15px;
     padding-right: 15px;
-    color: #ccc;
+    color: #bbb;
     font-size: 13px;
     font-weight: normal;
     letter-spacing: 1px;

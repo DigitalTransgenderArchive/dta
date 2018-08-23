@@ -29,6 +29,189 @@ $error_border: #eed3d7 !default;
 
 $viewer_bg: #111111 !default;
 
+/* new */
+#institutions-index {
+  font-family: avenir;
+  color: #002D59;
+
+  .side_nav {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 30px;
+    overflow: auto;
+    overflow-wrap: break-word;
+
+    h4 {
+      text-transform: uppercase;
+      margin: 0px;
+      padding: 0px;
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    ul.content {
+      border-top: 2px #BACBE7 dotted;
+      padding-top: 8px;
+
+        li {
+          font-size: 15px;
+        }
+        li.active {
+          a {
+            color: #FAA738;
+            font-weight: bold;
+            font-size: 17px;
+          }
+        }
+        li:first-child {
+           margin-top:15px;
+        }
+    }
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 18px;
+  }
+
+  #browse_by_title {
+    border-top: 2px #BACBE7 dotted;
+    padding-top:8px;
+    padding-bottom:8px;
+    border-bottom: 2px #BACBE7 dotted;
+    font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
+
+    h4 {
+      float: left;
+      font-size: 15px;
+      font-weight: bold;
+      margin-right: 18px;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      font-size: 18px;
+      li {
+        margin: 0;
+        margin-top: 6px;
+        margin-right: 30px;
+        float: left;
+      }
+      li.active {
+        margin-top: 0px;
+        a {
+          color: #FAA738;
+        }
+
+        font-weight: bold;
+        font-size: 25px;
+      }
+    }
+    ul:after {
+      clear: both;
+    }
+  }
+
+  table.inst_collection_table {
+    border-top: 0;
+    tr {
+      border-top: 2px #BACBE7 dotted;
+
+      border-bottom: 2px #BACBE7 dotted;
+      td {
+        border: 0;
+        padding-top:18px;
+        padding-bottom:18px;
+      }
+    }
+
+    tr:first-child {
+      border-top: 0;
+    }
+    tr:last-child {
+      border-bottom: 0;
+    }
+
+    i.glyphicon-chevron-right {
+      color: #FAA738;
+    }
+
+
+
+  }
+}
+
+@media (max-width: 834.75px) {
+  #institutions-index {
+    #sidebar {
+      display: none !important;
+    }
+    .collections-list {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 630.75px) {
+  #institutions-index {
+    #browse_by_title {
+
+      h4 {
+        font-size: 13px;
+        margin-right: 13px;
+      }
+
+      ul {
+        font-size: 15px;
+        li {
+          margin-top: 7px;
+          margin-right: 20px;
+        }
+        li.active {
+          margin-top: 3px;
+          font-size: 20px;
+        }
+        li:last-child {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 482.75px) {
+  #institutions-index {
+    #browse_by_title {
+
+      h4 {
+        font-size: 10px;
+        margin-right: 10px;
+      }
+
+      ul {
+        font-size: 12px;
+        li {
+          margin-top: 7px;
+          margin-right: 15px;
+        }
+        li.active {
+          margin-top: 3px;
+          font-size: 18px;
+        }
+        li:last-child {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+/* end new */
 
 
 div.institutions-list {

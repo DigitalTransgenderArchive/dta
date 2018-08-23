@@ -20,6 +20,7 @@ body.bodyoverride {
 }
 
 #homepage {
+  max-width: 1920px;
   /* Other fix is overflow:x to be hidden... perhaps use over other templates? */
   /* resize target is 410 px */
   .row {
@@ -35,7 +36,7 @@ body.bodyoverride {
   }
 
   #home_search {
-    height: 600px;
+    height: 500px;
     background-image: image-url('home/homepage_header_bg.png');
     background-repeat: repeat-x;
     background-position: left top;
@@ -473,7 +474,7 @@ body.bodyoverride {
     }
   }
 
-  @media (min-width: 2000px) {
+  /*@media (min-width: 2000px) {
     #home_carousel {
       max-height: 1100px;
       #myCarousel {
@@ -495,7 +496,7 @@ body.bodyoverride {
         }
       }
     }
-  }
+  }*/
 
 
   /* navbar fix from: https://coderwall.com/p/wpjw4w/change-the-bootstrap-navbar-breakpoint */
