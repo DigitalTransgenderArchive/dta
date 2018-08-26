@@ -52,7 +52,7 @@ class DownloadsController < ApplicationController
 
   def preview
     if params[:institution].present?
-      @file ||= base_file
+      @preview ||= base_file
     else
       @preview ||= base_file.preview_derivatives[0]
     end
@@ -60,7 +60,7 @@ class DownloadsController < ApplicationController
 
   def carousel
     if params[:institution].present?
-      @file ||= base_file
+      @carousel ||= base_file
     else
       @carousel ||= base_file.carousel_derivatives[0]
     end
@@ -68,7 +68,6 @@ class DownloadsController < ApplicationController
 
   def get_content
     return '' if base_file.nil?
-
     if params["file"].present? and params["file"] == 'carousel'
       unless carousel.nil?
         return carousel.content

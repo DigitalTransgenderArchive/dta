@@ -54,7 +54,7 @@ class PdfFile < BaseFile
 
     img.format('jpg', 0, {density: '300'})
     #img.resize '338x493'
-    img.resize '700x1000>'
+    img.resize '850x1000>'
     preview.mime_type = 'image/jpeg'
     preview.content = img.to_blob
     preview.save!

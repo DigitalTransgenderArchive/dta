@@ -13,7 +13,7 @@ class ImageFile < BaseFile
 
     image = MiniMagick::Image.open(self.full_path)
     image.format "jpg"
-    image.resize '700x1000>'
+    image.resize '850x1000>'
     preview.mime_type = 'image/jpeg'
     preview.content = image.to_blob
     preview.save!
