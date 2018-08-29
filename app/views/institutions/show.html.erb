@@ -15,6 +15,10 @@
 
       <div class="row">
 
+        <div id="sidebar" class="col-md-3 col-sm-4 pull-right">
+          <%= render partial: '/catalog/facets', locals: { skip_title: false } %>
+        </div>
+
         <div class="col-md-9 col-sm-8 maximize_custom">
           <div id="inst_image">
             <% if @document['has_image_ssi'] == 'true' %>
@@ -95,9 +99,7 @@
         </div>
 
 
-        <div id="sidebar" class="col-md-3 col-sm-4">
-          <%= render partial: '/catalog/facets', locals: { skip_title: false } %>
-        </div>
+
 
       </div>
 
