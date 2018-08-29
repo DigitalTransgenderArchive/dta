@@ -1,51 +1,50 @@
 <% @page_title = "#{@document[:name_tesim].first} - #{application_name}" %>
-<div style="max-width:1400px; margin: 0 auto">
+<div id="institutions-show">
 <% content_for(:head) { render_link_rel_alternates } %>
-
-<%# this should be in a partial -%>
-<div id="document" class="<%= render_document_class %> blacklight-institution">
 
   <div id="doc_<%= @document.id.to_s.parameterize %>">
 
-    <h2 class="institution-title">
-      <%= @institution.name %>
-    </h2>
+    <div id="breadcrumbs-title">
+      <ul class="breadcrumb">
+        <li class="breadcrumb-back"><%= link_to 'Institutions', institutions_path %></li>
+        <li class="breadcrumb-title"><%= @institution.name %></li>
+      </ul>
+    </div>
 
     <div class="document">
 
       <div class="row">
 
-        <div class="col-sm-9">
-
-          <div id="institution_search_tools" class="well well-sm" >
-            <%= render :partial => 'search_form_institution',
-                       :locals => {:document => @document} %>
-            <span class="institution_search_separator">or</span>
-            <div id="institution_view_all">
-              <%= link_to_all_inst_items('btn btn-info view-all-inst') %>
-            </div>
-          </div>
-
-          <% if @document['has_image_ssi'] == 'true' %>
+        <div class="col-md-9 col-sm-8 maximize_custom">
+          <div id="inst_image">
+            <% if @document['has_image_ssi'] == 'true' %>
               <%= image_tag(download_path(@document, file: 'content', institution: 'true'),
-                             class: 'institution_img_show',
+                            class: 'institution_img_show',
                             alt: @document['name_tesim']
-                            )%>
-          <% else %>
+                  )%>
+            <% else %>
               <%= image_tag(institution_icon_path,
                             :alt =>  @document['name_tesim'],
                             :class => 'institution_img_show') %>
-          <% end %>
-
-          <div id="institution_desc">
-
-            <% if @document[:description_tesim] %>
-                <% @document[:description_tesim].each do |abstract| %>
-                    <%= abstract.html_safe %><br/><br/>
-                <% end %>
             <% end %>
+          </div>
 
-            <% if @document[:institution_url_tesim] %>
+          <div id="institution_search_tools" >
+            <%= render :partial => 'search_form_institution',
+                       :locals => {:document => @document} %>
+          </div>
+
+          <div id="inst_info">
+
+            <div id="institution_desc">
+
+              <% if @document[:description_tesim] %>
+                <% @document[:description_tesim].each do |abstract| %>
+                  <%= abstract.html_safe %><br/><br/>
+                <% end %>
+              <% end %>
+
+              <% if @document[:institution_url_tesim] %>
                 <ul>
                   <li id="institution_site_link">
                     <%= link_to 'Visit institution web site',
@@ -54,20 +53,23 @@
                                 :target => '_blank' %>
                   </li>
                 </ul>
-            <% end %>
+              <% end %>
 
-            <% if current_user.present? and current_user.superuser? %>
-            <div class="well" style="width:256px; padding-top: 0px; margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px;">
-              <h4>Institution Actions:</h4>
-              <ul>
-                <li><%= link_to "Edit Institution", edit_institution_path(@document[:id]) %></li>
-                <li><%= link_to 'Delete Institution',url_for(action: :destroy, controller: :institutions, id: @document['id']),method: :delete, data: {confirm: "Are you want to delete this institution?"} %></li>
-              </ul>
+              <% if current_user.present? and current_user.superuser? %>
+                <div class="well" style="width:256px; padding-top: 0px; margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px;">
+                  <h4>Institution Actions:</h4>
+                  <ul>
+                    <li><%= link_to "Edit Institution", edit_institution_path(@document[:id]) %></li>
+                    <li><%= link_to 'Delete Institution',url_for(action: :destroy, controller: :institutions, id: @document['id']),method: :delete, data: {confirm: "Are you want to delete this institution?"} %></li>
+                  </ul>
+
+                </div>
+              <% end %>
 
             </div>
-            <% end %>
-
           </div>
+
+          <div style="clear: both;"></div>
 
           <% if @collex_documents.length > 0 %>
               <div id="institution_collections">
@@ -82,7 +84,7 @@
           <% # map for collections#show view %>
           <% unless @response.aggregations[map_facet_field].items.empty? %>
               <div id="blacklight-collection-map-container">
-                <h4>Mapped Digital Objects:</h4>
+                <h4>Map View:</h4>
                 <%= render :partial => 'catalog/index_mapview',
                            :locals => {:geojson_features => serialize_geojson(map_facet_values,
                                                                               'index')} %>
@@ -93,15 +95,14 @@
         </div>
 
 
-        <div id="sidebar" class="col-sm-3" style="margin-top:-20px;">
-          <%= render partial: '/catalog/facets', locals: { skip_title: true } %>
+        <div id="sidebar" class="col-md-3 col-sm-4">
+          <%= render partial: '/catalog/facets', locals: { skip_title: false } %>
         </div>
 
       </div>
 
     </div>
 
-  </div>
 
 </div>
 

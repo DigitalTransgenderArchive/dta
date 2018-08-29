@@ -29,6 +29,12 @@ $error_border: #eed3d7 !default;
 
 $viewer_bg: #111111 !default;
 
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
 /* new */
 #institutions-index {
   font-family: avenir;
@@ -211,9 +217,315 @@ $viewer_bg: #111111 !default;
   }
 }
 
+
+#institutions-show {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 22px;
+
+  div#breadcrumbs-title {
+    @include rounded-corners(30px);
+    /*margin-left: 20px;
+    margin-right: 20px;*/
+    background-color: #002D59;
+    width: calc(100% - 0px);
+    /*margin: auto;*/
+    margin-top:15px;
+    margin-bottom: 0px;
+    min-height: 40px;
+    color: #FFFFFF;
+    font-family: Avenir;
+    overflow: auto;
+
+    ul {
+      padding-top: 10px;
+      margin-bottom: 0px;
+      padding-left: 15px;
+      padding-right: 15px;
+      list-style: none;
+      float: left;
+      background-color: unset;
+      border-radius: unset;
+
+      li + li:before {
+        content: unset;
+        padding: 0;
+      }
+
+      li.breadcrumb-back {
+        a {
+          text-transform: uppercase;
+          color: white;
+          letter-spacing: 1px;
+          font-size: 15px;
+          font-weight: bold;
+        }
+      }
+      li.breadcrumb-back:after {
+        margin-left: 7px;
+        margin-right: 5px;
+        content: "\e080";
+        color: #FAA738;
+        font-family: 'Glyphicons Halflings';
+        font-size: 11px;
+      }
+      li.breadcrumb-title {
+        font-size: 14px;
+        font-weight: bold;
+        padding-top: -1px;
+      }
+
+
+    }
+
+  }
+
+  div#inst_image {
+    /*float: left;*/
+    margin-top: 20px;
+    img.institution_img_show {
+      float: left;
+      max-width: 25%;
+      margin: 0 1.4em 1em 0;
+      margin-top: 10px;
+    }
+
+  }
+
+
+  div#institution_search_tools {
+    margin-top: 20px;
+    float: right;
+
+    color: #002D59;
+    width: 72%;
+
+    .search_inst {
+      border-radius: 30px 0px 0px 30px;
+      height: 40px;
+      width: 450px;
+
+
+      &::-webkit-input-placeholder {
+        color: #002D59;
+        font-weight: bold;
+        font-family: Avenir;
+      }
+
+      &::-moz-placeholder {
+        color: #002D59;
+        font-weight: bold;
+        font-family: Avenir;
+      }
+
+      &::-ms-input-placeholder {
+        color: #002D59;
+        font-weight: bold;
+        font-family: Avenir;
+      }
+
+      &::-o-input-placeholder {
+        color: #002D59;
+        font-weight: bold;
+        font-family: Avenir;
+      }
+    }
+
+    .search-btn {
+      border-radius: 0px 30px 30px 0px;
+      cursor:pointer;
+      height: 41px;
+      background-color: #FAA738;
+      margin-top: -1px;
+      text-transform: uppercase;
+      font-family: Avenir;
+      letter-spacing: 1px;
+      width: 130px;
+    }
+  }
+
+
+
+  div#inst_info {
+    float: right;
+
+    color: #002D59;
+    width: 72%;
+
+
+    div#institution_desc {
+      padding-top: 20px;
+      clear: both;
+    }
+
+  }
+
+  #institution_collections {
+    width: 100%;
+    float: left;
+    margin-top: 1em;
+
+    h4 {
+      @include rounded-corners(30px);
+      background-color: #002D59;
+      width: 100%;
+      /*margin: auto;*/
+      margin-top:15px;
+      margin-bottom: 0px;
+      height: 40px;
+      color: #FFFFFF;
+      font-family: Avenir;
+      padding-top: 10px;
+      padding-left: 15px;
+    }
+
+    #documents {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+
+    #collections_count {
+      font-size: 14px;
+    }
+
+    #documents.collections-gallery {
+      margin-top: 0;
+    }
+
+    #documents .masonry.col-md-4 {
+      width:32.5%;
+    }
+
+    #documents .masonry.col-sm-4 {
+      width:32%;
+    }
+
+    #documents .masonry.col-sm-6 {
+      width:49.5%;
+    }
+
+  }
+
+  #sidebar {
+    margin-top: 20px;
+  }
+
+  #blacklight-collection-map-container {
+
+    #blacklight-index-map {
+      margin-left: 20px;
+      margin-right: 20px;
+      max-height: 350px;
+    }
+    h4 {
+      @include rounded-corners(30px);
+      background-color: #002D59;
+      width: 100%;
+      /*margin: auto;*/
+      margin-top:15px;
+      margin-bottom: 0px;
+      height: 40px;
+      color: #FFFFFF;
+      font-family: Avenir;
+      padding-top: 10px;
+      padding-left: 15px;
+      margin-bottom: 7px;
+    }
+
+    .mapped-count {
+      color: #002D59;
+      margin-left: 20px;
+      .badge {
+        background-color: #002D59;
+      }
+    }
+  }
+
+}
+
+@media (max-width: 1180px) {
+  #institutions-show {
+    div#institution_search_tools {
+      .search_inst {
+        width: 300px;
+      }
+    }
+  }
+
+}
+
+@media (max-width: 991.75px) {
+  #institutions-show {
+    div#inst_image {
+      float: unset;
+      margin-top: 22px;
+      width: 100%;
+      img.institution_img_show {
+        float: unset;
+        max-width: 50%;
+        max-height: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+    }
+    div#institution_search_tools {
+      margin-left: auto;
+      margin-right: auto;
+      float: unset;
+      display: block;
+      width: 380px;
+
+
+      .search_inst {
+        width: 250px;
+      }
+    }
+
+    div#inst_info {
+      width: 90%;
+
+    }
+  }
+}
+
+@media (max-width: 767.75px) {
+  #institutions-show {
+    div.maximize_custom {
+      width: 100%;
+    }
+
+    div#inst_info {
+      width: 90%;
+      float: unset;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    #sidebar {
+      clear: both;
+    }
+  }
+
+}
+
+@media (max-width: 429.75px) {
+  #institutions-show {
+    div#institution_search_tools {
+      width: 355px;
+      .search_inst {
+        width: 225px;
+      }
+    }
+  }
+
+}
 /* end new */
 
 
+/* Legacy to Check */
 div.institutions-list {
 
   #sortAndPerPage {
@@ -264,199 +576,10 @@ div.institutions-list {
 
 }
 
+/* End Legacy to Check */
 
-/* institutions show view */
 
-div.blacklight-institution {
 
-  h2 {
-    line-height: 25px;
-  }
-
-  #institution_geolocation {
-    padding-bottom: .7em;
-    font-size: 16px;
-    position: relative;
-    top: -5px;
-    color: $dark_gray;
-
-    a {
-      color: $darker_gray;
-      &:hover {
-        color: $bl_link;
-        text-decoration: none;
-      }
-    }
-
-    .metadata_breadcrumb {
-      padding: 0 5px;
-    }
-
-  }
-
-  img.institution_img_show {
-    float: left;
-    max-width: 25%;
-    margin: 0 1.4em 1em 0;
-    border: 1px solid $light_gray;
-  }
-
-  #institution_search_tools {
-    margin-bottom: 1em;
-    width: 72%;
-    float: right;
-
-    #institution_search_form {
-      padding: 0 3px 0 0;
-      float: left;
-
-      input {
-        width: 255px;
-        border-bottom-left-radius: 4px;
-        border-top-left-radius: 4px;
-      }
-
-      .submit-search-text {
-        display: none;
-      }
-
-    }
-
-    .institution_search_separator {
-      display: inline;
-      float: left;
-      padding: 6px 15px 8px 12px;
-      vertical-align: middle;
-      color: $dark_gray;
-    }
-
-  }
-
-  #institution_desc {
-    clear: right;
-
-    ol, ul {
-      display: inline-block;
-    }
-
-  }
-
-  #institution_collections {
-    width: 100%;
-    float: left;
-    margin-top: 1em;
-
-    #collections_count {
-      font-size: 14px;
-      color: $dark_gray;
-      vertical-align: top;
-    }
-
-    #documents.collections-gallery {
-      margin-top: 0;
-    }
-
-    #documents .masonry.col-md-4 {
-      width:32.5%;
-    }
-
-    #documents .masonry.col-sm-4 {
-      width:32.5%;
-    }
-
-    #documents .masonry.col-sm-6 {
-      width:49.5%;
-    }
-
-  }
-
-}
-
-/* Portrait tablet to landscape and desktop */
-
-@media (min-width: 768px) and (max-width: 991px) {
-
-  div.blacklight-institution {
-
-    img.institution_img_show {
-      max-width: 35%;
-    }
-
-    #institution_search_tools {
-      width:100%;
-    }
-
-  }
-
-}
-
-/* Landscape phone to portrait tablet */
-
-@media (max-width: 767px) {
-
-  div.blacklight-institution {
-
-    #institution_search_tools {
-      width:70%;
-
-      #institution_search_form {
-        padding: 0 3px 7px 0;
-        width: 301px;
-
-        input {
-          width:100%;
-        }
-
-      }
-
-      .institution_search_separator {
-        padding: 6px 10px 15px 7px;
-      }
-
-    }
-
-    #institution_collections {
-      margin: 2em 0;
-    }
-
-    #sidebar {
-      float:left;
-      width: 100%;
-    }
-
-  }
-
-}
-
-/* Landscape phones and down */
-
-@media (max-width: 480px) {
-
-  div.blacklight-institution {
-
-    img.institution_img_show {
-      max-width: 35%;
-    }
-
-    #institution_search_tools {
-      width:100%;
-
-      #institution_search_form {
-        padding: 0 1em .5em 0;
-        width: 100%;
-
-        input {
-          width: 100%;
-          font-size: 11px;
-        }
-
-      }
-
-    }
-
-  }
-
-}
 
 
 

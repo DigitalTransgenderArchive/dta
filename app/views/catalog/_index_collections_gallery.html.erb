@@ -1,7 +1,7 @@
 <%# collection gallery document %>
 <div class="masonry document col-xs-6 col-sm-4 col-md-4">
   <div class="thumbnail">
-    <%= link_to collection_path(document[:id]) do %><%= render_thumbnail_tag document, { class: "hidden-xs inst_collection_listing_thumbnail" }, { suppress_link: true } %><%end%>
+    <%= link_to collection_path(document[:id]) do %><%= render_thumbnail_tag document, { class: "inst_collection_listing_thumbnail" }, { suppress_link: true } %><%end%>
     <div class="caption">
       <h5 class="index_title document-title-heading col-md-12">
       <%= link_to  truncate((document[:title_primary_ssi] || document[:id]),
