@@ -36,45 +36,9 @@ $viewer_bg: #111111 !default;
 }
 
 /* new */
-#institutions-index {
+#institutions-index, #collections-index {
   font-family: avenir;
   color: #002D59;
-
-  .side_nav {
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 30px;
-    overflow: auto;
-    overflow-wrap: break-word;
-
-    h4 {
-      text-transform: uppercase;
-      margin: 0px;
-      padding: 0px;
-      font-size: 25px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    ul.content {
-      border-top: 2px #BACBE7 dotted;
-      padding-top: 8px;
-
-        li {
-          font-size: 15px;
-        }
-        li.active {
-          a {
-            color: #FAA738;
-            font-weight: bold;
-            font-size: 17px;
-          }
-        }
-        li:first-child {
-           margin-top:15px;
-        }
-    }
-  }
 
   h2 {
     font-size: 36px;
@@ -153,7 +117,7 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 834.75px) {
-  #institutions-index {
+  #institutions-index, #collections-index {
     #sidebar {
       display: none !important;
     }
@@ -164,7 +128,7 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 630.75px) {
-  #institutions-index {
+  #institutions-index, #collections-index {
     #browse_by_title {
 
       h4 {
@@ -191,7 +155,7 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 482.75px) {
-  #institutions-index {
+  #institutions-index, #collections-index {
     #browse_by_title {
 
       h4 {
@@ -218,7 +182,7 @@ $viewer_bg: #111111 !default;
 }
 
 
-#institutions-show {
+#institutions-show, #collections-show {
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 22px;
@@ -283,7 +247,7 @@ $viewer_bg: #111111 !default;
   div#inst_image {
     /*float: left;*/
     margin-top: 20px;
-    img.institution_img_show {
+    img.institution_img_show, img.collection_img_show {
       float: left;
       max-width: 25%;
       margin: 0 1.4em 1em 0;
@@ -300,7 +264,7 @@ $viewer_bg: #111111 !default;
     color: #002D59;
     width: 72%;
 
-    .search_inst {
+    .search_inst, .search_coll {
       border-radius: 30px 0px 0px 30px;
       height: 40px;
       width: 450px;
@@ -334,9 +298,9 @@ $viewer_bg: #111111 !default;
     .search-btn {
       border-radius: 0px 30px 30px 0px;
       cursor:pointer;
-      height: 41px;
+      height: 40px;
       background-color: #FAA738;
-      margin-top: -1px;
+      margin-top: 0px;
       text-transform: uppercase;
       font-family: Avenir;
       letter-spacing: 1px;
@@ -356,6 +320,12 @@ $viewer_bg: #111111 !default;
     div#institution_desc {
       padding-top: 20px;
       clear: both;
+
+      li.external_site_link {
+        a {
+          font-size: 17px;
+        }
+      }
     }
 
   }
@@ -384,7 +354,7 @@ $viewer_bg: #111111 !default;
       margin-right: 15px;
     }
 
-    #collections_count {
+    #collections_count, #collections_count_small {
       font-size: 14px;
     }
 
@@ -444,9 +414,9 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 1180px) {
-  #institutions-show {
+  #institutions-show, #collections-show {
     div#institution_search_tools {
-      .search_inst {
+      .search_inst, .search_coll {
         width: 300px;
       }
     }
@@ -455,12 +425,12 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 991.75px) {
-  #institutions-show {
+  #institutions-show, #collections-show {
     div#inst_image {
       float: unset;
       margin-top: 22px;
       width: 100%;
-      img.institution_img_show {
+      img.institution_img_show, img.collection_img_show {
         float: unset;
         max-width: 50%;
         max-height: 400px;
@@ -478,7 +448,7 @@ $viewer_bg: #111111 !default;
       width: 380px;
 
 
-      .search_inst {
+      .search_inst, .search_coll {
         width: 250px;
       }
     }
@@ -491,7 +461,7 @@ $viewer_bg: #111111 !default;
 }
 
 @media (max-width: 767.75px) {
-  #institutions-show {
+  #institutions-show, #collections-show {
     div.maximize_custom {
       width: 100%;
     }
@@ -511,14 +481,27 @@ $viewer_bg: #111111 !default;
       margin-top: 5px;
     }
   }
+}
+
+@media (max-width: 531.75px) {
+  #institutions-show, #collections-show {
+    #institution_collections {
+      #collections_count {
+        display: none !important;
+      }
+      #collections_count_small {
+        display: unset !important;
+      }
+    }
+  }
 
 }
 
 @media (max-width: 429.75px) {
-  #institutions-show {
+  #institutions-show, #collections-show {
     div#institution_search_tools {
       width: 355px;
-      .search_inst {
+      .search_inst, .search_coll {
         width: 225px;
       }
     }

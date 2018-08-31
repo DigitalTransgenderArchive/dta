@@ -1,0 +1,14 @@
+<div id="sidebar" class="col-md-3 col-sm-3 sidebar_site_section">
+  <div class="side_nav_custom">
+    <h4><%=@nav_section%></h4>
+
+    <ul class="content">
+      <% @nav_items.each do |nav|%>
+        <li>
+          <%=nav.html_safe%>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+</div>

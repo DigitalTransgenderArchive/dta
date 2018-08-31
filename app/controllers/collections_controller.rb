@@ -57,12 +57,24 @@ class CollectionsController < ApplicationController
     @nav_li_active = 'explore'
     (@response, @document_list) = search_results({:f => {'model_ssi' => 'Collection'}, :rows => 300, :sort => 'title_primary_ssort asc'})
 
+=begin
     if params[:filter].present?
       new_doc_list = []
       @document_list.each do |doc|
         new_doc_list << doc if doc['title_primary_ssi'].upcase[0] == params[:filter]
       end
       @document_list = new_doc_list
+    end
+=end
+    if params[:filter].present?
+      new_document_list = []
+      filter_list = params[:filter].split(',')
+      @document_list.each do |doc|
+        if filter_list.include?(doc['title_primary_ssi'].upcase[0])
+          new_document_list << doc
+        end
+      end
+      @document_list = new_document_list
     end
 
     params[:view] = 'list'

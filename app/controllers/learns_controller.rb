@@ -60,7 +60,8 @@ class LearnsController < ApplicationController
     nav_items_raw.each do |nav_item|
 
       if params[:id].present? and params[:id] == nav_item.url_label
-        @nav_items << nav_item.title
+        #@nav_items << nav_item.title
+        @nav_items << (ActionController::Base.helpers.link_to nav_item.title, learn_path(:id=>nav_item), {class: 'active'})
       else
         @nav_items << (ActionController::Base.helpers.link_to nav_item.title, learn_path(:id=>nav_item))
       end

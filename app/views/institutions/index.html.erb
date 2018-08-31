@@ -2,7 +2,7 @@
 <% content_for(:head) {  } %>
 <div id="institutions-index">
   <div id="sidebar" class="col-md-3 col-sm-3">
-    <div class="side_nav">
+    <div class="side_nav_custom">
       <h4>Browse By</h4>
 
       <ul class="content">
@@ -15,12 +15,9 @@
       </ul>
     </div>
 
-
-
-
-
   </div>
 
+  <a name="top"></a>
   <div id="content" class="col-md-9 col-sm-9 collections-list">
     <div class="inst_collection_table">
       <h2>Institutions</h2>
@@ -49,3 +46,5 @@
   </div>
 
 </div>
+
+<%= render partial: "partials/back_to_top" %>
