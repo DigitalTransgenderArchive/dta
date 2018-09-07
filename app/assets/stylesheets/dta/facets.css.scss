@@ -1,0 +1,111 @@
+@font-face {
+  font-family: Avenir;
+  src: url(font-path('avenir.ttf'))  format('truetype');
+}
+@font-face {
+  font-family: DTA;
+  src: url(font-path('4990810.ttf'))  format('truetype');
+}
+@font-face {
+  font-family: Gotham-Black;
+  src: url(font-path('Gotham-Black.otf'))  format('opentype');
+}
+@font-face {
+  font-family: Gotham-Ultra;
+  src: url(font-path('Gotham-Ultra.otf'))  format('opentype');
+}
+
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow; // iOS <4.3 & Android <4.1
+  box-shadow: $shadow;
+}
+div.map-content {
+  div.search-widgets {
+    display: none! important;
+  }
+  h3 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 17px;
+    color: #002D59;
+    font-family: Avenir;
+  }
+}
+
+/* FIXME? */
+#page-positioner {
+  div.facet_container {
+    div.modal-header {
+      h3.modal-title {
+        font-size: 36px;
+        font-weight: bold;
+        margin-top: 11px;
+        color: #002D59;
+        font-family: Avenir;
+      }
+    }
+  }
+}
+div.facet_container {
+  margin: 0;
+  padding: 0;
+  div.modal-header {
+    h3.modal-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-top: 11px;
+      color: #002D59;
+      font-family: Avenir;
+    }
+
+    padding-top: 0px;
+    padding-bottom: 5px;
+    border-bottom: 2px #BACBE7 dotted;
+    button.close {
+      color: #FAA738;
+      font-size: 38px;
+      margin-top: 1px;
+      opacity: 0.8;
+    }
+  }
+
+  div.modal-footer {
+    border-top: 2px #BACBE7 dotted;
+  }
+  div.facet_pagination {
+    div.sort_options {
+      a.az {
+        border-radius: 30px 0px 0px 30px;
+        background-color: #ddd;
+        color:#777777;
+        border-color: #ddd;
+      }
+      span.az {
+        border-radius: 30px 0px 0px 30px;
+        background-color: #002D59;
+        color: white;
+        border-color: #002D59;
+      }
+      a.numeric {
+        border-radius: 0px 30px 30px 0px;
+        background-color: #ddd;
+        color:#777777;
+        border-color: #ddd;
+      }
+      span.numeric {
+        border-radius: 0px 30px 30px 0px;
+        background-color: #002D59;
+        color: white;
+        border-color: #002D59;
+      }
+    }
+  }
+}
+
+

@@ -35,5 +35,17 @@ class HomepageController < ApplicationController
                   #iiif: "https://repository.digitaltransgenderarchive.net:8182/iiif/2/#{GenericObject.find_by(pid: '44558d50p').iiif_id}/square/full/0/default.jpg",
                   iiif: "/downloads/44558d50p?file=carousel",
                   description: "Marie Høeg (1866-1949) and Bolette Berg (1872-1944) were Norwegian photographers from Horton, Norway. Marie, the more outgoing of the two, was an active women's rights advocate who also enjoyed crossdressing in private. A private collection of photographs form the Berg and Høeg photography studio primarily shows Marie, with occasional appearances of Bolette, crossdressing in various fashions. These photographs show Marie's willingness to digress from and contradict social norms."}
+
+    @carousel << {collection_pid: "b5644r52v",
+                  image_pid: 'n296wz15f',
+                  title: "Kewpie Photographs",
+                  iiif: "/downloads/n296wz15f?file=carousel",
+                  description: "Kewpie was part of a queer community of people who were known amongst themselves and by the wider community in Cape Town as ‘moffies.' These photographs document Kewpie’s life in District Six, Cape Town, South Africa between 1950 and 1993."}
+
+    @carousel << {collection_pid: "mc87pq46k",
+                  image_pid: '4f16c3153',
+                  title: "NYC Trans Oral History Project",
+                  iiif: "/downloads/4f16c3153?file=carousel",
+                  description: "The NYC Trans Oral History Project is a collective, community archive working to document transgender resistance and resilience in New York City. This project works to confront the erasure of trans lives and to record diverse histories of gender as intersecting with race and racism, poverty, dis/ability, aging, housing migration, sexism, and the AIDS crisis."}
   end
 end
