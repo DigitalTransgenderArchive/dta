@@ -641,6 +641,12 @@ body.bodyoverride {
 
   @media (max-width: 429.75px) {
     #home_searchbar_outer #home_searchbar ul {
+      margin-left: 25px;
+    }
+  }
+
+  @media (max-width: 418.75px) {
+    #home_searchbar_outer #home_searchbar ul {
       margin-left: 20px;
     }
   }
