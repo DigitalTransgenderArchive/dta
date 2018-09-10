@@ -596,7 +596,14 @@ body.bodyoverride {
       display: none;
     }
     #home_searchbar_outer #home_searchbar ul {
-      margin-left: 40px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 406px;
+      display: block;
+
+      li:first-child {
+        padding-left: 5px;
+      }
     }
     #home_searchbar_outer #home_searchbar ul li a {
       font-size: 12px;
@@ -617,7 +624,7 @@ body.bodyoverride {
       display: none;
     }
     #home_searchbar_outer #home_searchbar ul {
-      margin-left: 40px;
+      width: 361px;
     }
     #home_searchbar_outer #home_searchbar ul li a {
       font-size: 10px;
@@ -633,23 +640,6 @@ body.bodyoverride {
     }
   }
 
-  @media (max-width: 451px) {
-    #home_searchbar_outer #home_searchbar ul {
-      margin-left: 30px;
-    }
-  }
-
-  @media (max-width: 429.75px) {
-    #home_searchbar_outer #home_searchbar ul {
-      margin-left: 25px;
-    }
-  }
-
-  @media (max-width: 418.75px) {
-    #home_searchbar_outer #home_searchbar ul {
-      margin-left: 20px;
-    }
-  }
   /* end navbar fix */
 
 }

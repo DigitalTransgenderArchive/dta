@@ -295,11 +295,19 @@
     #header_searchbar_outer #header_searchbar .search_select_wrapper {
       display: none;
     }
-    #header_searchbar_outer #header_searchbar ul {
-      /*margin-left: 20px;*/
-      /*margin: auto;*/
-      margin-left: 10%;
+    #header_searchbar_outer  {
+      #header_searchbar {
+        ul {
+          margin-left: auto;
+          margin-right: auto;
+          width: 406px;
+          display: block;
 
+          li:first-child {
+            padding-left: 5px;
+          }
+        }
+      }
     }
     #header_searchbar_outer #header_searchbar ul li a {
       font-size: 12px;
@@ -345,8 +353,12 @@
     #header_searchbar_outer #header_searchbar .search_select_wrapper {
       display: none;
     }
-    #header_searchbar_outer #header_searchbar ul {
-      margin-left: 40px;
+    #header_searchbar_outer  {
+      #header_searchbar {
+        ul {
+          width: 361px;
+        }
+      }
     }
     #header_searchbar_outer #header_searchbar ul li a {
       font-size: 10px;
@@ -362,25 +374,19 @@
     }
   }
 
-  @media (max-width: 446.75px) {
-    #header_searchbar_outer #header_searchbar ul {
-      margin-left: 35px;
-    }
-  }
-
-  @media (max-width: 436.75px) {
-    #header_searchbar_outer #header_searchbar ul {
-      margin-left: 30px;
-    }
-  }
-
   @media (max-width: 429.75px) {
     #header_searchbar_outer {
       padding-right: 0px;
-      #header_searchbar ul {
-        margin-left: 25px;
-      }
       #header_searchbar {
+        ul {
+          width: 361px;
+          li:first-child {
+            padding-left: 0px;
+          }
+          li:last-child {
+            padding-right: 5px;
+          }
+        }
         .col-xs-12 {
           padding-left: 5px;
         }
@@ -388,29 +394,6 @@
     }
   }
 
-  @media (max-width: 423.75px) {
-    #header_searchbar_outer {
-      #header_searchbar ul {
-        margin-left: 22px;
-      }
-    }
-  }
-
-  @media (max-width: 418.75px) {
-    #header_searchbar_outer {
-      #header_searchbar ul {
-        margin-left: 18px;
-      }
-    }
-  }
-
-  @media (max-width: 409.75px) {
-    #header_searchbar_outer {
-      #header_searchbar ul {
-        margin-left: 12px;
-      }
-    }
-  }
   /* end navbar fix */
 }
 
