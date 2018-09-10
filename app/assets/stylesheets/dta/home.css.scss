@@ -1,8 +1,4 @@
 @font-face {
-  font-family: Avenir;
-  src: url(font-path('avenir.ttf'))  format('truetype');
-}
-@font-face {
   font-family: DTA;
   src: url(font-path('4990810.ttf'))  format('truetype');
 }
@@ -14,6 +10,20 @@
   font-family: Gotham-Ultra;
   src: url(font-path('Gotham-Ultra.otf'))  format('opentype');
 }
+
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco)
+        -apple-system,
+          // Chrome < 56 for OS X (San Francisco)
+        BlinkMacSystemFont,
+          // Windows
+        "Segoe UI",
+          // Android
+        "Roboto",
+          // Basic web fallback
+        "Helvetica Neue", Arial, sans-serif,
+          // Emoji fonts
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
 body.bodyoverride {
   background-color: #818e9e;
@@ -30,7 +40,7 @@ body.bodyoverride {
 
   .btn-round {
     background-color: #002D59;
-    font-family: Avenir;
+    font-family: $font-family-sans-serif;
     font-size: 16px;
     letter-spacing: 1px;
     border-radius: 30px 30px 30px 30px;
@@ -64,6 +74,7 @@ body.bodyoverride {
     margin-top: 7px;
     margin-left: 10px;
     border-radius: 30px 30px 30px 30px;
+    padding-top: 4px;
   }
 
   .caret {
@@ -74,7 +85,8 @@ body.bodyoverride {
     margin-top: 60px;
     margin-right: 30px;
     color: white;
-    font-family: Avenir;
+    /*font-family: Avenir;*/
+    font-family: $font-family-sans-serif;
 
     .navbar-toggle {
       background-color: gray;
@@ -131,8 +143,8 @@ body.bodyoverride {
     width: 100%;
 
     #home_searchbar {
-      font-family: Avenir;
-      width: 600px;
+      font-family: $font-family-sans-serif;
+      width: 610px;
       margin: auto;
       padding-top: 15px;
 
@@ -146,7 +158,7 @@ body.bodyoverride {
         list-style: none;
         margin: 0;
         padding: 0;
-        margin-left: 130px;
+        margin-left: 140px;
         margin-bottom: 30px;
       }
 
@@ -162,7 +174,7 @@ body.bodyoverride {
       .search_select_wrapper {
         overflow: hidden;
         height: 30px;
-        width: 100px;
+        width: 110px;
         position: relative;
         display: block;
         margin-top: 10px;
@@ -177,12 +189,18 @@ body.bodyoverride {
           height: 30px;
           border: 0;
           font-size: 15px;
-          width: 100px;
+          width: 110px;
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance: none;
           color: #FFFFFF;
-          text-align: right;
+          /*text-align: left;*/
+          text-align-last: right;
+          padding-right: 20px;
+          option {
+            direction: rtl;
+            text-align: left;
+          }
         }
 
         &:after {
@@ -190,6 +208,7 @@ body.bodyoverride {
           font-family: FontAwesome;
           color: #FAA738;
           padding: 7px 8px;
+          padding-right: 0px;
           position: absolute; right: 0; top: 0;
           background-color: transparent;
           z-index: 1;
@@ -209,25 +228,29 @@ body.bodyoverride {
         &::-webkit-input-placeholder {
           color: #002D59;
           font-weight: bold;
-          font-family: Avenir;
+          font-family: $font-family-sans-serif;
+          opacity: 0.4;
         }
 
         &::-moz-placeholder {
           color: #002D59;
           font-weight: bold;
-          font-family: Avenir;
+          font-family: $font-family-sans-serif;
+          opacity: 0.4;
         }
 
         &::-ms-input-placeholder {
           color: #002D59;
           font-weight: bold;
-          font-family: Avenir;
+          font-family: $font-family-sans-serif;
+          opacity: 0.4;
         }
 
         &::-o-input-placeholder {
           color: #002D59;
           font-weight: bold;
-          font-family: Avenir;
+          font-family: $font-family-sans-serif;
+          opacity: 0.4;
         }
       }
 
@@ -238,7 +261,7 @@ body.bodyoverride {
         background-color: #FAA738;
         margin-top: -1px;
         text-transform: uppercase;
-        font-family: Avenir;
+        font-family: $font-family-sans-serif;
         letter-spacing: 1px;
         width: 130px;
       }
@@ -267,7 +290,7 @@ body.bodyoverride {
 
     p {
       color: #002D59;
-      font-family: Avenir;
+      font-family: $font-family-sans-serif;
       /*width: 550px;
       width: 100%;*/
       max-width: 550px;
@@ -301,7 +324,7 @@ body.bodyoverride {
       width: 200px;
       margin: auto;
       color: #002D59;
-      font-family: Avenir;
+      font-family: $font-family-sans-serif;
 
       div.icon {
         height: 180px;
@@ -416,7 +439,7 @@ body.bodyoverride {
         background-color: rgba(255,255,255,0.9);
         /*opacity: 0.5;
         filter: alpha(opacity=50);*/
-        font-family: Avenir;
+        font-family: $font-family-sans-serif;
         color: #002D59;
 
         h3 {
@@ -573,7 +596,7 @@ body.bodyoverride {
       display: none;
     }
     #home_searchbar_outer #home_searchbar ul {
-      margin-left: 20px;
+      margin-left: 40px;
     }
     #home_searchbar_outer #home_searchbar ul li a {
       font-size: 12px;
@@ -589,12 +612,12 @@ body.bodyoverride {
     }
   }
 
-  @media (max-width: 536px) {
+  @media (max-width: 490px) {
     #home_searchbar_outer #home_searchbar .search_select_wrapper {
       display: none;
     }
     #home_searchbar_outer #home_searchbar ul {
-      margin-left: 20px;
+      margin-left: 40px;
     }
     #home_searchbar_outer #home_searchbar ul li a {
       font-size: 10px;
@@ -607,6 +630,18 @@ body.bodyoverride {
     }
     #home_searchbar_outer {
       padding-right: 5px;
+    }
+  }
+
+  @media (max-width: 451px) {
+    #home_searchbar_outer #home_searchbar ul {
+      margin-left: 30px;
+    }
+  }
+
+  @media (max-width: 429.75px) {
+    #home_searchbar_outer #home_searchbar ul {
+      margin-left: 20px;
     }
   }
   /* end navbar fix */

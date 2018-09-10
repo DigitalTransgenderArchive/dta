@@ -37,7 +37,29 @@ $viewer_bg: #111111 !default;
   box-shadow: $shadow;
 }
 
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco)
+        -apple-system,
+          // Chrome < 56 for OS X (San Francisco)
+        BlinkMacSystemFont,
+          // Windows
+        "Segoe UI",
+          // Android
+        "Roboto",
+          // Basic web fallback
+        "Helvetica Neue", Arial, sans-serif,
+          // Emoji fonts
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
 /* new stuff */
+body {
+  font-family: $font-family-sans-serif;
+  margin:0px;
+  //background-color:#818e9e;
+  background-color:#ffffff;
+  //font-family: Arial, Helvetica, sans-serif;
+  //font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
+}
 #outer-wrapper {
   margin:0px;
   /*background-color:#818e9e;
@@ -63,7 +85,6 @@ $viewer_bg: #111111 !default;
     text-transform: uppercase;
     font-size: 22px;
     font-weight: bold;
-    font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
     margin-top: -7px;
     margin-bottom: 28px;
 
@@ -87,6 +108,7 @@ $viewer_bg: #111111 !default;
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #002D59;
   }
 
   ul.content {
@@ -138,23 +160,13 @@ $viewer_bg: #111111 !default;
   background-color:#ffffff;
 }
 
-body {
-  margin:0px;
-  //background-color:#818e9e;
-  background-color:#ffffff;
-  //font-family: Arial, Helvetica, sans-serif;
-  font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
-}
-
 /* Added for 2.0 */
 .thumbnail {
   text-align: center;
 }
 
 
-#page-positioner h1, #page-positioner h2, #page-positioner .modal-title, #page-positioner h3, #page-positioner h4, #page-positioner h5, #page-positioner h6, #page-positioner .attribute-label {
-  font-family: 'Lato', Verdana, Arail, Helvetica, sans-serif;
-}
+
 #page-positioner h1, #page-positioner h2, #page-positioner .modal-title {
   font-weight: 300;
 }
@@ -784,10 +796,6 @@ div.search_select_wrapper {
     background-size: cover;
   }
 
-  div.search_select_wrapper {
-    max-width: 100px;
-  }
-
   #search_field {
     height: 34px;
     max-width: 100px;
@@ -990,10 +998,6 @@ div.search_select_wrapper {
       overflow: hidden;
       text-indent: -200%;
       background-size: cover;
-    }
-
-    div.search_select_wrapper {
-      max-width:75px;
     }
 
     #search_field {

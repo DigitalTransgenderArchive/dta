@@ -1,7 +1,6 @@
 #pre_footer {
   height: 350px;
   background-color: #BACBE7;
-  font-family: Avenir;
 
   /*Change icons size here*/
   /*table {
@@ -88,28 +87,24 @@
       &::-webkit-input-placeholder {
         color: #002D59;
         font-weight: normal;
-        font-family: Avenir;
         opacity: 0.4;
       }
 
       &::-moz-placeholder {
         color: #002D59;
         font-weight: normal;
-        font-family: Avenir;
         opacity: 0.4;
       }
 
       &::-ms-input-placeholder {
         color: #002D59;
         font-weight: normal;
-        font-family: Avenir;
         opacity: 0.4;
       }
 
       &::-o-input-placeholder {
         color: #002D59;
         font-weight: normal;
-        font-family: Avenir;
         opacity: 0.4;
       }
     }
@@ -120,7 +115,6 @@
       height: 35px;
       margin-top: -1px;
       text-transform: uppercase;
-      font-family: Avenir;
       letter-spacing: 1px;
       width: 130px;
       color:white;

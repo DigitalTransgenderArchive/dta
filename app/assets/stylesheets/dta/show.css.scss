@@ -1,7 +1,4 @@
-@font-face {
-  font-family: Avenir;
-  src: url(font-path('avenir.ttf'))  format('truetype');
-}
+
 @font-face {
   font-family: DTA;
   src: url(font-path('4990810.ttf'))  format('truetype');
@@ -34,7 +31,6 @@
   /* show area */
   #document {
 
-    font-family: Avenir;
     color: #002D59;
 
     #show_row {
@@ -144,7 +140,6 @@
         margin-bottom: 0px;
         height: 40px;
         color: #FFFFFF;
-        font-family: Avenir;
 
         h2 {
           font-weight: bold;
@@ -220,7 +215,6 @@
       margin-bottom: 0px;
       height: 40px;
       color: #FFFFFF;
-      font-family: Avenir;
   }
 
   div#previousNextDocumentBot {

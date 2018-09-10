@@ -2,8 +2,8 @@
 <div id="search-results">
   <ol class="catalog" start="<%= document_counter_with_offset(0) %>">
     <%#= render documents, as: :document %>
-    <% documents.each do |document| %>
-        <%= render partial: 'generic_objects/generic_object_list', locals: {document: document} %>
+    <% documents.each_with_index do |document, index| %>
+        <%= render partial: 'generic_objects/generic_object_list', locals: {document: document, counter: document_counter_with_offset(index)} %>
     <% end %>
   </ol>
 </div>

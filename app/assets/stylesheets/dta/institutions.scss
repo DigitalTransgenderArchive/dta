@@ -37,7 +37,6 @@ $viewer_bg: #111111 !default;
 
 /* new */
 #institutions-index, #collections-index {
-  font-family: avenir;
   color: #002D59;
 
   h2 {
@@ -198,7 +197,6 @@ $viewer_bg: #111111 !default;
     margin-bottom: 0px;
     min-height: 40px;
     color: #FFFFFF;
-    font-family: Avenir;
     overflow: auto;
 
     ul {
@@ -273,25 +271,25 @@ $viewer_bg: #111111 !default;
       &::-webkit-input-placeholder {
         color: #002D59;
         font-weight: bold;
-        font-family: Avenir;
+        opacity: 0.4;
       }
 
       &::-moz-placeholder {
         color: #002D59;
         font-weight: bold;
-        font-family: Avenir;
+        opacity: 0.4;
       }
 
       &::-ms-input-placeholder {
         color: #002D59;
         font-weight: bold;
-        font-family: Avenir;
+        opacity: 0.4;
       }
 
       &::-o-input-placeholder {
         color: #002D59;
         font-weight: bold;
-        font-family: Avenir;
+        opacity: 0.4;
       }
     }
 
@@ -302,7 +300,6 @@ $viewer_bg: #111111 !default;
       background-color: #FAA738;
       margin-top: 0px;
       text-transform: uppercase;
-      font-family: Avenir;
       letter-spacing: 1px;
       width: 130px;
     }
@@ -344,7 +341,6 @@ $viewer_bg: #111111 !default;
       margin-bottom: 0px;
       height: 40px;
       color: #FFFFFF;
-      font-family: Avenir;
       padding-top: 10px;
       padding-left: 15px;
     }
@@ -396,7 +392,6 @@ $viewer_bg: #111111 !default;
       margin-bottom: 0px;
       height: 40px;
       color: #FFFFFF;
-      font-family: Avenir;
       padding-top: 10px;
       padding-left: 15px;
       margin-bottom: 7px;

@@ -160,7 +160,8 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('othersubject') do |field|
-      field.label = 'People / Organizations'
+      #field.label = 'People / Organizations'
+      field.label = 'People'
       field.solr_parameters = { :'spellcheck.dictionary' => 'othersubject' }
 
       field.solr_local_parameters = {

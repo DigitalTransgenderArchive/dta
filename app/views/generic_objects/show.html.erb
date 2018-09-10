@@ -36,8 +36,8 @@
         <div class="center-block text-center">
           <h2><%= display_multiple @generic_file.title %></h2>
           <% if @document[:alternative_tesim] %>
-            <% @document[:alternative_tesim].each do |alternative_title| %>
-              <h3><%= alternative_title %></h3><br />
+            <% @document[:alternative_tesim].each_with_index do |alternative_title, index| %>
+              <h3><%= alternative_title %></h3><% if index < (@document[:alternative_tesim].size-1) %><br /><% end %>
             <% end %>
           <% end %>
           <%= render 'generic_objects/media_display_public' %>

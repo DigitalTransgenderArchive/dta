@@ -64,6 +64,45 @@ body.blacklight-catalog-index {
 }
 /* end */
 
+/* display gallary */
+div.gallery {
+  .thumbnail {
+    border: 2px #BACBE7 dotted;
+    padding-bottom: 0px;
+    div.caption {
+      h3.document-title-heading {
+        a {
+          font-size: 15px;
+        }
+      }
+      color: #002D59;
+      padding-bottom: 0px;
+
+      dt {
+        color: unset;
+        font-weight: bold;
+      }
+      dt:first-child {
+        padding-top: 6px;
+      }
+    }
+  }
+}
+
+
+/* display list */
+ol.catalog {
+  color: #002D59;
+  img {
+    border: #002D59 solid 1px;
+  }
+  tr {
+    border-top: 2px #BACBE7 dotted;
+  }
+}
+
+/* end display */
+
 div.round-bar {
   @include rounded-corners(30px);
   width:90%;
@@ -80,7 +119,6 @@ div#search_results_bar {
   margin-bottom: 0px;
   height: 40px;
   color: #FFFFFF;
-  font-family: Avenir;
   h3 {
     font-weight: bold;
     font-size: 17px;
@@ -93,7 +131,6 @@ div#search_results_bar {
 }
 
 .facets {
-  font-family: Avenir;
 
   h4.facets-heading {
     @include rounded-corners(30px);
@@ -132,7 +169,6 @@ div#search_results_bar {
     background-color: unset;
     color: #002D59;
     font-weight: bolder;
-    font-family: Avenir;
     text-transform: uppercase;
     border-top: 2px #BACBE7 dotted;
   }
@@ -155,7 +191,7 @@ div#search_results_bar {
     width: 100%;
     height: 25px;
     text-align: left;
-    padding-top: 4px;
+    padding-top: 2px;
     padding-left: 7px;
     color: white;
     font-weight: bold;
@@ -253,7 +289,6 @@ div#search_results_bar:after {
   -webkit-box-shadow: unset;
   box-shadow: unset;
   color: #002D59;
-  font-family: Avenir;
 
   .constraints-label {
     font-weight: bold;
