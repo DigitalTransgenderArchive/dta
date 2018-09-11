@@ -159,6 +159,115 @@ class GenericObject < ActiveRecord::Base
     path
   end
 
+  NS = {
+      "xmlns:dc"   => "https://www.digitaltransgenderarchive.net/dc/v1",
+      "xmlns:dcterms"   => "https://www.digitaltransgenderarchive.net/dcterms/v1",
+  }
 
+  def dta_dc_xml_output
+    Nokogiri::XML::Builder.new do |x|
+      x['dc'].dta_dc(NS) do
+        x.title(self.title)
+
+        self.alt_titles.each do |alt_title|
+          x.alternative(alt_title)
+        end
+
+        self.descriptions.each do |abstract|
+          x.abstract(abstract)
+        end
+
+        self.genres.each do |item|
+          x.genre(item.label)
+        end
+
+        self.resource_types.each do |item|
+          x.resource_type(item.label)
+        end
+
+        x.format(self.analog_format, type: 'analog') if self.analog_format.present?
+        x.format(self.digital_format, type: 'digital') if self.digital_format.present?
+
+        self.date_created.each do |item|
+          x.date_created(item)
+        end
+
+        self.date_issued.each do |item|
+          x.date_issued(item)
+        end
+
+
+        self.temporal_coverage.each do |item|
+          x.temporal(item)
+        end
+
+        self.lcsh_subjects.each do |item|
+          x.subject(item.uri)
+        end
+
+        self.geonames.each do |item|
+          x.geographic(item.uri)
+        end
+
+        self.creators.each do |item|
+          x.creator(item.label)
+        end
+
+        self.contributors.each do |item|
+          x.contributor(item.label)
+        end
+
+        self.publishers.each do |item|
+          x.publisher(item)
+        end
+
+        x.tableOfContents(self.toc) if self.toc.present?
+
+        self.languages.each do |item|
+          x.language(item)
+        end
+
+        if self.is_shown_at.present?
+          x.isShownAt(self.is_shown_at)
+        else
+          x.isShownAt('https://www.digitaltransgenderarchive.net/files/' + pid)
+        end
+
+        if self.base_files[0].content.blank?
+          if self.resource_type.include?('Audio') || self.genre.include?('Sound Recordings')
+            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("shared/dta_audio_icon.jpg"))
+          else
+            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_pathimage_url("default.jpg"))
+          end
+        else
+          x.preview("https://www.digitaltransgenderarchive.net/downloads/#{pid}?file=thumbnail")
+        end
+
+        self.related_urls.each do |item|
+          x.seeAlso(item)
+        end
+
+        x.identifier(self.identifier) if self.identifier.present?
+
+        x.rights(self.rights[0].label, type: 'standardized')
+        self.rights_free_text.each do |item|
+          x.rights(item, type: 'free_text')
+        end
+
+        x.flagged(self.flagged) if self.flagged
+
+        x.hosted_elsewhere(self.hosted_elsewhere) if self.hosted_elsewhere
+
+        harvesting_ind = '1'
+        x.physicalLocation(inst.name)
+        if self.hosted_elsewhere.present? and self.hosted_elsewhere == '1' and not ['Transas City', 'Cork LGBT Archive'].include?(inst.name)
+          harvesting_ind = '0'
+        end
+        x.aggregatorHarvestingIndicator(harvesting_ind)
+
+
+      end
+    end.to_xml.sub('<?xml version="1.0"?>', '').strip
+  end
 
 end

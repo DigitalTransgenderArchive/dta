@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"
+         xmlns:mods="http://www.loc.gov/mods/v3"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate><%= @response_date %></responseDate>
+    <request verb="<%= @verb %>" metadataPrefix="<%= @metadata_prefix %>">https://www.digitaltransgenderarchive.net/oai.xml</request>
+    <ListSets>
+        <% @records.each do |record| %>
+                <set>
+                    <setSpec><%= record.id %></setSpec>
+                    <setName><%= record.title %></setName>
+                    <setDescription><%= record.description %></setDescription>
+                </set>
+        <% end %>
+    </ListSets>
+</OAI-PMH>
