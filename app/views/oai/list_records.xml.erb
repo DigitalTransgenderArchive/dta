@@ -13,9 +13,9 @@
                     <identifier><%= record.id %></identifier>
                     <datestamp><%= record.date %></datestamp>
                     <% if record.dtarecord.coll.present? %>
-                        <setSpec><% collect = record.dtarecord.coll %><%= collect.id %></setSpec>
+                        <setSpec><% collect = record.dtarecord.coll %><%= collect.pid %></setSpec>
                     <% else %>
-                        <setSpec><% collect = record.collections%><%= Coll.find_by(:title=>collect).id %></setSpec>
+                        <setSpec><% collect = record.collections%><%= Coll.find_by(:title=>collect).pid %></setSpec>
                     <% end %>
                 </header>
                 <metadata>

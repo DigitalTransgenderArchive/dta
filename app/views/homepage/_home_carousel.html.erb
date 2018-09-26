@@ -12,10 +12,12 @@
       <% @carousel.each_with_index do |item, index| %>
         <div class="item<% if index == 0 %> active<%end%>">
           <img src="<%=item[:iiif]%>" alt="<%=item[:title]%>" style="width:100%;">
-          <div class="carousel-caption">
-            <h3><%= item[:title] %></h3>
-            <p><%= item[:description] %></p>
-          </div>
+          <%= link_to collection_path(item[:collection_pid]) do %>
+            <div class="carousel-caption">
+              <h3><%= item[:title] %></h3>
+              <p><%= item[:description] %></p>
+            </div>
+          <% end %>
         </div>
       <% end %>
 

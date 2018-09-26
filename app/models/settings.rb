@@ -10,6 +10,14 @@ class Settings
     @google_analytics_id ||= Settings.dta_config["google_analytics_id"]
   end
 
+  def self.mailchimp_key
+    @mailchimp_key ||= Settings.dta_config["mailchimp_key"]
+  end
+
+  def self.mailchimp_id
+    @mailchimp_id ||= Settings.dta_config["mailchimp_id"]
+  end
+
   # FIXME!
   def self.fits_path
     @fits_path ||= Settings.dta_config["fits_path"]

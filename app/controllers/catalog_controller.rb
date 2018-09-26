@@ -54,7 +54,7 @@ class CatalogController < ApplicationController
     # solr field for flagged/inappropriate content
     config.flagged_field = 'flagged_ssi'
 
-    config.view.gallery.default = true
+    #config.view.gallery.default = true # List is now the default
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
@@ -75,7 +75,8 @@ class CatalogController < ApplicationController
     config.view.maps.facet_mode = 'geojson'
 
     #set default per-page
-    config.default_per_page = 20
+    config.default_per_page = 15
+    config.per_page = [15,25,50,100,200]
 
     config.max_per_page = 300
 

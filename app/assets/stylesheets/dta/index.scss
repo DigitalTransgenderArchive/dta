@@ -93,11 +93,41 @@ div.gallery {
 /* display list */
 ol.catalog {
   color: #002D59;
+  div.row {
+    border-bottom: 2px #BACBE7 dotted;
+    margin-right: 10px;
+
+    div.col-sm-3 {
+      text-align: center;
+    }
+  }
+  table.table {
+      margin-bottom: 10px;
+      margin-top: -7px;
+
+  }
   img {
     border: #002D59 solid 1px;
+    margin-top: 5px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    display: unset;
   }
   tr {
-    border-top: 2px #BACBE7 dotted;
+    /*border-top: 2px #BACBE7 dotted;*/
+    border: 0;
+    th, td {
+      border: 0;
+    }
+  }
+  tr:first-child {
+    margin-top:0px;
+    padding-top:0px;
+  }
+
+  span.h4 {
+      font-size: 15px;
   }
 }
 

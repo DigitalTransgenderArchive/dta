@@ -205,6 +205,14 @@ class GenericObject < ActiveRecord::Base
           x.subject(item.uri)
         end
 
+        self.homosaurus_subjects.each do |item|
+          x.subject(item.uri)
+        end
+
+        self.other_subjects.each do |item|
+          x.subject(item.label)
+        end
+
         self.geonames.each do |item|
           x.geographic(item.uri)
         end
@@ -233,11 +241,11 @@ class GenericObject < ActiveRecord::Base
           x.isShownAt('https://www.digitaltransgenderarchive.net/files/' + pid)
         end
 
-        if self.base_files[0].content.blank?
-          if self.resource_type.include?('Audio') || self.genre.include?('Sound Recordings')
+        if self.base_files.blank? || self.base_files[0].content.blank?
+          if self.resource_types.pluck(:label).include?('Audio') || self.genres.pluck(:label).include?('Sound Recordings')
             x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("shared/dta_audio_icon.jpg"))
           else
-            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_pathimage_url("default.jpg"))
+            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("default.jpg"))
           end
         else
           x.preview("https://www.digitaltransgenderarchive.net/downloads/#{pid}?file=thumbnail")
@@ -260,7 +268,7 @@ class GenericObject < ActiveRecord::Base
 
         harvesting_ind = '1'
         x.physicalLocation(inst.name)
-        if self.hosted_elsewhere.present? and self.hosted_elsewhere == '1' and not ['Transas City', 'Cork LGBT Archive'].include?(inst.name)
+        if self.hosted_elsewhere.present? and self.hosted_elsewhere == '1' and not ['Grupo Dignidade ', 'Independent Voices', 'Transas City', 'Cork LGBT Archive', 'JD Doyle Archives'].include?(inst.name)
           harvesting_ind = '0'
         end
         x.aggregatorHarvestingIndicator(harvesting_ind)

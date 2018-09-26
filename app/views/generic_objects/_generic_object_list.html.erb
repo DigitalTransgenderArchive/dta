@@ -1,7 +1,6 @@
 <li>
   <h2>
     <%= link_to_document document, document_show_link_field(document), counter: counter %>
-    <% if document.has_file_content? %><small>[<%= link_to 'Download', download_path(document), target: '_new' %>]</small><% end %>
     <% if current_or_guest_user.contributor? %><small style="float:right; color: black;"><%= render 'catalog/bookmark_control', document: document %></small><% end %>
   </h2>
   <div class="row">

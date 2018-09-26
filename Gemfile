@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# For Mailchimp
+gem 'gibbon'
+
 # Outdated to make this work
 gem 'leaflet-rails', '0.7.7'
 

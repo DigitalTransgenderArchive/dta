@@ -46,23 +46,33 @@
                counter = @about_section_links.length
                @about_section_links.each do |about_section|
                  counter -= 1
-%>
-              <li><%= link_to about_section.title, about_path(about_section) %></li>
-              <% if counter > 0 %>
-                <li class="divider"></li>
+             %>
+                 <% if about_section.title.downcase != 'contact us' %>
+
+                <li><%= link_to about_section.title, about_path(about_section) %></li>
+                <% if counter > 1 %>
+                  <li class="divider"></li>
+                <% end %>
               <% end %>
-            <% end %>
-            <% if current_user.present? and current_user.superuser? %>
-              <li class="divider"></li>
-              <li><%= link_to 'Add About Section', new_about_path %></li>
+              <% if current_user.present? and current_user.superuser? %>
+                <li class="divider"></li>
+                <li><%= link_to 'Add About Section', new_about_path %></li>
+              <% end %>
             <% end %>
           </ul>
         </li>
-        <li><a href="#">CONTACT <span class="caret"></span></a></li>
-        <li>
-        <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
-          Login
-        <% end %></li>
+        <li><%= link_to 'CONTACT', contact_path %></li>
+        <% if current_user.blank? %>
+          <li>
+            <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
+              Login
+            <% end %></li>
+        <% else %>
+          <li>
+            <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
+              Account
+            <% end %></li>
+        <% end %>
       </ul>
 
     </div>
