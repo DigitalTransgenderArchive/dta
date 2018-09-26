@@ -46,6 +46,6 @@ class HomepageController < ApplicationController
                   image_pid: 'sq87bt68c',
                   title: "Informational and Event Brochures",
                   iiif: "/downloads/sq87bt68c?file=carousel",
-                  description: "???"}
+                  description: "This diverse collection includes provides information about many different trans-related topics, including activist and social organizations."}
   end
 end
