@@ -69,7 +69,7 @@ class OaiController < ApplicationController
             .get('select', params: {
                 'q' => 'visibility_ssi:public AND model_ssi:Collection',
                 #'fl' => 'id,timestamp,xml',
-                'rows' => ROWS,
+                'rows' => 500,
                 'start' => @start
             })['response']['docs'].map do |d|
           SetRecord.new(

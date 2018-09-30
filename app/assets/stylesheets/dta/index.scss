@@ -73,6 +73,11 @@ div.gallery {
       h3.document-title-heading {
         a {
           font-size: 15px;
+
+          /* added */
+          /*font-weight: bold;
+          color: #002D59;*/
+          /* end added */
         }
       }
       color: #002D59;
@@ -93,6 +98,15 @@ div.gallery {
 /* display list */
 ol.catalog {
   color: #002D59;
+  li {
+    h2 {
+      margin-bottom: 15px;
+      a {
+        /*font-weight: bold;
+        color: #002D59;*/
+      }
+    }
+  }
   div.row {
     border-bottom: 2px #BACBE7 dotted;
     margin-right: 10px;
@@ -175,6 +189,9 @@ div#search_results_bar {
 }
 
 .facets {
+  a {
+    color: #002D59;
+  }
 
   h4.facets-heading {
     @include rounded-corners(30px);
@@ -193,6 +210,10 @@ div#search_results_bar {
   .blacklight-dtalimits_fa {
     border: 0;
     box-shadow: unset;
+
+    #exclude_finding_aids_checkbox_label {
+      color: #002D59;
+    }
   }
 
   /* panels */

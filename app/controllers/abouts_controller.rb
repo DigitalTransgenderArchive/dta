@@ -132,7 +132,7 @@ class AboutsController < ApplicationController
 
 
     nav_items_raw.each do |nav_item|
-      if nav_item.url_label == 'contact'
+      if nav_item.url_label == 'contact' || nav_item.url_label == 'news'
 =begin
         if params[:id].present? and params[:id] == nav_item.url_label
           @nav_items << "<a href='#{about_path(:id=>nav_item)}' class='active'>#{nav_item.title}</a><ul><li><a href='#{feedback_path}'>Email Us</a></li><li><a href='#{subscribe_path}'>Mailing List</a></li></ul>"

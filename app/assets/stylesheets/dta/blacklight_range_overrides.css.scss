@@ -1,0 +1,40 @@
+@mixin rounded-corners($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+/* changes */
+div.range_limit {
+  .subsection {
+    margin-top: 0.5em;
+  }
+  .btn-default {
+    background-color: #FAA738;
+    @include rounded-corners(30px);
+    color: white;
+    width: 80px;
+  }
+  .range_limit input.range_begin, .range_limit input.range_end {
+    @include rounded-corners(30px);
+    display: inline-block;
+    width: 4.5em;
+  }
+  .slider_js .slider-selection {
+    background: #002D59;
+  }
+
+  .slider-handle {
+    background-color: #FAA738;
+    background-image: -moz-linear-gradient(top, #FAA738, #FAA738);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FAA738), to(#FAA738));
+    background-image: -webkit-linear-gradient(top, #FAA738, #FAA738);
+    background-image: -o-linear-gradient(top, #FAA738, #FAA738);
+    background-image: linear-gradient(to bottom, #FAA738, #FAA738);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FAA738', endColorstr='#FAA738', GradientType=0);
+  }
+
+}
+
+/* end changes */
