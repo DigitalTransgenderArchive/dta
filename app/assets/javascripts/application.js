@@ -28,7 +28,14 @@
 
 // For blacklight_range_limit built-in JS, if you don't want it you don't need
 // this:
-//= require 'blacklight_range_limit'
+// require 'blacklight_range_limit'
+//= require 'flot/jquery.flot.js'
+//= require 'flot/jquery.flot.selection.js'
+//= require 'bootstrap-slider'
+//= require 'blacklight_range_limit/range_limit_distro_facets'
+//= require 'blacklight_range_limit/range_limit_shared'
+//= require 'blacklight_range_limit/range_limit_slider'
+
 //= require ahoy
 //= require onmount
 //= require 'openseadragon'

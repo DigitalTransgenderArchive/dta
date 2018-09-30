@@ -1,6 +1,6 @@
 <% if show_pagination? and @response.total_pages > 1 %>
     <div class="row record-padding">
-      <div class="col-md-12">
+      <div class="col-md-12 pagination-links-container">
         <div id="pagination_links_large" class="pagination">
           <%= paginate @response, :outer_window => 2, :inner_window=>4, :theme => 'blacklight' %>
         </div>

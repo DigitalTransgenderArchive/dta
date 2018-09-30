@@ -13,12 +13,17 @@ div.range_limit {
     background-color: #FAA738;
     @include rounded-corners(30px);
     color: white;
-    width: 80px;
+    width: 55px;
   }
   .range_limit input.range_begin, .range_limit input.range_end {
     @include rounded-corners(30px);
     display: inline-block;
-    width: 4.5em;
+    width: 55px;
+    padding-left:10px;
+    padding-right: 10px;
+  }
+  .range_limit input.range_begin {
+    margin-left: calc((100% - 186px)/2)
   }
   .slider_js .slider-selection {
     background: #002D59;
