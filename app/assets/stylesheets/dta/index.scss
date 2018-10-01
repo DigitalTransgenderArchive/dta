@@ -246,6 +246,10 @@ body.modal-open {
     font-weight: bolder;
     text-transform: uppercase;
     border-top: 2px #BACBE7 dotted;
+
+    a {
+      font-weight: bolder;
+    }
   }
 
   .panel-heading.collapse-toggle .panel-title:after {
@@ -271,6 +275,7 @@ body.modal-open {
     color: white;
     font-weight: bold;
     letter-spacing: 1px;
+    text-transform: uppercase;
   }
   /* end panels */
 

@@ -22,13 +22,25 @@ class ImageFile < BaseFile
       carousel = self.start_carousel
 
       image = MiniMagick::Image.open(self.full_path)
-      image.format "jpg"
-      image.resize '1920x1920^'
 
-      image.combine_options do |c|
-        c.gravity "Center"
-        c.extent "1920x1920"
+      if self.generic_object.pid == 'n296wz15f'
+        image.format "jpg"
+        image.resize '1920x2330^'
+
+        image.combine_options do |c|
+          c.gravity "South"
+          c.extent "1920x1920"
+        end
+      else
+        image.format "jpg"
+        image.resize '1920x1920^'
+
+        image.combine_options do |c|
+          c.gravity "Center"
+          c.extent "1920x1920"
+        end
       end
+
       carousel.mime_type = 'image/jpeg'
       carousel.content = image.to_blob
       carousel.save!

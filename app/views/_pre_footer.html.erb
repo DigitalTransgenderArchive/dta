@@ -5,22 +5,21 @@
       <li class="heading">DTA</li>
       <li><%= link_to 'Overview', about_path('overview') %></li>
       <li><%= link_to 'Policies', about_path('policies') %></li>
-      <li><%= link_to 'News', about_path('news') %></li>
       <li><%= link_to 'Our Team', about_path('team') %></li>
       <li><%= link_to 'Advisory Board', about_path('board') %></li>
-      <li><%= link_to 'Contact', about_path('contact') %></li>
+      <li><%= link_to 'Contact', contact_path %></li>
     </ul>
 
   </div>
   <div class="col-xs-4">
     <ul>
-    <li class="heading">Tools</li>
-    <li><%= link_to 'Browse By Institution', institutions_path %></li>
-    <li><%= link_to 'Browse By Topic', topic_facet_path %></li>
-    <li><%= link_to 'Browse By Map', '/places' %></li>
-    <li><%= link_to 'Browse By Collection', collections_path %></li>
-    <li><%= link_to 'Browse By Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
-  </ul>
+      <li class="heading">Tools</li>
+      <li><%= link_to 'Browse By Map', '/places' %></li>
+      <li><%= link_to 'Browse By Institution', institutions_path %></li>
+      <li><%= link_to 'Browse By Collection', collections_path %></li>
+      <li><%= link_to 'Browse By Topic', topic_facet_path %></li>
+      <li><%= link_to 'Browse By Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+    </ul>
   </div>
   <div class="col-xs-4">
     <ul>
