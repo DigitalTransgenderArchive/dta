@@ -25,7 +25,7 @@ class ImageFile < BaseFile
 
       if self.generic_object.pid == 'n296wz15f'
         image.format "jpg"
-        image.resize '1920x2360^'
+        image.resize '1920x2375^'
 
         image.combine_options do |c|
           c.gravity "South"
