@@ -203,6 +203,10 @@ body.bodyoverride {
           }
         }
 
+        option {
+          color: black;
+        }
+
         &:after {
           content:"\f0dc";
           font-family: FontAwesome;

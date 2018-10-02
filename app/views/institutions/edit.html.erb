@@ -1,3 +1,4 @@
+<div class="row-padded">
 <h2>Edit <%= @institution.name %></h2>
 
 <%= simple_form_for @institution, :url => institution_path(:id => @institution.pid), :as => :institution, html: { multipart: true, id: 'fileupload', autocomplete: "off" } do |f| %>
@@ -15,3 +16,4 @@
       <%= f.button :submit %>
     </div>
 <% end %>
+</div>

@@ -1,3 +1,4 @@
+<div class="row-padded">
 <h2>Create New Institution</h2>
 
 <%= simple_form_for @institution, :url => institutions_path, :as => :institution, html: { multipart: true, id: 'fileupload', autocomplete: "off" } do |f| %>
@@ -8,3 +9,4 @@
       <%= f.button :submit %>
   </div>
 <% end %>
+</div>

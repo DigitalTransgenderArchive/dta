@@ -64,11 +64,27 @@
             <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
               Login
             <% end %></li>
-        <% elsif 1==0 %>
-          <li>
-            <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn") do %>
-              Account
-            <% end %></li>
+        <% elsif current_user.present? && current_user.contributor? %>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">ADMIN <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to 'Upload', new_generic_object_path, :class=>"nav_button" %></li>
+              <li class="divider"></li>
+              <li><%= link_to 'Bookmarks', bookmarks_path, :class=>"nav_button" %></li>
+              <% if current_user.superuser? %>
+                <li class="divider"></li>
+                <li><%= link_to 'Inst Create', new_institution_path, :class=>"nav_button" %></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Coll Create', new_collection_path, :class=>"nav_button" %></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Roles', role_management.roles_path, :class=>"nav_button" %></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Jobs', '/sidekiq', :class=>"nav_button" %></li>
+              <% end %>
+              <li class="divider"></li>
+              <li><%= link_to 'Log Out', destroy_user_session_path, :class=>"nav_button" %></li>
+            </ul>
+          </li>
         <% end %>
       </ul>
 

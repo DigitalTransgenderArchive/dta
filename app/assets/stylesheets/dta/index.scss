@@ -101,6 +101,7 @@ ol.catalog {
     h2 {
       margin-bottom: 15px;
       a {
+        font-weight: 500;
         /*font-weight: bold;
         color: #002D59;*/
       }
@@ -193,6 +194,7 @@ body.modal-open {
     div.modal-body {
       a {
         color: #002D59;
+        font-weight: 500;
       }
     }
   }
@@ -201,6 +203,13 @@ body.modal-open {
 .facets {
   a {
     color: #002D59;
+  }
+
+  /* This makes the facets bold */
+  .facet-label {
+    a {
+      font-weight: 500;
+    }
   }
 
   h4.facets-heading {

@@ -4,7 +4,8 @@ class GenericObject < ActiveRecord::Base
   include GenericObjectSolrAssignments
   #has_paper_trail ignore: [:visibility, :views, :downloads, :pid] # on: [:update, :destroy]
 
-  include ::Hist::Model
+  #STEVEN: include ::Hist::Model
+
   #after_save :after_save_actions
   #around_save :hist_around_save
 
@@ -12,7 +13,7 @@ class GenericObject < ActiveRecord::Base
   # What happens when an id of a join table is removed?
   #has_hist associations: [:base_files, :genres, :geonames, :homosaurus_subjects, :lcsh_subjects, :resource_types, :rights, :contributors, :creators, :other_subjects]
   #has_hist associations: {all: {}}
-  has_hist associations: [base_files: {}, genres: {}, geonames: {}, homosaurus_subjects: {}, lcsh_subjects: {}, resource_types: {}, rights: {}, contributors: {}, creators: {}, other_subjects: {}]
+  #STEVEN: has_hist associations: [base_files: {}, genres: {}, geonames: {}, homosaurus_subjects: {}, lcsh_subjects: {}, resource_types: {}, rights: {}, contributors: {}, creators: {}, other_subjects: {}]
 
 
   #after_save :after_save_actions
@@ -75,7 +76,7 @@ class GenericObject < ActiveRecord::Base
 
       if !is_analytics
         send_solr
-        self.hist_save_actions
+        #STEVEN: self.hist_save_actions
       end
 
     end

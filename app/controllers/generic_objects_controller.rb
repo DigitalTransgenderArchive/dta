@@ -224,7 +224,7 @@ class GenericObjectsController < ApplicationController
     @generic_object.genres = form_fields[:genres].reject { |c| c.empty? }
 
     # This is for hist
-    @generic_object.hist_whodunnit = current_user.to_s
+    #STEVEN: @generic_object.hist_whodunnit = current_user.to_s
 
 
     @generic_object.inst = Inst.find_by(pid: params[:institution])
@@ -276,6 +276,11 @@ class GenericObjectsController < ApplicationController
 
         #ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
         @generic_object.base_files[0].create_derivatives
+
+        # Fixme... would be best if this was after derivatives
+        @generic_object.reload
+        @generic_object.send_solr
+
         redirect_to generic_object_path(@generic_object.pid), notice: "This object has been created."
       end
 
