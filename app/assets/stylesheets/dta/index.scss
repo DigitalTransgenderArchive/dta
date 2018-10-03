@@ -64,6 +64,19 @@ body.blacklight-catalog-index {
 }
 /* end */
 
+div.noresults {
+  margin-bottom: 45px;
+}
+
+div#content {
+  div.page-header {
+    border-bottom: 2px #BACBE7 dotted;
+    margin-left: 0px;
+    margin-right: 15px;
+    padding-bottom: px;
+  }
+}
+
 /* display gallary */
 div.gallery {
   .thumbnail {
@@ -169,10 +182,10 @@ div.round-bar {
 
 div#search_results_bar {
   @include rounded-corners(30px);
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
   background-color: #002D59;
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   /*margin: auto;*/
   margin-top:-10px;
   margin-bottom: 0px;
@@ -205,9 +218,23 @@ body.modal-open {
     color: #002D59;
   }
 
+  .facet-values .remove .glyphicon {
+    top: 0.16em;
+  }
+  a.remove {
+    color: #FAA738;
+    &hover {
+      color: red;
+    }
+  }
+
+
   /* This makes the facets bold */
   .facet-label {
     a {
+      font-weight: 500;
+    }
+    span.selected {
       font-weight: 500;
     }
   }
@@ -391,10 +418,14 @@ div#search_results_bar:after {
     @include rounded-corners(30px);
     color: #002D59;
   }
-
-  .remove {
-    @include rounded-corners(30px);
-    color: #002D59;
+  .appliedFilter {
+    .remove {
+      @include rounded-corners(30px);
+      color: #002D59;
+    }
+    .remove:hover {
+      color: red;
+    }
   }
 
   .catalog_startOverLink {

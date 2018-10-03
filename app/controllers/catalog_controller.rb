@@ -134,50 +134,47 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('description') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'description' }
-
-      field.solr_local_parameters = {
-          qf: '$description_qf',
-          pf: '$description_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'description',
+          qf: '${description_qf}',
+          pf: '${description_pf}'
       }
     end
 
     config.add_search_field('creator') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'creator' }
-
-      field.solr_local_parameters = {
-          qf: '$creator_qf',
-          pf: '$creator_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'creator',
+          qf: '${creator_qf}',
+          pf: '${creator_pf}'
       }
     end
 
     config.add_search_field('publisher') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'publisher' }
-
-      field.solr_local_parameters = {
-          qf: '$publisher_qf',
-          pf: '$publisher_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'publisher',
+          qf: '${publisher_qf}',
+          pf: '${publisher_pf}'
       }
     end
 
     config.add_search_field('othersubject') do |field|
       #field.label = 'People / Organizations'
       field.label = 'People'
-      field.solr_parameters = { :'spellcheck.dictionary' => 'othersubject' }
 
-      field.solr_local_parameters = {
-          qf: '$othersubject_qf',
-          pf: '$othersubject_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'othersubject',
+          qf: '${othersubject_qf}',
+          pf: '${othersubject_pf}'
       }
     end
 
     config.add_search_field('identifier') do |field|
       field.label = 'Identifier'
-      field.solr_parameters = { :'spellcheck.dictionary' => 'identifier' }
 
-      field.solr_local_parameters = {
-          qf: '$identifier_qf',
-          pf: '$identifier_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'identifier',
+          qf: '${identifier_qf}',
+          pf: '${identifier_pf}'
       }
     end
 
