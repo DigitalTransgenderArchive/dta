@@ -65,9 +65,14 @@
         h3 {
           font-size: 18px;
           font-style: italic;
-          margin-top:-10px;
-          margin-bottom:20px;
+          margin-top:-8px;
+          margin-bottom:10px;
         }
+
+        h3:last-of-type {
+          margin-bottom:19px;
+        }
+
         p {
           margin-top: 10px;
         }

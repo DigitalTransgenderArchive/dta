@@ -65,21 +65,22 @@ class GenericObjectsController < ApplicationController
   end
 
   def set_object(form_fields)
-    @generic_object.title = form_fields[:title]
+    @generic_object.title = form_fields[:title].strip
+
     if form_fields[:alt_titles][0].present?
-      @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? }
+      @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.alt_titles.present?
       @generic_object.alt_titles = []
     end
 
     if form_fields[:creators][0].present?
-      @generic_object.creators = form_fields[:creators].reject { |c| c.empty? }
+      @generic_object.creators = form_fields[:creators].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.creators.present?
       @generic_object.creators = []
     end
 
     if form_fields[:contributors][0].present?
-      @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? }
+      @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.contributors.present?
       @generic_object.contributors = []
     end
@@ -142,7 +143,7 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:other_subjects][0].present?
-      @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? }
+      @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.other_subjects.present?
       @generic_object.other_subjects = []
     end
@@ -162,13 +163,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:descriptions][0].present?
-      @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? }
+      @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.descriptions.present?
       @generic_object.descriptions = []
     end
 
     if form_fields[:toc][0].present?
-      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }
+      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.toc.present?
       @generic_object.toc = []
     end
@@ -180,13 +181,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:publishers][0].present?
-      @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? }
+      @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.publishers.present?
       @generic_object.publishers = []
     end
 
     if form_fields[:related_urls][0].present?
-      @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? }
+      @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.related_urls.present?
       @generic_object.related_urls = []
     end
@@ -199,13 +200,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:rights_free_text][0].present?
-      @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? }
+      @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.rights_free_text.present?
       @generic_object.rights_free_text = []
     end
 
     if form_fields[:is_shown_at][0].present?
-      @generic_object.is_shown_at = form_fields[:is_shown_at]
+      @generic_object.is_shown_at = form_fields[:is_shown_at].strip
     elsif @generic_object.is_shown_at.present?
       @generic_object.is_shown_at = nil
     end
