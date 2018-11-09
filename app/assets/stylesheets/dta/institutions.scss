@@ -242,6 +242,25 @@ $viewer_bg: #111111 !default;
 
   }
 
+  div#institution_view_all {
+    clear:left;
+    margin: auto;
+    text-align: center;
+    width: 25%;
+    margin-top: 20px;
+    .view-all-inst {
+      @include rounded-corners(30px);
+      cursor:pointer;
+      height: 40px;
+      background-color: #FAA738;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 160px;
+      color: #FFFFFF;
+      padding-top: 9px;
+    }
+  }
+
   div#inst_image {
     /*float: left;*/
     margin-top: 20px;
@@ -451,6 +470,27 @@ $viewer_bg: #111111 !default;
     div#inst_info {
       width: 90%;
 
+    }
+
+    div#institution_view_all {
+      margin: auto;
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+      .view-all-inst {
+        @include rounded-corners(30px);
+        cursor:pointer;
+        height: 40px;
+        background-color: #FAA738;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        width: 200px;
+        color: #FFFFFF;
+        padding-top: 9px;
+      }
+      .view-all-inst:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

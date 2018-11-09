@@ -52,6 +52,9 @@
 
             </div>
           </div>
+          <div id="institution_view_all" class="pull-left">
+            <%= link_to_all_col_items(@collection.title, nil, 'btn view-all-inst') %>
+          </div>
           <div style="clear: both;"></div>
 
           <% if current_user.present? and current_user.admin? %>
