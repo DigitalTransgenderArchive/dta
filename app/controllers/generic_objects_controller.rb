@@ -84,7 +84,7 @@ class GenericObjectsController < ApplicationController
               params[:generic_object][:delete_creator] = params[:generic_object][:delete_creator][0]
             end
             if obj.creators.pluck(:label).include?(params[:generic_object][:delete_creator])
-              obj.creators.delete(Creator.find_by(label: params[:generic_object][:delete_creator]))
+              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:delete_creator]))
               obj.save!
             end
           else
@@ -114,7 +114,7 @@ class GenericObjectsController < ApplicationController
               params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
             end
             if obj.creators.pluck(:label).include?(params[:generic_object][:current_creator])
-              obj.creators.delete(Creator.find_by(label: params[:generic_object][:current_creator]))
+              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:current_creator]))
               obj.creators = obj.creators + [params[:generic_object][:new_creator]]
               obj.save!
             end
