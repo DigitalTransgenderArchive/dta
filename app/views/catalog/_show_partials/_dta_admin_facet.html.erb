@@ -1,0 +1,21 @@
+<div class="panel panel-default facet_limit blacklight-admin_functions ">
+  <div class=" collapse-toggle panel-heading" data-toggle="collapse" data-target="#admin_functions">
+    <h3 class="panel-title facet-field-heading">
+      <a data-turbolinks="false" data-no-turbolink="true" href="#">Admin Functions</a>
+    </h3>
+  </div>
+  <div id="facet-admin_functions" class="panel-collapse facet-content in">
+    <div class="panel-body">
+      <ul class="facet-values list-unstyled">
+        <li>
+          <span class="facet-label">
+            <%= link_to 'Batch Edit', batch_edit_generic_objects_path(request.parameters), { :class=>"facet_select" }  %>
+          </span>
+          <span class="facet-count" style="width: 6px;"><%= @response.total_count %></span>
+
+      </ul>
+
+
+    </div>
+  </div>
+</div>

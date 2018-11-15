@@ -6,6 +6,12 @@ Rails.application.routes.draw do
 
   # Generic file routes
   resources :generic_objects, path: :files, except: :index do
+    collection do
+      get 'batch_edit'
+      post 'batch_add'
+      post 'batch_replace'
+      post 'batch_delete'
+    end
     member do
       get 'stats'
       get 'citation'

@@ -24,9 +24,10 @@
   </div>
   <div id="facet-panel-collapse" class="collapse panel-group">
     <%= render 'catalog/_show_partials/dta_limits_facet' unless @skip_dta_limits_render  %>
-
+    <%= render 'catalog/_show_partials/dta_admin_facet' if current_or_guest_user.admin? and !@skip_dta_limits_render  %>
     <%= render_facet_partials %>
   </div>
+
 </div>
 <% end %>
 

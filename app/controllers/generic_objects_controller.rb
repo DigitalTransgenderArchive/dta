@@ -21,6 +21,123 @@ class GenericObjectsController < ApplicationController
   end
   helper_method :search_action_url
 
+  def batch_edit
+    (@response, @document_list) = search_results(params.except(:page, :per_page).merge(rows: 2000))
+    raise 'Maximum results reached in catalog_controller... maximum change of 2000 records allowed!' if @document_list.size == 2000
+    @batch_field_type = params[:batch_field_type]
+
+    #puts 'Count was: ' + @document_list['numFound'].to_s
+    #raise @response['ivars'].to_s
+    #raise @response.total_pages.to_s
+    #raise @document_list.size.to_s
+    #raise @response.to_yaml
+    #raise @document_list.to_yaml
+  end
+
+  def get_batch_objs
+    (@response, @document_list) = search_results(params.except(:page, :per_page).merge(rows: 2000))
+    ids = @document_list.collect {|doc| doc[:id] }
+    objs = GenericObject.where(pid: ids)
+    objs
+  end
+
+  def batch_add
+    objs = get_batch_objs
+
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            unless obj.genres.pluck(:label).include?(params[:generic_object][:new_genre])
+              obj.genres = obj.genres + [params[:generic_object][:new_genre]]
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:new_creator].class == Array
+              params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
+            end
+            unless obj.creators.pluck(:label).include?(params[:generic_object][:new_creator])
+              obj.creators = obj.creators + [params[:generic_object][:new_creator]]
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Add was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :controller))
+  end
+
+  def batch_delete
+    objs = get_batch_objs
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            if obj.genres.pluck(:label).include?(params[:generic_object][:delete_genre])
+              obj.genres.delete(Genre.find_by(label: params[:generic_object][:delete_genre]))
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:delete_creator].class == Array
+              params[:generic_object][:delete_creator] = params[:generic_object][:delete_creator][0]
+            end
+            if obj.creators.pluck(:label).include?(params[:generic_object][:delete_creator])
+              obj.creators.delete(Creator.find_by(label: params[:generic_object][:delete_creator]))
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Delete was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :controller))
+  end
+
+  def batch_replace
+    objs = get_batch_objs
+
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            if obj.genres.pluck(:label).include?(params[:generic_object][:current_genre])
+              obj.genres.delete(Genre.find_by(label: params[:generic_object][:current_genre]))
+              obj.genres = obj.genres + [params[:generic_object][:new_genre]]
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:current_creator].class == Array
+              params[:generic_object][:current_creator] = params[:generic_object][:current_creator][0]
+              params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
+            end
+            if obj.creators.pluck(:label).include?(params[:generic_object][:current_creator])
+              obj.creators.delete(Creator.find_by(label: params[:generic_object][:current_creator]))
+              obj.creators = obj.creators + [params[:generic_object][:new_creator]]
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Replace was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :action, :controller))
+  end
+
+  def batch_change
+    (@response, @document_list) = search_results(params)
+    raise 'Maximum results reached in catalog_controller... maximum change of 2000 records allowed!' if @document_list.size == 2000
+    #puts 'Count was: ' + @document_list['numFound'].to_s
+    #raise @response['ivars'].to_s
+    #raise @response.total_pages.to_s
+    raise @document_list.size.to_s
+    raise @response.to_yaml
+    raise @document_list.to_yaml
+  end
+
   # routed to /files/:id
   def show
     #super

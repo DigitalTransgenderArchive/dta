@@ -12,6 +12,7 @@ class Pid
     return path.to_s.split('/', @baseparts).last
   end
 
+  # FIXME: This isn't working very well...
   def self.mint
     conflicts = true
     while conflicts do

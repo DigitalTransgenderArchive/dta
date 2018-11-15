@@ -78,7 +78,8 @@ class CatalogController < ApplicationController
     config.default_per_page = 15
     config.per_page = [15,25,50,100,200]
 
-    config.max_per_page = 300
+    #config.max_per_page = 300
+    config.max_per_page = 2000
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
