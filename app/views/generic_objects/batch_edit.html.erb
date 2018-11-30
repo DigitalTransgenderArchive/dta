@@ -8,6 +8,12 @@
       <li>
         <%= link_to 'Edit Genre', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Genre')), { :class=>"facet_select" }  %>
       </li>
+      <li>
+        <%= link_to 'Edit Resource Type', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Resource_Type')), { :class=>"facet_select" }  %>
+      </li>
+      <li>
+        <%= link_to 'Edit Rights', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Rights')), { :class=>"facet_select" }  %>
+      </li>
     </ul>
     <br /><br /><br />
   </div>

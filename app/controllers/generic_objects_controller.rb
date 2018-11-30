@@ -60,6 +60,11 @@ class GenericObjectsController < ApplicationController
               obj.creators = obj.creators + [params[:generic_object][:new_creator]]
               obj.save!
             end
+          when 'Resource_Type'
+            unless obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types = obj.resource_types + [params[:generic_object][:new_resource_type]]
+              obj.save!
+            end
           else
             raise "Unsupported?"
         end
@@ -87,6 +92,11 @@ class GenericObjectsController < ApplicationController
               obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:delete_creator]))
               obj.save!
             end
+          when 'Resource_Type'
+            if obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types.delete(ResourceType.find_by(label: params[:generic_object][:delete_resource_type]))
+              obj.save!
+            end
           else
             raise "Unsupported?"
         end
@@ -103,19 +113,31 @@ class GenericObjectsController < ApplicationController
       objs.each do |obj|
         case params[:batch_field_type]
           when 'Genre'
-            if obj.genres.pluck(:label).include?(params[:generic_object][:current_genre])
-              obj.genres.delete(Genre.find_by(label: params[:generic_object][:current_genre]))
+            if obj.genres.pluck(:label).include?(params[:generic_object][:delete_genre])
+              obj.genres.delete(Genre.find_by(label: params[:generic_object][:delete_genre]))
               obj.genres = obj.genres + [params[:generic_object][:new_genre]]
               obj.save!
             end
           when 'Creator'
-            if params[:generic_object][:current_creator].class == Array
-              params[:generic_object][:current_creator] = params[:generic_object][:current_creator][0]
+            if params[:generic_object][:delete_creator].class == Array
+              params[:generic_object][:delete_creator] = params[:generic_object][:delete_creator][0]
               params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
             end
-            if obj.creators.pluck(:label).include?(params[:generic_object][:current_creator])
-              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:current_creator]))
+            if obj.creators.pluck(:label).include?(params[:generic_object][:delete_creator])
+              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:delete_creator]))
               obj.creators = obj.creators + [params[:generic_object][:new_creator]]
+              obj.save!
+            end
+          when 'Rights'
+            if obj.rights.pluck(:label).include?(params[:generic_object][:delete_rights])
+              obj.rights.delete(Rights.find_by(label: params[:generic_object][:delete_rights]))
+              obj.rights = obj.rights + [params[:generic_object][:new_rights]]
+              obj.save!
+            end
+          when 'Resource_Type'
+            if obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types.delete(ResourceType.find_by(label: params[:generic_object][:delete_resource_type]))
+              obj.resource_types = obj.resource_types + [params[:generic_object][:new_resource_type]]
               obj.save!
             end
           else

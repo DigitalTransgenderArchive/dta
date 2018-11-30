@@ -1,4 +1,4 @@
-  <%= f.input 'current_genre', as: :single_select, collection: Genre.all.pluck(:label),
+  <%= f.input 'delete_genre', as: :single_select, collection: Genre.all.pluck(:label),
               input_html: {
                   include_help: t("simple_form.metadata_help.generic_file.genre"),
                   help_label: 'Genre', include_blank: true

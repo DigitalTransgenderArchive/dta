@@ -1,0 +1,6 @@
+<%= f.input :new_resource_type, as: :single_select, collection: ResourceType.all.pluck(:label),
+            input_html: {
+                include_help: t("simple_form.metadata_help.generic_file.resource_type"),
+                help_label: 'Type', include_blank: true
+            }, required: true, label: 'Type'
+%>
