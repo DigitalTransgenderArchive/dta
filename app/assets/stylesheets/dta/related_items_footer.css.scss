@@ -67,6 +67,14 @@ $font-family-sans-serif:
         margin: auto;
 
       }
+      a {
+        color: #002D59;
+        font-family: $font-family-sans-serif;
+      }
+      a:hover {
+        color: #002D59;
+        text-decoration: underline;
+      }
     }
 
     @media (max-width: 1600px) {
