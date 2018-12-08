@@ -4,6 +4,7 @@ class GenericObjectsController < ApplicationController
   include DtaStaticBuilder
 
   copy_blacklight_config_from(CatalogController)
+  before_action :mlt_results_for_show, :only => [:show]
 
   before_action :get_latest_content
 
@@ -20,6 +21,17 @@ class GenericObjectsController < ApplicationController
     search_catalog_url(options.except(:controller, :action))
   end
   helper_method :search_action_url
+
+  # run a separate search for 'more like this' items
+  # so we can explicitly set params to exclude unwanted items
+  def mlt_results_for_show
+
+    blacklight_config.search_builder_class = MltSearchBuilder
+    (@mlt_response, @mlt_document_list) = search_results(mlt_id: params[:id], rows: 6)
+    # have to reset to CommonwealthSearchBuilder, or prev/next links won't work
+    blacklight_config.search_builder_class = DefaultSearchBuilder
+
+  end
 
   def batch_edit
     (@response, @document_list) = search_results(params.except(:page, :per_page).merge(rows: 2000))

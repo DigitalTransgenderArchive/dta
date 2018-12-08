@@ -1,0 +1,117 @@
+@font-face {
+  font-family: DTA;
+  src: url(font-path('4990810.ttf'))  format('truetype');
+}
+@font-face {
+  font-family: Gotham-Black;
+  src: url(font-path('Gotham-Black.otf'))  format('opentype');
+}
+@font-face {
+  font-family: Gotham-Ultra;
+  src: url(font-path('Gotham-Ultra.otf'))  format('opentype');
+}
+
+$font-family-sans-serif:
+  // Safari for OS X and iOS (San Francisco)
+        -apple-system,
+          // Chrome < 56 for OS X (San Francisco)
+        BlinkMacSystemFont,
+          // Windows
+        "Segoe UI",
+          // Android
+        "Roboto",
+          // Basic web fallback
+        "Helvetica Neue", Arial, sans-serif,
+          // Emoji fonts
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+#related_items_mlt {
+  height: 450px;
+  background-image: image-url('shared/related_items_bg.png');
+  background-repeat: repeat-x;
+  background-position: left top;
+
+  h2 {
+    font-family: DTA;
+    color: #002D59;
+    letter-spacing: 2px;
+    margin-left: 30px;
+    padding-top: 35px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+
+  div.related_items {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 30px;
+
+    div.item {
+      max-width: 300px;
+      margin: auto;
+      margin-top: 0px;
+      font-weight: bold;
+      color: #002D59;
+      font-family: $font-family-sans-serif;
+      text-align: center;
+      float: left;
+      padding-left: 25px;
+      padding-right: 25px;
+
+      img {
+        display: unset;
+        border: #002D59 solid 1px;
+        max-width: 220px;
+        max-height: 250px;
+        margin: auto;
+
+      }
+    }
+
+    @media (max-width: 1600px) {
+      div.item5 {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 1350px) {
+      div.item4 {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      div.item3 {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 850px) {
+      div.item2 {
+        display: none !important;
+      }
+    }
+
+
+  }
+
+
+}
+@media (max-width: 559px) {
+  #related_items_mlt {
+    height: 400px;
+    div.related_items {
+      div.item {
+        max-width: 190px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        img {
+          max-width: 170px;
+          max-height: 170px;
+        }
+      }
+    }
+  }
+}

@@ -200,6 +200,23 @@
     </lst>
   </requestHandler>
 
+  <requestHandler name="mlt" class="solr.MoreLikeThisHandler">
+    <lst name="defaults">
+      <str name="fl">
+        *,
+        score
+      </str>
+      <!-- <str name="facet">true</str> -->
+      <str name="facet.mincount">1</str>
+      <str name="echoParams">explicit</str>
+      <!-- <str name="mlt.match.include">false</str>
+      <str name="mlt.mintf">1</str>
+      <str name="mlt.fl">subject_facet_ssim,subject_geo_city_ssim,related_item_host_ssim</str>
+      <str name="mlt.qf">subject_facet_ssim^5</str> -->
+      <str name="q">{!raw f=id v=$id}</str>
+    </lst>
+  </requestHandler>
+
   <searchComponent name="termsComponent" class="solr.TermsComponent" />
 
   <requestHandler name="/terms" class="solr.SearchHandler">
