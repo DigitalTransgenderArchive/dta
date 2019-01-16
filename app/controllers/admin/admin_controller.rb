@@ -22,8 +22,8 @@ class Admin::AdminController < ApplicationController
     @new_c = []
     (0..4).each do |index|
       if f[:collection_pid][index].strip.present?
-        if f[:image_pid][index].strip.blank? || f[:description][index].strip.blank?
-          raise 'Mismatch?'
+        if f[:image_pid][index].strip.blank? || f[:description][index].strip.blank? || f[:collection_pid].length != f[:image_pid].length || f[:collection_pid].length != f[:description].length
+          raise 'Mismatch? All fields must either be blank or filled in for each carousel!'
         end
 
         coll_obj = Coll.find_by(pid: f[:collection_pid][index].strip)
