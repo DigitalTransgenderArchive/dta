@@ -7,7 +7,7 @@ class AddCarouselTable < ActiveRecord::Migration[5.2]
 
   def change
     unless ActiveRecord::Base.connection.table_exists?(:carousels)
-      create_table :carousel do |t|
+      create_table :carousels do |t|
         t.string   :collection_pid, limit: 64
         t.string   :image_pid, limit: 64
         t.string   :title
