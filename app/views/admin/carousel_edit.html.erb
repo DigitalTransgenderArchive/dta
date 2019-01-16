@@ -1,0 +1,62 @@
+<div class="row-padded">
+  <h2>Edit Carousels</h2>
+
+  <div class="admin-row well">
+
+    <%= simple_form_for :carousel, url: admin_carousel_update_path, html: {autocomplete: "off"} do |f| %>
+
+      <% carousel_indexes = [0,1,2,3,4] %>
+      <% carousel_indexes.each do |index| %>
+        <h3>Carousel Position <%=index+1%>:</h3>
+        <div class="form-group" style="width: 583px;">
+          <div style="float:left">
+            <%= render partial: 'partials/label_with_help',
+                       locals: {f: f,
+                                label_val: 'Collection PID',
+                                include_help: 'The PID or Identifier of the collection.',
+                                required: false} %>
+          </div>
+          <div style="clear:both"></div>
+          <div>
+            <%= f.input :collection_pid, required: false, label: false, class: 'form-control', input_html: {multiple: true, value: @carousels[index][:collection_pid]}%>
+          </div>
+        </div>
+
+        <div class="form-group" style="width: 583px;">
+          <div style="float:left">
+            <%= render partial: 'partials/label_with_help',
+                       locals: {f: f,
+                                required: false,
+                                label_val: 'Object PID',
+                                include_help: 'The specific digital object to represent this collection in the carousel.'} %>
+          </div>
+          <div style="clear:both"></div>
+          <div>
+            <%= f.input :image_pid, required: false, label: false, class: 'form-control', input_html: {multiple: true, value: @carousels[index][:image_pid]}%>
+          </div>
+        </div>
+
+        <div class="form-group" style="width: 583px;">
+          <div style="float:left">
+            <%= render partial: 'partials/label_with_help',
+                       locals: {f: f,
+                                required: false,
+                                label_val: 'The tagline or description to use with this collection',
+                                include_help: 'Information about this institution.'} %>
+          </div>
+          <div style="clear:both"></div>
+          <div>
+            <%= f.input :description, as: :text, required: false, label: false, class: 'form-control', input_html: { multiple: true, rows: '9', type: 'textarea', value: @carousels[index][:description] } %>
+          </div>
+        </div>
+        <br />
+      <% end %>
+
+      <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "update_descriptions", data: { disable_with: "Please wait..." } do %>
+        <i class="glyphicon glyphicon-floppy-disk"></i> Save Carousel Changes
+      <% end %>
+
+    <% end %>
+
+  </div>
+</div>

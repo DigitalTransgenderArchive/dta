@@ -21,6 +21,11 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: 'admin', path: '/admin', as: 'admin' do
+    get 'carousel_edit', to: 'admin#carousel_edit', as: :carousel_edit
+    post 'carousel_update', to: 'admin#carousel_update', as: :carousel_update
+  end
+
   # Collection routes
   resources :collections, path: :col, only: [:show, :index, :new, :edit, :create, :update, :destroy]
   #get 'col', :to => 'collections#public_index', :as => 'collections_public'

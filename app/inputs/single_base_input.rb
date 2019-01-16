@@ -92,5 +92,5 @@ class SingleBaseInput < SimpleForm::Inputs::CollectionInput
     end
   end
 
-  def multiple?; true; end
+  def multiple?; false; end
 end
