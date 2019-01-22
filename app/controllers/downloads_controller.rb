@@ -38,7 +38,11 @@ class DownloadsController < ApplicationController
     if params[:institution].present?
       @file ||= base_object.inst_image_files[0]
     else
-      @file ||= base_object.base_files[0]
+      if params[:index].present?
+        @file ||= base_object.base_files[params[:index].to_i]
+      else
+        @file ||= base_object.base_files[0]
+      end
     end
   end
 

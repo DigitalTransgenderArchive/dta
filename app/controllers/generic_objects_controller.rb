@@ -401,23 +401,26 @@ class GenericObjectsController < ApplicationController
 
         if params[:generic_object][:hosted_elsewhere] != "0"
           if params.key?(:filedata)
-            file = params[:filedata]
+            files = params[:filedata]
+            files.each do |file|
+              image = MiniMagick::Image.open(file.path())
 
-            image = MiniMagick::Image.open(file.path())
+              if File.extname(file.original_filename) == '.pdf'
+                image.format('jpg', 0, {density: '300'})
+              else
+                image.format "jpg"
+              end
 
-            if File.extname(file.original_filename) == '.pdf'
-              image.format('jpg', 0, {density: '300'})
-            else
-              image.format "jpg"
+              image.resize "500x600"
+
+              @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
             end
-
-            image.resize "500x600"
-
-            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
           end
         else
-          file = params[:filedata]
-          @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+          files = params[:filedata]
+          files.each do |file|
+            @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+          end
         end
 
         @generic_object.save!
@@ -427,7 +430,9 @@ class GenericObjectsController < ApplicationController
         @generic_object.inst.send_solr
 
         #ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
-        @generic_object.base_files[0].create_derivatives
+        @generic_object.base_files.each do |file|
+          file.create_derivatives
+        end
 
         # Fixme... would be best if this was after derivatives
         @generic_object.reload
@@ -444,53 +449,66 @@ class GenericObjectsController < ApplicationController
       @generic_object = GenericObject.find(params[:id])
 
       unless validate_metadata(params, 'update')
-        raise params[:generic_object][:temporal_coverage].to_s
+        #raise params[:generic_object][:temporal_coverage].to_s
         redirect_back(fallback_location: edit_generic_object_path(@generic_object.pid))
       else
+        ActiveRecord::Base.transaction do
 
+          form_fields = params['generic_object']
+          # There is a bug with completely removing a value
+          self.set_object(form_fields)
 
-        #@generic_object = GenericObject.new
-
-        form_fields = params['generic_object']
-        # There is a bug with completely removing a value
-        self.set_object(form_fields)
-
-        if params.key?(:filedata)
-          # FIXME: This does it before save...
           @generic_object.base_files.clear
-
-          file = params[:filedata]
-
-          if params[:generic_object][:hosted_elsewhere] != "0"
-            image = MiniMagick::Image.open(file.path())
-
-            if File.extname(file.original_filename) == '.pdf'
-              image.format('jpg', 0, {density: '300'})
-            else
-              image.format "jpg"
+          if form_fields['existing_file'].present?
+            form_fields['existing_file'].each do |file_id|
+              @generic_object.base_files << BaseFile.find(file_id)
             end
-
-            image.resize "500x600"
-
-            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
-          else
-            @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
           end
+
+
+          if params.key?(:filedata)
+            # FIXME: This does it before save...
+
+
+            files = params[:filedata]
+
+            if params[:generic_object][:hosted_elsewhere] != "0"
+              files.each do |file|
+                image = MiniMagick::Image.open(file.path())
+
+                if File.extname(file.original_filename) == '.pdf'
+                  image.format('jpg', 0, {density: '300'})
+                else
+                  image.format "jpg"
+                end
+
+                image.resize "500x600"
+
+                @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
+              end
+
+            else
+              files.each do |file|
+                @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+              end
+            end
+          end
+
+          @generic_object.save!
+
+          if params.key?(:filedata)
+            @generic_object.base_files.each do |file|
+              file.create_derivatives
+            end
+          end
+
+          # Make this better
+          @generic_object.coll.send_solr
+          @generic_object.inst.send_solr
+
+          redirect_to generic_object_path(@generic_object.pid), notice: "This object has been updated."
         end
-
-        @generic_object.save!
-
-        if params.key?(:filedata)
-          @generic_object.base_files[0].create_derivatives
-        end
-
-        # Make this better
-        @generic_object.coll.send_solr
-        @generic_object.inst.send_solr
-
-        redirect_to generic_object_path(@generic_object.pid), notice: "This object has been updated."
       end
-
     end
   end
 
