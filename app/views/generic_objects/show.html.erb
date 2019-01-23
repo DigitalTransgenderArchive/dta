@@ -105,43 +105,49 @@
 </div>
 <%= render :partial => '/dta_seadragon', :locals=> {:object_title=> @generic_file.title, :iiif_id=>@generic_file.iiif_id} %>
 
-<div id="related_items_mlt">
-  <h2>Related Items</h2>
-  <div class="related_items">
-    <div class="item item0">
-      <%= render_thumbnail_tag @mlt_document_list[0] %> <br/>
-      <%= link_to_document @mlt_document_list[0], @mlt_document_list[0]["title_ssim"][0] %>
+<% if @mlt_document_list[0].present? %>
+  <div id="related_items_mlt">
+    <h2>Related Items</h2>
+    <div class="related_items">
+      <div class="item item0">
+        <%= render_thumbnail_tag @mlt_document_list[0] %> <br/>
+        <%= link_to_document @mlt_document_list[0], @mlt_document_list[0]["title_ssim"][0] %>
+      </div>
+
+      <% if @mlt_document_list[1].present? %>
+        <div class="item item1">
+          <%= render_thumbnail_tag @mlt_document_list[1] %> <br/>
+          <%= link_to_document @mlt_document_list[1], @mlt_document_list[1]["title_ssim"][0] %>
+        </div>
+      <% end %>
+
+      <% if @mlt_document_list[2].present? %>
+        <div class="item item2">
+          <%= render_thumbnail_tag @mlt_document_list[2] %> <br/>
+          <%= link_to_document @mlt_document_list[2], @mlt_document_list[2]["title_ssim"][0] %>
+        </div>
+      <% end %>
+
+      <% if @mlt_document_list[3].present? %>
+        <div class="item item3">
+          <%= render_thumbnail_tag @mlt_document_list[3] %> <br/>
+          <%= link_to_document @mlt_document_list[3], @mlt_document_list[3]["title_ssim"][0] %>
+        </div>
+      <% end %>
+      <% if @mlt_document_list[4].present? %>
+        <div class="item item4">
+          <%= render_thumbnail_tag @mlt_document_list[4] %> <br/>
+          <%= link_to_document @mlt_document_list[4], @mlt_document_list[4]["title_ssim"][0] %>
+        </div>
+      <% end %>
+      <% if @mlt_document_list[5].present? %>
+        <div class="item item5">
+          <%= render_thumbnail_tag @mlt_document_list[5] %> <br/>
+          <%= link_to_document @mlt_document_list[5], @mlt_document_list[5]["title_ssim"][0] %>
+        </div>
+      <% end %>
+
     </div>
-
-    <div class="item item1">
-      <%= render_thumbnail_tag @mlt_document_list[1] %> <br/>
-      <%= link_to_document @mlt_document_list[1], @mlt_document_list[1]["title_ssim"][0] %>
-    </div>
-
-    <div class="item item2">
-      <%= render_thumbnail_tag @mlt_document_list[2] %> <br/>
-      <%= link_to_document @mlt_document_list[2], @mlt_document_list[2]["title_ssim"][0] %>
-    </div>
-
-
-    <div class="item item3">
-      <%= render_thumbnail_tag @mlt_document_list[3] %> <br/>
-      <%= link_to_document @mlt_document_list[3], @mlt_document_list[3]["title_ssim"][0] %>
-    </div>
-
-    <div class="item item4">
-      <%= render_thumbnail_tag @mlt_document_list[4] %> <br/>
-      <%= link_to_document @mlt_document_list[4], @mlt_document_list[4]["title_ssim"][0] %>
-    </div>
-
-    <div class="item item5">
-      <%= render_thumbnail_tag @mlt_document_list[5] %> <br/>
-      <%= link_to_document @mlt_document_list[5], @mlt_document_list[5]["title_ssim"][0] %>
-    </div>
-
-
-
+    <%# @mlt_document_list.first.to_yaml %>
   </div>
-
-  <%# @mlt_document_list.first.to_yaml %>
-</div>
+<% end %>
