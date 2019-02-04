@@ -8,15 +8,20 @@
         </dd>
     <% else %>
         <dt>Download</dt>
+      <% total_images = @generic_file.base_files.size %>
       <% @generic_file.base_files.each_with_index do |_, index| %>
         <dd>
           <% if @generic_file.image? %>
-            <%= link_to "Image File", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
+            <% link_title = "Image File"
+               link_title +=  " " + (index+1).to_s if total_images > 1 %>
           <% elsif @generic_file.pdf? %>
-            <%= link_to "PDF File", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
+            <% link_title = "PDF File"
+               link_title += " " + (index+1).to_s if total_images > 1 %>
           <% else %>
-            <%= link_to "File", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
+            <% link_title = "File"
+               link_title += " " + (index+1).to_s if total_images > 1 %>
           <% end %>
+          <%= link_to "#{link_title}", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
         </dd>
       <% end %>
     <% end %>
