@@ -103,7 +103,14 @@
 <% end %>
 
 </div>
-<%= render :partial => '/dta_seadragon', :locals=> {:object_title=> @generic_file.title, :iiif_id=>@generic_file.iiif_id} %>
+
+<% if @generic_file.base_files.length == 1 %>
+  <%= render :partial => '/dta_seadragon', :locals=> {:object_title=> @generic_file.title, :iiif_id=>@generic_file.iiif_id, id: 0} %>
+<% else %>
+  <% @generic_file.base_files.each_with_index do |_, index| %>
+    <%= render :partial => '/dta_seadragon', :locals=> {:object_title=> @generic_file.title, :iiif_id=>@generic_file.iiif_id(index: index), id: index} %>
+  <% end %>
+<% end %>
 
 <% if @mlt_document_list[0].present? %>
   <div id="related_items_mlt">

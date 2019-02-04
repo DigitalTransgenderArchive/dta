@@ -39,6 +39,8 @@
     <%= render_download_icon %>
 
   <% end %>
+
+
 <% else %>
   <div id="myCarousel" class="carousel slide" data-ride="carousel" style="margin: auto;" data-interval="false">
     <!-- Indicators -->
@@ -53,11 +55,11 @@
       <% @generic_file.base_files.each_with_index do |_, index| %>
         <div class="item<%if index==0%> active<%end%>">
           <% if @generic_file.image? %>
-            <a target="_blank" title="View in image viewer" id="img_viewer_link" data-label="<%= @generic_file.pid %>" rel="nofollow" href="#">
+            <a target="_blank" title="View in image viewer" id="img_viewer_link_<%=index%>" data-label="<%= @generic_file.pid %>" rel="nofollow" href="#">
               <img src="/downloads/<%=@generic_file.pid%>?file=preview&index=<%=index%>" class="img-responsive img-preview-large">
             </a>
           <% else %>
-            <a target="_blank" title="Download the document" id="file_download" data-label="<%= @generic_file.pid %>" rel="nofollow" href="<%=download_path(@generic_file.pid, index: index)%>>">
+            <a target="_blank" title="Download the document" id="file_download" data-label="<%= @generic_file.pid %>" rel="nofollow" href="<%=download_path(@generic_file.pid, index: index)%>">
               <img src="/downloads/<%=@generic_file.pid%>?file=preview&index=<%=index%>" class="img-responsive img-preview-large">
             </a>
           <% end %>

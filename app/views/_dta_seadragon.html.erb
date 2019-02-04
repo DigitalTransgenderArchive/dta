@@ -1,5 +1,5 @@
 <%# this partial creates the OpenSeadragon image viewer modal %>
-<div id="img_viewer_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="<%= object_title.gsub(/\'/,'') %>" aria-hidden="true">
+<div id="img_viewer_modal_<%=id%>" class="img_viewer_modal modal fade" tabindex="-1" role="dialog" aria-labelledby="<%= object_title.gsub(/\'/,'') %>" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -9,19 +9,20 @@
         </button>
         <h4 class="modal-title" id="img_viewer_title"><%= object_title.gsub(/\'/,'') %></h4>
       </div>
-      <div class="modal-body" id="img_viewer_osd"></div>
+      <div class="img_viewer_osd modal-body" id="img_viewer_osd_<%=id%>"></div>
       <div class="modal-footer"></div>
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-  OSd_viewer = {};
-  $('#img_viewer_link, #img_viewer_link2').click(function() {
-    $('#img_viewer_modal').modal();
-    $("#img_viewer_osd").css("height", $(window).height() - 60);
-    OSd_viewer.viewer = new OpenSeadragon({
-      id: "img_viewer_osd",
+  //#img_viewer_link2
+  OSd_viewer_<%=id%> = {};
+  $('#img_viewer_link_<%=id%>').click(function() {
+    $('#img_viewer_modal_<%=id%>').modal();
+    $("#img_viewer_osd_<%=id%>").css("height", $(window).height() - 60);
+    OSd_viewer_<%=id%>.viewer = new OpenSeadragon({
+      id: "img_viewer_osd_<%=id%>",
       prefixUrl: '',
       navImages: $.parseJSON('<%= osd_nav_images('openseadragon').html_safe %>'),
       //tileSources: ['<%# IIIF_SERVER['url'] + image_pid + '/info.json' %>'],
@@ -36,11 +37,11 @@
     });
     return false;
   });
-  $('#img_viewer_modal').on('hidden.bs.modal', function (e) {
-    $("#img_viewer_osd").find('.openseadragon-container').remove();
-    if (OSd_viewer.viewer) {
-      OSd_viewer.viewer.destroy();
-      OSd_viewer.viewer = null;
+  $('#img_viewer_modal_<%=id%>').on('hidden.bs.modal', function (e) {
+    $("#img_viewer_osd_<%=id%>").find('.openseadragon-container').remove();
+    if (OSd_viewer_<%=id%>.viewer) {
+      OSd_viewer_<%=id%>.viewer.destroy();
+      OSd_viewer_<%=id%>.viewer = null;
     }
   });
 </script>

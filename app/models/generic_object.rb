@@ -150,9 +150,9 @@ class GenericObject < ActiveRecord::Base
     self.destroy
   end
 
-  def iiif_id
-    if self.base_files.present? and self.base_files[0].path.present?
-      path = self.base_files[0].path
+  def iiif_id(index: 0)
+    if self.base_files.present? and self.base_files[index].path.present?
+      path = self.base_files[index].path
       path.gsub!('/', '%2F')
     else
       path = 'doesnotexist'
