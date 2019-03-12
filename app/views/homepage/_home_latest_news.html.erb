@@ -1,0 +1,21 @@
+
+<div id="home_latest_news">
+  <div class="col-xs-12 col-sm-12">
+    <h2>Latest Tweets</h2>
+  </div>
+
+  <div class="news_wrapper">
+    <% @tweets.all.each_with_index do |tweet, index| %>
+      <div class="icondiv tweet_counter_<%=index%>">
+        <a href="<%=tweet.tweet_url%>", target="_blank"><%= image_tag("home/icons/twitter_latest.png", class: 'icon') %></a>
+        <br /><%= link_to "@digitaltransarc", tweet.tweet_url, target: "blank" %>
+      </div>
+      <div class="tweet tweet_counter_<%=index%>">
+        <%= tweet.content.to_s.force_encoding("UTF-8").html_safe %>
+      </div>
+    <% end %>
+
+  </div>
+  <br /><br /><br />
+  <%= render partial: "partials/back_to_top" %>
+</div>

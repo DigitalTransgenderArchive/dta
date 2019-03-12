@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_22_061544) do
+ActiveRecord::Schema.define(version: 2018_06_22_061549) do
 
   create_table "abouts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "url_label"
@@ -203,6 +203,22 @@ ActiveRecord::Schema.define(version: 2018_06_22_061544) do
     t.datetime "updated_at", null: false
     t.index ["document_id"], name: "index_bookmarks_on_document_id"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
+
+  create_table "carousel", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "collection_pid", limit: 64
+    t.string "image_pid", limit: 64
+    t.string "title"
+    t.string "iiif"
+    t.text "description"
+  end
+
+  create_table "carousels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "collection_pid", limit: 64
+    t.string "image_pid", limit: 64
+    t.string "title"
+    t.string "iiif"
+    t.text "description"
   end
 
   create_table "ckeditor_assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -445,6 +461,17 @@ ActiveRecord::Schema.define(version: 2018_06_22_061544) do
     t.index ["link_order"], name: "index_learns_on_link_order"
     t.index ["published"], name: "index_learns_on_published"
     t.index ["url_label"], name: "index_learns_on_url_label", unique: true
+  end
+
+  create_table "news_tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "tweet_url", limit: 191
+    t.binary "raw_content", limit: 1000
+    t.binary "content", limit: 1500
+    t.string "quoted_url", limit: 191
+    t.binary "raw_quoted", limit: 1000
+    t.binary "quoted", limit: 1500
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "object_genres", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|

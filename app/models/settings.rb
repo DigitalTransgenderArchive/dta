@@ -1,5 +1,16 @@
 class Settings
 
+
+  def self.twitter_client
+    @client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = Settings.dta_config["twitter_consumer_key"]
+      config.consumer_secret     = Settings.dta_config["twitter_consumer_secret"]
+      config.access_token        = Settings.dta_config["twitter_access_token"]
+      config.access_token_secret = Settings.dta_config["twitter_access_token_secret"]
+    end
+    @client
+  end
+
   def self.filestore
     @filestore_path ||= Settings.dta_config["filestore_path"]
     raise "filestore_path in dta.yml could not be detected" if @filestore_path.blank?

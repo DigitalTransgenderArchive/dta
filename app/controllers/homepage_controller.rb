@@ -12,6 +12,7 @@ class HomepageController < ApplicationController
   layout 'home'
 #iiif: "https://repository.digitaltransgenderarchive.net:8182/iiif/2/#{GenericObject.find_by(pid: 'fx719m50n').iiif_id}/full/,760/0/default.jpg",
 #iiif: "https://repository.digitaltransgenderarchive.net:8182/iiif/2/#{GenericObject.find_by(pid: 'fx719m50n').iiif_id}/0,0,3840,2560/max/0/default.jpg",
+
   def index
     @carousel = []
     Carousel.all.each do |c|
@@ -22,5 +23,8 @@ class HomepageController < ApplicationController
                     description: c.description}
 
     end
+
+    @tweets = NewsTweet.all
+
   end
 end

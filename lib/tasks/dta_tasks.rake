@@ -11,6 +11,10 @@ task :solr_reindex_all => [ :environment ] do
   DSolr.reindex("GenericObject")
 end
 
+task :populate_tweets => [ :environment ] do
+  ProcessTweetsWorker.perform_async
+end
+
 
 # Where is fetch?
 desc "Fix OCR data"
