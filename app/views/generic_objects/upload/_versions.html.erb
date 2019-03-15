@@ -7,7 +7,7 @@
 <ul>
   <% @generic_object.versions[1..-1].each do |ver| %>
     <li>
-      <%= link_to "#{ver.created_at.in_time_zone('Eastern Time (US & Canada)').to_s.split(' ')[0..1].join(' at ')}", edit_generic_object_path(id: @generic_object.pid, version_id: ver.ver_id) %>
+      <%= link_to "#{ver.hist_created_at.in_time_zone('Eastern Time (US & Canada)').to_s.split(' ')[0..1].join(' at ')}", edit_generic_object_path(id: @generic_object.pid, version_id: ver.ver_id) %>
       <%= link_to "(Diff Metadata)", hist.diff_versions_path(right_id: ver.ver_id, left_id: 'current', exclude: [:original_ocr, :closeMatch, :exactMatch]), remote: true %>
       <%= link_to "(Diff Content)", hist.diff_versions_path(right_id: ver.ver_id, left_id: 'current', field_path: '["base_files"][0]["original_ocr"]', mode: :text), remote: true %>
       <%= link_to "(Diff All)", hist.diff_versions_path(right_id: ver.ver_id, left_id: 'current', exclude: [:closeMatch, :exactMatch]), remote: true %>

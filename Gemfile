@@ -97,7 +97,7 @@ gem 'concurrent-ruby', require: 'concurrent'
 
 # Versioning
 #gem 'hist', path: '/Users/sanderso/root/rails/hist'
-gem 'hist', github: 'scande3/hist'
+gem 'hist'
 gem 'ace-rails-ap'
 
 # Analytics
@@ -108,7 +108,7 @@ gem 'ahoy_matey', '1.6.1'
 gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 5.2.2.1'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '1.3.13'

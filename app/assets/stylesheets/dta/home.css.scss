@@ -504,7 +504,17 @@ body.bodyoverride {
   }
 
   #home_latest_news {
-    background-color: #FFFFFF;
+    /*background-color: #FFFFFF;*/
+    background-image: image-url('home/home_latest_news_bg.png');
+    background-repeat: repeat-x;
+    background-position: left top;
+
+    #back-to-top {
+      margin-top: 15px;
+      p {
+        margin-bottom: 10px;
+      }
+    }
 
     h2 {
       font-family: DTA;

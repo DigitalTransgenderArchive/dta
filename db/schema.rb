@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_22_061549) do
+ActiveRecord::Schema.define(version: 2018_07_19_185135) do
 
   create_table "abouts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "url_label"
@@ -345,7 +345,7 @@ ActiveRecord::Schema.define(version: 2018_06_22_061549) do
     t.index ["uri"], name: "index_geonames_on_uri", unique: true
   end
 
-  create_table "hist_pendings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "hist_pendings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "model", null: false
     t.integer "obj_id"
     t.string "whodunnit"
@@ -357,7 +357,7 @@ ActiveRecord::Schema.define(version: 2018_06_22_061549) do
     t.index ["model", "obj_id"], name: "index_hist_pendings_on_model_and_obj_id"
   end
 
-  create_table "hist_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+  create_table "hist_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "model", null: false
     t.integer "obj_id", null: false
     t.string "whodunnit"

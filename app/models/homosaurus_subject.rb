@@ -60,7 +60,7 @@ class HomosaurusSubject < ActiveRecord::Base
     get_broadest(self.identifier)
     doc[:topConcept_ssim] = @broadest_terms if @broadest_terms.present?
     doc[:new_model_ssi] = 'HomosaurusSubject'
-
+    doc[:active_fedora_model_ssi] = 'Homosaurus'
     doc
   end
 

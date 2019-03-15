@@ -4,7 +4,8 @@ class GenericObject < ActiveRecord::Base
   include GenericObjectSolrAssignments
   #has_paper_trail ignore: [:visibility, :views, :downloads, :pid] # on: [:update, :destroy]
 
-  #STEVEN: include ::Hist::Model
+  include ::Hist::Model
+  has_hist associations: {all: {}}
 
   #after_save :after_save_actions
   #around_save :hist_around_save
@@ -76,6 +77,7 @@ class GenericObject < ActiveRecord::Base
 
       if !is_analytics
         send_solr
+        self.hist_save_actions
         #STEVEN: self.hist_save_actions
       end
 
