@@ -65,8 +65,11 @@ Gemfile.lock
 /fedora_conf/*
 /hydra-jetty/*
 /*jetty*
+/solr/instance/*
+/solr/solr*
 
 # Ignore edited Linux files #
 #############################
 
 *~
+._*

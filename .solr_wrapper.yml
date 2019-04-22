@@ -1,5 +1,17 @@
-# Place any default configuration for solr_wrapper here
-# port: 8983
+port: 8983
 collection:
-  dir: solr/conf/
-  name: blacklight-core
+  dir: solr/config/
+  name: development
+  persist: false
+configsets:
+  - dir: solr/config/
+name: audits-development-configset
+solr_zip_path: solr/solr-7.4.0.zip
+checksum: solr/solr-7.4.0.zip.sha1
+version: 7.4.0
+verbose: true
+download_dir: solr/
+instance_dir: solr/instance/
+ignore_checksum: true
+#solr_options:
+#  force: true

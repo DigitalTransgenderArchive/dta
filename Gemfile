@@ -50,7 +50,7 @@ gem 'activerecord-session_store'
 # Blacklight stuff
 gem "blacklight_advanced_search"
 gem "blacklight", "~> 6.19.2"
-gem "blacklight-gallery"
+gem "blacklight-gallery", '0.11.0'
 gem "blacklight_range_limit", '6.3.3'
 gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
 # End Blacklight

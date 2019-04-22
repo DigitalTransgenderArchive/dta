@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_19_185135) do
+ActiveRecord::Schema.define(version: 2018_07_19_185141) do
 
   create_table "abouts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "url_label"
@@ -205,15 +205,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185135) do
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
-  create_table "carousel", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.string "collection_pid", limit: 64
-    t.string "image_pid", limit: 64
-    t.string "title"
-    t.string "iiif"
-    t.text "description"
-  end
-
-  create_table "carousels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "carousels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "collection_pid", limit: 64
     t.string "image_pid", limit: 64
     t.string "title"
@@ -345,7 +337,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185135) do
     t.index ["uri"], name: "index_geonames_on_uri", unique: true
   end
 
-  create_table "hist_pendings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "hist_pendings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "model", null: false
     t.integer "obj_id"
     t.string "whodunnit"
@@ -357,7 +349,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185135) do
     t.index ["model", "obj_id"], name: "index_hist_pendings_on_model_and_obj_id"
   end
 
-  create_table "hist_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "hist_versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "model", null: false
     t.integer "obj_id", null: false
     t.string "whodunnit"
@@ -384,7 +376,9 @@ ActiveRecord::Schema.define(version: 2018_07_19_185135) do
     t.text "related"
     t.text "closeMatch"
     t.text "exactMatch"
-    t.index ["identifier"], name: "index_homosaurus_subjects_on_identifier", unique: true
+    t.string "type", default: "HomosaurusSubject", null: false
+    t.index ["identifier", "type"], name: "index_homosaurus_subjects_on_identifier_and_type", unique: true
+    t.index ["identifier", "version"], name: "index_homosaurus_subjects_on_identifier_and_version", unique: true
     t.index ["pid"], name: "index_homosaurus_subjects_on_pid", unique: true
     t.index ["uri"], name: "index_homosaurus_subjects_on_uri", unique: true
   end
@@ -463,7 +457,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185135) do
     t.index ["url_label"], name: "index_learns_on_url_label", unique: true
   end
 
-  create_table "news_tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "news_tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "tweet_url", limit: 191
     t.binary "raw_content", limit: 1000
     t.binary "content", limit: 1500
