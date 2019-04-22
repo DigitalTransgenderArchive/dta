@@ -4,6 +4,7 @@ class GenericObjectsController < ApplicationController
   include DtaStaticBuilder
 
   copy_blacklight_config_from(CatalogController)
+  before_action :mlt_results_for_show, :only => [:show]
 
   before_action :get_latest_content
 
@@ -20,6 +21,156 @@ class GenericObjectsController < ApplicationController
     search_catalog_url(options.except(:controller, :action))
   end
   helper_method :search_action_url
+
+  # run a separate search for 'more like this' items
+  # so we can explicitly set params to exclude unwanted items
+  def mlt_results_for_show
+
+    blacklight_config.search_builder_class = MltSearchBuilder
+    (@mlt_response, @mlt_document_list) = search_results(mlt_id: params[:id], rows: 6)
+    # have to reset to CommonwealthSearchBuilder, or prev/next links won't work
+    blacklight_config.search_builder_class = DefaultSearchBuilder
+
+  end
+
+  def batch_edit
+    (@response, @document_list) = search_results(params.except(:page, :per_page).merge(rows: 2000))
+    raise 'Maximum results reached in catalog_controller... maximum change of 2000 records allowed!' if @document_list.size == 2000
+    @batch_field_type = params[:batch_field_type]
+
+    #puts 'Count was: ' + @document_list['numFound'].to_s
+    #raise @response['ivars'].to_s
+    #raise @response.total_pages.to_s
+    #raise @document_list.size.to_s
+    #raise @response.to_yaml
+    #raise @document_list.to_yaml
+  end
+
+  def get_batch_objs
+    (@response, @document_list) = search_results(params.except(:page, :per_page).merge(rows: 2000))
+    ids = @document_list.collect {|doc| doc[:id] }
+    objs = GenericObject.where(pid: ids)
+    objs
+  end
+
+  def batch_add
+    objs = get_batch_objs
+
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            unless obj.genres.pluck(:label).include?(params[:generic_object][:new_genre])
+              obj.genres = obj.genres + [params[:generic_object][:new_genre]]
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:new_creator].class == Array
+              params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
+            end
+            unless obj.creators.pluck(:label).include?(params[:generic_object][:new_creator])
+              obj.creators = obj.creators + [params[:generic_object][:new_creator]]
+              obj.save!
+            end
+          when 'Resource_Type'
+            unless obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types = obj.resource_types + [params[:generic_object][:new_resource_type]]
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Add was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :controller))
+  end
+
+  def batch_delete
+    objs = get_batch_objs
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            if obj.genres.pluck(:label).include?(params[:generic_object][:delete_genre])
+              obj.genres.delete(Genre.find_by(label: params[:generic_object][:delete_genre]))
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:delete_creator].class == Array
+              params[:generic_object][:delete_creator] = params[:generic_object][:delete_creator][0]
+            end
+            if obj.creators.pluck(:label).include?(params[:generic_object][:delete_creator])
+              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:delete_creator]))
+              obj.save!
+            end
+          when 'Resource_Type'
+            if obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types.delete(ResourceType.find_by(label: params[:generic_object][:delete_resource_type]))
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Delete was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :controller))
+  end
+
+  def batch_replace
+    objs = get_batch_objs
+
+    ActiveRecord::Base.transaction do
+      objs.each do |obj|
+        case params[:batch_field_type]
+          when 'Genre'
+            if obj.genres.pluck(:label).include?(params[:generic_object][:delete_genre])
+              obj.genres.delete(Genre.find_by(label: params[:generic_object][:delete_genre]))
+              obj.genres = obj.genres + [params[:generic_object][:new_genre]]
+              obj.save!
+            end
+          when 'Creator'
+            if params[:generic_object][:delete_creator].class == Array
+              params[:generic_object][:delete_creator] = params[:generic_object][:delete_creator][0]
+              params[:generic_object][:new_creator] = params[:generic_object][:new_creator][0]
+            end
+            if obj.creators.pluck(:label).include?(params[:generic_object][:delete_creator])
+              obj.creators.delete(Creator.find_by(generic_object_id: obj.id, label: params[:generic_object][:delete_creator]))
+              obj.creators = obj.creators + [params[:generic_object][:new_creator]]
+              obj.save!
+            end
+          when 'Rights'
+            if obj.rights.pluck(:label).include?(params[:generic_object][:delete_rights])
+              obj.rights.delete(Rights.find_by(label: params[:generic_object][:delete_rights]))
+              obj.rights = obj.rights + [params[:generic_object][:new_rights]]
+              obj.save!
+            end
+          when 'Resource_Type'
+            if obj.resource_types.pluck(:label).include?(params[:generic_object][:delete_resource_type])
+              obj.resource_types.delete(ResourceType.find_by(label: params[:generic_object][:delete_resource_type]))
+              obj.resource_types = obj.resource_types + [params[:generic_object][:new_resource_type]]
+              obj.save!
+            end
+          else
+            raise "Unsupported?"
+        end
+      end
+    end
+    flash[:notice] = "Batch Replace was run on these items!"
+    redirect_to search_catalog_path(request.parameters.except(:batch_field_type, :generic_object, :authenticity_token, :action, :replace_field, :add_field, :delete_field, :action, :controller))
+  end
+
+  def batch_change
+    (@response, @document_list) = search_results(params)
+    raise 'Maximum results reached in catalog_controller... maximum change of 2000 records allowed!' if @document_list.size == 2000
+    #puts 'Count was: ' + @document_list['numFound'].to_s
+    #raise @response['ivars'].to_s
+    #raise @response.total_pages.to_s
+    raise @document_list.size.to_s
+    raise @response.to_yaml
+    raise @document_list.to_yaml
+  end
 
   # routed to /files/:id
   def show
@@ -65,21 +216,22 @@ class GenericObjectsController < ApplicationController
   end
 
   def set_object(form_fields)
-    @generic_object.title = form_fields[:title]
+    @generic_object.title = form_fields[:title].strip
+
     if form_fields[:alt_titles][0].present?
-      @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? }
+      @generic_object.alt_titles = form_fields[:alt_titles].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.alt_titles.present?
       @generic_object.alt_titles = []
     end
 
     if form_fields[:creators][0].present?
-      @generic_object.creators = form_fields[:creators].reject { |c| c.empty? }
+      @generic_object.creators = form_fields[:creators].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.creators.present?
       @generic_object.creators = []
     end
 
     if form_fields[:contributors][0].present?
-      @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? }
+      @generic_object.contributors = form_fields[:contributors].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.contributors.present?
       @generic_object.contributors = []
     end
@@ -142,7 +294,7 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:other_subjects][0].present?
-      @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? }
+      @generic_object.other_subjects = form_fields[:other_subjects].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.other_subjects.present?
       @generic_object.other_subjects = []
     end
@@ -162,13 +314,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:descriptions][0].present?
-      @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? }
+      @generic_object.descriptions = form_fields[:descriptions].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.descriptions.present?
       @generic_object.descriptions = []
     end
 
     if form_fields[:toc][0].present?
-      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }
+      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.toc.present?
       @generic_object.toc = []
     end
@@ -180,13 +332,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:publishers][0].present?
-      @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? }
+      @generic_object.publishers = form_fields[:publishers].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.publishers.present?
       @generic_object.publishers = []
     end
 
     if form_fields[:related_urls][0].present?
-      @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? }
+      @generic_object.related_urls = form_fields[:related_urls].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.related_urls.present?
       @generic_object.related_urls = []
     end
@@ -199,13 +351,13 @@ class GenericObjectsController < ApplicationController
     end
 
     if form_fields[:rights_free_text][0].present?
-      @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? }
+      @generic_object.rights_free_text = form_fields[:rights_free_text].reject { |c| c.empty? }.map(&:strip)
     elsif @generic_object.rights_free_text.present?
       @generic_object.rights_free_text = []
     end
 
     if form_fields[:is_shown_at][0].present?
-      @generic_object.is_shown_at = form_fields[:is_shown_at]
+      @generic_object.is_shown_at = form_fields[:is_shown_at].strip
     elsif @generic_object.is_shown_at.present?
       @generic_object.is_shown_at = nil
     end
@@ -224,7 +376,7 @@ class GenericObjectsController < ApplicationController
     @generic_object.genres = form_fields[:genres].reject { |c| c.empty? }
 
     # This is for hist
-    @generic_object.hist_whodunnit = current_user.to_s
+    #STEVEN: @generic_object.hist_whodunnit = current_user.to_s
 
 
     @generic_object.inst = Inst.find_by(pid: params[:institution])
@@ -249,23 +401,26 @@ class GenericObjectsController < ApplicationController
 
         if params[:generic_object][:hosted_elsewhere] != "0"
           if params.key?(:filedata)
-            file = params[:filedata]
+            files = params[:filedata]
+            files.each do |file|
+              image = MiniMagick::Image.open(file.path())
 
-            image = MiniMagick::Image.open(file.path())
+              if File.extname(file.original_filename) == '.pdf'
+                image.format('jpg', 0, {density: '300'})
+              else
+                image.format "jpg"
+              end
 
-            if File.extname(file.original_filename) == '.pdf'
-              image.format('jpg', 0, {density: '300'})
-            else
-              image.format "jpg"
+              image.resize "500x600"
+
+              @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
             end
-
-            image.resize "500x600"
-
-            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
           end
         else
-          file = params[:filedata]
-          @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+          files = params[:filedata]
+          files.each do |file|
+            @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+          end
         end
 
         @generic_object.save!
@@ -275,7 +430,14 @@ class GenericObjectsController < ApplicationController
         @generic_object.inst.send_solr
 
         #ProcessFileWorker.perform_async(@generic_object.base_files[0].id)
-        @generic_object.base_files[0].create_derivatives
+        @generic_object.base_files.each do |file|
+          file.create_derivatives
+        end
+
+        # Fixme... would be best if this was after derivatives
+        @generic_object.reload
+        @generic_object.send_solr
+
         redirect_to generic_object_path(@generic_object.pid), notice: "This object has been created."
       end
 
@@ -287,53 +449,66 @@ class GenericObjectsController < ApplicationController
       @generic_object = GenericObject.find(params[:id])
 
       unless validate_metadata(params, 'update')
-        raise params[:generic_object][:temporal_coverage].to_s
+        #raise params[:generic_object][:temporal_coverage].to_s
         redirect_back(fallback_location: edit_generic_object_path(@generic_object.pid))
       else
+        ActiveRecord::Base.transaction do
 
+          form_fields = params['generic_object']
+          # There is a bug with completely removing a value
+          self.set_object(form_fields)
 
-        #@generic_object = GenericObject.new
-
-        form_fields = params['generic_object']
-        # There is a bug with completely removing a value
-        self.set_object(form_fields)
-
-        if params.key?(:filedata)
-          # FIXME: This does it before save...
           @generic_object.base_files.clear
-
-          file = params[:filedata]
-
-          if params[:generic_object][:hosted_elsewhere] != "0"
-            image = MiniMagick::Image.open(file.path())
-
-            if File.extname(file.original_filename) == '.pdf'
-              image.format('jpg', 0, {density: '300'})
-            else
-              image.format "jpg"
+          if form_fields['existing_file'].present?
+            form_fields['existing_file'].each do |file_id|
+              @generic_object.base_files << BaseFile.find(file_id)
             end
-
-            image.resize "500x600"
-
-            @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
-          else
-            @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
           end
+
+
+          if params.key?(:filedata)
+            # FIXME: This does it before save...
+
+
+            files = params[:filedata]
+
+            if params[:generic_object][:hosted_elsewhere] != "0"
+              files.each do |file|
+                image = MiniMagick::Image.open(file.path())
+
+                if File.extname(file.original_filename) == '.pdf'
+                  image.format('jpg', 0, {density: '300'})
+                else
+                  image.format "jpg"
+                end
+
+                image.resize "500x600"
+
+                @generic_object.add_file(image.to_blob, 'image/jpeg', File.basename(file.original_filename,File.extname(file.original_filename)))
+              end
+
+            else
+              files.each do |file|
+                @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
+              end
+            end
+          end
+
+          @generic_object.save!
+
+          if params.key?(:filedata)
+            @generic_object.base_files.each do |file|
+              file.create_derivatives
+            end
+          end
+
+          # Make this better
+          @generic_object.coll.send_solr
+          @generic_object.inst.send_solr
+
+          redirect_to generic_object_path(@generic_object.pid), notice: "This object has been updated."
         end
-
-        @generic_object.save!
-
-        if params.key?(:filedata)
-          @generic_object.base_files[0].create_derivatives
-        end
-
-        # Make this better
-        @generic_object.coll.send_solr
-        @generic_object.inst.send_solr
-
-        redirect_to generic_object_path(@generic_object.pid), notice: "This object has been updated."
       end
-
     end
   end
 

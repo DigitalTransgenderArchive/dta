@@ -1,15 +1,50 @@
 <% @page_title = "Institutions -  #{application_name}" %>
 <% content_for(:head) {  } %>
+<div id="institutions-index">
+  <div id="sidebar" class="col-md-3 col-sm-3">
+    <div class="side_nav_custom">
+      <h4>Browse By</h4>
 
-<div id="content" class="col-sm-12 collections-list">
-  <div class="inst_collection_table">
-    <h2>Institutions</h2>
+      <ul class="content">
+        <li><%= link_to 'By Map', '/places' %></li>
+        <li class="active"><%= link_to 'By Institution', institutions_path %></li>
+        <li><%= link_to 'By Collection', collections_path %></li>
+        <li><%= link_to 'By Topic', topic_facet_path %></li>
+        <li><%= link_to 'By Genre', genre_facet_path %></li>
+        <li><%= link_to 'By Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+      </ul>
+    </div>
+
   </div>
 
-  <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+  <a name="top"></a>
+  <div id="content" class="col-md-9 col-sm-9 collections-list">
+    <div class="inst_collection_table">
+      <h2>Institutions</h2>
+    </div>
 
-  <%= render 'institutions/show_institution_list', :documents => @document_list %>
+    <div id="browse_by_title">
+        <h4>Browse By Title:</h4>
+        <ul>
+          <li <% if params[:filter].nil? %>class="active"<% end %>><%= link_to 'ALL', institutions_path %></li>
+          <li <% if params[:filter] == 'A,B,C,D' %>class="active"<% end %>><%= link_to "A — D", institutions_path(filter: 'A,B,C,D') %></li>
+          <li <% if params[:filter] == 'E,F,G,H,I,J' %>class="active"<% end %>><%= link_to "E — J", institutions_path(filter: 'E,F,G,H,I,J') %></li>
+          <li <% if params[:filter] == 'K,L,M,N,O' %>class="active"<% end %>><%= link_to "K — O", institutions_path(filter: 'K,L,M,N,O') %></li>
+          <li <% if params[:filter] == 'P,Q,R,S,T' %>class="active"<% end %>><%= link_to "P — T", institutions_path(filter: 'P,Q,R,S,T') %></li>
+          <li <% if params[:filter] == 'U,V,X,Y,Z' %>class="active"<% end %>><%= link_to "U — Z", institutions_path(filter: 'U,V,X,Y,Z') %></li>
 
-  <%= render 'catalog/results_pagination' %>
+        </ul>
+       <div style="clear:both"></div>
+    </div>
+
+    <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+
+    <%= render 'institutions/show_institution_list', :documents => @document_list %>
+
+    <%= render 'catalog/results_pagination' %>
+
+  </div>
 
 </div>
+
+<%= render partial: "partials/back_to_top" %>

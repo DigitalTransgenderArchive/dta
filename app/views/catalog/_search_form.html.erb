@@ -9,7 +9,7 @@
 
             <div class="search_select_wrapper">
               <label for="search_field" class="sr-only"><%= t('blacklight.search.form.search_field.label') %></label>
-              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>'search_field btn btn-default') %>
+              <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => t('blacklight.search.form.search_field.title'), :class=>'search_field btn btn-default search_drop_down') %>
               <span class="sr-only"><%= t('blacklight.search.form.search_field.post_label') %></span>
             </div>
         <% end %>
@@ -17,12 +17,12 @@
 
         <div class="input-group">
           <label class="sr-only" for="search-field-header"><%= t("sufia.search.form.q.label") %></label>
-          <%= text_field_tag :q, params[:q], placeholder: t("sufia.search.form.q.placeholder"), class: "search_q q form-control", id: "q", autofocus: should_autofocus_on_search_box?, data: { autocomplete_enabled: autocomplete_enabled?, autocomplete_path: blacklight.suggest_index_path }  %>
-
+          <%= text_field_tag :q, params[:q], placeholder: t("sufia.search.form.q.placeholder"), class: "search_q q form-control", id: "q", autofocus: should_autofocus_on_search_box?, data: { autocomplete_enabled: autocomplete_enabled?, autocomplete_path: blacklight.suggest_index_path }  do %>
+            <span class="glyphicon glyphicon-search"></span>
+          <% end %>
           <div class="input-group-btn">
             <button type="submit" class="btn btn-primary search-btn" id="search">
               <span class="submit-search-text"><%=t('blacklight.search.form.submit')%></span>
-              <span class="glyphicon glyphicon-search"></span>
             </button>
 
 

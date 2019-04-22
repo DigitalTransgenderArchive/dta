@@ -57,12 +57,24 @@ class CollectionsController < ApplicationController
     @nav_li_active = 'explore'
     (@response, @document_list) = search_results({:f => {'model_ssi' => 'Collection'}, :rows => 300, :sort => 'title_primary_ssort asc'})
 
+=begin
     if params[:filter].present?
       new_doc_list = []
       @document_list.each do |doc|
         new_doc_list << doc if doc['title_primary_ssi'].upcase[0] == params[:filter]
       end
       @document_list = new_doc_list
+    end
+=end
+    if params[:filter].present?
+      new_document_list = []
+      filter_list = params[:filter].split(',')
+      @document_list.each do |doc|
+        if filter_list.include?(doc['title_primary_ssi'].upcase[0])
+          new_document_list << doc
+        end
+      end
+      @document_list = new_document_list
     end
 
     params[:view] = 'list'
@@ -196,33 +208,6 @@ class CollectionsController < ApplicationController
     redirect_to request.referrer
   end
 
-
-
-  def collection_invisible
-    collection = ActiveFedora::Base.find(params[:id])
-
-    collection.members.each do |obj|
-      if obj.visibility == 'open'
-        obj.visibility = 'restricted'
-        obj.save
-      end
-    end
-
-    collection.visibility = 'restricted'
-    collection.save
-
-    flash[:notice] = "Visibility of collection and all objects now private!"
-    redirect_to request.referrer
-  end
-
-  def collection_visible
-    collection = ActiveFedora::Base.find(params[:id])
-    collection.visibility = 'open'
-    collection.save
-
-    flash[:notice] = "Collection now set to public!"
-    redirect_to request.referrer
-  end
 
   def collection_params
     params.require(:collection).permit(:title, :description, :pid, :visibility)

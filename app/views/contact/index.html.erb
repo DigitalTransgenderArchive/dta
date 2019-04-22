@@ -1,0 +1,92 @@
+<% @page_title = "Contact Us -  #{application_name}" %>
+<div id="static_holder" class="container-fluid contact-us">
+  <div class="row">
+    <%= render partial: '/partials/section_side_nav' %>
+    <div class="col-xs-12 col-sm-9 col-lg-9 col-md-9 static_holder_content_container">
+      <div id="static_holder_content" class="static_holder_content">
+        <h2>Contact Us</h2>
+
+        <p>Thank you for your interest in the Digital Transgender Archive! If you have suggestions or questions about the project, please use this form to contact us.</p>
+
+        <p>If you would like to get involved, here are a few ways you might participate:</p>
+
+        <h3>Contribute Materials</h3>
+        <p>Materials on this site are provided by a range of institutions, from small non-profit organizations to large universities. If your organization is interested in partnering with the DTA to provide information on your holdings or to provide access to digital materials, please contact us. We also welcome individuals to contribute privately owned materials.</p>
+
+        <h3>Volunteer and Internship Opportunities</h3>
+        <p>There are a variety of ways that individuals can collaborate on the DTA, from one-time support to ongoing participation. If you have brief suggestions for the site, ideas for future projects, or proposals for possible contributors, please feel free to email us at any time. If you are interested in volunteering on a regular basis or, if you are interested in a more formal internship, please email us to begin a conversation about joining our team.</p>
+
+        <h3>Join our Mailing List</h3>
+        <p>Joining our email list is a great way to stay in touch. Our periodic emails will provide project updates, links to news stories, and other important information.</p>
+
+          <h3>Spread the Word</h3>
+        <p>Spread the word about the DTA through our social media outlets!</p>
+        <ul class="list-unstyled list-inline">
+          <li><a href="https://www.instagram.com/digitaltransarc/" target="_blank" title="Click to visit our instagram page!"><i class="fa fa-instagram"></i></a></li>
+          <li><a href="https://www.facebook.com/digitaltransarc/" target="_blank" title="Click to visit our Facebook page!"><i class="fa fa-facebook"></i></a></li>
+          <li><a href="https://twitter.com/digitaltransarc" target="_blank" title="Click to visit our unforgettable Twitter feed!"><i class="fa fa-twitter"></i></a></li>
+        </ul>
+
+
+        <h2 id="email_subheader">Email Us</h2>
+        <% unless @errors.empty? %>
+          <div id="error_explanation" class="alert alert-error">
+            <ul class="errors">
+              <% @errors.each do |msg| %>
+                <li style="font-color:red;"><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_tag(feedback_path, :id => 'feedback_form', :class => 'form-horizontal') do %>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"><%= t('blacklight.feedback.form.name') %></label>
+            <div class="col-sm-7 col-md-6">
+              <%= text_field_tag :name, params[:name], :class => 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"><%= t('blacklight.feedback.form.email') %></label>
+            <div class="col-sm-7 col-md-6">
+              <%= text_field_tag :email, params[:email], :class => 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"><%= t('blacklight.feedback.form.topic.label') %></label>
+            <div class="col-sm-7 col-md-6">
+              <%= select_tag(:topic,
+                             options_for_select(t('blacklight.feedback.form.topic.options').values),
+                             :class => 'form-control', :label => 'Topic:')
+                              %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label"><%= t('blacklight.feedback.form.message') %></label>
+            <div class="col-sm-7 col-md-6">
+              <%= text_area_tag :message, params[:message], :size => '24x8', :class =>  'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7 col-md-6">
+              <div class="newsletter_checkbox pull-right">
+                Add me to the quarterly newsletter <%= check_box_tag(:newsletter, 'yes', true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7 col-md-6">
+              <%= submit_tag(t('blacklight.feedback.submit'), :class => 'btn btn-default pull-right', id: 'contact_submit') %>
+            </div>
+          </div>
+
+        <% end %>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

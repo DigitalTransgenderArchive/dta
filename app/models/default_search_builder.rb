@@ -13,7 +13,6 @@
       solr_parameters[:fq] << "-model_ssi:\"Homosaurus\""
     end
 
-
     ##
     # @example Adding a new step to the processor chain
     #   self.default_processor_chain += [:add_custom_data_to_query]

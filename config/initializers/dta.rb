@@ -32,16 +32,3 @@ Dta::Application.config do |config|
 
   Date::DATE_FORMATS[:standard] = "%m/%d/%Y"
 end
-
-# Noid config
-require 'noid-rails'
-#ActiveFedora::Base.translate_uri_to_id = Noid::Rails.config.translate_uri_to_id
-#ActiveFedora::Base.translate_id_to_uri = Noid::Rails.config.translate_id_to_uri
-#baseparts = 2 + [(Noid::Rails.config.template.gsub(/\.[rsz]/, '').length.to_f / 2).ceil, 4].min
-ActiveFedora::Base.translate_uri_to_id = lambda do |uri|
-  baseparts = 2 + [(::Noid::Rails.config.template.gsub(/\.[rsz]/, '').length.to_f / 2).ceil, 4].min
-  uri.to_s.sub("#{ActiveFedora.fedora.host}#{ActiveFedora.fedora.base_path}", '').split('/', baseparts).last
-end
-ActiveFedora::Base.translate_id_to_uri = lambda do |id|
-  "#{ActiveFedora.fedora.host}#{ActiveFedora.fedora.base_path}/#{::Noid::Rails.treeify(id)}"
-end

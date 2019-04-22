@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"
+         xmlns:mods="http://www.loc.gov/mods/v3"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate><%= @response_date %></responseDate>
+    <request verb="<%= @verb %>" metadataPrefix="<%= @metadata_prefix %>">https://www.digitaltransgenderarchive.net/oai.xml</request>
+    <ListRecords>
+        <% @records.each do |record| %>
+            <record>
+                <header>
+                    <identifier><%= record.id %></identifier>
+                    <datestamp><%= record.date %></datestamp>
+                    <% if record.dtarecord.coll.present? %>
+                        <setSpec><% collect = record.dtarecord.coll %><%= collect.pid %></setSpec>
+                    <% else %>
+                        <setSpec><% collect = record.collections%><%= Coll.find_by(:title=>collect).pid %></setSpec>
+                    <% end %>
+                </header>
+                <metadata>
+                    <%= record.dtarecord.dta_dc_xml_output.html_safe %>
+                </metadata>
+            </record>
+        <% end %>
+        <% if @next_resumption_token %>
+            <resumptionToken><%= @next_resumption_token %></resumptionToken>
+        <% end %>
+    </ListRecords>
+</OAI-PMH>

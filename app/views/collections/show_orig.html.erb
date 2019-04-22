@@ -1,0 +1,74 @@
+<% @page_title = "#{@collection.title} - #{application_name}" %>
+<div style="max-width:1400px; margin: 0 auto">
+
+
+<div class="document">
+
+  <div itemscope itemtype="http://schema.org/CollectionPage" class="row">
+
+    <div class="col-sm-9">
+      <div id="collection_img">
+        <h2 class="collection-title" style="text-align: center; margin-top: 18px;"><%= @collection.title %></h2>
+        <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
+        <% if current_user.present? and current_user.admin? %>
+            <br /><br />
+            <%= render partial: 'collections/partials/collection_menu', locals: { pid: @collection.pid } %>
+        <% end %>
+      </div>
+
+      <div id="collection_search_tools" class="well well-sm" style="margin-top:53px;">
+        <%= render :partial => 'search_form_collection', :locals => {:document => @document} %>
+        <span class="collection_search_separator">or</span>
+        <div id="collection_view_all">
+
+              <%= link_to_all_col_items(@collection.title,
+                                        nil,
+                                        'btn btn-info view-all-col') %>
+
+        </div>
+      </div>
+
+      <div id="collection_desc">
+        <% if @document[:description_tesim] %>
+            <% @document[:description_tesim].each do |abstract| %>
+                <%=
+                  make_links_clickable(abstract).html_safe
+                %>
+            <% end %>
+        <% end %>
+
+        <p>    <br />
+          <% if @collection.insts.size == 1 %>
+              This collection has been provided by:
+          <% else %>
+              The following institutions have contributed to this collection:
+        <% end %>
+            <ul>
+              <% @collection.insts.pluck(:name, :pid).sort.each do |inst_name, inst_pid| %>
+                  <li><%= link_to inst_name, institution_path(inst_pid) %></li>
+              <% end %>
+            </ul>
+        </p>
+      </div>
+
+      <% # map for collections#show view %>
+      <% unless @response.aggregations[map_facet_field].items.empty? %>
+          <div id="blacklight-collection-map-container">
+            <h4><%= t('blacklight.collections.map.title') %></h4>
+            <%= render :partial => 'catalog/index_mapview',
+                       :locals => {:geojson_features => serialize_geojson(map_facet_values,
+                                                                          'index')} %>
+          </div>
+          </div>
+      <% end %>
+
+      </div>
+
+  <div id="sidebar" class="col-sm-3" style="margin-top: 32px;">
+    <%= render partial: '/catalog/facets', locals: {skip_title: true} %>
+  </div>
+
+
+</div>
+</div>
+</div>

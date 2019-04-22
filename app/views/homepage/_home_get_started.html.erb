@@ -1,0 +1,86 @@
+<div id="home_get_started">
+  <div class="col-xs-12 col-sm-12">
+    <h2>"HOW DO I GET STARTED?"</h2>
+  </div>
+  <div class="col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/icons/icon_book.png") %>
+      </div>
+
+      <h3>EDUCATION</h3>
+
+      <p>
+        The DTA Starter's Guide offers some advice and suggestions for where to begin learning about trans history on this site.
+      </p>
+
+      <div class="icon_link">
+        <%= link_to "LEARN MORE", '/learn/guide' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/icons/icon_mag_glass.png") %>
+      </div>
+
+      <h3>RESEARCH</h3>
+
+      <p>
+        We have historical materials in dozens of formats, which is a great way to browse our holdings.
+      </p>
+
+      <div class="icon_link">
+        <%= link_to "LEARN MORE", genre_facet_path %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/icons/icon_person.png") %>
+      </div>
+
+      <h3>CURIOSITY</h3>
+
+      <p>
+        Key terms and common topics highlight some of the major themes of the collection and offer a good start for browsing.
+      </p>
+
+      <div class="icon_link">
+        <%= link_to "LEARN MORE", topic_facet_path %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/icons/icon_hug.png") %>
+      </div>
+
+      <h3>ALLYSHIP</h3>
+
+      <p>
+        Our Race and Ethnicity research guide is a great way to begin learning about how to be an ally.
+      </p>
+
+      <div class="icon_link">
+        <%= link_to "LEARN MORE", '/learn/raceandethnicity' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn_wrapper">
+    <%= button_to('/learn/guide', class: "btn btn-primary btn-round", id: "search_guides_btn", method: :get) do %>
+      View All User Guides
+    <% end %>
+  </div>
+</div>

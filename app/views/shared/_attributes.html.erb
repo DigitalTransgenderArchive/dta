@@ -12,7 +12,7 @@
       </tr>
   <% end %>
   <tr>
-    <th><span class="attribute-label h4">Collection:</span></th>
+    <th width="100"><span class="attribute-label h4">Collection:</span></th>
     <td><%= work[:collection_name_ssim].first if work[:collection_name_ssim].present? %></td>
   </tr>
   <tr>
@@ -25,15 +25,15 @@
     <td><%= work.creator %></td>
   </tr>
 
-  <% if work[:date_created] %>
+  <% if work[:date_created_display_ssim] %>
       <tr>
         <th><span class="attribute-label h4">Date:</span></th>
-        <td><%= work[:date_created].first %></th>
+        <td><%= work[:date_created_display_ssim].first %></th>
       </tr>
-  <% elsif work[:date_issued] %>
+  <% elsif work[:date_issued_display_ssim] %>
       <tr>
         <th><span class="attribute-label h4">Date:</span></th>
-        <td><%= work[:date_issued].first %></th>
+        <td><%= work[:date_issued_display_ssim].first %></th>
       </tr>
   <% else %>
       <tr>
@@ -55,7 +55,7 @@
 
   <% if work[:dta_other_subject_ssim] %>
   <tr>
-    <th><span class="attribute-label h4">People:</span></th>
+    <th><span class="attribute-label h4">Subject:</span></th>
     <td>
           <%= work[:dta_other_subject_ssim].sort_by{|word| word.downcase}.join(', ') %>
     </td>

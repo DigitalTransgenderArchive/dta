@@ -1,18 +1,20 @@
-<h2>Edit</h2>
+<div class="row-padded">
+  <h2>Edit</h2>
 <%#= render partial: 'generic_files/upload/alerts' %>
 <%# using partials rather than inlining, so implementers can add or change stuff on this page without much duplication %>
-<ul class="nav nav-tabs" role="tablist" title="Data Source Selectors" id="upload_tabs">
-  <li class="active" id="editform_tab" title="Edit Form"><a role="tab" href="#editform" data-toggle="tab"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>Edit Form</a></li>
-  <li id="versionform_tab" title="Versions"><a role="tab" href="#versionform" data-toggle="tab"><i class="glyphicon glyphicon-file" aria-hidden="true"></i>Versions</a></li>
-</ul>
+  <ul class="nav nav-tabs" role="tablist" title="Data Source Selectors" id="upload_tabs">
+    <li class="active" id="editform_tab" title="Edit Form"><a role="tab" href="#editform" data-toggle="tab"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>Edit Form</a></li>
+    <li id="versionform_tab" title="Versions"><a role="tab" href="#versionform" data-toggle="tab"><i class="glyphicon glyphicon-file" aria-hidden="true"></i>Versions</a></li>
+  </ul>
 
-<div class="tab-content" data-turbolinks="false">
-  <div class="tab-pane active fade in" id="editform" aria-labelledby="editform_tab" role="tabpanel">
-    <span class="sr-only">Edit Form</span>
-    <%= render partial: 'single_upload' %>
-  </div>
-  <div class="tab-pane fade in" id="versionform" aria-labelledby="versionform_tab" role="tabpanel">
-    <span class="sr-only">Versions</span>
-    <%= render partial: 'generic_objects/upload/versions' %>
+  <div class="tab-content" data-turbolinks="false">
+    <div class="tab-pane active fade in" id="editform" aria-labelledby="editform_tab" role="tabpanel">
+      <span class="sr-only">Edit Form</span>
+      <%= render partial: 'single_upload' %>
+    </div>
+    <div class="tab-pane fade in" id="versionform" aria-labelledby="versionform_tab" role="tabpanel">
+      <span class="sr-only">Versions</span>
+      <%= render partial: 'generic_objects/upload/versions' %>
+    </div>
   </div>
 </div>

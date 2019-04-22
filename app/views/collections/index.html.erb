@@ -1,16 +1,50 @@
 <% @page_title = t('blacklight.collections.index.page_title', :application_name => application_name) + " - " +  application_name %>
 <% content_for(:head) { render_opensearch_response_metadata } %>
 
-<div id="content" class="col-sm-12 collections-list">
-  <div class="inst_collection_table" style="margin-bottom:20px;">
-    <h2>Collections</h2>
+<div id="collections-index">
+  <div id="sidebar" class="col-md-3 col-sm-3">
+    <div class="side_nav_custom">
+      <h4>Browse By</h4>
+
+      <ul class="content">
+        <li><%= link_to 'By Map', '/places' %></li>
+        <li><%= link_to 'By Institution', institutions_path %></li>
+        <li class="active"><%= link_to 'By Collection', collections_path %></li>
+        <li><%= link_to 'By Topic', topic_facet_path %></li>
+        <li><%= link_to 'By Genre', genre_facet_path %></li>
+        <li><%= link_to 'By Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+      </ul>
+    </div>
   </div>
 
-  <!-- also removed A-Z list...-->
-  <%= render 'collections/az_links', :documents => @document_list %>
+  <a name="top"></a>
+  <div id="content" class="col-md-9 col-sm-9 collections-list">
+    <div class="inst_collection_table">
+      <h2>Collections</h2>
+    </div>
 
-  <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+    <div id="browse_by_title">
+      <h4>Browse By Title:</h4>
+      <ul>
+        <li <% if params[:filter].nil? %>class="active"<% end %>><%= link_to 'ALL', collections_path %></li>
+        <li <% if params[:filter] == 'A,B,C,D' %>class="active"<% end %>><%= link_to "A — D", collections_path(filter: 'A,B,C,D') %></li>
+        <li <% if params[:filter] == 'E,F,G,H,I,J' %>class="active"<% end %>><%= link_to "E — J", collections_path(filter: 'E,F,G,H,I,J') %></li>
+        <li <% if params[:filter] == 'K,L,M,N,O' %>class="active"<% end %>><%= link_to "K — O", collections_path(filter: 'K,L,M,N,O') %></li>
+        <li <% if params[:filter] == 'P,Q,R,S,T' %>class="active"<% end %>><%= link_to "P — T", collections_path(filter: 'P,Q,R,S,T') %></li>
+        <li <% if params[:filter] == 'U,V,X,Y,Z' %>class="active"<% end %>><%= link_to "U — Z", collections_path(filter: 'U,V,X,Y,Z') %></li>
 
-  <%= render 'collections/show_collection_list', :documents => @document_list %>
+      </ul>
+      <div style="clear:both"></div>
+    </div>
+
+    <h2 class="sr-only"><%= t('blacklight.search.search_results') %></h2>
+
+    <%= render 'collections/show_collection_list', :documents => @document_list %>
+
+    <%= render 'catalog/results_pagination' %>
+
+  </div>
 
 </div>
+
+<%= render partial: "partials/back_to_top" %>

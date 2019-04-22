@@ -37,6 +37,9 @@ class HomosaurusSubject < ActiveRecord::Base
     doc[:has_model_ssim] = [self.model_name]
     doc[:date_created_tesim] = [self.created_at.iso8601.split('T')[0]]
     doc[:date_created_ssim] = doc[:date_created_tesim]
+    doc[:issued_dtsi] = doc[:system_create_dtsi]
+    doc[:modified_dtsi] = doc[:system_modified_dtsi]
+
     doc[:version_ssi] = self.version
 
     doc[:prefLabel_ssim] = [self.label]
@@ -49,6 +52,8 @@ class HomosaurusSubject < ActiveRecord::Base
     doc[:altLabel_tesim] = self.alt_labels
     doc[:altLabel_ssim] = doc[:altLabel_tesim]
     doc[:identifier_ssi] = self.identifier
+    doc[:description_ssi] = self.description
+    doc[:description_tesim] = [self.description]
 
     doc[:dta_homosaurus_lcase_prefLabel_ssi] = self.label.downcase
     doc[:dta_homosaurus_lcase_altLabel_ssim] = []
@@ -60,7 +65,7 @@ class HomosaurusSubject < ActiveRecord::Base
     get_broadest(self.identifier)
     doc[:topConcept_ssim] = @broadest_terms if @broadest_terms.present?
     doc[:new_model_ssi] = 'HomosaurusSubject'
-
+    doc[:active_fedora_model_ssi] = 'Homosaurus'
     doc
   end
 

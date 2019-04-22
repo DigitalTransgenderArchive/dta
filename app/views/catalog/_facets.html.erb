@@ -4,13 +4,17 @@
 <% if has_facet_values?  %>
 <div id="facets" class="facets sidenav">
 
+
+
   <div class="top-panel-heading panel-heading">
-    <button type="button" class="facets-toggle" data-toggle="collapse" data-target="#facet-panel-collapse">
+    <div class="collapsed collapse-toggle facets-toggle panel-heading" data-toggle="collapse" data-target="#facet-panel-collapse">
       <span class="sr-only">Toggle facets</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
+      <h3 class="panel-title facet-field-heading">
+        <a data-turbolinks="false" data-no-turbolink="true" href="#" class="refine_collapsed"><%= t('blacklight.search.facets.title') %></a>
+      </h3>
+
+
+    </div>
 
     <% unless skip_title %>
         <h4 class='facets-heading'>
@@ -20,8 +24,10 @@
   </div>
   <div id="facet-panel-collapse" class="collapse panel-group">
     <%= render 'catalog/_show_partials/dta_limits_facet' unless @skip_dta_limits_render  %>
-
+    <%= render 'catalog/_show_partials/dta_admin_facet' if current_or_guest_user.admin? and !@skip_dta_limits_render  %>
     <%= render_facet_partials %>
   </div>
+
 </div>
 <% end %>
+

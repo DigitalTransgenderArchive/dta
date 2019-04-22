@@ -1,5 +1,6 @@
 module CatalogHelper
   include Blacklight::CatalogHelperBehavior
+
 # render the date in the catalog#index list view
   def index_date_value options={}
     document = options[:document]

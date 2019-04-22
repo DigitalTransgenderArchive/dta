@@ -1,0 +1,14 @@
+<div id="home_searchbar_outer">
+  <div id="home_searchbar">
+    <ul>
+      <li><%= link_to 'Map', '/places' %></li>
+      <li><%= link_to 'Institution', institutions_path %></li>
+      <li><%= link_to 'Collection', collections_path %></li>
+      <li><%= link_to 'Topic', topic_facet_path %></li>
+      <li><%= link_to 'Genre', genre_facet_path %></li>
+      <li><%= link_to 'Latest', '/catalog?utf8=%E2%9C%93&sort=date_uploaded_dtsi+desc&search_field=all_fields&q=' %></li>
+    </ul>
+    <div style="clear:both"></div>
+    <%= render_search_bar %>
+  </div>
+</div>

@@ -6,6 +6,12 @@ Rails.application.routes.draw do
 
   # Generic file routes
   resources :generic_objects, path: :files, except: :index do
+    collection do
+      get 'batch_edit'
+      post 'batch_add'
+      post 'batch_replace'
+      post 'batch_delete'
+    end
     member do
       get 'stats'
       get 'citation'
@@ -13,6 +19,11 @@ Rails.application.routes.draw do
       get 'regenerate_thumbnail'
       get 'make_coll_image'
     end
+  end
+
+  scope module: 'admin', path: '/admin', as: 'admin' do
+    get 'carousel_edit', to: 'admin#carousel_edit', as: :carousel_edit
+    post 'carousel_update', to: 'admin#carousel_update', as: :carousel_update
   end
 
   # Collection routes
@@ -52,10 +63,13 @@ Rails.application.routes.draw do
   resources :learns, only: [:new, :edit, :create, :update, :show], :path => :learn
   resources :posts, path: :news
 
-  get 'feedback' => 'abouts#feedback', as: :feedback
-  post 'feedback' => 'abouts#feedback'
-  get 'feedback_complete' => 'abouts#feedback_complete', as: :feedback_complete
-  get 'subscribe' => 'abouts#subscribe', as: :subscribe
+  #get 'feedback' => 'abouts#feedback', as: :feedback
+  #post 'feedback' => 'abouts#feedback'
+  #get 'feedback_complete' => 'abouts#feedback_complete', as: :feedback_complete
+  #get 'subscribe' => 'abouts#subscribe', as: :subscribe
+  get 'feedback' => 'contact#feedback', as: :feedback
+  post 'feedback' => 'contact#feedback'
+  get 'feedback_complete' => 'contact#feedback_complete', as: :feedback_complete
 
   #get 'about' => 'about#index', as: :about
   get 'about/project' => 'abouts#project', as: :about_project
@@ -65,6 +79,8 @@ Rails.application.routes.draw do
   get 'about/poli
 ies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
+
+  get 'contact' => 'contact#index', as: :contact
 
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"
@@ -118,4 +134,7 @@ ies' => 'abouts#policies', as: :about_policies
     mount Sidekiq::Web => '/sidekiq'
   end
   Sidekiq::Web.set :session_secret, Rails.application.secrets[:secret_key_base]
+
+  resources 'oai',
+            only: [:index]
 end

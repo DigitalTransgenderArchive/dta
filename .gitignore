@@ -47,7 +47,7 @@ dta.yml
 # Specific Files to ignore #
 ############################
 Thumbs.db
-Icon?
+#Icon?
 .DS_Store?
 .DS_Store
 ehthumbs.db
@@ -65,8 +65,11 @@ Gemfile.lock
 /fedora_conf/*
 /hydra-jetty/*
 /*jetty*
+/solr/instance/*
+/solr/solr*
 
 # Ignore edited Linux files #
 #############################
 
 *~
+._*

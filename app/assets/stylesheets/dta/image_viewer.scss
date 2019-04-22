@@ -4,7 +4,7 @@ $light_gray: #CACACA !default;
 $viewer_bg: #111111 !default;
 
 /* image viewer */
-#img_viewer_modal {
+.img_viewer_modal {
 
   .modal-dialog {
     width:98%;
@@ -28,7 +28,7 @@ $viewer_bg: #111111 !default;
 
       }
 
-      #img_viewer_osd {
+      .img_viewer_osd {
         background-color: $viewer_bg;
         margin: 0 5px;
         padding: 0;
@@ -68,7 +68,7 @@ $viewer_bg: #111111 !default;
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
-  #img_viewer_modal {
+  .img_viewer_modal {
 
     .modal-dialog {
 

@@ -1,0 +1,405 @@
+#header {
+  float:left;
+  position:relative;
+  min-width: 385px;
+  width: 100%;
+  height: 280px;
+  margin-bottom: 0;
+  background-image: image-url('home/homepage_header_bg.png');
+  background-repeat: repeat-x;
+  background-position: left top;
+
+
+
+  .row {
+    margin:0;
+  }
+
+  .btn-round {
+    background-color: #002D59;
+    /*font-family: Avenir;*/
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 30px 30px 30px 30px;
+  }
+
+  .logo-compact {
+    display: none;
+  }
+
+  .logo {
+    float: left;
+    margin-top:20px;
+    margin-left: 60px;
+    width: 196px;
+    height: 89px;
+
+    #header_logo_link {
+      background:transparent asset_url("shared/header_logo.png") no-repeat top left;
+      display: inline-block;
+      width: 196px;
+      height: 89px;
+      padding:0;
+      margin-top:0px;
+
+      overflow: hidden;
+      text-indent: -200%;
+    }
+  }
+
+  #header_links {
+    float: right;
+  }
+
+  #login_btn {
+    width: 90px;
+    height: 30px;
+    background-color: #FAA738;
+    margin-top: 7px;
+    margin-left: 10px;
+    border-radius: 30px 30px 30px 30px;
+    padding-top: 4px;
+  }
+
+  .caret {
+    color: #FAA738;
+  }
+
+  .navbar {
+    margin-top: 30px;
+    margin-right: 30px;
+    color: white;
+
+    .navbar-toggle {
+      background-color: gray;
+    }
+
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+      /*background-color: #337ab7;
+      border-color: #337ab7;*/
+      background-color: #FAA738;
+      border-color: #337ab7
+    }
+    .nav > li > a:hover, .nav > li > a:focus {
+      text-decoration: none;
+      /*background-color: #337ab7;*/
+      background-color: #FAA738;
+    }
+
+    .dropdown-menu > li > a:hover {
+      background-color: #337ab7;
+    }
+
+    a {
+      color: white;
+    }
+    a:active {
+      color: #FAA738;
+    }
+
+    ul.dropdown-menu {
+      /*background-color: #002D59;*/
+      background-color: #FAA738;
+      z-index: 10000;
+    }
+  }
+
+  #header_searchbar_outer {
+    padding-right: 100px;
+    width: 100%;
+
+    #header_searchbar {
+      width: 610px;
+      margin: auto;
+      padding-top: 15px;
+
+      a {
+        color: white;
+        text-transform: uppercase;
+        font-size: 14px;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-left: 140px;
+        margin-bottom: 30px;
+      }
+
+      li {
+        margin: 0;
+        margin-right: 20px;
+        float: left;
+      }
+      li:last-child {
+        margin-right: 0px;
+      }
+
+      .search_select_wrapper {
+        overflow: hidden;
+        height: 30px;
+        width: 110px;
+        position: relative;
+        display: block;
+        margin-top: 10px;
+
+        select::-ms-expand {
+          display: none;
+        }
+
+        select {
+          font-weight: normal;
+          background-color: transparent;
+          height: 30px;
+          border: 0;
+          font-size: 15px;
+          width: 100px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          color: #FFFFFF;
+          text-align-last: right;
+          padding-right: 10px;
+          option {
+            direction: rtl;
+            text-align: left;
+          }
+        }
+
+       option {
+         color: black;
+       }
+
+        &:after {
+          content:"\f0dc";
+          font-family: FontAwesome;
+          color: #FAA738;
+          padding: 7px 8px;
+          padding-right: 0px;
+          position: absolute; right: 0; top: 0;
+          background-color: transparent;
+          z-index: 1;
+          text-align: center;
+          width: 10%;
+          height: 100%;
+          pointer-events: none;
+          box-sizing: border-box;
+          margin-right: 10px;
+        }
+      }
+
+      .search_q {
+        border-radius: 30px 0px 0px 30px;
+        height: 50px;
+
+        &::-webkit-input-placeholder {
+          color: #002D59;
+          font-weight: bold;
+          opacity: 0.4;
+        }
+
+        &::-moz-placeholder {
+          color: #002D59;
+          font-weight: bold;
+          opacity: 0.4;
+        }
+
+        &::-ms-input-placeholder {
+          color: #002D59;
+          font-weight: bold;
+          opacity: 0.4;
+        }
+
+        &::-o-input-placeholder {
+          color: #002D59;
+          font-weight: bold;
+          opacity: 0.4;
+        }
+      }
+
+      .search-btn {
+        border-radius: 0px 30px 30px 0px;
+        cursor:pointer;
+        height: 52px;
+        background-color: #FAA738;
+        margin-top: -1px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        width: 130px;
+      }
+
+
+
+    }
+  }
+
+  /* navbar fix from: https://coderwall.com/p/wpjw4w/change-the-bootstrap-navbar-breakpoint */
+  @media (max-width: 800px) {
+    .logo-compact {
+      float: none;
+      margin: auto;
+      display: block;
+      padding-top: 5px;
+      background:transparent asset_url("shared/header_logo.png") no-repeat top left;
+
+      overflow: hidden;
+      text-indent: -200%;
+      width: 196px;
+      height: 89px;
+
+    }
+
+    .logo {
+      display: none;
+    }
+
+    /*.logo {
+      float: none;
+      margin: auto;
+      display: block;
+      padding-top: 5px;
+    }*/
+    /* custom */
+
+    .navbar-right::before {
+      clear:both;
+    }
+    .navbar-right {
+      width: 100%;
+      margin: 0 auto;
+      display: table;
+      table-layout: fixed;
+      float: none;
+    }
+    .navbar-nav {
+      margin: 0 auto;
+      display: table;
+      table-layout: fixed;
+      float: none;
+    }
+    .navbar-nav>li {
+      display: inline;
+      float: left;
+    }
+    .navbar-nav>li>a {
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+    .navbar-nav .open .dropdown-menu {
+      position: absolute;
+    }
+
+  }
+
+  /* For Search Bar */
+  @media (max-width: 635px) {
+
+    #header_searchbar_outer #header_searchbar .search_select_wrapper {
+      display: none;
+    }
+    #header_searchbar_outer  {
+      #header_searchbar {
+        ul {
+          margin-left: auto;
+          margin-right: auto;
+          width: 406px;
+          display: block;
+
+          li:first-child {
+            padding-left: 5px;
+          }
+        }
+      }
+    }
+    #header_searchbar_outer #header_searchbar ul li a {
+      font-size: 12px;
+    }
+    #header_searchbar_outer #header_searchbar .input-group {
+      margin-left: 10px;
+    }
+    #header_searchbar_outer #header_searchbar {
+      width:100%;
+    }
+    #header_searchbar_outer {
+      padding-right: 10px;
+    }
+  }
+
+  @media (max-width: 530px) {
+    #homeBrowseNavbar {
+      font-size: 12px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 10px;
+      }
+    }
+    .navbar-nav .open .dropdown-menu > li > a {
+      padding:3px 10px;
+    }
+
+    #login_btn {
+      width: 60px;
+      height: 30px;
+      background-color: #FAA738;
+      margin-top: 7px;
+      margin-left: 10px;
+      border-radius: 30px 30px 30px 30px;
+      font-size: 10px;
+      display:none;
+    }
+
+  }
+
+  @media (max-width: 499px) {
+    #header_searchbar_outer #header_searchbar .search_select_wrapper {
+      display: none;
+    }
+    #header_searchbar_outer  {
+      #header_searchbar {
+        ul {
+          width: 361px;
+        }
+      }
+    }
+    #header_searchbar_outer #header_searchbar ul li a {
+      font-size: 10px;
+    }
+    #header_searchbar_outer #header_searchbar .input-group {
+      margin-left: 5px;
+    }
+    #header_searchbar_outer #header_searchbar {
+      width:100%;
+    }
+    #header_searchbar_outer {
+      padding-right: 5px;
+    }
+  }
+
+  @media (max-width: 429.75px) {
+    #header_searchbar_outer {
+      padding-right: 0px;
+      #header_searchbar {
+        ul {
+          width: 361px;
+          li:first-child {
+            padding-left: 0px;
+          }
+          li:last-child {
+            padding-right: 5px;
+          }
+        }
+        .col-xs-12 {
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+
+  /* end navbar fix */
+}
+
+
+

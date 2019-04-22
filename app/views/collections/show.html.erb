@@ -1,74 +1,96 @@
 <% @page_title = "#{@collection.title} - #{application_name}" %>
-<div style="max-width:1400px; margin: 0 auto">
+<div id="collections-show">
+  <% content_for(:head) { render_link_rel_alternates } %>
+
+  <div id="doc_<%= @document.id.to_s.parameterize %>">
+
+    <div id="breadcrumbs-title">
+      <ul class="breadcrumb">
+        <li class="breadcrumb-back"><%= link_to 'Collections', collections_path %></li>
+        <li class="breadcrumb-title"><%= @collection.title %></li>
+      </ul>
+    </div>
+
+    <div class="document">
+
+      <div class="row">
+
+        <div class="col-md-9 col-sm-8 maximize_custom">
+          <div id="inst_image">
+            <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
+          </div>
+
+          <div id="institution_search_tools" >
+            <%= render :partial => 'search_form_collection', :locals => {:document => @document} %>
+          </div>
 
 
-<div class="document">
+          <div id="inst_info">
 
-  <div itemscope itemtype="http://schema.org/CollectionPage" class="row">
+            <div id="institution_desc">
 
-    <div class="col-sm-9">
-      <div id="collection_img">
-        <h2 class="collection-title" style="text-align: center; margin-top: 18px;"><%= @collection.title %></h2>
-        <%= render_thumbnail_tag @document, { class: "collection_img_show" }, { suppress_link: true } %>
-        <% if current_user.present? and current_user.admin? %>
-            <br /><br />
-            <%= render partial: 'collections/partials/collection_menu', locals: { pid: @collection.pid } %>
-        <% end %>
-      </div>
-
-      <div id="collection_search_tools" class="well well-sm" style="margin-top:53px;">
-        <%= render :partial => 'search_form_collection', :locals => {:document => @document} %>
-        <span class="collection_search_separator">or</span>
-        <div id="collection_view_all">
-
-              <%= link_to_all_col_items(@collection.title,
-                                        nil,
-                                        'btn btn-info view-all-col') %>
-
-        </div>
-      </div>
-
-      <div id="collection_desc">
-        <% if @document[:description_tesim] %>
-            <% @document[:description_tesim].each do |abstract| %>
-                <%=
-                  make_links_clickable(abstract).html_safe
-                %>
-            <% end %>
-        <% end %>
-
-        <p>    <br />
-          <% if @collection.insts.size == 1 %>
-              This collection has been provided by:
-          <% else %>
-              The following institutions have contributed to this collection:
-        <% end %>
-            <ul>
-              <% @collection.insts.pluck(:name, :pid).sort.each do |inst_name, inst_pid| %>
-                  <li><%= link_to inst_name, institution_path(inst_pid) %></li>
+              <% if @document[:description_tesim] %>
+                <% @document[:description_tesim].each do |abstract| %>
+                  <%=
+                    make_links_clickable(abstract).html_safe
+                  %>
+                <% end %>
               <% end %>
-            </ul>
-        </p>
-      </div>
 
-      <% # map for collections#show view %>
-      <% unless @response.aggregations[map_facet_field].items.empty? %>
-          <div id="blacklight-collection-map-container">
-            <h4><%= t('blacklight.collections.map.title') %></h4>
-            <%= render :partial => 'catalog/index_mapview',
-                       :locals => {:geojson_features => serialize_geojson(map_facet_values,
-                                                                          'index')} %>
+              <p>    <br />
+                <% if @collection.insts.size == 1 %>
+                  This collection has been provided by:
+                <% else %>
+                  The following institutions have contributed to this collection:
+                <% end %>
+              <ul>
+                <% @collection.insts.pluck(:name, :pid).sort.each do |inst_name, inst_pid| %>
+                  <li class="external_site_link"><%= link_to inst_name, institution_path(inst_pid) %></li>
+                <% end %>
+              </ul>
+              </p>
+
+            </div>
           </div>
+          <div id="institution_view_all" class="pull-left">
+            <%= link_to_all_col_items(@collection.title, nil, 'btn view-all-inst') %>
           </div>
-      <% end %>
+          <div style="clear: both;"></div>
 
-      </div>
+          <% if current_user.present? and current_user.admin? %>
+            <div style="clear:left; float: left;">
+              <%= render partial: 'collections/partials/collection_menu', locals: { pid: @collection.pid } %>
+            </div>
+          <% end %>
+        </div>
+        <div id="sidebar" class="col-md-3 col-sm-4 pull-right hidetest">
+          <%= render partial: '/catalog/facets', locals: { skip_title: false } %>
+        </div>
 
-  <div id="sidebar" class="col-sm-3" style="margin-top: 32px;">
-    <%= render partial: '/catalog/facets', locals: {skip_title: true} %>
+        <div class="col-md-9 col-sm-8 maximize_custom">
+
+          <% # map for collections#show view %>
+          <% unless @response.aggregations[map_facet_field].items.empty? %>
+            <div id="blacklight-collection-map-container">
+              <h4>Map View:</h4>
+              <%= render :partial => 'catalog/index_mapview',
+                         :locals => {:geojson_features => serialize_geojson(map_facet_values,
+                                                                            'index')} %>
+            </div>
+            </div>
+          <% end %>
+
+          </div>
+
+
+
+
+    </div>
+
   </div>
 
 
 </div>
-</div>
+
+
 </div>

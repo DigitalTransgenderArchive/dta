@@ -1,19 +1,14 @@
-<div id="home_container">
-    <div id="home_logo"></div>
+  <a name="top"></a>
+  <%= render partial: 'homepage/home_search' %>
+  <div style="clear: both; margin:0; padding: 0;"></div>
+  <%= render partial: 'homepage/home_carousel' %>
+  <%= render partial: 'homepage/home_get_started' %>
+  <%= render partial: 'homepage/home_map' %>
+  <%= render partial: 'homepage/home_latest_news' %>
 
-
-  <div class="search_frame">
-    <div class="search_container">
-      <%= render_search_bar %>
-      <%= render partial: '/shared/dta_nav_bar' %>
-    </div>
-
-  </div>
-
-    <div id="home_people"><%= image_tag asset_path('home/home_people.png'), class: "img-responsive" %></div>
-</div>
-
-<% if current_user.present? and current_user.contributor? %>
+  <%= render partial: '/pre_footer' %>
+  <%= render partial: '/footer' %>
+<% if 1==0 and current_user.present? and current_user.contributor? %>
     <div style="margin-top:-850px;margin-left:-380px;">
       <%= render partial: '/controls' %>
     </div>

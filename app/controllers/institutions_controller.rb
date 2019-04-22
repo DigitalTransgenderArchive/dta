@@ -109,6 +109,17 @@ class InstitutionsController < ApplicationController
     @nav_li_active = 'explore'
     (@response, @document_list) = search_results({:f => {'model_ssi' => 'Institution'},:rows => 300, :sort => 'title_primary_ssort asc'})
 
+
+    if params[:filter].present?
+      new_document_list = []
+      filter_list = params[:filter].split(',')
+      @document_list.each do |doc|
+        if filter_list.include?(doc['name_ssim'][0].upcase[0])
+          new_document_list << doc
+        end
+      end
+      @document_list = new_document_list
+    end
     params[:view] = 'list'
     params[:sort] = 'title_primary_ssort asc'
 
@@ -176,7 +187,9 @@ class InstitutionsController < ApplicationController
 
     if params.key?(:filedata)
       file = params[:filedata]
-      @institution.inst_image_files[0].delete
+      if @institution.inst_image_files[0].present?
+        @institution.inst_image_files[0].delete
+      end
       @institution.add_image(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
     end
 

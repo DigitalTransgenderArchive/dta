@@ -35,7 +35,7 @@ module DownloadBehavior
   end
 
   def asset
-    @asset ||= ActiveFedora::Base.find(params[asset_param_key])
+    #@asset ||= ActiveFedora::Base.find(params[asset_param_key])
   end
 
   def datastream

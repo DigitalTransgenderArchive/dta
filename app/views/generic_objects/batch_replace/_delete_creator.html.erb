@@ -1,0 +1,7 @@
+<%= f.input 'delete_creator', as: :single_select_picker,
+            input_html: { include_blank: true,
+                          endpoint: creators_autocomplete_path,
+                          include_help: t("simple_form.metadata_help.generic_file.creator"),
+                          help_label: 'Creator',
+                          placeholder: ''}, label: 'Delete Creator', required: false
+%>

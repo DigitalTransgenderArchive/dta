@@ -54,7 +54,7 @@ class CatalogController < ApplicationController
     # solr field for flagged/inappropriate content
     config.flagged_field = 'flagged_ssi'
 
-    config.view.gallery.default = true
+    #config.view.gallery.default = true # List is now the default
     config.view.gallery.partials = [:index_header, :index]
     config.view.masonry.partials = [:index]
     config.view.slideshow.partials = [:index]
@@ -75,9 +75,11 @@ class CatalogController < ApplicationController
     config.view.maps.facet_mode = 'geojson'
 
     #set default per-page
-    config.default_per_page = 20
+    config.default_per_page = 15
+    config.per_page = [15,25,50,100,200]
 
-    config.max_per_page = 300
+    #config.max_per_page = 300
+    config.max_per_page = 2000
 
     ## Default parameters to send to solr for all search-like requests. See also SolrHelper#solr_search_params
     config.default_solr_params = {
@@ -133,49 +135,48 @@ class CatalogController < ApplicationController
     end
 
     config.add_search_field('description') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'description' }
-
-      field.solr_local_parameters = {
-          qf: '$description_qf',
-          pf: '$description_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'description',
+          qf: '${description_qf}',
+          pf: '${description_pf}'
       }
     end
 
     config.add_search_field('creator') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'creator' }
-
-      field.solr_local_parameters = {
-          qf: '$creator_qf',
-          pf: '$creator_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'creator',
+          qf: '${creator_qf}',
+          pf: '${creator_pf}'
       }
     end
 
     config.add_search_field('publisher') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'publisher' }
-
-      field.solr_local_parameters = {
-          qf: '$publisher_qf',
-          pf: '$publisher_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'publisher',
+          qf: '${publisher_qf}',
+          pf: '${publisher_pf}'
       }
     end
 
     config.add_search_field('othersubject') do |field|
-      field.label = 'People / Organizations'
-      field.solr_parameters = { :'spellcheck.dictionary' => 'othersubject' }
+      #field.label = 'People / Organizations'
+      #field.label = 'People'
+      field.label = 'Subject'
 
-      field.solr_local_parameters = {
-          qf: '$othersubject_qf',
-          pf: '$othersubject_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'othersubject',
+          qf: '${othersubject_qf}',
+          pf: '${othersubject_pf}'
       }
     end
 
     config.add_search_field('identifier') do |field|
       field.label = 'Identifier'
-      field.solr_parameters = { :'spellcheck.dictionary' => 'identifier' }
 
-      field.solr_local_parameters = {
-          qf: '$identifier_qf',
-          pf: '$identifier_pf'
+      field.solr_parameters = {
+          'spellcheck.dictionary': 'identifier',
+          qf: '${identifier_qf}',
+          pf: '${identifier_pf}'
       }
     end
 

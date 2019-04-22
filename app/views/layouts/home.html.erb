@@ -42,16 +42,14 @@
   <![endif]-->
 
 </head>
-<body class="<%= render_body_class %>">
+<body class="<%= render_body_class %> bodyoverride">
 
 <%= render partial: 'shared/ajax_modal' %>
 
-<div id="main-container" class="container">
+<div id="homepage" class="container-fluid">
   <%= render :partial=>'/flash_msg', layout: 'shared/flash_messages' %>
 
-  <div class="row">
     <%= yield %>
-  </div>
 </div>
 
 </body>

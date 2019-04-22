@@ -26,19 +26,52 @@
     <div class="well">
       <%= render partial: 'generic_objects/upload/to_collection' %>
 
-
       <% if @generic_object.base_files.present? %>
-        <% if @generic_object.base_files[0].thumbnail_derivatives.present? %>
-              <%= image_tag((download_path @generic_object.pid, file: 'thumbnail'), height: '140') %>
-        <% end %>
+        <div class="form-group repeat_field_value optional generic_object_file_upload"><label class="control-label repeat_field_value optional" for="generic_object_file_upload">Existing File: </label>
+
+          <% @generic_object.base_files.each_with_index do |file, index| %>
+          <ul class="listing">
+            <li class="field-wrapper">
+              <div class="input-group col-sm-12 well">
+                <input type="hidden" name="generic_object[existing_file][]" value="<%=file.id%>" />
+                <% if file.thumbnail_derivatives.present? %>
+                  <%= image_tag((download_path @generic_object.pid, file: 'thumbnail', index: index), height: '140') %>
+                <% end %>
+                <span class="input-group-btn">
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+              </span>
+              </div>
+            </li>
+
+          </ul>
+          <%end %>
+        </div>
       <% end %>
-      <p>Select a file to upload: <%= file_field_tag "filedata" %></p>
+
+
+    <div class="form-group repeat_field_value optional generic_object_file_upload"><label class="control-label repeat_field_value optional" for="generic_object_file_upload">Select a file(s) to upload: </label>
+        <ul class="listing">
+          <li class="field-wrapper">
+            <div class="input-group col-sm-12 well">
+              <%= file_field_tag "filedata[]", input_html: {class: 'duplicateable'} %>
+              <span class="input-group-btn regular_audits_duplicate_span">
+                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
+              </span>
+              <span class="input-group-btn">
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+              </span>
+            </div>
+          </li>
+
+        </ul>
+      </div>
 
       <div class="form-group">
         <div class="col-xs-12">
           <%= f.input_field :hosted_elsewhere, as: :boolean %> This item is hosted elsewhere.
         </div>
       </div>
+      <br />
 
       <div class="tab-content">
         <div class="tab-pane" id="hosted_elsewhere" aria-labelledby="hosted_elsewhere_tab" role="tabpanel" style="width: 583px;">
@@ -73,7 +106,7 @@
                                 endpoint: creators_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.creator"),
                                 help_label: 'Creator',
-                                placeholder: ''}, label: 'Creator', required: true
+                                placeholder: ''}, label: 'Creator', required: false
       %>
 
       <%= f.input :contributors, as: :multi_select_picker,

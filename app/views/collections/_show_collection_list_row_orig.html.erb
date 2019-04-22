@@ -1,0 +1,34 @@
+<% id = document.id %>
+<tr id="document_<%= id %>" class="<%= cycle("", "zebra") %>">
+  <% gf = document.to_db_model %>
+  <td>&nbsp;
+
+  </td>
+  <td>
+    <div class="media" style="overflow: visible;">
+      <%= link_to collection_path(document), class: "media-left" do %>
+          <%= render_thumbnail_tag document, { class: "hidden-xs inst_collection_listing_thumbnail" }, { suppress_link: true } %>
+      <% end %>
+      <div class="media-body" style="overflow: visible;">
+        <h4 class="media-heading">
+          <%= link_to document.title, collection_path(document), id: "src_copy_link#{id}", class: "document-title" %>
+          <% if document["visibility_ssi"] == "private" %><span style="color:red;">(Private Visibility)</span><% end %>
+          <a href="<%=collection_path(document)%>" class="small" title="Click for more details"><i id="expand_<%= id %>" class="glyphicon glyphicon-chevron-right"></i></a>
+          <% if current_user.present? and current_user.admin? %>
+              <%= render partial: 'collections/partials/collection_menu', locals: { pid: document['id']} %>
+          <% end %>
+
+        </h4>
+        <p>
+          <%=
+            make_links_clickable(document["description_tesim"].first).html_safe
+          %>
+        </p>
+
+        <%= render_collection_list(gf) %>
+
+      </div>
+    </div>
+  </td>
+
+</tr>

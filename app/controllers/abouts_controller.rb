@@ -132,16 +132,21 @@ class AboutsController < ApplicationController
 
 
     nav_items_raw.each do |nav_item|
-      if nav_item.url_label == 'contact'
+      if nav_item.url_label == 'contact' || nav_item.url_label == 'news'
+=begin
         if params[:id].present? and params[:id] == nav_item.url_label
-          @nav_items << "#{nav_item.title}<ul><li><a href='#{feedback_path}'>Email Us</a></li><li><a href='#{subscribe_path}'>Mailing List</a></li></ul>"
+          @nav_items << "<a href='#{about_path(:id=>nav_item)}' class='active'>#{nav_item.title}</a><ul><li><a href='#{feedback_path}'>Email Us</a></li><li><a href='#{subscribe_path}'>Mailing List</a></li></ul>"
         elsif request.env['PATH_INFO'] == '/feedback' || request.env['PATH_INFO'] == '/feedback_complete'
-          @nav_items << "<a href='#{about_path(:id=>nav_item.url_label)}'>#{nav_item.title}</a><ul><li>Email Us</li><li><a href='#{subscribe_path}'>Mailing List</a></li></ul>"
+          @nav_items << "<a href='#{about_path(:id=>nav_item.url_label)}' class='active'>#{nav_item.title}</a><ul><li>Email Us</li><li><a href='#{subscribe_path}'>Mailing List</a></li></ul>"
         elsif request.env['PATH_INFO'] == '/subscribe'
-          @nav_items << "<a href='#{about_path(:id=>nav_item.url_label)}'>#{nav_item.title}</a><ul><li><a href='#{feedback_path}'>Email Us</a></li><li>Mailing List</li></ul>"
+          @nav_items << "<a href='#{about_path(:id=>nav_item.url_label)}' class='active'>#{nav_item.title}</a><ul><li><a href='#{feedback_path}'>Email Us</a></li><li>Mailing List</li></ul>"
+        else
+          @nav_items << (ActionController::Base.helpers.link_to nav_item.title, about_path(:id=>nav_item))
         end
+=end
       elsif params[:id].present? and params[:id] == nav_item.url_label
-        @nav_items << nav_item.title
+        #@nav_items << nav_item.title
+        @nav_items << (ActionController::Base.helpers.link_to nav_item.title, about_path(:id=>nav_item), {class: 'active'})
       elsif nav_item.url_label == 'news'
         @nav_items << "<a href='#{posts_path}'>#{nav_item.title}</a>"
 

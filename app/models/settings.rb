@@ -1,5 +1,16 @@
 class Settings
 
+
+  def self.twitter_client
+    @client ||= Twitter::REST::Client.new do |config|
+      config.consumer_key        = Settings.dta_config["twitter_consumer_key"]
+      config.consumer_secret     = Settings.dta_config["twitter_consumer_secret"]
+      config.access_token        = Settings.dta_config["twitter_access_token"]
+      config.access_token_secret = Settings.dta_config["twitter_access_token_secret"]
+    end
+    @client
+  end
+
   def self.filestore
     @filestore_path ||= Settings.dta_config["filestore_path"]
     raise "filestore_path in dta.yml could not be detected" if @filestore_path.blank?
@@ -10,11 +21,25 @@ class Settings
     @google_analytics_id ||= Settings.dta_config["google_analytics_id"]
   end
 
+  def self.mailchimp_key
+    @mailchimp_key ||= Settings.dta_config["mailchimp_key"]
+  end
+
+  def self.mailchimp_id
+    @mailchimp_id ||= Settings.dta_config["mailchimp_id"]
+  end
+
   # FIXME!
   def self.fits_path
-    @fits_path ||= Settings.dta_config["libreoffice_path"]
+    @fits_path ||= Settings.dta_config["fits_path"]
     raise "fits path in dta.yml could not be detected" if @fits_path.blank?
     @fits_path
+  end
+
+  def self.libreoffice_path
+    @libreoffice_path ||= Settings.dta_config["libreoffice_path"]
+    raise "libr office path in dta.yml could not be detected" if @libreoffice_path.blank?
+    @libreoffice_path
   end
 
   def self.solr_url

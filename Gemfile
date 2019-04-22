@@ -2,16 +2,22 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Twitter
+gem 'twitter'
+
+# autolink
+gem 'rinku'
+
+# For Mailchimp
+gem 'gibbon'
+
 # Outdated to make this work
 gem 'leaflet-rails', '0.7.7'
 
 # Fonts
-gem 'lato-rails'
+gem 'lato-rails', github: 'scande3/lato-rails'
 
-
-#gem 'mysql2', '0.4.10'
-# Temporary
-gem 'active-fedora', '11.5.2'
+gem 'mysql2', '0.4.10'
 
 # Maybe Temporary
 gem 'noid-rails'
@@ -21,7 +27,7 @@ gem "hydra-role-management"
 gem 'bpl_enrich', github: 'scande3/bpl_enrich'
 gem 'google-api-client', '~> 0.11' # Not using this yet...
 
-ruby '2.4.0'
+#ruby '2.4.0'
 
 # Linked Data
 gem 'iso-639'
@@ -43,9 +49,9 @@ gem 'activerecord-session_store'
 
 # Blacklight stuff
 gem "blacklight_advanced_search"
-gem "blacklight", "~> 6"
-gem "blacklight-gallery"
-gem "blacklight_range_limit"
+gem "blacklight", "~> 6.19.2"
+gem "blacklight-gallery", '0.11.0'
+gem "blacklight_range_limit", '6.3.3'
 gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
 # End Blacklight
 
@@ -85,26 +91,27 @@ gem "pdf-reader"
 gem 'sidekiq'
 gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
-gem 'sidekiq-statistic'
+gem 'sidekiq-statistic', github: 'davydovanton/sidekiq-statistic'
 gem 'tilt' # Required for sidekiq-statistic
 gem 'concurrent-ruby', require: 'concurrent'
 
 # Versioning
 #gem 'hist', path: '/Users/sanderso/root/rails/hist'
-gem 'hist', github: 'scande3/hist'
+gem 'hist'
 gem 'ace-rails-ap'
 
 # Analytics
-gem 'ahoy_matey'
+gem 'ahoy_matey', '1.6.1'
 
 # Blazer
-gem 'blazer', github: "scande3/blazer", branch: 'develop'
+#gem 'blazer', github: "scande3/blazer", branch: 'develop'
+gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.0.rc1'
+gem 'rails', '~> 5.2.2.1'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'sqlite3', '1.3.13'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets

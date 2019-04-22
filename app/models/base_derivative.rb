@@ -17,7 +17,6 @@ class BaseDerivative < ActiveRecord::Base
     self.attempt_initialize!
 
     unless File.exists?(full_path) and self.content == value
-      puts 'Doing the derivative'
       FileUtils.mkpath self.full_directory
       File.open(self.full_path, 'wb' ) do |output|
         output.write value

@@ -15,14 +15,14 @@ module GenericFileHelper
     else
       if title.nil?
         if @generic_file.image?
-          link_to download_image_tag, '#', target: "_blank", title: "View in image viewer", id: "img_viewer_link", data: { label: @generic_file.pid }, :rel => 'nofollow'
+          link_to download_image_tag, '#', target: "_blank", title: "View in image viewer", id: "img_viewer_link_0", data: { label: @generic_file.pid }, :rel => 'nofollow'
         else
           link_to download_image_tag, download_path(@generic_file.pid), target: "_blank", title: "Download the document", id: "file_download", data: { label: @generic_file.id }
         end
       else
         if @generic_file.image?
           label = download_image_tag(title)
-          link_to label, '#', target: "_blank", title: "View in image viewer", id: "img_viewer_link", data: { label: @generic_file.pid }, :rel => 'nofollow'
+          link_to label, '#', target: "_blank", title: "View in image viewer", id: "img_viewer_link_0", data: { label: @generic_file.pid }, :rel => 'nofollow'
         else
           label = download_image_tag(title)
           link_to label, download_path(@generic_file.pid), target: "_blank", title: title, id: "file_download", data: { label: @generic_file.id }
@@ -63,11 +63,18 @@ module GenericFileHelper
         end
 
       else
-        concat image_tag download_path(@generic_file.pid, file: 'thumbnail'), class: "img-responsive", alt: "#{title} of #{@generic_file.title.first}"
+        if @generic_file.hosted_elsewhere == "1"
+          concat image_tag download_path(@generic_file.pid, file: 'preview'), class: "img-responsive", alt: "#{title} of #{@generic_file.title}"
+        else
+          concat image_tag download_path(@generic_file.pid, file: 'preview'), class: "img-responsive img-preview-large", alt: "#{title} of #{@generic_file.title}"
+          #concat content_tag(:i, "", class: "fa fa-search fa-2x")
+        end
       end
-      concat content_tag :figcaption, "Download the full sized image"
+      #concat content_tag :figcaption, "Download the full sized image"
     end
   end
+
+
 
   def render_visibility_badge
     if can? :edit, @generic_file

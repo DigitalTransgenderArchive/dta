@@ -1,0 +1,70 @@
+<% if @batch_field_type == nil %>
+  <div class="row-padded">
+    <h2>Editing <%= @document_list.size %> records. Please select what field to modify:</h2>
+    <ul>
+      <li>
+        <%= link_to 'Edit Creator', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Creator')), { :class=>"facet_select" }  %>
+      </li>
+      <li>
+        <%= link_to 'Edit Genre', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Genre')), { :class=>"facet_select" }  %>
+      </li>
+      <li>
+        <%= link_to 'Edit Resource Type', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Resource_Type')), { :class=>"facet_select" }  %>
+      </li>
+      <li>
+        <%= link_to 'Edit Rights', batch_edit_generic_objects_path(request.parameters.merge(batch_field_type: 'Rights')), { :class=>"facet_select" }  %>
+      </li>
+    </ul>
+    <br /><br /><br />
+  </div>
+<% else %>
+  <div class="row-padded">
+    <h2>Batch Edit for <%= @document_list.size %> records</h2>
+<%#= render partial: 'generic_files/upload/alerts' %>
+<%# using partials rather than inlining, so implementers can add or change stuff on this page without much duplication %>
+    <ul class="nav nav-tabs" role="tablist" title="Data Source Selectors" id="upload_tabs">
+      <li class="active" id="add_field_tab" title="Add <%=params[:batch_field_type]%>"><a role="tab" href="#add_field" data-toggle="tab"><i class="glyphicon glyphicon-file" aria-hidden="true"></i>Add <%=params[:batch_field_type]%></a></li>
+      <li id="replace_field_tab" title="Replace <%=params[:batch_field_type]%>"><a role="tab" href="#replace_field" data-toggle="tab"><i class="glyphicon glyphicon-file" aria-hidden="true"></i>Replace <%=params[:batch_field_type]%></a></li>
+      <li id="delete_field_tab" title="Delete <%=params[:batch_field_type]%>"><a role="tab" href="#delete_field" data-toggle="tab"><i class="glyphicon glyphicon-file" aria-hidden="true"></i>Delete <%=params[:batch_field_type]%></a></li>
+    </ul>
+
+    <div class="tab-content" data-turbolinks="false">
+      <div class="tab-pane active" id="add_field" aria-labelledby="add_field_tab" role="tabpanel">
+        <h2>Add <%=params[:batch_field_type]%></h2>
+        <%= simple_form_for :generic_object, :url => batch_add_generic_objects_path(request.parameters), html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" } do |f| %>
+          <%= render partial: "generic_objects/batch_replace/add_#{params[:batch_field_type].downcase}", locals: {f: f} %>
+          <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "add_field", data: { disable_with: "Please wait..." } do %>
+            <i class="glyphicon glyphicon-floppy-disk"></i> Add <%=params[:batch_field_type]%>
+          <% end %>
+        <% end %>
+        <br />
+      </div>
+
+
+      <div class="tab-pane" id="replace_field" aria-labelledby="replace_field_tab" role="tabpanel">
+        <h2>Replace <%=params[:batch_field_type]%></h2>
+        <%= simple_form_for :generic_object, :url => batch_replace_generic_objects_path(request.parameters), html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" } do |f| %>
+          <%= render partial: "generic_objects/batch_replace/replace_#{params[:batch_field_type].downcase}", locals: {f: f} %>
+          <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "replace_field", data: { disable_with: "Please wait..." } do %>
+            <i class="glyphicon glyphicon-floppy-disk"></i> Replace <%=params[:batch_field_type]%>
+          <% end %>
+        <% end %>
+        <br />
+      </div>
+
+
+
+      <div class="tab-pane" id="delete_field" aria-labelledby="delete_field_tab" role="tabpanel">
+        <h2>Delete <%=params[:batch_field_type]%></h2>
+        <%= simple_form_for :generic_object, :url => batch_delete_generic_objects_path(request.parameters), html: { multipart: true, id: 'fileuploadsingle', autocomplete: "off" } do |f| %>
+          <%= render partial: "generic_objects/batch_replace/delete_#{params[:batch_field_type].downcase}", locals: {f: f} %>
+          <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "delete_field", data: { disable_with: "Please wait..." } do %>
+            <i class="glyphicon glyphicon-floppy-disk"></i> Delete <%=params[:batch_field_type]%>
+          <% end %>
+        <% end %>
+        <br />
+      </div>
+    </div>
+  </div>
+
+<% end %>
