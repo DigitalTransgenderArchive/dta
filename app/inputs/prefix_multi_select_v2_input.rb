@@ -1,5 +1,5 @@
 class PrefixMultiSelectV2Input < MultiSelectInput
-  
+
   def inner_wrapper
     <<-HTML
           <li class="field-wrapper">

@@ -103,8 +103,8 @@ class HomosaurusV2Controller < ApplicationController
     @all_terms = []
     term_query.each { |term|
       if @homosaurus.identifier != term["id"]
-        #@all_terms << [term["identifier_ssi"], term["identifier_ssi"]]
-        @all_terms << term["identifier_ssi"]
+        @all_terms << [term["identifier_ssi"], term["identifier_ssi"]]
+        #@all_terms << term["identifier_ssi"]
       end
     }
   end
