@@ -1,9 +1,7 @@
 class PrefixMultiSelectV2Input < MultiSelectInput
-
-
+  
   def inner_wrapper
-    def inner_wrapper
-      <<-HTML
+    <<-HTML
           <li class="field-wrapper">
              <div class="input-group col-sm-12">
              <span class="input-group-addon">http://homosaurus.org/v2/</span>
@@ -17,8 +15,7 @@ class PrefixMultiSelectV2Input < MultiSelectInput
               </span>
               </div>
           </li>
-      HTML
-    end
+    HTML
   end
 
 end
