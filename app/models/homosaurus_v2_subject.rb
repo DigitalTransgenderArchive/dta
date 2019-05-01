@@ -1,4 +1,19 @@
 class HomosaurusV2Subject < HomosaurusSubject
+  after_save :send_solr
+
+  def self.find_with_conditions(q:, rows:, fl:)
+    opts = {}
+    opts[:q] = q
+    opts[:fl] = fl
+    opts[:rows] = rows
+    opts[:fq] = 'active_fedora_model_ssi:HomosaurusV2'
+    result = DSolr.find(opts)
+    result
+  end
+
+  def terms
+    ['closeMarch', 'exactMatch']
+  end
 
   def self.loadV2(xml_location)
     ActiveRecord::Base.transaction do
@@ -174,5 +189,68 @@ class HomosaurusV2Subject < HomosaurusSubject
     end
     return obj.identifier unless match
     return nil
+  end
+
+
+  def self.show_fields
+    ['prefLabel', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
+  end
+
+  def self.get_values(field, obj)
+    case field
+    when "identifier"
+      [obj["identifier_ssi"]] || []
+    when "prefLabel"
+      obj["prefLabel_ssim"] || []
+    when "altLabel"
+      obj["altLabel_ssim"] || []
+    when "description"
+      [obj["description_ssi"]] || []
+    when "issued"
+      obj["date_created_ssim"] || []
+    when "modified"
+      obj["date_created_ssim"] || []
+    when "exactMatch"
+      [nil]
+    when "closeMatch"
+      [nil]
+    when "related"
+      obj["related_ssim"] || []
+    when "broader"
+      obj["broader_ssim"] || []
+    when "narrower"
+      obj["narrower_ssim"] || []
+    else
+      [nil]
+    end
+  end
+
+  def self.getLabel field
+    case field
+    when "identifier"
+      "<a href='http://purl.org/dc/terms/identifier' target='blank' title='Definition of Identifier in the Dublin Core Terms Vocabulary'>Identifier</a>"
+    when "prefLabel"
+      "<a href='http://www.w3.org/2004/02/skos/core#prefLabel' target='blank'  title='Definition of Preferred Label in the SKOS Vocabulary'>Preferred Label</a>"
+    when "altLabel"
+      "<a href='http://www.w3.org/2004/02/skos/core#altLabel' target='blank'  title='Definition of Alternative Label in the SKOS Vocabulary'>Alternative Label (Use For)</a>"
+    when "description"
+      "<a href='http://www.w3.org/2000/01/rdf-schema#comment' target='blank'  title='Definition of Comment in the RDF Schema Vocabulary'>Description</a>"
+    when "issued"
+      "<a href='http://purl.org/dc/terms/issued' target='blank'  title='Definition of Issued in the Dublin Core Terms Vocabulary'>Issued (Created)</a>"
+    when "modified"
+      "<a href='http://purl.org/dc/terms/modified' target='blank'  title='Definition Modified in the Dublin Core Terms Vocabulary'>Modified</a>"
+    when "exactMatch"
+      "<a href='http://www.w3.org/2004/02/skos/core#exactMatch' target='blank'  title='Definition of exactMatch in the SKOS Vocabulary'>External Exact Match</a>"
+    when "closeMatch"
+      "<a href='http://www.w3.org/2004/02/skos/core#closeMatch' target='blank'  title='Definition of Modified in the SKOS Vocabulary'>External Close Match</a>"
+    when "related"
+      "<a href='http://www.w3.org/2004/02/skos/core#related' target='blank'  title='Definition of Related in the SKOS Vocabulary'>Related Terms</a>"
+    when "broader"
+      "<a href='http://www.w3.org/2004/02/skos/core#broader' target='blank'  title='Definition of Broader in the SKOS Vocabulary'>Broader Terms</a>"
+    when "narrower"
+      "<a href='http://www.w3.org/2004/02/skos/core#narrower' target='blank'  title='Definition of Narrower in the SKOS Vocabulary'>Narrower Terms</a>"
+    else
+      field.humanize
+    end
   end
 end

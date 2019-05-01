@@ -68,7 +68,7 @@ gem 'rest-client'
 
 # Adding in form dependencies
 gem 'ckeditor', '4.2.4'
-gem 'simple_form'
+gem 'simple_form'#, '4.0.1'  Weird errors with 4.1.0 for broader / narrower / related?
 gem "rails-assets-onmount"
 gem 'select2-rails'
 # End Adding in
@@ -108,7 +108,7 @@ gem 'ahoy_matey', '1.6.1'
 gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.2.1'
+gem 'rails', '~> 5.2.3'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '1.3.13'

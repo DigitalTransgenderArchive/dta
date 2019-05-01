@@ -4,11 +4,11 @@ class ProcessTweetsWorker
 
   def perform
     # Get Tweets
-    @api_tweets = Settings.twitter_client.user_timeline('digitaltransarc', count: 12, tweet_mode: "extended")
+    @api_tweets = Settings.twitter_client.user_timeline('digitaltransarc', count: 13, tweet_mode: "extended")
 
     @tweets = []
     @api_tweets.each do |tweet|
-      unless  tweet.to_hash[:full_text].to_s.starts_with?("RT ") || tweet.to_hash[:full_text].to_s.length < 100
+      unless  tweet.to_hash[:full_text].to_s.starts_with?("RT ") || tweet.to_hash[:full_text].to_s.length < 100 || tweet.to_hash[:in_reply_to_status_id].present? || tweet.to_hash[:retweeted].present?
         t = {}
         t[:url] = tweet.uri.to_s
         t[:raw_content] = tweet.to_hash[:full_text].to_s.dup
