@@ -32,7 +32,7 @@ class HomosaurusV2Controller < ApplicationController
     term_query = HomosaurusV2Subject.find_with_conditions(q: "*:*", rows: '10000', fl: 'id,identifier_ssi' )
     term_query = term_query.sort_by { |term| term["identifier_ssi"].downcase }
     @all_terms = []
-    term_query.each { |term| @all_terms << [term["identifier_ssi"].downcase, term["identifier_ssi"]] }
+    term_query.each { |term| @all_terms << [term["identifier_ssi"], term["identifier_ssi"]] }
 
   end
 
@@ -103,7 +103,7 @@ class HomosaurusV2Controller < ApplicationController
     @all_terms = []
     term_query.each { |term|
       if @homosaurus.identifier != term["id"]
-        @all_terms << [term["identifier_ssi"].downcase, term["identifier_ssi"]]
+        @all_terms << [term["identifier_ssi"], term["identifier_ssi"]]
       end
     }
   end
