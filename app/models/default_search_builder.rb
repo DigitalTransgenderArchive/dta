@@ -11,6 +11,7 @@
       solr_parameters[:fq] << "-model_ssi:\"Institution\""
       solr_parameters[:fq] << "-model_ssi:\"Collection\""
       solr_parameters[:fq] << "-model_ssi:\"Homosaurus\""
+      solr_parameters[:fq] << "-model_ssi:\"HomosaurusV2\""
     end
 
     ##
