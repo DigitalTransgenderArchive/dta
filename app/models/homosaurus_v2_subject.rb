@@ -1,5 +1,5 @@
 class HomosaurusV2Subject < HomosaurusSubject
-  #after_save :send_solr
+  after_save :send_solr
 
   def self.find_with_conditions(q:, rows:, fl:)
     opts = {}
