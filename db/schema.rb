@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_19_185141) do
+ActiveRecord::Schema.define(version: 2018_07_19_185142) do
 
   create_table "abouts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "url_label"
@@ -377,6 +377,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185141) do
     t.text "closeMatch"
     t.text "exactMatch"
     t.string "type", default: "HomosaurusSubject", null: false
+    t.string "label_eng"
     t.index ["identifier", "type"], name: "index_homosaurus_subjects_on_identifier_and_type", unique: true
     t.index ["identifier", "version"], name: "index_homosaurus_subjects_on_identifier_and_version", unique: true
     t.index ["pid"], name: "index_homosaurus_subjects_on_pid", unique: true

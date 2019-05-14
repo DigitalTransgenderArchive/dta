@@ -1,5 +1,5 @@
 class HomosaurusV2Subject < HomosaurusSubject
-  after_save :send_solr
+  #after_save :send_solr
 
   def self.find_with_conditions(q:, rows:, fl:)
     opts = {}
@@ -27,17 +27,17 @@ class HomosaurusV2Subject < HomosaurusSubject
 
       doc.xpath("//Concept").each do |concept|
         obj = {}
-        obj[:label] = concept.xpath('./prefLabel').text.to_s
+        obj[:label] = concept.xpath('./prefLabel').text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip
         obj[:identifier] = createIdentifier(obj[:label])
 
-        obj[:alt_labels] = concept.xpath('./altLabel').map{ |l| l.text.to_s }
-        obj[:related] = concept.xpath('./related').map{ |l| createIdentifier(l.text.to_s)}
-        obj[:broader] = concept.xpath('./broader').map{ |l| createIdentifier(l.text.to_s)}
-        obj[:narrower] = concept.xpath('./narrower').map{ |l| createIdentifier(l.text.to_s)}
+        obj[:alt_labels] = concept.xpath('./altLabel').map{ |l| l.text.to_s.gsub(/[\n\t]+/, '').strip }
+        obj[:related] = concept.xpath('./related').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
+        obj[:broader] = concept.xpath('./broader').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
+        obj[:narrower] = concept.xpath('./narrower').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
         obj[:uri] = "http://homosaurus.org/v2/#{obj[:identifier]}"
         obj[:pid] = "homosaurus/v2/#{obj[:identifier]}"
         obj[:version] = "v2"
-        obj[:description] = concept.xpath('./scopeNote').text
+        obj[:description] = concept.xpath('./scopeNote').text.to_s.gsub(/[\n\t]+/, '').strip
 
         existing = HomosaurusV2Subject.find_by(identifier: obj[:identifier])
         if existing.blank?
@@ -91,7 +91,7 @@ class HomosaurusV2Subject < HomosaurusSubject
     return match.identifier if match.present?
 
     identifier = ''
-    s.gsub(/[\(\)]*/, '').split(/[ \-]/).each_with_index do |t, index|
+    s.gsub(/[\(\)]*/, '').gsub(/['";\n\t]+/, '').gsub('á', "a").gsub('ā', 'a').split(/[ \-]/).each_with_index do |t, index|
       if t.upcase == t
         identifier += t
       elsif index == 0
@@ -100,7 +100,14 @@ class HomosaurusV2Subject < HomosaurusSubject
         identifier += t.capitalize
       end
     end
-    identifier
+
+    if identifier.include?('MRKHMullerian')
+      identifier = 'MRKH'
+    elsif identifier.length > 34
+      identifier = identifier[0..35]
+    end
+
+    identifier.strip
   end
 
   def model_name
@@ -135,6 +142,8 @@ class HomosaurusV2Subject < HomosaurusSubject
 
     doc[:prefLabel_ssim] = [self.label]
     doc[:prefLabel_tesim] = doc[:prefLabel_ssim]
+    doc[:label_eng_ssim] = [self.label_eng]
+    doc[:label_eng_tesim] = doc[:label_eng_ssim]
     doc[:broader_ssim] = self.broader
     doc[:related_ssim] = self.related
     doc[:narrower_ssim] = self.narrower
@@ -193,7 +202,7 @@ class HomosaurusV2Subject < HomosaurusSubject
 
 
   def self.show_fields
-    ['prefLabel', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
+    ['prefLabel', 'label@en_us', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
   end
 
   def self.get_values(field, obj)
@@ -202,6 +211,8 @@ class HomosaurusV2Subject < HomosaurusSubject
       [obj["identifier_ssi"]] || []
     when "prefLabel"
       obj["prefLabel_ssim"] || []
+    when "label@en_us"
+      obj["label_eng_ssim"] || []
     when "altLabel"
       obj["altLabel_ssim"] || []
     when "description"
@@ -231,6 +242,8 @@ class HomosaurusV2Subject < HomosaurusSubject
       "<a href='http://purl.org/dc/terms/identifier' target='blank' title='Definition of Identifier in the Dublin Core Terms Vocabulary'>Identifier</a>"
     when "prefLabel"
       "<a href='http://www.w3.org/2004/02/skos/core#prefLabel' target='blank'  title='Definition of Preferred Label in the SKOS Vocabulary'>Preferred Label</a>"
+    when "label@en_us"
+      "<a href='https://terms.tdwg.org/wiki/rdfs:label' target='blank'  title='RDFS label property with the english language flag.'>US English Label</a>"
     when "altLabel"
       "<a href='http://www.w3.org/2004/02/skos/core#altLabel' target='blank'  title='Definition of Alternative Label in the SKOS Vocabulary'>Alternative Label (Use For)</a>"
     when "description"

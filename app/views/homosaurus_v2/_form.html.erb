@@ -14,6 +14,20 @@
       </div>
     </div>
 
+    <div class="form-group" style="width: 583px;">
+      <div style="float:left">
+        <%= render partial: 'partials/label_with_help',
+                   locals: {f: f,
+                            label_val: 'US English Spelling',
+                            include_help: 'The US English spelling for this label if different.',
+                            required: false} %>
+      </div>
+      <div style="clear:both"></div>
+      <div>
+        <%= f.input :label_eng, required: false, label: false, class: 'form-control' %>
+      </div>
+    </div>
+
 
     <%= f.input :alt_labels, as: :multi_base,
                 input_html: { include_help: 'Alternative labels for this concept',
@@ -56,5 +70,7 @@
                               help_label: 'Exact Match–LC Subject Headings'},
                 required: false, readonly: true, label: 'Exact Match–LC Subject Headings'
     %>
+
+
 
     <br /><br />

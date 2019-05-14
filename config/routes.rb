@@ -52,6 +52,8 @@ Rails.application.routes.draw do
   get '/autocomplete/geonames', to: "autocomplete#geonames_subject", as: :geonames_subject_autocomplete
   get '/autocomplete/lcsh_subjects', to: "autocomplete#lcsh_subject", as: :lcsh_subject_autocomplete
   get '/autocomplete/other_subjects', to: "autocomplete#other_subject", as: :other_subjects_autocomplete
+  get '/autocomplete/exactMatch', to: "autocomplete#exact_match", as: :exact_match_autocomplete
+  get '/autocomplete/closeMatch', to: "autocomplete#close_match", as: :close_match_autocomplete
 
   # Added Collection Routes
   get 'collections/members_public/:id' => 'collections#members_public', as: :collection_member_public
