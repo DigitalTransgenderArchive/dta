@@ -109,6 +109,20 @@ class HomosaurusV2Controller < ApplicationController
     }
   end
 
+  def set_match_relationship(form_fields, key)
+    form_fields[key.to_sym].each_with_index do |s, index|
+      if s.present?
+        form_fields[key.to_sym][index] = s.split('(').last
+        form_fields[key.to_sym][index].gsub!(/\)$/, '')
+      end
+    end
+    if form_fields[key.to_sym][0].present?
+      @homosaurus.send("#{key}=", form_fields[key.to_sym].reject { |c| c.empty? })
+    elsif @homosaurus.send(key).present?
+      @homosaurus.send("#{key}=", [])
+    end
+  end
+
   def update
     if !params[:homosaurus][:identifier].match(/^[0-9a-zA-Z_\-]+$/) || params[:homosaurus][:identifier].match(/ /)
       redirect_to homosaurus_v2_path(:id => params[:id]), notice: "Please use camel case for identifier like 'discrimationWithAbleism'... do not use spaces. Contact K.J. if this is seen for some other valid entry."
@@ -148,6 +162,11 @@ class HomosaurusV2Controller < ApplicationController
         @homosaurus.pid = pid
         @homosaurus.uri = "http://homosaurus.org/v2/#{params[:homosaurus][:identifier]}"
         @homosaurus.identifier = params[:homosaurus][:identifier]
+
+        set_match_relationship(params[:homosaurus], "exactMatch_homosaurus")
+        set_match_relationship(params[:homosaurus], "closeMatch_homosaurus")
+        set_match_relationship(params[:homosaurus], "exactMatch_lcsh")
+        set_match_relationship(params[:homosaurus], "closeMatch_lcsh")
 
         @homosaurus.update(homosaurus_params)
 

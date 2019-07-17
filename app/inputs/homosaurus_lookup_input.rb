@@ -6,8 +6,11 @@ class HomosaurusLookupInput < MeiMultiLookupInput
       #if value.uri.match(/http:\/\/homosaurus\.org\/terms\//)
       if value.blank? and !@rendered_first_element
         buffer << yield(value, index)
-      elsif value.present?
+      elsif value.present? && value.respond_to?(:uri)
         buffer << yield("#{value.label} (#{value.uri})", index)
+      elsif value.present?
+        h = HomosaurusSubject.find_by(uri: value)
+        buffer << yield("#{h.label} (#{h.uri})", index)
       end
     end
   end

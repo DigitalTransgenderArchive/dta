@@ -1,4 +1,5 @@
 class HomosaurusV2Subject < HomosaurusSubject
+  include HomosaurusAssignments
   after_save :send_solr
 
   def self.find_with_conditions(q:, rows:, fl:)
@@ -155,6 +156,16 @@ class HomosaurusV2Subject < HomosaurusSubject
     doc[:description_ssi] = self.description
     doc[:description_tesim] = [self.description]
 
+    doc[:exactMatch_ssim] = self.exactMatch_homosaurus
+    self.exactMatch_lcsh.each do |l|
+      doc[:exactMatch_ssim] << l.uri
+    end
+
+    doc[:closeMatch_ssim] = self.closeMatch_homosaurus
+    self.closeMatch_lcsh.each do |l|
+      doc[:closeMatch_ssim] << l.uri
+    end
+
     doc[:dta_homosaurus_lcase_prefLabel_ssi] = self.label.downcase
     doc[:dta_homosaurus_lcase_altLabel_ssim] = []
     self.alt_labels.each do |alt|
@@ -222,9 +233,9 @@ class HomosaurusV2Subject < HomosaurusSubject
     when "modified"
       obj["date_created_ssim"] || []
     when "exactMatch"
-      [nil]
+      obj["exactMatch_ssim"] || []
     when "closeMatch"
-      [nil]
+      obj["closeMatch_ssim"] || []
     when "related"
       obj["related_ssim"] || []
     when "broader"

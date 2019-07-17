@@ -55,6 +55,11 @@ Rails.application.routes.draw do
   get '/autocomplete/exactMatch', to: "autocomplete#exact_match", as: :exact_match_autocomplete
   get '/autocomplete/closeMatch', to: "autocomplete#close_match", as: :close_match_autocomplete
 
+  get '/autocomplete/exactMatch_lcsh', to: "autocomplete#lcsh_subject", as: :exact_match_lcsh_autocomplete
+  get '/autocomplete/closeMatch_lcsh', to: "autocomplete#lcsh_subject", as: :close_match_lcsh_autocomplete
+  get '/autocomplete/exactMatch_homosaurus', to: "autocomplete#homosaurus_subject", as: :exact_match_homosaurus_autocomplete
+  get '/autocomplete/closeMatch_homosaurus', to: "autocomplete#homosaurus_subject", as: :close_match_homosaurus_autocomplete
+
   # Added Collection Routes
   get 'collections/members_public/:id' => 'collections#members_public', as: :collection_member_public
   get 'collections/members_private/:id' => 'collections#members_private', as: :collection_member_private

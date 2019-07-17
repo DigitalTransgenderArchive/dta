@@ -57,20 +57,33 @@
                 input_html: { class: 'form-control', include_help: 'Related terms for this term.', help_label: 'Related', multiple: false }, include_blank: true
     %>
 
-    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:exactMatch} %>
-    <%= f.input :exactMatch, as: :lcsh_lookup,
-                input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
-                              help_label: 'Close Match–LC Subject Headings'},
-                required: false, readonly: true, label: 'Close Match–LC Subject Headings'
-    %>
-
-    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:closeMatch} %>
-    <%= f.input :closeMatch, as: :lcsh_lookup,
+    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:exactMatch_lcsh} %>
+    <%= f.input :exactMatch_lcsh, as: :lcsh_lookup,
                 input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
                               help_label: 'Exact Match–LC Subject Headings'},
                 required: false, readonly: true, label: 'Exact Match–LC Subject Headings'
     %>
 
+    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:closeMatch_lcsh} %>
+    <%= f.input :closeMatch_lcsh, as: :lcsh_lookup,
+                input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
+                              help_label: 'Close Match–LC Subject Headings'},
+                required: false, readonly: true, label: 'Close Match–LC Subject Headings'
+    %>
+
+    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:exactMatch_homosaurus} %>
+    <%= f.input :exactMatch_homosaurus, as: :homosaurus_lookup,
+                input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
+                              help_label: 'Exact Match–HomosaurusV1'},
+                required: false, readonly: true, label: 'Exact Match–HomosaurusV1'
+    %>
+
+    <%= render :partial => "mei/form", :locals => {:f => f, :key=>:closeMatch_homosaurus} %>
+    <%= f.input :closeMatch_homosaurus, as: :homosaurus_lookup,
+                input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
+                              help_label: 'Close Match–HomosaurusV1'},
+                required: false, readonly: true, label: 'Close Match–HomosaurusV1'
+    %>
 
 
     <br /><br />
