@@ -9,6 +9,17 @@ class HomosaurusSubject < ActiveRecord::Base
   serialize :closeMatch, Array
   serialize :exactMatch, Array
 
+  serialize :closeMatch_homosaurus, Array
+  serialize :exactMatch_homosaurus, Array
+  #serialize :closeMatch_lcsh, Array
+  #serialize :exactMatch_lcsh, Array
+
+  has_many :homosaurus_closematch_lcsh, dependent: :destroy
+  has_many :closeMatch_lcsh, :through=>:homosaurus_closematch_lcsh, source: :lcsh_subject
+
+  has_many :homosaurus_exactmatch_lcsh, dependent: :destroy
+  has_many :exactMatch_lcsh, :through=>:homosaurus_exactmatch_lcsh, source: :lcsh_subject
+
   has_many :object_homosaurus_subject
   has_many :generic_object, :through=>:object_homosaurus_subject
 

@@ -130,6 +130,25 @@ class AutocompleteController < ActionController::Base
     render json: authority_result
   end
 
+  def combined_subject
+    authority_result_homo = HomosaurusAutocomplete.find(params[:q])
+    authority_result_homo = [] if authority_result_homo.blank?
+
+    #authority_check = Mei::Loc.new('subjects')
+    #authority_result_lcsh = authority_check.search(params[:q]) #URI escaping doesn't work for Baseball fields?
+    authority_result_lcsh = [] if authority_result_lcsh.blank?
+
+    authority_result_homo + authority_result_lcsh
+  end
+
+  def exact_match
+    render json: combined_subject
+  end
+
+  def close_match
+    render json: combined_subject
+  end
+
   def geonames_subject
     authority_check = Mei::Geonames.new(params[:e])
     authority_result = authority_check.search(params[:q]) #URI escaping doesn't work for Baseball fields?

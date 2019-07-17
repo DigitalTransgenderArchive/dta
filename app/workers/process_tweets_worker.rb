@@ -4,7 +4,7 @@ class ProcessTweetsWorker
 
   def perform
     # Get Tweets
-    @api_tweets = Settings.twitter_client.user_timeline('digitaltransarc', count: 13, tweet_mode: "extended")
+    @api_tweets = Settings.twitter_client.user_timeline('digitaltransarc', count: 17, tweet_mode: "extended")
 
     @tweets = []
     @api_tweets.each do |tweet|

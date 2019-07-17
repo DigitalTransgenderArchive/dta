@@ -32,7 +32,7 @@ class HomosaurusV2Controller < ApplicationController
     term_query = HomosaurusV2Subject.find_with_conditions(q: "*:*", rows: '10000', fl: 'id,identifier_ssi' )
     term_query = term_query.sort_by { |term| term["identifier_ssi"].downcase }
     @all_terms = []
-    term_query.each { |term| @all_terms << [term["identifier_ssi"].downcase, term["identifier_ssi"]] }
+    term_query.each { |term| @all_terms << [term["identifier_ssi"], term["identifier_ssi"]] }
 
   end
 
@@ -103,9 +103,24 @@ class HomosaurusV2Controller < ApplicationController
     @all_terms = []
     term_query.each { |term|
       if @homosaurus.identifier != term["id"]
-        @all_terms << [term["identifier_ssi"].downcase, term["identifier_ssi"]]
+        @all_terms << [term["identifier_ssi"], term["identifier_ssi"]]
+        #@all_terms << term["identifier_ssi"]
       end
     }
+  end
+
+  def set_match_relationship(form_fields, key)
+    form_fields[key.to_sym].each_with_index do |s, index|
+      if s.present?
+        form_fields[key.to_sym][index] = s.split('(').last
+        form_fields[key.to_sym][index].gsub!(/\)$/, '')
+      end
+    end
+    if form_fields[key.to_sym][0].present?
+      @homosaurus.send("#{key}=", form_fields[key.to_sym].reject { |c| c.empty? })
+    elsif @homosaurus.send(key).present?
+      @homosaurus.send("#{key}=", [])
+    end
   end
 
   def update
@@ -147,6 +162,11 @@ class HomosaurusV2Controller < ApplicationController
         @homosaurus.pid = pid
         @homosaurus.uri = "http://homosaurus.org/v2/#{params[:homosaurus][:identifier]}"
         @homosaurus.identifier = params[:homosaurus][:identifier]
+
+        set_match_relationship(params[:homosaurus], "exactMatch_homosaurus")
+        set_match_relationship(params[:homosaurus], "closeMatch_homosaurus")
+        set_match_relationship(params[:homosaurus], "exactMatch_lcsh")
+        set_match_relationship(params[:homosaurus], "closeMatch_lcsh")
 
         @homosaurus.update(homosaurus_params)
 
@@ -236,6 +256,6 @@ class HomosaurusV2Controller < ApplicationController
 
 
   def homosaurus_params
-       params.require(:homosaurus).permit(:identifier, :label, :description, :exactMatch, :closeMatch, alt_labels: [])
+       params.require(:homosaurus).permit(:identifier, :label, :label_eng, :description, :exactMatch, :closeMatch, alt_labels: [])
   end
 end
