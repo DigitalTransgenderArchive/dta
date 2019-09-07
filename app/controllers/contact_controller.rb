@@ -59,7 +59,7 @@ class ContactController < ApplicationController
     unless params[:message] =~ /\w+/
       @errors << "Please enter an address"
     end
-    unless verify_recaptcha(action: 'contact', minimum_score: 0.4, secret_key: Settings.recaptcha_secret_key_v3)
+    unless verify_recaptcha(action: 'contact', minimum_score: 0.35, secret_key: Settings.recaptcha_secret_key_v3)
       if verify_recaptcha
         @show_captcha_v2 = false
       else
