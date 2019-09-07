@@ -6,22 +6,11 @@ class ContactController < ApplicationController
   before_action :set_nav_heading
 
   def index
-
-  end
-
-
-  def set_nav_heading
-    @nav_section = 'Contact'
-    @nav_items = []
     @errors=[]
 
-    @nav_items << (ActionController::Base.helpers.link_to "Contact Us", contact_path, {class: 'active'})
-  end
-
-  def feedback
-    @errors=[]
     if request.post?
       if validate_email
+
         Notifier.feedback(params).deliver_now
         if Settings.mailchimp_key.present? and params[:email].present? and params[:name].present? and params[:newsletter].present? and params[:newsletter] == 'yes'
           begin
@@ -42,6 +31,14 @@ class ContactController < ApplicationController
     end
   end
 
+
+  def set_nav_heading
+    @nav_section = 'Contact'
+    @nav_items = []
+
+    @nav_items << (ActionController::Base.helpers.link_to "Contact Us", contact_path, {class: 'active'})
+  end
+
   def feedback_complete
     @nav_section = 'Contact'
     @nav_items = []
@@ -60,11 +57,17 @@ class ContactController < ApplicationController
       @errors << t('blacklight.feedback.valid_email')
     end
     unless params[:message] =~ /\w+/
-      @errors << t('blacklight.feedback.need_message')
+      @errors << "Please enter an address"
     end
-    #unless simple_captcha_valid?
-    #  @errors << 'Captcha did not match'
-    #end
+    unless verify_recaptcha(action: 'contact', minimum_score: 0.4, secret_key: Settings.recaptcha_secret_key_v3)
+      if verify_recaptcha
+        @show_captcha_v2 = false
+      else
+        @show_captcha_v2 = true
+        @errors << 'Background recaptcha failed. Please try submitting your message again with the added checkbox captcha.'
+      end
+
+    end
     @errors.empty?
   end
 end

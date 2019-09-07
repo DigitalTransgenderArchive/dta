@@ -76,8 +76,10 @@ Rails.application.routes.draw do
   #post 'feedback' => 'abouts#feedback'
   #get 'feedback_complete' => 'abouts#feedback_complete', as: :feedback_complete
   #get 'subscribe' => 'abouts#subscribe', as: :subscribe
-  get 'feedback' => 'contact#feedback', as: :feedback
-  post 'feedback' => 'contact#feedback'
+  get 'contact' => 'contact#index', as: :contact
+  post 'contact' => 'contact#index'
+  #get 'feedback' => 'contact#feedback', as: :feedback
+  #post 'feedback' => 'contact#feedback'
   get 'feedback_complete' => 'contact#feedback_complete', as: :feedback_complete
 
   #get 'about' => 'about#index', as: :about
@@ -89,7 +91,7 @@ Rails.application.routes.draw do
 ies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
 
-  get 'contact' => 'contact#index', as: :contact
+
 
   mount Blacklight::Engine => '/'
   #root to: "catalog#index"

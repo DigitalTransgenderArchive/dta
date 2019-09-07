@@ -29,6 +29,22 @@ class Settings
     @mailchimp_id ||= Settings.dta_config["mailchimp_id"]
   end
 
+  def self.recaptcha_site_key
+    @recaptcha_site_key ||= Settings.dta_config["recaptcha_site_key"]
+  end
+
+  def self.recaptcha_secret_key
+    @recaptcha_secret_key ||= Settings.dta_config["recaptcha_secret_key"]
+  end
+
+  def self.recaptcha_site_key_v3
+    @recaptcha_site_key_v3 ||= Settings.dta_config["recaptcha_site_key_v3"]
+  end
+
+  def self.recaptcha_secret_key_v3
+    @recaptcha_secret_key_v3 ||= Settings.dta_config["recaptcha_secret_key_v3"]
+  end
+
   # FIXME!
   def self.fits_path
     @fits_path ||= Settings.dta_config["fits_path"]

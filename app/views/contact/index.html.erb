@@ -27,19 +27,19 @@
           <li><a href="https://twitter.com/digitaltransarc" target="_blank" title="Click to visit our unforgettable Twitter feed!"><i class="fa fa-twitter"></i></a></li>
         </ul>
 
-
         <h2 id="email_subheader">Email Us</h2>
         <% unless @errors.empty? %>
-          <div id="error_explanation" class="alert alert-error">
+          <div id="error_explanation" class="alert alert-danger">
             <ul class="errors">
               <% @errors.each do |msg| %>
-                <li style="font-color:red;"><%= msg %></li>
+                <li style="font-size: 18px;"><%= msg %></li>
               <% end %>
             </ul>
           </div>
         <% end %>
 
-        <%= form_tag(feedback_path, :id => 'feedback_form', :class => 'form-horizontal') do %>
+        <%= form_tag(contact_path, :id => 'feedback_form', :class => 'form-horizontal') do %>
+          <%= recaptcha_v3(action: 'contact', site_key: Settings.recaptcha_site_key_v3) %>
           <div class="form-group">
             <label class="col-sm-3 control-label"><%= t('blacklight.feedback.form.name') %></label>
             <div class="col-sm-7 col-md-6">
@@ -75,13 +75,23 @@
             </div>
           </div>
 
+          <% if  @show_captcha_v2 %>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-7 col-md-6">
+              <div class="newsletter_checkbox pull-right">
+                <%= recaptcha_tags %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-7 col-md-6">
               <%= submit_tag(t('blacklight.feedback.submit'), :class => 'btn btn-default pull-right', id: 'contact_submit') %>
             </div>
           </div>
 
-        <% end %>
+      <% end %>
 
 
       </div>

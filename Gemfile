@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Recaptcha (https://github.com/ambethia/recaptcha)
+gem "recaptcha"
+
 # Twitter
 gem 'twitter'
 
