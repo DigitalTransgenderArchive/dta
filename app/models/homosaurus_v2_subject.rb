@@ -60,6 +60,62 @@ class HomosaurusV2Subject < HomosaurusSubject
 
   end
 
+  def self.upload_lcsh(spreadsheet_location)
+    ActiveRecord::Base.transaction do
+      if sheet_location =~ /\b.xlsx$\b/
+        worksheet = Roo::Excelx.new(spreadsheet_location)
+      elsif sheet_location =~ /\b.xls$\b/
+        worksheet = Roo::Excel.new(spreadsheet_location)
+      elsif sheet_location =~ /\b.csv\b/
+        worksheet = Roo::CSV.new(spreadsheet_location)
+      elsif sheet_location =~ /\b.ods\b/
+        worksheet = Roo::OpenOffice.new(spreadsheet_location)
+      end
+      worksheet.default_sheet = worksheet.sheets.first #Sets to the first sheet in the workbook
+
+      data_start_row = 2
+      data_start_row_index.upto @worksheet.last_row do |index|
+        row = worksheet.row(index)
+        if row.present?
+          begin
+            identifier = strip_value(row[1])
+            lcsh_possibility = strip_value(row[3])
+
+            if identifier.present? and lcsh_possibility.present? and lcsh_possibility.starts_with?('http://id.loc.gov/authorities/subjects/')
+              subject = HomosaurusV2Subject.find_by(identifier: identifier)
+              if subject.present?
+                subject.exactMatch_lcsh = lcsh_possibility
+                subject.save!
+              else
+                raise "No Homosaurus Subject Found for Identifier: #{identifier.to_s}"
+              end
+            end
+          rescue Exception => e
+            #Exception handling for when encounter bad data...
+          end
+        end
+      end
+    end
+  end
+
+  def strip_value(value)
+    if(value == nil)
+      return nil
+    else
+      if value.class == Float
+        value = value.to_f.to_s
+        value = value.gsub(/.0$/, '') #FIXME: Temporary. Bugged as see: https://github.com/roo-rb/roo/issues/86 , https://github.com/roo-rb/roo/issues/133 , https://github.com/zdavatz/spreadsheet/issues/41
+      elsif value.class == Fixnum
+        value = value.to_i.to_s #FIXME: to_i as otherwise non-existant values cause problems
+      end
+      # Make sure it is all UTF-8 and not character encodings or HTML tags and remove any cariage returns
+      return utf8Encode(value)
+    end
+  end
+  def utf8Encode(value)
+    return HTMLEntities.new.decode(ActionView::Base.full_sanitizer.sanitize(value.to_s.gsub(/\r?\n?\t/, ' ').gsub(/\r?\n/, ' '))).strip
+  end
+
   def self.clean_all
     HomosaurusV2Subject.all.each do |subj|
       related = clean_up(subj.related)
@@ -156,12 +212,12 @@ class HomosaurusV2Subject < HomosaurusSubject
     doc[:description_ssi] = self.description
     doc[:description_tesim] = [self.description]
 
-    doc[:exactMatch_ssim] = self.exactMatch_homosaurus
+    doc[:exactMatch_ssim] = self.exactMatch_homosaurus.dup
     self.exactMatch_lcsh.each do |l|
       doc[:exactMatch_ssim] << l.uri
     end
 
-    doc[:closeMatch_ssim] = self.closeMatch_homosaurus
+    doc[:closeMatch_ssim] = self.closeMatch_homosaurus.dup
     self.closeMatch_lcsh.each do |l|
       doc[:closeMatch_ssim] << l.uri
     end

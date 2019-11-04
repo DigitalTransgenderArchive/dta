@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Excel support
+gem 'roo', :git => 'https://github.com/roo-rb/roo'
+gem 'roo-xls', :git => 'https://github.com/roo-rb/roo-xls.git'
+
 # Recaptcha (https://github.com/ambethia/recaptcha)
 gem "recaptcha"
 
