@@ -84,6 +84,9 @@
                 <li><%= link_to 'Carousel', admin_carousel_edit_path, :class=>"nav_button" %></li>
                 <li class="divider"></li>
                 <li><%= link_to 'Jobs', '/sidekiq', :class=>"nav_button" %></li>
+              <% elsif current_user.admin? %>
+                <li class="divider"></li>
+                <li><%= link_to 'Coll Create', new_collection_path, :class=>"nav_button" %></li>
               <% end %>
               <% if current_user.superuser? || current_user.homosaurus? || current_user.admin? %>
                 <li class="divider"></li>
