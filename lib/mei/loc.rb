@@ -95,22 +95,23 @@ module Mei
 
       if Mei::Loc.development_mode # `rails s` doesn't work multi-threaded?
         @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
-          end_response[position_counter] = loc_response_to_qa(response_to_struct(response), position_counter)
-          position_counter+=1
+          if response.to_s.include?('authorities/subjects/')
+            end_response[position_counter] = loc_response_to_qa(response_to_struct(response), position_counter)
+            position_counter+=1
+          end
         end
       else
         @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
-          threaded_responses << Thread.new(position_counter) { |local_pos|
-            Rails.application.reloader.wrap do
-              end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
-            end
-          }
-          position_counter+=1
+          if response.to_s.include?('authorities/subjects/')
+            threaded_responses << Thread.new(position_counter) { |local_pos|
+              Rails.application.reloader.wrap do
+                end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
+              end
+            }
+            position_counter+=1
+          end
         end
       end
-
-
-
 
 
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads do

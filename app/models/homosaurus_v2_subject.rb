@@ -62,44 +62,46 @@ class HomosaurusV2Subject < HomosaurusSubject
 
   def self.upload_lcsh(spreadsheet_location)
     ActiveRecord::Base.transaction do
-      if sheet_location =~ /\b.xlsx$\b/
+      if spreadsheet_location =~ /\b.xlsx$\b/
         worksheet = Roo::Excelx.new(spreadsheet_location)
-      elsif sheet_location =~ /\b.xls$\b/
+      elsif spreadsheet_location =~ /\b.xls$\b/
         worksheet = Roo::Excel.new(spreadsheet_location)
-      elsif sheet_location =~ /\b.csv\b/
+      elsif spreadsheet_location =~ /\b.csv\b/
         worksheet = Roo::CSV.new(spreadsheet_location)
-      elsif sheet_location =~ /\b.ods\b/
+      elsif spreadsheet_location =~ /\b.ods\b/
         worksheet = Roo::OpenOffice.new(spreadsheet_location)
       end
       worksheet.default_sheet = worksheet.sheets.first #Sets to the first sheet in the workbook
 
       data_start_row = 2
-      data_start_row_index.upto @worksheet.last_row do |index|
+      data_start_row.upto worksheet.last_row do |index|
         row = worksheet.row(index)
         if row.present?
-          begin
+          #begin
             identifier = strip_value(row[1])
             lcsh_possibility = strip_value(row[3])
 
             if identifier.present? and lcsh_possibility.present? and lcsh_possibility.starts_with?('http://id.loc.gov/authorities/subjects/')
               subject = HomosaurusV2Subject.find_by(identifier: identifier)
               if subject.present?
-                subject.exactMatch_lcsh = lcsh_possibility
-                subject.save!
+                if subject.exactMatch_lcsh.blank?
+                  subject.exactMatch_lcsh = lcsh_possibility
+                  subject.save!
+                end
               else
                 raise "No Homosaurus Subject Found for Identifier: #{identifier.to_s}"
               end
             end
-          rescue Exception => e
+          #rescue Exception => e
             #Exception handling for when encounter bad data...
-          end
+          #end
         end
       end
     end
   end
 
-  def strip_value(value)
-    if(value == nil)
+  def self.strip_value(value)
+    if value.nil?
       return nil
     else
       if value.class == Float
@@ -112,8 +114,10 @@ class HomosaurusV2Subject < HomosaurusSubject
       return utf8Encode(value)
     end
   end
-  def utf8Encode(value)
-    return HTMLEntities.new.decode(ActionView::Base.full_sanitizer.sanitize(value.to_s.gsub(/\r?\n?\t/, ' ').gsub(/\r?\n/, ' '))).strip
+
+  def self.utf8Encode(value)
+    #return HTMLEntities.new.decode(ActionView::Base.full_sanitizer.sanitize(value.to_s.gsub(/\r?\n?\t/, ' ').gsub(/\r?\n/, ' '))).strip
+    return value.to_s.gsub(/\r?\n?\t/, ' ').gsub(/\r?\n/, ' ').strip
   end
 
   def self.clean_all
