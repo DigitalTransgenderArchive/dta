@@ -44,7 +44,12 @@ class LearnsController < ApplicationController
   end
 
   def show
-    @page = Learns.find(params[:id])
+    if params[:id] == "guide"
+      render "learns/guide"
+    else
+      @page = Learns.find(params[:id])
+    end
+
   end
 
   def set_nav_heading
