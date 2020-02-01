@@ -81,7 +81,7 @@
     }
 
     tr.zebra {
-      background-color: #BACBE7;
+      background-color: #E7EDF9;
     }
 
     tr:first-child {
@@ -102,9 +102,6 @@
       text-transform: uppercase;
       margin-bottom: 0;
     }
-
-
-
 
   }
 }
@@ -158,8 +155,10 @@ table.glossary_table {
 
   }
 
+
+
   tr:nth-of-type(odd) {
-    background-color: #BACBE7;
+    background-color: #E7EDF9;
   }
 
   tr:first-child {
@@ -180,5 +179,12 @@ table.glossary_table {
     text-transform: uppercase;
     margin-bottom: 0;
     margin-left: 9px;
+
+    span.learn_small_subtitle {
+      font-size: 12px;
+      text-transform: unset;
+    }
   }
+
+
 }

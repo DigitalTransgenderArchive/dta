@@ -7,6 +7,7 @@ class ContactController < ApplicationController
 
   def index
     @errors=[]
+    @show_captcha_v2 = true
 
     if request.post?
       if validate_email
@@ -59,15 +60,22 @@ class ContactController < ApplicationController
     unless params[:message] =~ /\w+/
       @errors << "Please enter an address"
     end
-    unless verify_recaptcha(action: 'contact', minimum_score: 0.35, secret_key: Settings.recaptcha_secret_key_v3)
+
+    captcha_result_v3 = verify_recaptcha(action: 'contact', minimum_score: 0.35, secret_key: Settings.recaptcha_secret_key_v3)
+    captcha_result_v3 = false # Temporary disable?
+
+    unless captcha_result_v3
       if verify_recaptcha
         @show_captcha_v2 = false
       else
         @show_captcha_v2 = true
-        @errors << 'Background recaptcha failed. Please try submitting your message again with the added checkbox captcha.'
+        @errors << 'Captcha failed. Please try submitting your message again with the added checkbox captcha.'
+        #@errors << 'Background recaptcha failed. Please try submitting your message again with the added checkbox captcha.'
       end
-
     end
+
+    puts @errors.to_s
+
     @errors.empty?
   end
 end
