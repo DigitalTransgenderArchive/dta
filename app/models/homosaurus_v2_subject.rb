@@ -244,7 +244,6 @@ class HomosaurusV2Subject < HomosaurusSubject
     if HomosaurusV2Subject.find_by(identifier: item).broader.blank?
       @broadest_terms << item.split('/').last
     else
-      puts 'FINDING FOR: ' + self.identifier.to_s
       HomosaurusV2Subject.find_by(identifier: item).broader.each do |current_broader|
         get_broadest(current_broader)
       end

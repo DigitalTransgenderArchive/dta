@@ -319,8 +319,10 @@ class GenericObjectsController < ApplicationController
       @generic_object.descriptions = []
     end
 
+    # TOC is submitted as a single field
+    # Likely should not be appending "0" index for this
     if form_fields[:toc][0].present?
-      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }.map(&:strip)
+      @generic_object.toc = [form_fields[:toc].strip]
     elsif @generic_object.toc.present?
       @generic_object.toc = []
     end
