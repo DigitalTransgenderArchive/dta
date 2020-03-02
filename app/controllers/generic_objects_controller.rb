@@ -572,6 +572,7 @@ class GenericObjectsController < ApplicationController
   def regenerate_thumbnail
     obj = GenericObject.find_by(pid: params[:id])
     obj.base_files[0].create_derivatives
+    obj.send_solr
     flash[:notice] = "Thumbnail was regenerated!"
     redirect_to generic_object_path(obj.pid)
   end
