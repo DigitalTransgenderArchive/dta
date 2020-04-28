@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_19_185142) do
+ActiveRecord::Schema.define(version: 2018_07_19_185145) do
 
   create_table "abouts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "url_label"
@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_185142) do
     t.text "description"
   end
 
-  create_table "ckeditor_assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "ckeditor_assets", primary_key: "data_id", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "data_file_name", null: false
     t.string "data_content_type"
     t.integer "data_file_size"
@@ -361,6 +361,22 @@ ActiveRecord::Schema.define(version: 2018_07_19_185142) do
     t.index ["model", "obj_id"], name: "index_hist_versions_on_model_and_obj_id"
   end
 
+  create_table "homosaurus_closematch_lcsh", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "homosaurus_subject_id"
+    t.bigint "lcsh_subject_id"
+    t.index ["homosaurus_subject_id", "lcsh_subject_id"], name: "index_homosaurus_closematch_lcsh_to_lcsh_subjects", unique: true
+    t.index ["homosaurus_subject_id"], name: "index_homosaurus_closematch_lcsh_on_homosaurus_subject_id"
+    t.index ["lcsh_subject_id"], name: "index_homosaurus_closematch_lcsh_on_lcsh_subject_id"
+  end
+
+  create_table "homosaurus_exactmatch_lcsh", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
+    t.bigint "homosaurus_subject_id"
+    t.bigint "lcsh_subject_id"
+    t.index ["homosaurus_subject_id", "lcsh_subject_id"], name: "index_homosaurus_exactmatch_lcsh_to_lcsh_subjects", unique: true
+    t.index ["homosaurus_subject_id"], name: "index_homosaurus_exactmatch_lcsh_on_homosaurus_subject_id"
+    t.index ["lcsh_subject_id"], name: "index_homosaurus_exactmatch_lcsh_on_lcsh_subject_id"
+  end
+
   create_table "homosaurus_subjects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "pid", limit: 128
     t.string "uri"
@@ -378,6 +394,8 @@ ActiveRecord::Schema.define(version: 2018_07_19_185142) do
     t.text "exactMatch"
     t.string "type", default: "HomosaurusSubject", null: false
     t.string "label_eng"
+    t.text "closeMatch_homosaurus"
+    t.text "exactMatch_homosaurus"
     t.index ["identifier", "type"], name: "index_homosaurus_subjects_on_identifier_and_type", unique: true
     t.index ["identifier", "version"], name: "index_homosaurus_subjects_on_identifier_and_version", unique: true
     t.index ["pid"], name: "index_homosaurus_subjects_on_pid", unique: true

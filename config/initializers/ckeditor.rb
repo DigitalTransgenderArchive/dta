@@ -6,7 +6,7 @@ Ckeditor.setup do |config|
   # available as additional gems.
   require "ckeditor/orm/active_record"
 
-    config.assets_languages = ['en']
+    #config.assets_languages = ['en']
     #config.assets_plugins = ['image', 'smiley']
 
   # Allowed image file types for upload.

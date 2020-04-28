@@ -43,7 +43,9 @@ gem 'iso-639'
 gem "font-awesome-rails"
 
 # File Upload Library
-gem "refile", require: "refile/rails"
+#gem "refile", github: 'refile/refile', require: "refile/rails"
+#gem "refile-mini_magick"
+gem 'paperclip'
 gem 'mime-types'
 
 # From original dta
