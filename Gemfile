@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Fix bug with previous button and span tags
+gem 'kaminari', '1.1.1'
+
 # Excel support
 gem 'roo', :git => 'https://github.com/roo-rb/roo'
 gem 'roo-xls', :git => 'https://github.com/roo-rb/roo-xls.git'
