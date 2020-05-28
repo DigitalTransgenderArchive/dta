@@ -32,12 +32,12 @@
 
 <p>
   <label class="no_repeat_field_value required control-label"><abbr title="required">*</abbr> Select the Institution: </label>
-  <%= select_tag 'institution', options_for_select(@selectable_institution, @institution_id), required: true, include_blank: true, class: 'form-control form_single_style' %>
+  <%= select_tag 'institution', options_for_select(@selectable_institution, @institution_id), required: true, include_blank: true, class: 'form-control form_single_style', tabindex: 1 %>
 </p>
 <p>&nbsp;</p>
 
 <p>
   <label class="no_repeat_field_value required control-label"><abbr title="required">*</abbr> Upload to Collection: </label>
-  <%= select_tag 'collection', options_for_select(@selectable_collection, @collection_id), required: true, include_blank: true, class: 'form-control form_single_style' %>
+  <%= select_tag 'collection', options_for_select(@selectable_collection, @collection_id), required: true, include_blank: true, class: 'form-control form_single_style', tabindex: 2 %>
 </p>
 <p>&nbsp;</p>

@@ -38,7 +38,7 @@
                   <%= image_tag((download_path @generic_object.pid, file: 'thumbnail', index: index), height: '140') %>
                 <% end %>
                 <span class="input-group-btn">
-                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button" tabindex="-1">-</button>
               </span>
               </div>
             </li>
@@ -53,12 +53,12 @@
         <ul class="listing">
           <li class="field-wrapper">
             <div class="input-group col-sm-12 well">
-              <%= file_field_tag "filedata[]", input_html: {class: 'duplicateable'} %>
+              <%= file_field_tag "filedata[]", input_html: {class: 'duplicateable'}, tabindex: 3 %>
               <span class="input-group-btn regular_audits_duplicate_span">
-                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
+                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button" tabindex="-1">+</button>
               </span>
               <span class="input-group-btn">
-                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button" tabindex="-1">-</button>
               </span>
             </div>
           </li>
@@ -68,14 +68,14 @@
 
       <div class="form-group">
         <div class="col-xs-12">
-          <%= f.input_field :hosted_elsewhere, as: :boolean %> This item is hosted elsewhere.
+          <%= f.input_field :hosted_elsewhere, as: :boolean, tabindex: 5 %> This item is hosted elsewhere.
         </div>
       </div>
       <br />
 
       <div class="tab-content">
         <div class="tab-pane" id="hosted_elsewhere" aria-labelledby="hosted_elsewhere_tab" role="tabpanel" style="width: 583px;">
-          <%= f.input :is_shown_at, class: 'form-control' %>
+          <%= f.input :is_shown_at, class: 'form-control', input_html: { tabindex: 6 } %>
         </div>
       </div>
 
@@ -90,13 +90,14 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :title, required: true, label: false, class: 'form-control' %>
+          <%= f.input :title, required: true, label: false, class: 'form-control', input_html: { tabindex: 7 } %>
         </div>
       </div>
 
       <%= f.input :alt_titles, as: :multi_base,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.alternative"),
                                 help_label: 'Alternative Title',
+                                tabindex: 8,
                                 },
                   required: false, label: 'Alternative Title'
       %>
@@ -106,6 +107,7 @@
                                 endpoint: creators_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.creator"),
                                 help_label: 'Creator',
+                                tabindex: 9,
                                 placeholder: ''}, label: 'Creator', required: false
       %>
 
@@ -114,6 +116,7 @@
                                 endpoint: contributors_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.contributor"),
                                 help_label: 'Contributor',
+                                tabindex: 10,
                                 placeholder: ''}, label: 'Contributor'
       %>
 
@@ -122,6 +125,7 @@
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.date_created"),
                                 help_label: 'Date Created',
+                                tabindex: 11,
                                 placeholder: 'Enter a EDTF style date'}, label: 'Date Created'
       %>
 
@@ -130,6 +134,7 @@
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.date_issued"),
                                 help_label: 'Date Issued',
+                                tabindex: 12,
                                 placeholder: 'Enter a EDTF style date'}, label: 'Date Issued'
       %>
 
@@ -138,6 +143,7 @@
                                 endpoint: dates_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.temporal_coverage"),
                                 help_label: 'Temporal Coverage',
+                                tabindex: 13,
                                 placeholder: 'Enter a EDTF style date'}, label: 'Temporal Coverage'
       %>
 
@@ -150,20 +156,23 @@
       ]} %>
       <%= f.input :geonames, as: :geo_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.based_near"),
-                                help_label: 'Spatial Coverage'},
+                                help_label: 'Spatial Coverage',
+                                tabindex: 14,},
                   required: false, readonly: true, label: 'Spatial Coverage'
       %>
 
       <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_subjects} %>
       <%= f.input :homosaurus_subjects, as: :homosaurus_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.homosaurus_subject"),
-                                help_label: 'Subject Coverage–Homosaurus'}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus'
+                                help_label: 'Subject Coverage–Homosaurus',
+                                tabindex: 15}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus'
       %>
 
       <%= render :partial => "mei/form", :locals => {:f => f, :key=>:lcsh_subjects} %>
       <%= f.input :lcsh_subjects, as: :lcsh_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
-                                help_label: 'Subject Coverage–LC Subject Headings'},
+                                help_label: 'Subject Coverage–LC Subject Headings',
+                                tabindex: 16},
                                 required: false, readonly: true, label: 'Subject Coverage–LC Subject Headings'
       %>
 
@@ -172,28 +181,32 @@
                                 endpoint: other_subjects_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.other_subject"),
                                 help_label: 'Subject Coverage–Other',
-                                placeholder: ''}, label: 'Subject Coverage–Other'
+                                placeholder: '',
+                                tabindex: 17}, label: 'Subject Coverage–Other'
       %>
 
 
       <%= f.input :flagged, as: :single_select, collection: ["No explicit content", "Explicit content in thumbnail", "Explicit content, but not in thumbnail"],
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.flagged"),
-                      help_label: 'Explicit Content', include_blank: false
+                      help_label: 'Explicit Content', include_blank: false,
+                      tabindex: 18
                   }, required: true
       %>
 
       <%= f.input :resource_types, as: :multi_select, collection: ResourceType.all.pluck(:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.resource_type"),
-                      help_label: 'Type', include_blank: true
+                      help_label: 'Type', include_blank: true,
+                      tabindex: 19
                   }, required: true, label: 'Type'
       %>
 
       <%= f.input :genres, as: :multi_select, collection: Genre.all.pluck(:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.genre"),
-                      help_label: 'Genres', include_blank: true
+                      help_label: 'Genres', include_blank: true,
+                      tabindex: 20
                        }, required: true
       %>
 
@@ -207,7 +220,7 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :analog_format, required: false, label: false, class: 'form-control' %>
+          <%= f.input :analog_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 21 } %>
         </div>
       </div>
 
@@ -221,7 +234,7 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :digital_format, required: false, label: false, class: 'form-control' %>
+          <%= f.input :digital_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 22 } %>
         </div>
       </div>
 
@@ -229,6 +242,7 @@
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.description"),
                                 help_label: 'Description',
                                 rows: '9', type: 'textarea',
+                                tabindex: 24
                   },
                   required: false, label: 'Description'
       %>
@@ -243,7 +257,7 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :toc, required: false, label: false, class: 'form-control', input_html: { rows: '9', type: 'textarea' } %>
+          <%= f.input :toc, required: false, label: false, class: 'form-control', input_html: { rows: '9', type: 'textarea', tabindex: 25 } %>
         </div>
       </div>
 
@@ -252,7 +266,8 @@
                                 endpoint: languages_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.language"),
                                 help_label: 'Language',
-                                placeholder: '', label: 'Language' }
+                                placeholder: '', label: 'Language',
+                                tabindex: 26}
       %>
 
       <%= f.input :publishers, as: :multi_select_picker,
@@ -260,12 +275,14 @@
                                 endpoint: publishers_autocomplete_path,
                                 include_help: t("simple_form.metadata_help.generic_file.publisher"),
                                 help_label: 'Publisher',
-                                placeholder: ''}, label: 'Publisher'
+                                placeholder: '',
+                                tabindex: 27}, label: 'Publisher'
       %>
 
       <%= f.input :related_urls, as: :multi_base,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.related"),
                                 help_label: 'Relation',
+                                tabindex: 28
                   },
                   required: false, label: 'Relation'
       %>
@@ -273,13 +290,15 @@
       <%= f.input :rights, as: :single_select, collection: Rights.all.collect(&:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.rights"),
-                      help_label: 'Rights', include_blank: false
+                      help_label: 'Rights', include_blank: false,
+                      tabindex: 29
                   }, required: true
       %>
 
       <%= f.input :rights_free_text, as: :multi_base,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.rights_free_text"),
                                 help_label: 'Additional Rights Information',
+                                tabindex: 30
                   },
                   required: false, label: 'Additional Rights Information'
       %>
@@ -287,7 +306,7 @@
     </div>
 
      <div>
-       <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "update_descriptions", data: { disable_with: "Please wait..." } do %>
+       <%= button_tag class: 'btn btn-primary btn-lg', id: "upload_submit", name: "update_descriptions", tabindex: 31, data: { disable_with: "Please wait..." } do %>
            <i class="glyphicon glyphicon-floppy-disk"></i> Save Item
        <% end %>
      </div>

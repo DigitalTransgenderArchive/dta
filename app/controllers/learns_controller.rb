@@ -46,6 +46,8 @@ class LearnsController < ApplicationController
   def show
     if params[:id] == "guide"
       render "learns/guide"
+    elsif params[:id] == "raceandethnicity"
+        render "learns/raceandethnicity"
     else
       @page = Learns.find(params[:id])
     end

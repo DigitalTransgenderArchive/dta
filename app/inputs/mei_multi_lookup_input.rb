@@ -11,12 +11,12 @@ class MeiMultiLookupInput < MultiBaseInput
              <div class="input-group col-sm-12">
               #{yield}
 
-             <span class="input-group-btn"><button style="width:auto; margin-right: 10px;" type="button" class="btn btn-default" data-toggle="modal" data-target="#meiLookupModal_#{attribute_name}">Lookup</button></span>
+             <span class="input-group-btn"><button style="width:auto; margin-right: 10px;" type="button" class="btn btn-default" data-toggle="modal" data-target="#meiLookupModal_#{attribute_name}", tabindex="#{input_html_options[:tabindex]}" >Lookup</button></span>
               <span class="input-group-btn regular_audits_duplicate_span">
-                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button">+</button>
+                <button class="btn btn-success" data-js-duplicate-audits-field="true" type="button", tabindex="-1">+</button>
               </span>
               <span class="input-group-btn">
-                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button">-</button>
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button", tabindex="-1">-</button>
               </span>
               </div>
           </li>

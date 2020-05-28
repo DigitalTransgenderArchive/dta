@@ -13,6 +13,7 @@ function duplicate_field_click(event) {
 
     if(is_autocomplete_select2) {
         cloned_element = $(event.target).parent().parent().parent().clone();
+        old_tab_index = cloned_element.find("span.select2-selection").attr("tabindex");
         cloned_element.find("span.select2-selection").remove();
     } else {
         cloned_element = $(event.target).parent().parent().parent().clone(true, true);
@@ -25,6 +26,8 @@ function duplicate_field_click(event) {
     // Remove any initial values
     if(is_autocomplete_select2) {
         $(cloned_element).find('.duplicateable').removeAttr('data-initial_value');
+        $(cloned_element).find("select").first().attr("tabindex", old_tab_index);
+        //$(cloned_element).find("span.select2-selection").attr("tabindex", old_tab_index);
     }
 
     //Insert after the root element

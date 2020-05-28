@@ -38,7 +38,7 @@ module WithLabelOptions
     if input_html_options[:include_help]
       template.link_to '#', :"data-turbolinks" => false, rel: 'popover'.freeze, class: 'popover_link',
                        'data-toggle' => "popover", 'data-trigger' => 'focus',
-                       'tabindex' => '0', # See https://github.com/angular-ui/bootstrap/issues/3687
+                       'tabindex' => '-1', # See https://github.com/angular-ui/bootstrap/issues/3687
                        'title' => help_label, 'data-content' => help_content,
                        'data-placement' => 'right', 'data-turbolinks'=> 'false' do
         template.content_tag 'i', nil, "aria-hidden" => true, class: "glyphicon glyphicon-question-sign", style: 'padding-top:2px;'
