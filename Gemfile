@@ -10,7 +10,7 @@ gem 'roo', :git => 'https://github.com/roo-rb/roo'
 gem 'roo-xls', :git => 'https://github.com/roo-rb/roo-xls.git'
 
 # Recaptcha (https://github.com/ambethia/recaptcha)
-gem "recaptcha"
+gem "recaptcha", "5.1.0"
 
 # Twitter
 gem 'twitter'
