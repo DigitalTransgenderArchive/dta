@@ -1,9 +1,12 @@
 en:
   blacklight:
-    application_name: 'Blacklight'
+    application_name: 'Digital Transgender Archive'
     collections:
       map:
         title: 'Map View'
     institutions:
       map:
         title: 'Map View'
+    bookmarks:
+      clear:
+        action_title: "Clear Bookmarks"
