@@ -8,5 +8,25 @@ en:
       map:
         title: 'Map View'
     bookmarks:
+      title: 'Favorites'
+      page_title: 'Favorites - %{application_name}'
+      no_bookmarks: 'You have no favorites'
+      add:
+        button: 'Favorite'
+        success:
+          one: 'Successfully added favorite.'
+          other: 'Successfully added favorite.'
+        failure:  'Sorry, there was a problem saving the favorites.'
+      remove:
+        button: 'Remove favorite'
+        success: 'Successfully removed favorite.'
+        failure: 'Sorry, there was a problem removing the favorites.'
+        action_confirm: 'Remove this favorite?'
       clear:
-        action_title: "Clear Bookmarks"
+        action_title: 'Clear Favorites'
+        action_confirm: 'Clear your favorites?'
+        success: 'Cleared your favorites.'
+        failure: 'Sorry, there was a problem clearing your favorites.'
+      need_login: 'Please log in to manage and view your favorites.'
+      list_title: 'Your Favorites'
+      delete: 'Remove'

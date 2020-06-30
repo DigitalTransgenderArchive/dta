@@ -59,14 +59,14 @@
           </ul>
         </li>
         <li><%= link_to 'CONTACT', contact_path %></li>
-        <% if 1==0 && current_user.blank? %>
+        <% if current_user.blank? %>
           <li>
             <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn", method: "get") do %>
-              Login
+              LOGIN
             <% end %>
           </li>
         <% elsif current_user.present? %>
-          <li class="dropdown">
+          <li class="dropdown user_account_link">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">ACCOUNT <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><%= link_to 'Favorites', bookmarks_path, :class=>"nav_button" %></li>

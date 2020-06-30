@@ -1,11 +1,12 @@
 <li>
   <h2>
     <%= link_to_document document, document_show_link_field(document), counter: counter %>
-    <small style="float:right; color: black;"><%= render 'catalog/bookmark_control', document: document %></small>
+
   </h2>
   <div class="row">
     <div class="col-sm-3">
       <%= render_thumbnail_tag document, {}, counter: counter %>
+      <small style="color: black;"><%= render 'catalog/bookmark_control', document: document %></small>
     </div>
     <div class="col-sm-9">
       <%= render 'shared/attributes', work: document %>
