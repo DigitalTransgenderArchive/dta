@@ -1,0 +1,63 @@
+<div style="clear: both;"></div>
+<div id="home_explore_topics">
+  <div class="col-xs-12 col-sm-12">
+    <h2>EXPLORE BY TOPIC</h2>
+  </div>
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/topics/home_topic_events.png") %>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Events", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Events' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/topics/home_topic_cross_dressing.png") %>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Crossdressing", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Crossdressing' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/topics/home_topic_femininity.png") %>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Femininity", "/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Femininity" %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <%= image_tag("home/topics/home_topic_gender_identity.png") %>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Gender Identity", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Gender+identity' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn_wrapper">
+    <%= button_to(topic_facet_path, class: "btn btn-primary btn-round", id: "view_topics_btn", method: :get) do %>
+      View More Topics
+    <% end %>
+  </div>
+</div>

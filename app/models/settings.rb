@@ -45,6 +45,10 @@ class Settings
     @recaptcha_secret_key_v3 ||= Settings.dta_config["recaptcha_secret_key_v3"]
   end
 
+  def self.featured_items_user_id
+    @featured_items_user_id ||= Settings.dta_config["featured_items_user_id"]
+  end
+
   # FIXME!
   def self.fits_path
     @fits_path ||= Settings.dta_config["fits_path"]

@@ -91,6 +91,8 @@ Rails.application.routes.draw do
 ies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
 
+  get 'featured' => 'featured#index', as: :featured
+
 
 
   mount Blacklight::Engine => '/'

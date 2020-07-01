@@ -193,6 +193,7 @@ class GenericObjectsController < ApplicationController
         format.html do
           setup_next_and_previous_documents
           @show_response, @document = fetch(params[:id])
+          @response = @show_response # Hack to support bookmarks
         end
       end
     end
