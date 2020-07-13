@@ -12,7 +12,9 @@ task :solr_reindex_all => [ :environment ] do
 end
 
 task :populate_tweets => [ :environment ] do
-  ProcessTweetsWorker.perform_async
+  #ProcessTweetsWorker.perform_async
+  test = ProcessTweetsWorker.new
+  test.perform
 end
 
 
