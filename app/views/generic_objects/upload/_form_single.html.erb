@@ -168,11 +168,18 @@
                                 tabindex: 15}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus'
       %>
 
+      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_v2_subjects} %>
+      <%= f.input :homosaurus_v2_subjects, as: :homosaurus_v2_lookup,
+                  input_html: { include_help: t("simple_form.metadata_help.generic_file.homosaurus_subject"),
+                                help_label: 'Subject Coverage–Homosaurus V2',
+                                tabindex: 16}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus-V2'
+      %>
+
       <%= render :partial => "mei/form", :locals => {:f => f, :key=>:lcsh_subjects} %>
       <%= f.input :lcsh_subjects, as: :lcsh_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.lcsh_subject"),
                                 help_label: 'Subject Coverage–LC Subject Headings',
-                                tabindex: 16},
+                                tabindex: 17},
                                 required: false, readonly: true, label: 'Subject Coverage–LC Subject Headings'
       %>
 
@@ -182,7 +189,7 @@
                                 include_help: t("simple_form.metadata_help.generic_file.other_subject"),
                                 help_label: 'Subject Coverage–Other',
                                 placeholder: '',
-                                tabindex: 17}, label: 'Subject Coverage–Other'
+                                tabindex: 18}, label: 'Subject Coverage–Other'
       %>
 
 
@@ -190,7 +197,7 @@
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.flagged"),
                       help_label: 'Explicit Content', include_blank: false,
-                      tabindex: 18
+                      tabindex: 19
                   }, required: true
       %>
 
@@ -198,7 +205,7 @@
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.resource_type"),
                       help_label: 'Type', include_blank: true,
-                      tabindex: 19
+                      tabindex: 20
                   }, required: true, label: 'Type'
       %>
 
@@ -206,7 +213,7 @@
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.genre"),
                       help_label: 'Genres', include_blank: true,
-                      tabindex: 20
+                      tabindex: 21
                        }, required: true
       %>
 
@@ -220,7 +227,7 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :analog_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 21 } %>
+          <%= f.input :analog_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 22 } %>
         </div>
       </div>
 
@@ -234,7 +241,7 @@
         </div>
         <div style="clear:both"></div>
         <div>
-          <%= f.input :digital_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 22 } %>
+          <%= f.input :digital_format, required: false, label: false, class: 'form-control', input_html: { tabindex: 23 } %>
         </div>
       </div>
 

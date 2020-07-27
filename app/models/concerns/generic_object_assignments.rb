@@ -184,6 +184,23 @@ module GenericObjectAssignments
     super
   end
 
+  def homosaurus_v2_subjects=(value)
+    r = []
+    values = clean_values(value)
+    values.each do |val|
+      if val.class == String
+        r << HomosaurusV2Subject.find_by(uri: val)
+        raise "Could not find homosaurus V2 for: #{val.to_s}" if r.last.nil?
+      elsif val.class == HomosaurusV2Subject
+        r << val
+      else
+        raise 'Unhandled GenericObject assignment for: ' + val.class.to_s
+      end
+    end
+    value = r
+    super
+  end
+
   # Linked Data Special Case
   def lcsh_subjects=(value)
     r = []
