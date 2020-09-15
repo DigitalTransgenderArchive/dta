@@ -6,6 +6,7 @@ module GenericObjectSolrAssignments
     doc[:dta_all_subject_ssim] = []
     doc[:dta_other_subject_ssim] = []
     doc[:dta_homosaurus_subject_ssim] = []
+    doc[:dta_homosaurus_v1_subject_ssim] = []
     doc[:dta_lcsh_subject_ssim] = []
 
     doc[:date_created_search_tesim] = []
@@ -67,6 +68,7 @@ module GenericObjectSolrAssignments
     #file_format_tesim like pdf (Portable Document Format)
     # Label versions
     self.homosaurus_subjects.each do |term|
+      doc[:dta_homosaurus_v1_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       doc[:dta_homosaurus_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       doc[:dta_all_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       term.alt_labels.each do |alt|
