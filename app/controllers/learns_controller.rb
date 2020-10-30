@@ -44,6 +44,7 @@ class LearnsController < ApplicationController
   end
 
   def show
+=begin
     if params[:id] == "guide"
       render "learns/guide"
     elsif params[:id] == "raceandethnicity"
@@ -51,6 +52,9 @@ class LearnsController < ApplicationController
     else
       @page = Learns.find(params[:id])
     end
+=end
+
+    @page = Learns.find(params[:id])
 
   end
 
