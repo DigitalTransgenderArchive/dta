@@ -10,7 +10,8 @@ class InstitutionsController < ApplicationController
   before_action :update_search_builder, only: [:index]
   #before_action :update_show_search_builder, only: [:show]
 
-  before_action :verify_admin, except: [:index, :show, :facet]
+  before_action :verify_admin, except: [:index, :show, :facet, :update_collections]
+  before_action :verify_contributor, only: [:update_collections]
   before_action :verify_superuser, only: [:destroy, :edit]
 
   #include Blacklight::Configurable
