@@ -115,7 +115,7 @@ class InstitutionsController < ApplicationController
       new_document_list = []
       filter_list = params[:filter].split(',')
       @document_list.each do |doc|
-        if filter_list.include?(doc['name_ssim'][0].upcase[0])
+        if filter_list.include?(doc['name_ssim'][0].gsub(/^The /, "").upcase[0])
           new_document_list << doc
         end
       end
