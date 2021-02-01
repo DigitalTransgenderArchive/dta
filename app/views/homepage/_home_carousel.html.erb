@@ -5,6 +5,9 @@
       <% @carousel.each_with_index do |_, index| %>
         <li data-target="#myCarousel" data-slide-to="<%=index%>"<% if index == 0 %> class="active"<% end %>></li>
       <% end %>
+      <button id="carouselPausePlayButton" type="button" class="btn btn-default btn-xs" data-state="play">
+        <span class="glyphicon glyphicon-pause"></span>
+      </button>
     </ol>
 
     <!-- Wrapper for slides -->

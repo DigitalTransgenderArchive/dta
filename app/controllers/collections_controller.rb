@@ -70,7 +70,7 @@ class CollectionsController < ApplicationController
       new_document_list = []
       filter_list = params[:filter].split(',')
       @document_list.each do |doc|
-        if filter_list.include?(doc['title_primary_ssi'].upcase[0])
+        if filter_list.include?(doc['title_primary_ssi'].gsub(/^The /, "").upcase[0])
           new_document_list << doc
         end
       end
