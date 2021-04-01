@@ -35,6 +35,7 @@ gem 'geomash', github: 'samvera-labs/geomash'
 gem 'secondbase'
 gem "hydra-role-management"
 gem 'bpl_enrich', github: 'scande3/bpl_enrich'
+gem 'qa'
 gem 'google-api-client', '~> 0.11' # Not using this yet...
 
 #ruby '2.4.0'
@@ -64,7 +65,8 @@ gem "blacklight_advanced_search"
 gem "blacklight", "~> 6.19.2"
 gem "blacklight-gallery", '0.11.0'
 gem "blacklight_range_limit", '6.3.3'
-gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
+#gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
+gem "blacklight-maps", "0.5.2"
 # End Blacklight
 
 # Authentication
@@ -87,7 +89,7 @@ gem 'select2-rails'
 
 # Date Support
 gem 'edtf'
-gem 'edtf-humanize'
+gem 'edtf-humanize', '0.0.7'
 # End Date Support
 
 # Linked Data
