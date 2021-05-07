@@ -335,9 +335,9 @@ class GenericObjectsController < ApplicationController
     # TOC is submitted as a single field
     # Likely should not be appending "0" index for this
     if form_fields[:toc][0].present?
-      @generic_object.toc = [form_fields[:toc].strip]
+      @generic_object.toc = form_fields[:toc].strip
     elsif @generic_object.toc.present?
-      @generic_object.toc = []
+      @generic_object.toc = nil
     end
 
     if form_fields[:languages][0].present?
