@@ -4,7 +4,15 @@ class PdfFile < BaseFile
 
     img = MiniMagick::Image.read(self.content)
 
-    img.format('png', 0, {density: 300})
+    density_300_works = true
+    begin
+      img.format('png', 0, {density: 300})
+      density_300_works = true
+    rescue => e
+      # Some pdf files don't work with density... likely bad density pdfs.
+      img.format('png', 0)
+      density_300_works = false
+    end
 
     img.combine_options do |c|
       c.trim "+repage"
@@ -24,7 +32,12 @@ class PdfFile < BaseFile
     preview = self.start_preview
     img = MiniMagick::Image.read(self.content)
 
-    img.format('png', 0, {density: 300})
+    if density_300_works
+      img.format('png', 0, {density: 300})
+    else
+      # Some pdf files don't work with density... likely bad density pdfs.
+      img.format('png', 0)
+    end
 
     img.combine_options do |c|
       c.trim "+repage"
@@ -44,7 +57,12 @@ class PdfFile < BaseFile
     carousel = self.start_carousel
     img = MiniMagick::Image.read(self.content)
 
-    img.format('png', 0, {density: 300})
+    if density_300_works
+      img.format('png', 0, {density: 300})
+    else
+      # Some pdf files don't work with density... likely bad density pdfs.
+      img.format('png', 0)
+    end
 
     img.combine_options do |c|
       c.trim "+repage"
@@ -53,7 +71,11 @@ class PdfFile < BaseFile
       #c.flatten
     end
 
-    img.format('jpg', 0, {density: '300'})
+    if density_300_works
+      img.format('jpg', 0, {density: '300'})
+    else
+      img.format('jpg', 0)
+    end
     #img.resize '338x493'
     img.resize '1920x1920^'
 
