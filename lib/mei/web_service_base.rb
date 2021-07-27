@@ -10,7 +10,7 @@ module Mei
     def get_json(url)
       #RestClient.enable Rack::Cache
       if Settings.dta_config["proxy_host"].present?
-        r = RestClient.execute(method: :get, url: url, headers: request_options, proxy: "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")
+        r = RestClient::Request.execute(method: :get, url: url, headers: request_options, proxy: "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")
       else
         r = RestClient.get url, request_options
       end
