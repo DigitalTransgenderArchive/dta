@@ -122,12 +122,12 @@ gem 'ahoy_matey', '1.6.1'
 gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4.6'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '1.3.13'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 5.3.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
