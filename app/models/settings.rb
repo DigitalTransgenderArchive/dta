@@ -7,7 +7,7 @@ class Settings
       config.access_token        = Settings.dta_config["twitter_access_token"]
       config.access_token_secret = Settings.dta_config["twitter_access_token_secret"]
       if Settings.dta_config["proxy_host"].present?
-        proxy = { host: Settings.dta_config["proxy_host"], port: Settings.dta_config["proxy_port"] }
+        proxy = { host: Settings.dta_config["proxy_host"], port: Settings.dta_config["proxy_port"].to_i }
         config.proxy = proxy
       end
     end
