@@ -9,10 +9,14 @@ module Mei
     # mix-in to retreive and parse JSON content from the web
     def get_json(url)
       #RestClient.enable Rack::Cache
-      r = RestClient.get url, request_options
+      if Settings.dta_config["proxy_host"].present?
+        r = RestClient.execute(method: :get, url: url, headers: request_options, proxy: "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")
+      else
+        r = RestClient.get url, request_options
+      end
+
       #RestClient.disable Rack::Cache
       JSON.parse(r)
-
     end
 
     def request_options
