@@ -16,6 +16,9 @@ class ContactController < ApplicationController
         if Settings.mailchimp_key.present? and params[:email].present? and params[:name].present? and params[:newsletter].present? and params[:newsletter] == 'yes'
           begin
             gibbon = Gibbon::Request.new(api_key: Settings.mailchimp_key)
+            if Settings.dta_config["proxy_host"].present?
+              gibbon.proxy = "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}"
+            end
             gibbon.lists(Settings.mailchimp_id).members(Digest::MD5.hexdigest(params[:email])).upsert(body:
                                                                                                           {email_address: params[:email],
                                                                                                            status: "subscribed",
