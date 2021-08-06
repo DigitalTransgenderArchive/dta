@@ -30,6 +30,7 @@ class ContactController < ApplicationController
             puts "Gibson, we have a mailchimp problem: #{e.message} - #{e.raw_body}"
           end
         end
+        puts "EMAIL WAS SENT HERE: #{params[:email]} -- #{params[:message]}"
         redirect_to feedback_complete_path
       end
     end
