@@ -277,10 +277,11 @@ module GenericObjectAssignments
         if ld.blank?
           geojson_hash_base = {type: 'Feature', geometry: {type: 'Point'}}
           payload = {:geonameId=>"#{val.split('/').last}", :username=>"boston_library"}
+          url = 'http://api.geonames.org/getJSON'
           if Settings.dta_config["proxy_host"].present?
             r = RestClient::Request.execute(method: :get, url: url, payload: payload, :headers => {:accept => :json}, proxy: "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")
           else
-            req = RestClient.get 'http://api.geonames.org/getJSON', {:params => payload, accept: :json}
+            req = RestClient.get url, {:params => payload, accept: :json}
           end
 
           result = JSON.parse(req)
