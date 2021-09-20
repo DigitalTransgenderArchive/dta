@@ -100,6 +100,8 @@ class DSolr
     reindex("Inst")
     reindex("Coll")
     reindex("HomosaurusSubject")
+    reindex("HomosaurusV2Subject")
+    reindex("HomosaurusV3Subject")
     reindex("GenericObject")
   end
 

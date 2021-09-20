@@ -1,4 +1,4 @@
-class HomosaurusV2Subject < HomosaurusSubject
+class HomosaurusV3Subject < HomosaurusSubject
   include HomosaurusAssignments
   after_save :send_solr
 
@@ -7,57 +7,78 @@ class HomosaurusV2Subject < HomosaurusSubject
     opts[:q] = q
     opts[:fl] = fl
     opts[:rows] = rows
-    opts[:fq] = 'active_fedora_model_ssi:HomosaurusV2'
+    opts[:fq] = 'active_fedora_model_ssi:HomosaurusV3'
     result = DSolr.find(opts)
     result
   end
 
   def terms
-    ['closeMarch', 'exactMatch']
+    ['closeMatch', 'exactMatch']
   end
 
-  def self.loadV2(xml_location)
+  def self.mint
+    conflicts = true
+    while conflicts do
+      pid = SecureRandom.hex[0..6]
+      conflicts = false unless HomosaurusV3Subject.exists?(identifier: pid)
+    end
+    return pid
+  end
+
+  def self.loadV3Part1
     ActiveRecord::Base.transaction do
-      HomosaurusV2Subject.all.each do |subj|
+      HomosaurusV3Subject.all.each do |subj|
         subj.destroy!
       end
 
-      doc = File.open(xml_location) { |f| Nokogiri::XML(f) }
+      HomosaurusV2Subject.all.each do |v2_subj|
+        obj = HomosaurusV3Subject.new
+        obj.label = v2_subj.label
+        obj.label_eng = v2_subj.label_eng
+        obj.identifier = HomosaurusV3Subject.mint
 
-      doc.remove_namespaces!
-
-      doc.xpath("//Concept").each do |concept|
-        obj = {}
-        obj[:label] = concept.xpath('./prefLabel').text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip
-        obj[:identifier] = createIdentifier(obj[:label])
-
-        obj[:alt_labels] = concept.xpath('./altLabel').map{ |l| l.text.to_s.gsub(/[\n\t]+/, '').strip }
-        obj[:related] = concept.xpath('./related').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
-        obj[:broader] = concept.xpath('./broader').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
-        obj[:narrower] = concept.xpath('./narrower').map{ |l| createIdentifier(l.text.to_s.gsub(/[\n\t]+/, '').gsub('’', "'").strip )}
-        obj[:uri] = "http://homosaurus.org/v2/#{obj[:identifier]}"
-        obj[:pid] = "homosaurus/v2/#{obj[:identifier]}"
-        obj[:version] = "v2"
-        obj[:description] = concept.xpath('./scopeNote').text.to_s.gsub(/[\n\t]+/, '').strip
-
-        existing = HomosaurusV2Subject.find_by(identifier: obj[:identifier])
-        if existing.blank?
-          HomosaurusV2Subject.create(obj)
-        else
-          existing.alt_labels = (existing.alt_labels + obj[:alt_labels]).uniq if obj[:alt_labels].present?
-          existing.related = existing.related + obj[:related] if obj[:related].present?
-          existing.broader = existing.broader + obj[:broader] if obj[:broader].present?
-          existing.narrower = existing.narrower + obj[:narrower] if obj[:narrower].present?
-          existing.description = existing.description if obj[:description].present?
-          existing.save!
-        end
+        obj.alt_labels = v2_subj.alt_labels
+        obj.replaces = v2_subj.uri
+        obj.uri = "https://homosaurus.org/v3/#{obj[:identifier]}"
+        obj.pid = "homosaurus/v3/#{obj[:identifier]}"
+        obj.exactMatch_lcsh = v2_subj.exactMatch_lcsh.map(&:uri)
+        obj.closeMatch_lcsh = v2_subj.closeMatch_lcsh.map(&:uri)
+        obj.version = "v3"
+        obj[:description] = v2_subj.description
+        obj.save!
 
       end
     end
+  end
 
+  def self.loadV3Part2
+    ActiveRecord::Base.transaction do
+      HomosaurusV3Subject.all.each do |v3_subj|
+        v2_obj = HomosaurusV2Subject.find_by(uri: v3_subj.replaces)
+        new_related = []
+        v2_obj.related.each do |item|
+          new_related << HomosaurusV3Subject.find_by(replaces: "http://homosaurus.org/v2/#{item}").identifier
+        end
+        v3_subj.related = new_related
 
-    self.clean_all
+        new_narrower = []
+        v2_obj.narrower.each do |item|
+          new_narrower << HomosaurusV3Subject.find_by(replaces: "http://homosaurus.org/v2/#{item}").identifier
+        end
 
+        new_broader = []
+        v2_obj.broader.each do |item|
+          new_broader << HomosaurusV3Subject.find_by(replaces: "http://homosaurus.org/v2/#{item}").identifier
+        end
+        v3_subj.related = new_related
+        v3_subj.broader = new_broader
+        v3_subj.narrower = new_narrower
+        v3_subj.save!
+
+        v2_obj.isReplacedBy = v3_subj.uri
+        v2_obj.save!
+      end
+    end
   end
 
   def self.upload_lcsh(spreadsheet_location)
@@ -82,7 +103,7 @@ class HomosaurusV2Subject < HomosaurusSubject
             lcsh_possibility = strip_value(row[3])
 
             if identifier.present? and lcsh_possibility.present? and lcsh_possibility.starts_with?('http://id.loc.gov/authorities/subjects/')
-              subject = HomosaurusV2Subject.find_by(identifier: identifier)
+              subject = HomosaurusV3Subject.find_by(identifier: identifier)
               if subject.present?
                 if subject.exactMatch_lcsh.blank?
                   subject.exactMatch_lcsh = lcsh_possibility
@@ -120,63 +141,12 @@ class HomosaurusV2Subject < HomosaurusSubject
     return value.to_s.gsub(/\r?\n?\t/, ' ').gsub(/\r?\n/, ' ').strip
   end
 
-  def self.clean_all
-    HomosaurusV2Subject.all.each do |subj|
-      related = clean_up(subj.related)
-      subj.related = related unless related == subj.related
-
-      narrower = clean_up(subj.narrower)
-      subj.narrower = narrower unless narrower == subj.narrower
-
-      broader = clean_up(subj.broader)
-      subj.broader = broader unless broader == subj.broader
-
-      subj.save!
-    end
-  end
-
-  def self.clean_up(array)
-    values = []
-    array.each do |rel|
-      if HomosaurusV2Subject.exists?(identifier: rel)
-        values << rel
-      elsif HomosaurusV2Subject.exists?(identifier: rel[0..-2])
-        values << rel[0..-2]
-      end
-    end
-    values
-  end
-
-  def self.createIdentifier(s)
-    match = HomosaurusSubject.find_by(label: s)
-    return match.identifier if match.present?
-
-    identifier = ''
-    s.gsub(/[\(\)]*/, '').gsub(/['";\n\t]+/, '').gsub('á', "a").gsub('ā', 'a').split(/[ \-]/).each_with_index do |t, index|
-      if t.upcase == t
-        identifier += t
-      elsif index == 0
-        identifier += t.downcase
-      else
-        identifier += t.capitalize
-      end
-    end
-
-    if identifier.include?('MRKHMullerian')
-      identifier = 'MRKH'
-    elsif identifier.length > 34
-      identifier = identifier[0..35]
-    end
-
-    identifier.strip
-  end
-
   def model_name
-    "HomosaurusV2"
+    "HomosaurusV3"
   end
 
   def remove_from_solr
-    DSolr.delete_by_id "homosaurus/v2/#{self.identifier}"
+    DSolr.delete_by_id "homosaurus/v3/#{self.identifier}"
   end
 
   def delete
@@ -189,7 +159,7 @@ class HomosaurusV2Subject < HomosaurusSubject
   end
 
   def generate_solr_content(doc={})
-    doc[:id] = "homosaurus/v2/#{self.identifier}"
+    doc[:id] = "homosaurus/v3/#{self.identifier}"
     doc[:system_create_dtsi] = "#{self.created_at.iso8601}"
     doc[:system_modified_dtsi] = "#{self.updated_at.iso8601}"
     doc[:model_ssi] = self.model_name
@@ -237,16 +207,16 @@ class HomosaurusV2Subject < HomosaurusSubject
     @broadest_terms = []
     get_broadest(self.identifier)
     doc[:topConcept_ssim] = @broadest_terms.uniq if @broadest_terms.present?
-    doc[:new_model_ssi] = 'HomosaurusV2Subject'
-    doc[:active_fedora_model_ssi] = 'HomosaurusV2'
+    doc[:new_model_ssi] = 'HomosaurusV3Subject'
+    doc[:active_fedora_model_ssi] = 'HomosaurusV3'
     doc
   end
 
   def get_broadest(item)
-    if HomosaurusV2Subject.find_by(identifier: item).broader.blank?
+    if HomosaurusV3Subject.find_by(identifier: item).broader.blank?
       @broadest_terms << item.split('/').last
     else
-      HomosaurusV2Subject.find_by(identifier: item).broader.each do |current_broader|
+      HomosaurusV3Subject.find_by(identifier: item).broader.each do |current_broader|
         get_broadest(current_broader)
       end
     end
@@ -254,7 +224,7 @@ class HomosaurusV2Subject < HomosaurusSubject
 
   def verify_hierarchy(obj, type: 'broader')
     obj.send(type).each do |sub|
-      HomosaurusV2Subject.find_by(identifier: sub).send(type).each do |sub2|
+      HomosaurusV3Subject.find_by(identifier: sub).send(type).each do |sub2|
         return sub2 if sub2 == obj.identifier
       end
     end
@@ -264,7 +234,7 @@ class HomosaurusV2Subject < HomosaurusSubject
   def verify_related(obj, type: 'related')
     match = false
     obj.send(type).each do |sub|
-      HomosaurusV2Subject.find_by(identifier: sub).send(type).each do |sub2|
+      HomosaurusV3Subject.find_by(identifier: sub).send(type).each do |sub2|
         match = true if sub2 == obj.identifier
       end
     end
@@ -338,4 +308,5 @@ class HomosaurusV2Subject < HomosaurusSubject
       field.humanize
     end
   end
+
 end
