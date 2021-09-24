@@ -16,7 +16,7 @@ class HomosaurusV3Subject < HomosaurusSubject
     ['closeMatch', 'exactMatch']
   end
 
-  def self.mint
+  def self.mint_old
     conflicts = true
     while conflicts do
       pid = SecureRandom.hex[0..6]
@@ -25,18 +25,27 @@ class HomosaurusV3Subject < HomosaurusSubject
     return pid
   end
 
+  def self.mint
+    numeric_pid = HomosaurusV3Subject.maximum(:numeric_pid) || 1
+    numeric_pid
+  end
+
   def self.loadV3Part1
     ActiveRecord::Base.transaction do
       HomosaurusV3Subject.all.each do |subj|
         subj.destroy!
       end
 
+      counter = 1
+
       HomosaurusV2Subject.all.each do |v2_subj|
         obj = HomosaurusV3Subject.new
         obj.label = v2_subj.label
         obj.label_eng = v2_subj.label_eng
-        obj.identifier = HomosaurusV3Subject.mint
-
+        obj.numeric_pid = counter
+        obj.identifier = "homoit" + obj.numeric_pid.to_s.rjust(7, '0')
+        counter+=1
+        #HomosaurusV3Subject.mint
         obj.alt_labels = v2_subj.alt_labels
         obj.replaces = v2_subj.uri
         obj.uri = "https://homosaurus.org/v3/#{obj[:identifier]}"
