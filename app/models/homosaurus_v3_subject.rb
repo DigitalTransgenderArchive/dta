@@ -26,7 +26,8 @@ class HomosaurusV3Subject < HomosaurusSubject
   end
 
   def self.mint
-    numeric_pid = HomosaurusV3Subject.maximum(:numeric_pid) || 1
+    numeric_pid = HomosaurusV3Subject.maximum(:numeric_pid) || 0
+    numeric_pid = numeric_pid + 1
     numeric_pid
   end
 

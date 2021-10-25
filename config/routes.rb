@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   resources :homosaurus_v2
 
+  resources :homosaurus_v3
+
   # Generic file routes
   resources :generic_objects, path: :files, except: :index do
     collection do
