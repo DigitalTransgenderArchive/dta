@@ -12,6 +12,27 @@
       </div>
     </div>
 
+    <%
+      #ISO_639::ISO_639_2.each.map { |t| [t[3], t[0]] }
+      langugage_options = [['English', 'en'], ['English (USA)', 'en-US'], ['English (UK)', 'en-GB']]
+      ISO_639::ISO_639_2.each do |lang|
+        if lang[3] == 'English'
+
+        elsif lang[2].present?
+          langugage_options << [lang[3], lang[2]]
+        else
+          langugage_options << [lang[3], lang[0]]
+        end
+      end
+    %>
+    <%= render :partial => "mei/form_language_labels", :locals => {:f => f, :key=>:language_labels, :dropdown_opts=>langugage_options} %>
+    <%= f.input :language_labels, as: :language_labels_mei,
+                input_html: { include_help: t("simple_form.metadata_help.generic_file.based_near"),
+                              help_label: 'Language Labels',
+                              tabindex: 14,},
+                required: false, readonly: false, label: 'Language Labels'
+    %>
+
     <div class="form-group" style="width: 583px;">
       <div style="float:left">
         <%= render partial: 'partials/label_with_help',

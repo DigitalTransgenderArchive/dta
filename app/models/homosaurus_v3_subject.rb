@@ -91,6 +91,22 @@ class HomosaurusV3Subject < HomosaurusSubject
     end
   end
 
+  def self.fix_dates
+    HomosaurusV3Subject.all.each do |homo_v3_subject|
+      if homo_v3_subject.replaces.present?
+        homo_v2_subject = HomosaurusV2Subject.find_by(uri: homo_v3_subject.replaces)
+        if homo_v3_subject.updated_at < (DateTime.now - 30.days)
+          homo_v3_subject.updated_at = homo_v2_subject.updated_at
+          homo_v3_subject.created_at = homo_v2_subject.created_at
+          homo_v3_subject.save!
+        else
+          homo_v3_subject.created_at = homo_v2_subject.created_at
+          homo_v3_subject.save!
+        end
+      end
+    end
+  end
+
   def self.upload_lcsh(spreadsheet_location)
     ActiveRecord::Base.transaction do
       if spreadsheet_location =~ /\b.xlsx$\b/
@@ -197,6 +213,7 @@ class HomosaurusV3Subject < HomosaurusSubject
     doc[:identifier_ssi] = self.identifier
     doc[:description_ssi] = self.description
     doc[:description_tesim] = [self.description]
+    doc[:languageLabel_ssim] = self.language_labels
 
     doc[:exactMatch_ssim] = self.exactMatch_homosaurus.dup
     self.exactMatch_lcsh.each do |l|
@@ -212,6 +229,12 @@ class HomosaurusV3Subject < HomosaurusSubject
     doc[:dta_homosaurus_lcase_altLabel_ssim] = []
     self.alt_labels.each do |alt|
       doc[:dta_homosaurus_lcase_altLabel_ssim] << alt.downcase
+    end
+    doc[:dta_homosaurus_lcase_languageLabel_ssim] = []
+    doc[:dta_homosaurus_languageLabel_ssim] = []
+    self.language_labels.each do |lbl|
+      doc[:dta_homosaurus_lcase_languageLabel_ssim] << lbl.downcase
+      doc[:dta_homosaurus_languageLabel_ssim] << lbl.split('@').first
     end
 
     @broadest_terms = []
@@ -254,7 +277,7 @@ class HomosaurusV3Subject < HomosaurusSubject
 
 
   def self.show_fields
-    ['prefLabel', 'label@en_us', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
+    ['prefLabel', 'label@language', 'label@en_us', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
   end
 
   def self.get_values(field, obj)
@@ -263,6 +286,8 @@ class HomosaurusV3Subject < HomosaurusSubject
       [obj["identifier_ssi"]] || []
     when "prefLabel"
       obj["prefLabel_ssim"] || []
+    when "label@language"
+      obj["languageLabel_ssim"] || []
     when "label@en_us"
       obj["label_eng_ssim"] || []
     when "altLabel"
@@ -294,6 +319,8 @@ class HomosaurusV3Subject < HomosaurusSubject
       "<a href='http://purl.org/dc/terms/identifier' target='blank' title='Definition of Identifier in the Dublin Core Terms Vocabulary'>Identifier</a>"
     when "prefLabel"
       "<a href='http://www.w3.org/2004/02/skos/core#prefLabel' target='blank'  title='Definition of Preferred Label in the SKOS Vocabulary'>Preferred Label</a>"
+    when "label@langugage"
+      "<a href='https://terms.tdwg.org/wiki/rdfs:label' target='blank'  title='RDFS label property with the language flag.'>Labels With Language</a>"
     when "label@en_us"
       "<a href='https://terms.tdwg.org/wiki/rdfs:label' target='blank'  title='RDFS label property with the english language flag.'>US English Label</a>"
     when "altLabel"

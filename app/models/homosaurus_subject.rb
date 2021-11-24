@@ -8,6 +8,7 @@ class HomosaurusSubject < ActiveRecord::Base
   serialize :related, Array
   serialize :closeMatch, Array
   serialize :exactMatch, Array
+  serialize :language_labels, Array
 
   serialize :closeMatch_homosaurus, Array
   serialize :exactMatch_homosaurus, Array

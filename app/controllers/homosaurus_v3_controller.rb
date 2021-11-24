@@ -50,6 +50,16 @@ class HomosaurusV3Controller < ApplicationController
       @homosaurus.version = "v3"
 
       @homosaurus.update(homosaurus_params)
+      language_labels = []
+      params[:homosaurus][:language_labels].each do |lbl|
+        if lbl.include?('@')
+          lang_check = lbl.split('@').last
+          if lang_check == 'en-GB' || lang_check == 'en-US' || ISO_639.find_by_code(lang_check).present?
+            language_labels << lbl
+          end
+        end
+      end
+      @homosaurus.language_labels = language_labels
 
       @homosaurus.save
 
@@ -167,6 +177,16 @@ class HomosaurusV3Controller < ApplicationController
         set_match_relationship(params[:homosaurus], "closeMatch_lcsh")
 
         @homosaurus.update(homosaurus_params)
+        language_labels = []
+        params[:homosaurus][:language_labels].each do |lbl|
+          if lbl.include?('@')
+            lang_check = lbl.split('@').last
+            if lang_check == 'en-GB' || lang_check == 'en-US' || ISO_639.find_by_code(lang_check).present?
+              language_labels << lbl
+            end
+          end
+        end
+        @homosaurus.language_labels = language_labels
 
         @homosaurus.save
 
