@@ -48,6 +48,16 @@ class HomosaurusV3Controller < ApplicationController
       @homosaurus.pid = "homosaurus/v3/#{identifier}"
       @homosaurus.uri = "https://homosaurus.org/v3/#{identifier}"
       @homosaurus.version = "v3"
+      preflbl = params[:homosaurus][:prefLabel_language][0].split('@')[0]
+      preflbl_language = params[:homosaurus][:prefLabel_language][0]
+      if preflbl_language.include?('@')
+        lang_check = preflbl_language.split('@').last
+        unless lang_check == 'en-GB' || lang_check == 'en-US' || ISO_639.find_by_code(lang_check).present?
+          preflbl_language = preflbl
+        end
+      end
+      @homosaurus.label = preflbl
+      @homosaurus.prefLabel_language = preflbl_language
 
       @homosaurus.update(homosaurus_params)
       language_labels = []
@@ -188,6 +198,17 @@ class HomosaurusV3Controller < ApplicationController
         end
         @homosaurus.language_labels = language_labels
 
+        preflbl = params[:homosaurus][:prefLabel_language][0].split('@')[0]
+        preflbl_language = params[:homosaurus][:prefLabel_language][0]
+        if preflbl_language.include?('@')
+          lang_check = preflbl_language.split('@').last
+          unless lang_check == 'en-GB' || lang_check == 'en-US' || ISO_639.find_by_code(lang_check).present?
+            preflbl_language = preflbl
+          end
+        end
+        @homosaurus.label = preflbl
+        @homosaurus.prefLabel_language = preflbl_language
+
         @homosaurus.save
 
         if params[:homosaurus][:broader].present?
@@ -274,6 +295,6 @@ class HomosaurusV3Controller < ApplicationController
 
 
   def homosaurus_params
-       params.require(:homosaurus).permit(:identifier, :label, :label_eng, :description, :exactMatch, :closeMatch, alt_labels: [])
+       params.require(:homosaurus).permit(:identifier, :label_eng, :description, :exactMatch, :closeMatch, alt_labels: [])
   end
 end

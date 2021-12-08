@@ -199,6 +199,7 @@ class HomosaurusV3Subject < HomosaurusSubject
 
     doc[:prefLabel_ssim] = [self.label]
     doc[:prefLabel_tesim] = doc[:prefLabel_ssim]
+    doc[:prefLabel_language_ssi] = self.prefLabel_language
     doc[:label_eng_ssim] = [self.label_eng]
     doc[:label_eng_tesim] = doc[:label_eng_ssim]
     doc[:broader_ssim] = self.broader
@@ -277,7 +278,7 @@ class HomosaurusV3Subject < HomosaurusSubject
 
 
   def self.show_fields
-    ['prefLabel', 'label@language', 'label@en_us', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
+    ['prefLabel', 'prefLabel_language', 'label@language', 'label@en_us', 'altLabel', 'description', 'identifier', 'issued', 'modified', 'exactMatch', 'closeMatch']
   end
 
   def self.get_values(field, obj)
@@ -286,6 +287,8 @@ class HomosaurusV3Subject < HomosaurusSubject
       [obj["identifier_ssi"]] || []
     when "prefLabel"
       obj["prefLabel_ssim"] || []
+    when "prefLabel_language"
+      [obj["prefLabel_language_ssi"]] || []
     when "label@language"
       obj["languageLabel_ssim"] || []
     when "label@en_us"
@@ -319,6 +322,8 @@ class HomosaurusV3Subject < HomosaurusSubject
       "<a href='http://purl.org/dc/terms/identifier' target='blank' title='Definition of Identifier in the Dublin Core Terms Vocabulary'>Identifier</a>"
     when "prefLabel"
       "<a href='http://www.w3.org/2004/02/skos/core#prefLabel' target='blank'  title='Definition of Preferred Label in the SKOS Vocabulary'>Preferred Label</a>"
+    when "prefLabel_language"
+      "<a href='http://www.w3.org/2004/02/skos/core#prefLabel' target='blank'  title='Definition of Preferred Label in the SKOS Vocabulary'>Preferred Label W/ Language</a>"
     when "label@langugage"
       "<a href='https://terms.tdwg.org/wiki/rdfs:label' target='blank'  title='RDFS label property with the language flag.'>Labels With Language</a>"
     when "label@en_us"
