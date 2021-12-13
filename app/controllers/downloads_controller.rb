@@ -10,6 +10,9 @@ class DownloadsController < ApplicationController
       else
 
         mime_type = base_file.mime_type
+        if params["file"].present? and (params["file"] == 'preview' or params["file"] == 'carousel')
+          mime_type = thumbnail.mime_type
+        end
         if params.blank? || params[:institution].blank?
           file_name = "#{base_object.title.gsub(/[,;]/, '')}.#{base_file.path.split('.').last}"
           ahoy.track_visit
