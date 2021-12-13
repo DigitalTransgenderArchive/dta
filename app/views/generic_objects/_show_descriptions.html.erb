@@ -183,7 +183,8 @@
           <dt>Rights</dt>
           <dd>
             <% @document[:rights_tesim].each do |val| %>
-                <%= val %><br />
+                <%= link_to val, Rails.application.config.cc_licenses_uri[val], target: "_blank", rel: "nofollow" %>
+                <%# val %><br />
             <% end %>
             <% if @document[:rights_free_text_tesim] %>
                 <% @document[:rights_free_text_tesim].each do |val| %>
