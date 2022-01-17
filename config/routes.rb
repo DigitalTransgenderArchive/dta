@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get '/autocomplete/dates', to: "autocomplete#dates", as: :dates_autocomplete
   get '/autocomplete/homosaurus_subjects', to: "autocomplete#homosaurus_subject", as: :homosaurus_subject_autocomplete
   get '/autocomplete/homosaurus_v2_subjects', to: "autocomplete#homosaurus_v2_subject", as: :homosaurus_v2_subject_autocomplete
+  get '/autocomplete/homosaurus_uri_subjects', to: "autocomplete#homosaurus_uri_subject", as: :homosaurus_uri_subject_autocomplete
   get '/autocomplete/geonames', to: "autocomplete#geonames_subject", as: :geonames_subject_autocomplete
   get '/autocomplete/lcsh_subjects', to: "autocomplete#lcsh_subject", as: :lcsh_subject_autocomplete
   get '/autocomplete/other_subjects', to: "autocomplete#other_subject", as: :other_subjects_autocomplete

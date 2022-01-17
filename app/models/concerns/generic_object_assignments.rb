@@ -201,6 +201,36 @@ module GenericObjectAssignments
     super
   end
 
+  def homosaurus_uri_subjects=(value)
+    r = []
+    values = clean_values(value)
+    values.each do |val|
+      if val.class == String
+        ld = HomosaurusUriSubject.find_by(uri: val)
+        if ld.blank?
+          term = HomosaurusV3Subject.find_by(uri: val)
+          label = term.label
+          language_label_list = []
+          term.language_labels.each do |lang_label|
+            language_label_list << lang_label.split('@')[0]
+          end
+          alt_label_list = term.alt_labels
+          #TODO: Broader? Narrower? Etc?
+
+          ld = HomosaurusUriSubject.create(uri: val, label: label, language_labels: language_label_list, alt_labels: alt_label_list)
+        end
+        r << ld
+        raise "Could not find lcsh for: #{val.to_s}" if r.last.nil?
+      elsif val.class == HomosaurusUriSubject
+        r << val
+      else
+        raise 'Unhandled GenericObject assignment for: ' + val.class.to_s
+      end
+    end
+    value = r
+    super
+  end
+
   # Linked Data Special Case
   def lcsh_subjects=(value)
     r = []

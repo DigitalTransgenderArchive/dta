@@ -168,11 +168,11 @@
                                 tabindex: 15}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus'
       %>
 
-      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_v2_subjects} %>
-      <%= f.input :homosaurus_v2_subjects, as: :homosaurus_v2_lookup,
+      <%= render :partial => "mei/form", :locals => {:f => f, :key=>:homosaurus_uri_subjects} %>
+      <%= f.input :homosaurus_uri_subjects, as: :homosaurus_uri_lookup,
                   input_html: { include_help: t("simple_form.metadata_help.generic_file.homosaurus_subject"),
-                                help_label: 'Subject Coverage–Homosaurus V2',
-                                tabindex: 16}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus-V2'
+                                help_label: 'Subject Coverage–Homosaurus V3',
+                                tabindex: 16}, required: false, readonly: true, label: 'Subject Coverage–Homosaurus-V3'
       %>
 
       <%= render :partial => "mei/form", :locals => {:f => f, :key=>:lcsh_subjects} %>

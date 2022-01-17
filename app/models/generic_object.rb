@@ -57,11 +57,14 @@ class GenericObject < ActiveRecord::Base
   has_many :object_homosaurus_v2_subjects, dependent: :destroy
   has_many :homosaurus_v2_subjects, :through=>:object_homosaurus_v2_subjects
 
-  has_many :object_homosaurus_v3_subjects, dependent: :destroy
-  has_many :homosaurus_v3_subjects, :through=>:object_homosaurus_v3_subjects
+  #has_many :object_homosaurus_v3_subjects, dependent: :destroy
+  #has_many :homosaurus_v3_subjects, :through=>:object_homosaurus_v3_subjects
 
   has_many :object_lcsh_subjects, dependent: :destroy
   has_many :lcsh_subjects, :through=>:object_lcsh_subjects
+
+  has_many :object_homosaurus_uri_subjects, dependent: :destroy
+  has_many :homosaurus_uri_subjects, :through=>:object_homosaurus_uri_subjects
 
   has_many :object_resource_types, dependent: :destroy
   has_many :resource_types, :through=>:object_resource_types

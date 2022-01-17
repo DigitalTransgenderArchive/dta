@@ -275,10 +275,16 @@ class GenericObjectsController < ApplicationController
         form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
       end
     end
-    form_fields[:homosaurus_v2_subjects].each_with_index do |s, index|
+    #form_fields[:homosaurus_v2_subjects].each_with_index do |s, index|
+    #  if s.present?
+    #    form_fields[:homosaurus_v2_subjects][index] = s.split('(').last
+    #    form_fields[:homosaurus_v2_subjects][index].gsub!(/\)$/, '')
+    #  end
+    #end
+    form_fields[:homosaurus_uri_subjects].each_with_index do |s, index|
       if s.present?
-        form_fields[:homosaurus_v2_subjects][index] = s.split('(').last
-        form_fields[:homosaurus_v2_subjects][index].gsub!(/\)$/, '')
+        form_fields[:homosaurus_uri_subjects][index] = s.split('(').last
+        form_fields[:homosaurus_uri_subjects][index].gsub!(/\)$/, '')
       end
     end
 
@@ -294,10 +300,16 @@ class GenericObjectsController < ApplicationController
       @generic_object.homosaurus_subjects = []
     end
 
-    if form_fields[:homosaurus_v2_subjects][0].present?
-      @generic_object.homosaurus_v2_subjects = form_fields[:homosaurus_v2_subjects].reject { |c| c.empty? }
-    elsif @generic_object.homosaurus_v2_subjects.present?
-      @generic_object.homosaurus_v2_subjects = []
+    # if form_fields[:homosaurus_v2_subjects][0].present?
+    #  @generic_object.homosaurus_v2_subjects = form_fields[:homosaurus_v2_subjects].reject { |c| c.empty? }
+    #elsif @generic_object.homosaurus_v2_subjects.present?
+    #  @generic_object.homosaurus_v2_subjects = []
+    #end
+
+    if form_fields[:homosaurus_uri_subjects][0].present?
+      @generic_object.homosaurus_uri_subjects = form_fields[:homosaurus_uri_subjects].reject { |c| c.empty? }
+    elsif @generic_object.homosaurus_uri_subjects.present?
+      @generic_object.homosaurus_uri_subjects = []
     end
 
     if form_fields[:lcsh_subjects][0].present?

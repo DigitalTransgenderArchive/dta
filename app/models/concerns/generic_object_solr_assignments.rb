@@ -77,7 +77,7 @@ module GenericObjectSolrAssignments
     end
 
     # V2 Support
-    self.homosaurus_v2_subjects.each do |term|
+    self.homosaurus_uri_subjects.each do |term|
       doc[:dta_homosaurus_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       doc[:dta_all_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       term.alt_labels.each do |alt|
@@ -108,6 +108,7 @@ module GenericObjectSolrAssignments
     doc[:dta_other_subject_ssim].sort_by!{|word| word.downcase}
 
     doc[:dta_other_subject_tesim] = doc[:dta_other_subject_ssim]
+    doc[:dta_other_subject_sssortm] = doc[:dta_other_subject_ssim]
     doc[:dta_subject_primary_searchable_tesim] = doc[:dta_all_subject_ssim] + doc[:dta_other_subject_ssim]
     doc[:dta_subject_alt_searchable_tesim] = doc[:dta_altLabel_all_subject_ssim]
 
