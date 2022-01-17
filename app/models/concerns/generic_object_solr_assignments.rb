@@ -108,7 +108,7 @@ module GenericObjectSolrAssignments
     doc[:dta_other_subject_ssim].sort_by!{|word| word.downcase}
 
     doc[:dta_other_subject_tesim] = doc[:dta_other_subject_ssim]
-    doc[:dta_other_subject_sssortm] = doc[:dta_other_subject_ssim]
+    #doc[:dta_other_subject_sssortm] = doc[:dta_other_subject_ssim]
     doc[:dta_subject_primary_searchable_tesim] = doc[:dta_all_subject_ssim] + doc[:dta_other_subject_ssim]
     doc[:dta_subject_alt_searchable_tesim] = doc[:dta_altLabel_all_subject_ssim]
 
