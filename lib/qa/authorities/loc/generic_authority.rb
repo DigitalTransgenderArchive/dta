@@ -10,14 +10,12 @@ module Qa::Authorities
     def response(url)
       uri = URI(url)
       conn = Faraday.new "#{uri.scheme}://#{uri.host}"
+      conn.proxy = "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}" if Settings.dta_config["proxy_host"].present?
       conn.options.params_encoder = Faraday::FlatParamsEncoder
       conn.get do |req|
         req.headers['Accept'] = 'application/json'
         req.url uri.path
         req.params = Rack::Utils.parse_query(uri.query)
-        if Settings.dta_config["proxy_host"].present?
-          req.proxy = "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}"
-        end
       end
     end
 
