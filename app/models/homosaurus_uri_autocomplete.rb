@@ -1,4 +1,9 @@
 class HomosaurusUriAutocomplete
+  def self.find_by_id(uri)
+    id = "homosaurus/v3/" + uri.split('/').last
+    solr_response = DSolr.find({q: "id:#{id} AND model_ssi:HomosaurusV3", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, languageLabel_ssim, altLabel_ssim, narrower_ssim, broader_ssim, related_ssim' })
+    solr_response[0]
+  end
 
   def self.find(subject)
     matches = []

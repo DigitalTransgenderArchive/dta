@@ -206,18 +206,35 @@ module GenericObjectAssignments
     values = clean_values(value)
     values.each do |val|
       if val.class == String
-        ld = HomosaurusUriSubject.find_by(uri: val)
-        if ld.blank?
-          term = HomosaurusV3Subject.find_by(uri: val)
-          label = term.label
-          language_label_list = []
-          term.language_labels.each do |lang_label|
+        term = HomosaurusUriAutocomplete.find_by_id(val)
+        label = term["prefLabel_ssim"][0]
+        language_label_list = []
+        if term["languageLabel_ssim"].present?
+          term["languageLabel_ssim"].each do |lang_label|
             language_label_list << lang_label.split('@')[0]
           end
-          alt_label_list = term.alt_labels
-          #TODO: Broader? Narrower? Etc?
+        end
 
+        alt_label_list = term["altLabel_ssim"] if term["altLabel_ssim"].present?
+        alt_label_list ||= []
+        #TODO: Broader? Narrower? Etc?
+
+        ld = HomosaurusUriSubject.find_by(uri: val)
+        if ld.blank?
           ld = HomosaurusUriSubject.create(uri: val, label: label, language_labels: language_label_list, alt_labels: alt_label_list)
+        else
+          was_changed = false
+          if ld.label != label
+            ld.label = label
+            was_changed = true
+          end
+
+          if ld.alt_labels.sort != alt_label_list.sort
+            ld.alt_labels = alt_label_list
+            was_changed = true
+          end
+
+          ld.save! if was_changed
         end
         r << ld
         raise "Could not find lcsh for: #{val.to_s}" if r.last.nil?
