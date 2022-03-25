@@ -99,9 +99,9 @@ class DSolr
   def self.reindex_all
     reindex("Inst")
     reindex("Coll")
-    reindex("HomosaurusSubject")
-    reindex("HomosaurusV2Subject")
-    reindex("HomosaurusV3Subject")
+    #reindex("HomosaurusSubject")
+    #reindex("HomosaurusV2Subject")
+    #reindex("HomosaurusV3Subject")
     reindex("GenericObject")
   end
 
