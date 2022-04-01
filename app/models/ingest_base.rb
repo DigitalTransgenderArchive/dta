@@ -11,7 +11,12 @@ AUDIO_TYPES = ['mp3', 'wav', 'mp4']
 
 class IngestBase
   def self.fetch(uri_str, retryLimit = 10)
-    doc = Nokogiri.HTML(open(uri_str))
+    if Settings.dta_config["proxy_host"].present?
+      doc = Nokogiri.HTML(open(uri_str))
+    else
+      doc = Nokogiri.HTML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+    end
+
     doc.content
   end
 

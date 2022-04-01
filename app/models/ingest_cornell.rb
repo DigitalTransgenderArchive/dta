@@ -272,7 +272,12 @@ class IngestCornell < IngestBase
       # image stuff
         puts image_url
         puts show_url
-        image = MiniMagick::Image.open(image_url)
+        if Settings.dta_config["proxy_host"].present?
+          image = MiniMagick::Image.open(image_url, nil, {proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")})
+        else
+          image = MiniMagick::Image.open(image_url)
+        end
+
         image.format "jpg"
         image.resize "500x600"
         @generic_object.add_file(image.to_blob, 'image/jpeg', filename)
@@ -286,6 +291,46 @@ class IngestCornell < IngestBase
         # Fixme... would be best if this was after derivatives
         @generic_object.reload
         @generic_object.send_solr
+      end
+    end
+  end
+
+  # https://www.justinweiss.com/articles/3-steps-to-fix-encoding-problems-in-ruby//
+  # https://www.justinweiss.com/articles/how-to-get-from-theyre-to-theyre/
+  def fix_description
+    page = 1
+    while page < 10
+      base_url = "https://digital.library.cornell.edu/?f%5Bcollection_tesim%5D%5B%5D=Postcards+of+female+and+male+impersonators+and+cross-dressing+in+Europe+and+the+United+States%2C+1900-1930&page=#{page}&per_page=100&search_field=all_fields&view=gallery&format=json"
+      page += 1
+      #current_url = base_url
+      web_content = IngestBase.fetch(base_url)
+
+      web_content_json = JSON.parse(web_content)
+
+      records = web_content_json["response"]["docs"]
+
+      records.each do |record|
+        id = record["id"]
+        show_url = "https://digital.library.cornell.edu/catalog/#{id}"
+
+        puts "Show URL: " + show_url
+        obj = GenericObject.find_by(identifier: show_url)
+        if obj.present?
+          record_content = IngestBase.fetch("#{show_url}.json")
+          record_content_json = JSON.parse(record_content)["response"]["document"]
+          if record_content_json["description_tesim"].present?
+            obj.descriptions = []
+            record_content_json["description_tesim"].each do |description|
+              if description.include?("â")
+                obj.descriptions += [description.encode("ISO-8859-1").force_encoding("UTF-8")]
+              else
+                obj.descriptions += [description]
+              end
+
+            end
+            obj.save!
+          end
+        end
       end
     end
   end
