@@ -12,12 +12,46 @@ AUDIO_TYPES = ['mp3', 'wav', 'mp4']
 class IngestBase
   def self.fetch(uri_str, retryLimit = 10)
     if Settings.dta_config["proxy_host"].present?
-      doc = Nokogiri.HTML(open(uri_str))
-    else
       doc = Nokogiri.HTML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+
+    else
+      doc = Nokogiri.HTML(open(uri_str))
     end
 
     doc.content
+  end
+
+  def self.fetch_links(uri_str, retryLimit = 10)
+    if Settings.dta_config["proxy_host"].present?
+      doc = Nokogiri.HTML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+
+    else
+      doc = Nokogiri.HTML(open(uri_str))
+    end
+    nodeset = doc.xpath('//a')
+
+    nodeset.map {|element| element["href"]}.compact
+  end
+
+  def self.fetch_images(uri_str, retryLimit = 10)
+    if Settings.dta_config["proxy_host"].present?
+      doc = Nokogiri.HTML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+
+    else
+      doc = Nokogiri.HTML(open(uri_str))
+    end
+    nodeset = doc.xpath('//img')
+
+    nodeset.map {|element| element["src"]}.compact
+  end
+
+  def self.fetch_xml(uri_str)
+    if Settings.dta_config["proxy_host"].present?
+      doc = Nokogiri.XML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+    else
+      doc = Nokogiri.XML(open(uri_str))
+    end
+    doc
   end
 
   def self.fetch_broken(uri_str, limit = 10)
@@ -57,6 +91,16 @@ class IngestBase
     date_text = '1985~' if date_text == 'ca. 1985' || date_text == 'circa 1985'
     date_text = date_text.split(" ")[0] if date_text.include?(" (postmarked)")
 
+    approximate = false
+    if date_text.include?("approximately ")
+      date_text.gsub!("approximately ", "")
+    end
+
+    # January 1990
+    if date_text.match(/^#{Date::MONTHNAMES[1..-1].join('|')} \d{4}$/).present?
+      date_text = date_text.split(' ')[1] + "-" + Date::MONTHNAMES.index(date_text.split(' ')[0]).to_s.rjust(2, "0")
+    end
+
     # ca. 1974
     # circa 1974
     if date_text.match(/^ca\. \d\d\d\d$/).present? || date_text.match(/^circa \d\d\d\d$/).present?
@@ -66,6 +110,8 @@ class IngestBase
     if date_text.match(/^\d\d\d\d\-\d\d\d\d$/)
       date_text = date_text.strip.gsub('-','/')
     end
+
+    date_text = date_text + "~" if approximate
 
     date = Date.edtf(date_text)
 
@@ -114,6 +160,18 @@ class IngestBase
         end
       end
     end
+  end
+
+  def self.process_image(obj, image_url, filename)
+    if Settings.dta_config["proxy_host"].present?
+      image = MiniMagick::Image.open(image_url, nil, {proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")})
+    else
+      image = MiniMagick::Image.open(image_url)
+    end
+
+    image.format "jpg"
+    image.resize "500x600"
+    obj.add_file(image.to_blob, 'image/jpeg', filename)
   end
 
 
