@@ -100,7 +100,7 @@ class CatalogController < ApplicationController
     config.add_facet_field 'creator_ssim', label: "Creator", limit: 6, collapse:false
     config.add_facet_field 'dta_all_subject_ssim', :label => 'Topic', :limit => 6, :sort => 'count', :collapse => false
     config.add_facet_field 'dta_other_subject_ssim', :label => 'Subject', :limit => 6, :sort => 'count', :collapse => false
-    config.add_facet_field 'dta_dates_ssim', :label => 'Date', :range => { num_segments: 6}, :collapse => false
+    config.add_facet_field 'dta_dates_yearly_itim', :label => 'Date', :range => { num_segments: 6}, :collapse => false
     config.add_facet_field 'genre_ssim', :label => 'Genre', :limit => 6, :sort => 'count', :collapse => true
     config.add_facet_field 'subject_geographic_ssim', :label => 'Location', :limit => 6, :sort => 'count', :collapse => true
     config.add_facet_field 'language_label_ssim', :label => 'Language', :limit => 6, :sort => 'count', :collapse => true

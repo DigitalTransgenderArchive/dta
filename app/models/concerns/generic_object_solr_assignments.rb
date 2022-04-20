@@ -166,6 +166,9 @@ module GenericObjectSolrAssignments
       end
     end
 
+    # for blacklight range limit
+    doc[:dta_dates_yearly_itim] = doc[:dta_dates_ssim]
+
     self.temporal_coverage.each do |raw_date|
       date = Date.edtf(raw_date)
       doc[:date_temporal_search_tesim] << keyword_edtf(date)
