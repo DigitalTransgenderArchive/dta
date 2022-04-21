@@ -80,8 +80,8 @@ class InstitutionsController < ApplicationController
     blacklight_config.facet_fields['institution_name_ssim'].if = false
 
     #Needs to be fixed...
-    blacklight_config.facet_fields['dta_dates_ssim'].show = false
-    blacklight_config.facet_fields['dta_dates_ssim'].if = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].show = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].if = false
 
     # blacklight-maps stuff
     # blacklight_config.view.maps.geojson_field = 'inst_geojson_hash_ssi'

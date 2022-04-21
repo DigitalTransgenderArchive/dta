@@ -45,8 +45,8 @@ class CollectionsController < ApplicationController
     blacklight_config.facet_fields['institution_name_ssim'].if = false
 
     #Needs to be fixed...
-    blacklight_config.facet_fields['dta_dates_ssim'].show = false
-    blacklight_config.facet_fields['dta_dates_ssim'].if = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].show = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].if = false
   end
 
   def range_limit
