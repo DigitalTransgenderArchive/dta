@@ -10,7 +10,7 @@ class HomosaurusUriAutocomplete
     dup_checker = []
     subject = subject.downcase #FIXME?
 
-    solr_response = DSolr.find({q: "dta_homosaurus_lcase_prefLabel_ssi:*#{solr_clean(subject)}* AND model_ssi:HomosaurusV3", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, narrower_ssim, broader_ssim, related_ssim' })
+    solr_response = DSolr.find({q: "dta_homosaurus_lcase_prefLabel_ssi:*#{solr_clean(subject)}* AND model_ssi:HomosaurusV3 AND visibility_ssi:visible", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, narrower_ssim, broader_ssim, related_ssim' })
 
     #FIXME - A result for "http" gives back the entire array of values...
     if solr_response.present?
@@ -26,7 +26,7 @@ class HomosaurusUriAutocomplete
 
 
     if dup_checker.length < 20
-      solr_response = DSolr.find({q: "dta_homosaurus_lcase_altLabel_ssim:*#{solr_clean(subject)}* AND model_ssi:HomosaurusV3", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, narrower_ssim, broader_ssim, related_ssim' })
+      solr_response = DSolr.find({q: "dta_homosaurus_lcase_altLabel_ssim:*#{solr_clean(subject)}* AND model_ssi:HomosaurusV3 AND visibility_ssi:visible", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, narrower_ssim, broader_ssim, related_ssim' })
 
       #FIXME - A result for "http" gives back the entire array of values...
       if solr_response.present?
@@ -42,7 +42,7 @@ class HomosaurusUriAutocomplete
     end
 
     if dup_checker.length < 20
-      solr_response = DSolr.find({q: "dta_homosaurus_lcase_comment_tesi:#{solr_clean(subject)} AND model_ssi:HomosaurusV3", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, comment_ssim, narrower_ssim, broader_ssim, related_ssim' })
+      solr_response = DSolr.find({q: "dta_homosaurus_lcase_comment_tesi:#{solr_clean(subject)} AND model_ssi:HomosaurusV3 AND visibility_ssi:visible", rows: '25', fl: 'identifier_ssi, prefLabel_ssim, altLabel_ssim, comment_ssim, narrower_ssim, broader_ssim, related_ssim' })
 
       #FIXME - A result for "http" gives back the entire array of values...
       if solr_response.present?
@@ -119,7 +119,10 @@ class HomosaurusUriAutocomplete
     if related_uris.present?
       related_uris.each do |related_single_uri|
         related_label = DSolr.find({q: "id:#{solr_clean("homosaurus/v3/#{related_single_uri}")} AND model_ssi:HomosaurusV3", rows: '1', fl: 'prefLabel_ssim' })
-        related_list << {:uri_link=>"https://homosaurus.org/v3/#{related_single_uri.split('/').last}", :label=>related_label[0]["prefLabel_ssim"][0]}
+        if related_label.present? && related_label[0].present?
+          related_list << {:uri_link=>"https://homosaurus.org/v3/#{related_single_uri.split('/').last}", :label=>related_label[0]["prefLabel_ssim"][0]}
+        end
+
       end
     end
 
