@@ -812,8 +812,8 @@ body.bodyoverride {
     }
     @media (max-width: 450px) {
       div.news_wrapper {
-        margin-right: 30px;
-        margin-left: 30px;
+        margin-right: 0px;
+        margin-left: 5px;
         div.tweet {
           max-width: calc(100% - 101px);
         }
