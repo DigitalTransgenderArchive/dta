@@ -16,9 +16,9 @@ class LearnsController < ApplicationController
 
   def update
     @page = Learns.find(params[:id])
-    @page.destroy!
-    @page = Learns.new(page_params)
-    #@page.update(page_params)
+    #@page.destroy!
+    #@page = Learns.new(page_params)
+    @page.update(page_params)
 
     if @page.save
       redirect_to learn_path(:id => @page), notice: "Page was updated!"
