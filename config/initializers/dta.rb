@@ -1,9 +1,23 @@
+Rails.application.config.cc_licenses_uri = {
+    'No known copyright' => 'https://rightsstatements.org/page/NKC/1.0/?language=en',
+    'Copyright undetermined' => 'https://rightsstatements.org/page/UND/1.0/?language=en',
+    'In copyright' => 'https://rightsstatements.org/page/InC/1.0/?language=en',
+    'Copyright not evaluated' => 'https://rightsstatements.org/page/CNE/1.0/?language=en'
+}
+
 Dta::Application.config do |config|
   config.cc_licenses = {
       'Contact host institution for more information' => 'Contact host institution for more information',
       'No known restrictions on use' => 'No known restrictions on use',
       'All rights reserved' => 'All rights reserved'
   }
+
+  #config.cc_licenses_uri = {
+  #    'Copyright undetermined' => 'https://rightsstatements.org/page/NKC/1.0/?language=en',
+  #    'No known copyright' => 'https://rightsstatements.org/page/UND/1.0/?language=en',
+  #    'In copyright' => 'https://rightsstatements.org/page/InC/1.0/?language=en',
+  #    'Copyright not evaluated' => 'https://rightsstatements.org/page/CNE/1.0/?language=en'
+  #}
 
   config.flagged_list = {
       "No explicit content" => "No explicit content",

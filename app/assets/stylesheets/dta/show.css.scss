@@ -126,6 +126,26 @@
           margin-top:0px;
           max-width:400px;
         }
+
+        /* Bookmark overrides */
+        .form-horizontal .checkbox.toggle_bookmark {
+          padding: 0;
+          margin: 0;
+        }
+        div.toggle_bookmark {
+          margin-top: -1px;
+          label input[type="checkbox"] + span {
+            font-size: 1.1em;
+          }
+        }
+
+        @media (max-width: 767.75px) {
+          div.toggle_bookmark {
+            label {
+              margin-left: 0;
+            }
+          }
+        }
       }
 
       #item_information_banner:before {

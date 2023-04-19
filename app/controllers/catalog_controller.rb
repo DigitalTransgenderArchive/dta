@@ -20,6 +20,7 @@ class CatalogController < ApplicationController
     if current_user.present? and current_user.contributor?
       blacklight_config.add_facet_field 'publisher_ssim', :label => 'Publisher', :limit => 6, :sort => 'index', :collapse => true, :show => true
       blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+      blacklight_config.add_facet_field 'dta_homosaurus_v1_subject_ssim', :label => 'Homosaurus V1', :limit => 6, :sort => 'index', :collapse => false
 
       uploaded_field = 'date_uploaded_dtsi'
       modified_field = 'date_modified_dtsi'
@@ -99,9 +100,10 @@ class CatalogController < ApplicationController
     config.add_facet_field 'creator_ssim', label: "Creator", limit: 6, collapse:false
     config.add_facet_field 'dta_all_subject_ssim', :label => 'Topic', :limit => 6, :sort => 'count', :collapse => false
     config.add_facet_field 'dta_other_subject_ssim', :label => 'Subject', :limit => 6, :sort => 'count', :collapse => false
-    config.add_facet_field 'dta_dates_ssim', :label => 'Date', :range => { num_segments: 6}, :collapse => false
+    config.add_facet_field 'dta_dates_yearly_itim', :label => 'Date', :range => { num_segments: 6}, :collapse => false
     config.add_facet_field 'genre_ssim', :label => 'Genre', :limit => 6, :sort => 'count', :collapse => true
     config.add_facet_field 'subject_geographic_ssim', :label => 'Location', :limit => 6, :sort => 'count', :collapse => true
+    config.add_facet_field 'language_label_ssim', :label => 'Language', :limit => 6, :sort => 'count', :collapse => true
     config.add_facet_field 'collection_name_ssim', :label => 'Collection', :limit => 8, :sort => 'count', :collapse => true
     config.add_facet_field 'institution_name_ssim', :label => 'Institution', :limit => 8, :sort => 'count', :collapse => true
     config.add_facet_field 'subject_geojson_facet_ssim', :limit => -2, :label => 'Coordinates', :show => false

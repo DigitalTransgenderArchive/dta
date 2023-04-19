@@ -193,6 +193,7 @@ class GenericObjectsController < ApplicationController
         format.html do
           setup_next_and_previous_documents
           @show_response, @document = fetch(params[:id])
+          @response = @show_response # Hack to support bookmarks
         end
       end
     end
@@ -274,6 +275,18 @@ class GenericObjectsController < ApplicationController
         form_fields[:homosaurus_subjects][index].gsub!(/\)$/, '')
       end
     end
+    #form_fields[:homosaurus_v2_subjects].each_with_index do |s, index|
+    #  if s.present?
+    #    form_fields[:homosaurus_v2_subjects][index] = s.split('(').last
+    #    form_fields[:homosaurus_v2_subjects][index].gsub!(/\)$/, '')
+    #  end
+    #end
+    form_fields[:homosaurus_uri_subjects].each_with_index do |s, index|
+      if s.present?
+        form_fields[:homosaurus_uri_subjects][index] = s.split('(').last
+        form_fields[:homosaurus_uri_subjects][index].gsub!(/\)$/, '')
+      end
+    end
 
     if form_fields[:geonames][0].present?
       @generic_object.geonames = form_fields[:geonames].reject { |c| c.empty? }
@@ -285,6 +298,18 @@ class GenericObjectsController < ApplicationController
       @generic_object.homosaurus_subjects = form_fields[:homosaurus_subjects].reject { |c| c.empty? }
     elsif @generic_object.homosaurus_subjects.present?
       @generic_object.homosaurus_subjects = []
+    end
+
+    # if form_fields[:homosaurus_v2_subjects][0].present?
+    #  @generic_object.homosaurus_v2_subjects = form_fields[:homosaurus_v2_subjects].reject { |c| c.empty? }
+    #elsif @generic_object.homosaurus_v2_subjects.present?
+    #  @generic_object.homosaurus_v2_subjects = []
+    #end
+
+    if form_fields[:homosaurus_uri_subjects][0].present?
+      @generic_object.homosaurus_uri_subjects = form_fields[:homosaurus_uri_subjects].reject { |c| c.empty? }
+    elsif @generic_object.homosaurus_uri_subjects.present?
+      @generic_object.homosaurus_uri_subjects = []
     end
 
     if form_fields[:lcsh_subjects][0].present?
@@ -319,10 +344,12 @@ class GenericObjectsController < ApplicationController
       @generic_object.descriptions = []
     end
 
+    # TOC is submitted as a single field
+    # Likely should not be appending "0" index for this
     if form_fields[:toc][0].present?
-      @generic_object.toc = form_fields[:toc].reject { |c| c.empty? }.map(&:strip)
+      @generic_object.toc = form_fields[:toc].strip
     elsif @generic_object.toc.present?
-      @generic_object.toc = []
+      @generic_object.toc = nil
     end
 
     if form_fields[:languages][0].present?
@@ -570,6 +597,7 @@ class GenericObjectsController < ApplicationController
   def regenerate_thumbnail
     obj = GenericObject.find_by(pid: params[:id])
     obj.base_files[0].create_derivatives
+    obj.send_solr
     flash[:notice] = "Thumbnail was regenerated!"
     redirect_to generic_object_path(obj.pid)
   end

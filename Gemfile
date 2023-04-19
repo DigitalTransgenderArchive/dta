@@ -2,6 +2,16 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# Fix bug with previous button and span tags
+gem 'kaminari', '1.1.1'
+
+# Excel support
+gem 'roo', :git => 'https://github.com/roo-rb/roo'
+gem 'roo-xls', :git => 'https://github.com/roo-rb/roo-xls.git'
+
+# Recaptcha (https://github.com/ambethia/recaptcha)
+gem "recaptcha", "5.1.0"
+
 # Twitter
 gem 'twitter'
 
@@ -25,6 +35,7 @@ gem 'geomash', github: 'samvera-labs/geomash'
 gem 'secondbase'
 gem "hydra-role-management"
 gem 'bpl_enrich', github: 'scande3/bpl_enrich'
+gem 'qa'
 gem 'google-api-client', '~> 0.11' # Not using this yet...
 
 #ruby '2.4.0'
@@ -36,7 +47,9 @@ gem 'iso-639'
 gem "font-awesome-rails"
 
 # File Upload Library
-gem "refile", require: "refile/rails"
+#gem "refile", github: 'refile/refile', require: "refile/rails"
+#gem "refile-mini_magick"
+gem 'paperclip'
 gem 'mime-types'
 
 # From original dta
@@ -52,7 +65,8 @@ gem "blacklight_advanced_search"
 gem "blacklight", "~> 6.19.2"
 gem "blacklight-gallery", '0.11.0'
 gem "blacklight_range_limit", '6.3.3'
-gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
+#gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
+gem "blacklight-maps", "0.5.2"
 # End Blacklight
 
 # Authentication
@@ -75,7 +89,7 @@ gem 'select2-rails'
 
 # Date Support
 gem 'edtf'
-gem 'edtf-humanize'
+gem 'edtf-humanize', '0.0.7'
 # End Date Support
 
 # Linked Data
@@ -108,12 +122,12 @@ gem 'ahoy_matey', '1.6.1'
 gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4.6'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '1.3.13'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 5.3.2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

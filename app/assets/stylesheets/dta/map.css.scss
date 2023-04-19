@@ -1,0 +1,14 @@
+.blacklight-catalog-map {
+  @media (max-width: 991px) and (min-width: 768px) {
+    #sortAndPerPage .page_links .mapped-caveat {
+      margin-left: 7px;
+      float: unset;
+    }
+  }
+}
+
+#sortAndPerPage .page_links .mapped-caveat:after {
+  content: ". Browse the map to view objects related to a particular location. Points on the map show items with content related to that location, not where the item is held or where it was created."
+}
+
+

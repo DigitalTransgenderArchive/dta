@@ -184,6 +184,70 @@ module GenericObjectAssignments
     super
   end
 
+  def homosaurus_v2_subjects=(value)
+    r = []
+    values = clean_values(value)
+    values.each do |val|
+      if val.class == String
+        r << HomosaurusV2Subject.find_by(uri: val)
+        raise "Could not find homosaurus V2 for: #{val.to_s}" if r.last.nil?
+      elsif val.class == HomosaurusV2Subject
+        r << val
+      else
+        raise 'Unhandled GenericObject assignment for: ' + val.class.to_s
+      end
+    end
+    value = r
+    super
+  end
+
+  def homosaurus_uri_subjects=(value)
+    r = []
+    values = clean_values(value)
+    values.each do |val|
+      if val.class == String
+        term = HomosaurusUriAutocomplete.find_by_id(val)
+        label = term["prefLabel_ssim"][0]
+        language_label_list = []
+        if term["languageLabel_ssim"].present?
+          term["languageLabel_ssim"].each do |lang_label|
+            language_label_list << lang_label.split('@')[0]
+          end
+        end
+
+        alt_label_list = term["altLabel_ssim"] if term["altLabel_ssim"].present?
+        alt_label_list ||= []
+        #TODO: Broader? Narrower? Etc?
+
+        ld = HomosaurusUriSubject.find_by(uri: val)
+        if ld.blank?
+          ld = HomosaurusUriSubject.create(uri: val, label: label, language_labels: language_label_list, alt_labels: alt_label_list)
+        else
+          was_changed = false
+          if ld.label != label
+            ld.label = label
+            was_changed = true
+          end
+
+          if ld.alt_labels.sort != alt_label_list.sort
+            ld.alt_labels = alt_label_list
+            was_changed = true
+          end
+
+          ld.save! if was_changed
+        end
+        r << ld
+        raise "Could not find lcsh for: #{val.to_s}" if r.last.nil?
+      elsif val.class == HomosaurusUriSubject
+        r << val
+      else
+        raise 'Unhandled GenericObject assignment for: ' + val.class.to_s
+      end
+    end
+    value = r
+    super
+  end
+
   # Linked Data Special Case
   def lcsh_subjects=(value)
     r = []
@@ -259,7 +323,14 @@ module GenericObjectAssignments
         ld = Geoname.find_by(uri: val)
         if ld.blank?
           geojson_hash_base = {type: 'Feature', geometry: {type: 'Point'}}
-          req = RestClient.get 'http://api.geonames.org/getJSON', {:params => {:geonameId=>"#{val.split('/').last}", :username=>"boston_library"}, accept: :json}
+          payload = {:geonameId=>"#{val.split('/').last}", :username=>"boston_library"}
+          url = 'http://api.geonames.org/getJSON'
+          if Settings.dta_config["proxy_host"].present?
+            req = RestClient::Request.execute(method: :get, url: url, :headers => {params: payload, accept: :json}, proxy: "http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")
+          else
+            req = RestClient.get url, {:params => payload, accept: :json}
+          end
+
           result = JSON.parse(req)
           # FIXME: This indicates a bad geographic element... need to verify on input
           if result['name'].blank? || result['lng'].blank?

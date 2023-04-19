@@ -1,0 +1,16 @@
+<% @page_title = "Featured Items of Digital Transgender Archive" %>
+
+<div id="content" class="col-md-12 bookmark_index_section">
+<h2 class='page-heading'>Featured Items</h2>
+
+<%- if @document_list.blank? -%>
+
+  <h3 class='section-heading'>Please add some featured items.</h3>
+<% else %>
+  <%= render 'sort_and_per_page' %>
+
+  <%= render_document_index %>
+  <%= render 'results_pagination' %>
+<% end %>
+</div>
+

@@ -10,7 +10,8 @@ class InstitutionsController < ApplicationController
   before_action :update_search_builder, only: [:index]
   #before_action :update_show_search_builder, only: [:show]
 
-  before_action :verify_admin, except: [:index, :show, :facet]
+  before_action :verify_admin, except: [:index, :show, :facet, :update_collections]
+  before_action :verify_contributor, only: [:update_collections]
   before_action :verify_superuser, only: [:destroy, :edit]
 
   #include Blacklight::Configurable
@@ -79,8 +80,8 @@ class InstitutionsController < ApplicationController
     blacklight_config.facet_fields['institution_name_ssim'].if = false
 
     #Needs to be fixed...
-    blacklight_config.facet_fields['dta_dates_ssim'].show = false
-    blacklight_config.facet_fields['dta_dates_ssim'].if = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].show = false
+    blacklight_config.facet_fields['dta_dates_yearly_itim'].if = false
 
     # blacklight-maps stuff
     # blacklight_config.view.maps.geojson_field = 'inst_geojson_hash_ssi'
@@ -114,7 +115,7 @@ class InstitutionsController < ApplicationController
       new_document_list = []
       filter_list = params[:filter].split(',')
       @document_list.each do |doc|
-        if filter_list.include?(doc['name_ssim'][0].upcase[0])
+        if filter_list.include?(doc['name_ssim'][0].gsub(/^The /, "").upcase[0])
           new_document_list << doc
         end
       end

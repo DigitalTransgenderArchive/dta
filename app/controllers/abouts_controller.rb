@@ -45,9 +45,9 @@ class AboutsController < ApplicationController
 
   def update
     @page = Abouts.find(params[:id])
-    @page.destroy!
-    @page = Abouts.new(page_params)
-    #@page.update(page_params)
+    #@page.destroy!
+    #@page = Abouts.new(page_params)
+    @page.update(page_params)
 
     if @page.save
       redirect_to about_path(:id => @page), notice: "Page was updated!"

@@ -1,0 +1,71 @@
+<div style="clear: both;"></div>
+<div id="home_explore_topics">
+  <div class="col-xs-12 col-sm-12">
+    <h2>EXPLORE BY TOPIC</h2>
+  </div>
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <a href="/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Events" title="Link to a search for the topic events.">
+          <%= image_tag("home/topics/home_topic_events.png") %>
+        </a>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Events", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Events' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <a href="/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Crossdressing">
+          <%= image_tag("home/topics/home_topic_cross_dressing_V2.jpg") %>
+        </a>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Crossdressing", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Crossdressing' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <a href="/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Sexuality">
+          <%= image_tag("home/topics/home_topic_sexuality.jpg") %>
+        </a>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Sexuality", "/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Sexuality" %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="icon_wrapper">
+      <div class="icon">
+        <a href="/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Gender+identity" title="Link to a search for the topic gender identity.">
+          <%= image_tag("home/topics/home_topic_gender_identity_V2.jpg") %>
+        </a>
+      </div>
+
+      <div class="icon_link">
+        <%= link_to "Gender Identity", '/catalog?f%5Bdta_all_subject_ssim%5D%5B%5D=Gender+identity' %>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="btn_wrapper">
+    <%= button_to(topic_facet_path, class: "btn btn-primary btn-round", id: "view_topics_btn", method: :get) do %>
+      View More Topics
+    <% end %>
+  </div>
+</div>

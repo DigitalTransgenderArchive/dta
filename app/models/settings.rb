@@ -1,12 +1,15 @@
 class Settings
 
-
   def self.twitter_client
     @client ||= Twitter::REST::Client.new do |config|
       config.consumer_key        = Settings.dta_config["twitter_consumer_key"]
       config.consumer_secret     = Settings.dta_config["twitter_consumer_secret"]
       config.access_token        = Settings.dta_config["twitter_access_token"]
       config.access_token_secret = Settings.dta_config["twitter_access_token_secret"]
+      if Settings.dta_config["proxy_host"].present?
+        proxy = { host: Settings.dta_config["proxy_host"], port: Settings.dta_config["proxy_port"].to_i }
+        config.proxy = proxy
+      end
     end
     @client
   end
@@ -27,6 +30,26 @@ class Settings
 
   def self.mailchimp_id
     @mailchimp_id ||= Settings.dta_config["mailchimp_id"]
+  end
+
+  def self.recaptcha_site_key
+    @recaptcha_site_key ||= Settings.dta_config["recaptcha_site_key"]
+  end
+
+  def self.recaptcha_secret_key
+    @recaptcha_secret_key ||= Settings.dta_config["recaptcha_secret_key"]
+  end
+
+  def self.recaptcha_site_key_v3
+    @recaptcha_site_key_v3 ||= Settings.dta_config["recaptcha_site_key_v3"]
+  end
+
+  def self.recaptcha_secret_key_v3
+    @recaptcha_secret_key_v3 ||= Settings.dta_config["recaptcha_secret_key_v3"]
+  end
+
+  def self.featured_items_user_id
+    @featured_items_user_id ||= Settings.dta_config["featured_items_user_id"]
   end
 
   # FIXME!
@@ -74,4 +97,5 @@ class Settings
     @env ||= Rails.env if defined?(Rails) and defined?(Rails.root)
     @env ||= 'development'
   end
+
 end

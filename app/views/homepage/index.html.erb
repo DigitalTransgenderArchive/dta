@@ -4,8 +4,11 @@
   <%= render partial: 'homepage/home_carousel' %>
   <%= render partial: 'homepage/home_get_started' %>
   <%= render partial: 'homepage/home_map' %>
+  <% if current_user.present? and current_user.contributor? %>
+    <%= render partial: 'homepage/home_featured_items' %>
+  <% end %>
+    <%= render partial: 'homepage/home_explore_topics' %>
   <%= render partial: 'homepage/home_latest_news' %>
-
   <%= render partial: '/pre_footer' %>
   <%= render partial: '/footer' %>
 <% if 1==0 and current_user.present? and current_user.contributor? %>

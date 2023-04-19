@@ -56,6 +56,54 @@ $viewer_bg: #111111 !default;
   box-shadow: $shadow;
 }
 
+/* Bookmark overrides */
+.form-horizontal .checkbox.toggle_bookmark {
+  margin-bottom: 10px;
+}
+div.toggle_bookmark {
+  label {
+    display: unset;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  input[type="checkbox"] {display: none; padding-left: 0;}
+  input[type="checkbox"]:focus + span{color:#46c0ef;}
+  label{cursor: pointer;}
+  label input[type="checkbox"] + span {
+    font-size: 1.2em;
+  }
+  label input[type="checkbox"] + span:before {
+    font-family: FontAwesome;
+    content: "\f006";
+    display: inline-block;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.0em;
+    text-align:center;
+    letter-spacing: 6px;
+  }
+  label input[type="checkbox"]:checked + span:before { content: "\f005";letter-spacing: 3px; } /* checked icon */
+}
+@media (max-width: 991px) {
+  div.toggle_bookmark {
+    label input[type="checkbox"] + span {
+      font-size: 1.0em;
+    }
+  }
+}
+
+@media (max-width: 767.75px) {
+  div.toggle_bookmark {
+    label {
+      margin-left: 9px;
+    }
+
+    label input[type="checkbox"] + span {
+      font-size: 1.2em;
+    }
+  }
+}
+
 /* fix to make header banner the same */
 body.blacklight-catalog-index {
   #main-container {
@@ -494,7 +542,6 @@ div#search_results_bar:after {
 }
 /* Portrait tablet to landscape and desktop */
 @media (max-width: 991px) {
-
   #sortAndPerPage {
     a.view-type-slideshow, a.view-type-masonry {
       display: none;

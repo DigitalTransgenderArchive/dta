@@ -1,4 +1,19 @@
 module HomosaurusAssignments
+  def clean_values(value)
+    case value.class.to_s
+    when 'String'
+      return [value]
+    when 'Array'
+      return value.uniq
+    when 'Integer'
+      return [value.to_s]
+    when '' # nil case
+      return []
+    else
+      return [value]
+    end
+  end
+
   def exactMatch_lcsh=(value)
     r = []
     values = clean_values(value)

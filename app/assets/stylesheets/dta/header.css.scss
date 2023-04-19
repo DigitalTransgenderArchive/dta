@@ -55,10 +55,38 @@
     width: 90px;
     height: 30px;
     background-color: #FAA738;
-    margin-top: 7px;
+    margin-top: 9px;
     margin-left: 10px;
     border-radius: 30px 30px 30px 30px;
     padding-top: 4px;
+  }
+  @media (max-width: 530px) {
+    #login_btn {
+      width: 60px;
+      height: 30px;
+      background-color: #FAA738;
+      margin-top: 8px;
+      margin-left: 10px;
+      border-radius: 30px 30px 30px 30px;
+      font-size: 10px;
+      padding-top: 7px;
+    }
+  }
+
+  @media (max-width: 472px) {
+    #login_btn {
+      width: 60px;
+      height: 30px;
+      background-color: #FAA738;
+      margin-top: 7px;
+      margin-left: 10px;
+      border-radius: 30px 30px 30px 30px;
+      font-size: 10px;
+      display:none;
+    }
+    .navbar-nav > li.user_account_link {
+      display:none;
+    }
   }
 
   .caret {
@@ -338,17 +366,6 @@
     }
     .navbar-nav .open .dropdown-menu > li > a {
       padding:3px 10px;
-    }
-
-    #login_btn {
-      width: 60px;
-      height: 30px;
-      background-color: #FAA738;
-      margin-top: 7px;
-      margin-left: 10px;
-      border-radius: 30px 30px 30px 30px;
-      font-size: 10px;
-      display:none;
     }
 
   }

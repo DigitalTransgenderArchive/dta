@@ -1,0 +1,266 @@
+#learn-show {
+  color: #002D59;
+  .guide_container {
+    max-width: 850px;
+  }
+  p {
+    margin-right: 20px;
+  }
+  .btn-round {
+    background-color: #002D59;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 30px 30px 30px 30px;
+  }
+
+  .bubble_button_section {
+    margin-top: 0px;
+    .bubble_button_wrapper {
+      margin-top: 20px;
+    }
+
+    h5.icon_subheader {
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+      width: 200px;
+      margin-left: 10px;
+      margin-right: 10px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .bubble_small_icon_override {
+      margin-left: 10px;
+      margin-right: 10px;
+      width: 200px;
+    }
+  }
+
+
+  .media {
+    img {
+      vertical-align: middle;
+    }
+    .media-left {
+      vertical-align: middle;
+      display: table-cell;
+      padding-right: 10px;
+      margin-left: 20px;
+      margin-right: 5px;
+      width: 175px;
+    }
+
+    /* Used in Race & Ethnicity */
+    .large_icon_override {
+      margin-left: 0px;
+      margin-right: 12px;
+      width: 200px;
+    }
+    .right_medium_icon_override {
+      margin-left: 5px;
+      margin-right: 0px;
+      margin-top: 45px;
+      width: 200px;
+    }
+    /* End */
+
+    .medium_icon_override {
+      margin-left: 38px;
+      margin-right: 23px;
+      width: 139px;
+    }
+
+    .small_icon_override {
+      margin-left: 48px;
+      margin-right: 33px;
+      width: 119px;
+    }
+  }
+
+  .larger-callout {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 18px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 18px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+  .learn_paragraphs {
+    p:first-child {
+      margin-top: 0px;
+    }
+    p:last-child {
+      margin-bottom: 30px;
+    }
+  }
+
+  .raceandethnicity_override {
+    p:last-child {
+      margin-bottom: 15px;
+    }
+  }
+
+  table.learn_table {
+    border-top: 0;
+    margin: 0 auto;
+    max-width:1400px;
+    margin-bottom: 30px;
+    tr {
+      td {
+        border: 0;
+        padding-top:18px;
+        padding-bottom:18px;
+
+        p:first-child {
+          margin-top: 0px;
+          padding-top: 0px;
+        }
+        p {
+          margin-right: 20px;
+        }
+      }
+
+    }
+
+    tr.zebra {
+      background-color: #E7EDF9;
+    }
+
+    tr:first-child {
+      border-top: 0;
+    }
+    tr:last-child {
+      border-bottom: 0;
+    }
+
+    tbody {
+      margin-bottom: 30px;
+    }
+
+    h4.guide-heading {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+    }
+
+  }
+}
+
+@media (max-width: 834.75px) {
+  #learn-show {
+    #sidebar {
+      display: none !important;
+    }
+    .static_holder_content_container {
+      width: 100%;
+    }
+
+    .learn_paragraphs {
+      p {
+        margin-left: 15px;
+      }
+      h4 {
+        margin-left: 15px;
+      }
+    }
+
+    .larger-callout {
+      margin-left: 15px;
+    }
+
+    h2, h3 {
+      margin-left: 15px;
+    }
+
+    .media-hide-xs {
+      margin: 0;
+      padding: 0;
+      display: none !important;
+    }
+
+    .fix-for-smartphone {
+      margin: 0;
+      margin-left: 15px;
+      padding: 0;
+      img {
+        display: none !important;
+      }
+
+    }
+
+    .override-for-xs {
+      margin-left: 15px;
+      display: block;
+    }
+  }
+}
+
+table.glossary_table {
+  border-top: 0;
+  margin: 0 auto;
+  max-width:1400px;
+  margin-bottom: 20px;
+  tr {
+    td {
+      border: 0;
+      padding-top:18px;
+      padding-bottom:18px;
+
+      p:first-child {
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+      p {
+        margin-right: 20px;
+        margin-left: 9px;
+      }
+    }
+
+  }
+
+
+
+  tr:nth-of-type(odd) {
+    background-color: #E7EDF9;
+  }
+
+  tr:first-child {
+    border-top: 0;
+  }
+  tr:last-child {
+    border-bottom: 0;
+  }
+
+  tbody {
+    margin-bottom: 30px;
+  }
+
+  h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    margin-left: 9px;
+
+    span.learn_small_subtitle {
+      font-size: 12px;
+      text-transform: unset;
+    }
+  }
+
+
+}

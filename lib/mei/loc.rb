@@ -33,6 +33,12 @@ module Mei
       @repo ||= ::RDF::Blazegraph::Repository.new(uri: Mei::Loc.blazegraph_config[:url])
     end
 
+    def self.development_mode
+      @development_mode ||= Mei::Loc.blazegraph_config[:development_mode]
+      return true if @development_mode.present? and @development_mode.to_s == "true"
+      return false
+    end
+
     def self.qskos value
       if value.match(/^sh\d+/)
         return ::RDF::URI.new("http://id.loc.gov/authorities/subjects/#{value}")
@@ -47,8 +53,30 @@ module Mei
     end
 
     def search q
-      @raw_response = get_json(build_query_url(q))
-      parse_authority_response
+      if q.starts_with?('http://id.loc.gov/authorities/subjects/')
+        broader, narrower, variants = get_skos_concepts(q)
+
+        #FIXME: Hitting ActiveRecord causes problems
+        count = DSolr.find({q: "lcsh_subject_ssim:#{solr_clean(q)}", rows: '100', fl: 'id' }).length
+        if count >= 99
+          count = "99+"
+        else
+          count = count.to_s
+        end
+
+        [{
+            "uri_link" => q,
+            "label" => Mei::Loc.repo.query(:subject=>::RDF::URI.new(q), :predicate=>Mei::Loc.qskos('prefLabel')).first.object.to_s,
+            "broader" => broader,
+            "narrower" => narrower,
+            "variants" => variants,
+            "count" => count
+        }]
+      else
+        @raw_response = get_json(build_query_url(q))
+        parse_authority_response
+      end
+
     end
 
 
@@ -65,18 +93,31 @@ module Mei
       end_response = []
       position_counter = 0
 
-      @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
-        threaded_responses << Thread.new(position_counter) { |local_pos|
-          Rails.application.reloader.wrap do
-            end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
+      if Mei::Loc.development_mode # `rails s` doesn't work multi-threaded?
+        @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
+          if response.to_s.include?('authorities/subjects/')
+            end_response[position_counter] = loc_response_to_qa(response_to_struct(response), position_counter)
+            position_counter+=1
           end
-        }
-        position_counter+=1
+        end
+      else
+        @raw_response.select {|response| response[0] == "atom:entry"}.map do |response|
+          if response.to_s.include?('authorities/subjects/')
+            threaded_responses << Thread.new(position_counter) { |local_pos|
+              Rails.application.reloader.wrap do
+                end_response[local_pos] = loc_response_to_qa(response_to_struct(response), position_counter)
+              end
+            }
+            position_counter+=1
+          end
+        end
       end
 
-        ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
+
+      ActiveSupport::Dependencies.interlock.permit_concurrent_loads do
           threaded_responses.each { |thr|  thr.join } # outer thread waits here, but has no lock
         end
+
 
       end_response
     end
@@ -154,9 +195,12 @@ module Mei
               broader_label ||= broader_statement.object.value if broader_statement.object.literal?
             end
 
-            if broader_statement.predicate.to_s == Mei::Loc.qskos('member')
-              valid = true if broader_statement.object.to_s == 'http://id.loc.gov/authorities/subjects/collection_LCSHAuthorizedHeadings'
+            if broader_statement.predicate.to_s == Mei::Loc.qskos('inScheme')
+              valid = true if broader_statement.object.to_s == 'http://id.loc.gov/authorities/subjects'
             end
+            #if broader_statement.predicate.to_s == Mei::Loc.qskos('member')
+              #valid = true if broader_statement.object.to_s == 'http://id.loc.gov/authorities/subjects/collection_LCSHAuthorizedHeadings'
+            #end
           end
           broader_label ||= broader_uri
           broader_list << {:uri_link=>broader_uri, :label=>broader_label} if valid
@@ -174,9 +218,13 @@ module Mei
               narrower_label ||= narrower_statement.object.value if narrower_statement.object.literal?
             end
 
-            if narrower_statement.predicate.to_s == Mei::Loc.qskos('member')
-              valid = true if narrower_statement.object.to_s == 'http://id.loc.gov/authorities/subjects/collection_LCSHAuthorizedHeadings'
+            if narrower_statement.predicate.to_s == Mei::Loc.qskos('inScheme')
+              valid = true if narrower_statement.object.to_s == 'http://id.loc.gov/authorities/subjects'
             end
+
+            #if narrower_statement.predicate.to_s == Mei::Loc.qskos('member')
+              #valid = true if narrower_statement.object.to_s == 'http://id.loc.gov/authorities/subjects/collection_LCSHAuthorizedHeadings'
+            #end
           end
           narrower_label ||= narrower_uri
           narrower_list << {:uri_link=>narrower_uri, :label=>narrower_label} if valid

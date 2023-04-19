@@ -16,9 +16,9 @@ class LearnsController < ApplicationController
 
   def update
     @page = Learns.find(params[:id])
-    @page.destroy!
-    @page = Learns.new(page_params)
-    #@page.update(page_params)
+    #@page.destroy!
+    #@page = Learns.new(page_params)
+    @page.update(page_params)
 
     if @page.save
       redirect_to learn_path(:id => @page), notice: "Page was updated!"
@@ -44,7 +44,18 @@ class LearnsController < ApplicationController
   end
 
   def show
+=begin
+    if params[:id] == "guide"
+      render "learns/guide"
+    elsif params[:id] == "raceandethnicity"
+        render "learns/raceandethnicity"
+    else
+      @page = Learns.find(params[:id])
+    end
+=end
+
     @page = Learns.find(params[:id])
+
   end
 
   def set_nav_heading

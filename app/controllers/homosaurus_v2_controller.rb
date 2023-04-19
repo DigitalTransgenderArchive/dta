@@ -37,7 +37,7 @@ class HomosaurusV2Controller < ApplicationController
   end
 
   def create
-    if !params[:homosaurus][:identifier].match(/^[0-9a-zA-Z_\-]+$/) || params[:homosaurus][:identifier].match(/ /)
+    if !params[:homosaurus][:identifier].match(/^[0-9a-zA-Z_\-+]+$/) || params[:homosaurus][:identifier].match(/ /)
       redirect_to new_homosaurus_v2_path, notice: "Please use camel case for identifier like 'discrimationWithAbleism'... do not use spaces. Contact K.J. if this is seen for some other valid entry."
     else
 
@@ -124,7 +124,7 @@ class HomosaurusV2Controller < ApplicationController
   end
 
   def update
-    if !params[:homosaurus][:identifier].match(/^[0-9a-zA-Z_\-]+$/) || params[:homosaurus][:identifier].match(/ /)
+    if !params[:homosaurus][:identifier].match(/^[0-9a-zA-Z_\-+]+$/) || params[:homosaurus][:identifier].match(/ /)
       redirect_to homosaurus_v2_path(:id => params[:id]), notice: "Please use camel case for identifier like 'discrimationWithAbleism'... do not use spaces. Contact K.J. if this is seen for some other valid entry."
     else
       ActiveRecord::Base.transaction do

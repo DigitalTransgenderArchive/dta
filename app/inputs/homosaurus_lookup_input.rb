@@ -1,4 +1,16 @@
 class HomosaurusLookupInput < MeiMultiLookupInput
+  def inner_wrapper
+    <<-HTML
+          <li class="field-wrapper">
+             <div class="input-group col-sm-12">
+              #{yield}
+              <span class="input-group-btn">
+                 <button class="btn btn-danger" data-js-delete-audits-field="true" type="button", tabindex="-1">-</button>
+              </span>
+              </div>
+          </li>
+    HTML
+  end
 
   def buffer_each(collection)
     collection.each_with_object('').with_index do |(value, buffer), index|

@@ -6,6 +6,7 @@ module GenericObjectSolrAssignments
     doc[:dta_all_subject_ssim] = []
     doc[:dta_other_subject_ssim] = []
     doc[:dta_homosaurus_subject_ssim] = []
+    doc[:dta_homosaurus_v1_subject_ssim] = []
     doc[:dta_lcsh_subject_ssim] = []
 
     doc[:date_created_search_tesim] = []
@@ -67,12 +68,27 @@ module GenericObjectSolrAssignments
     #file_format_tesim like pdf (Portable Document Format)
     # Label versions
     self.homosaurus_subjects.each do |term|
+      doc[:dta_homosaurus_v1_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       doc[:dta_homosaurus_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       doc[:dta_all_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
       term.alt_labels.each do |alt|
         doc[:dta_altLabel_all_subject_ssim] << alt
       end
     end
+
+    # V2 Support
+    self.homosaurus_uri_subjects.each do |term|
+      doc[:dta_homosaurus_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
+      doc[:dta_all_subject_ssim] << (term.label[0].upcase + term.label[1..-1])
+      term.alt_labels.each do |alt|
+        doc[:dta_altLabel_all_subject_ssim] << alt
+      end
+    end
+    doc[:homosaurus_subject_tesim] += self.homosaurus_subjects.pluck(:uri)
+    doc[:homosaurus_subject_ssim] += doc[:homosaurus_subject_tesim]
+    doc[:dta_homosaurus_subject_ssim].uniq!
+    doc[:homosaurus_subject_tesim].uniq!
+    doc[:homosaurus_subject_ssim].uniq!
 
     self.lcsh_subjects.each do |term|
       doc[:dta_lcsh_subject_ssim] << term.label
@@ -92,6 +108,7 @@ module GenericObjectSolrAssignments
     doc[:dta_other_subject_ssim].sort_by!{|word| word.downcase}
 
     doc[:dta_other_subject_tesim] = doc[:dta_other_subject_ssim]
+    #doc[:dta_other_subject_sssortm] = doc[:dta_other_subject_ssim]
     doc[:dta_subject_primary_searchable_tesim] = doc[:dta_all_subject_ssim] + doc[:dta_other_subject_ssim]
     doc[:dta_subject_alt_searchable_tesim] = doc[:dta_altLabel_all_subject_ssim]
 
@@ -148,6 +165,9 @@ module GenericObjectSolrAssignments
         end
       end
     end
+
+    # for blacklight range limit
+    doc[:dta_dates_yearly_itim] = doc[:dta_dates_ssim]
 
     self.temporal_coverage.each do |raw_date|
       date = Date.edtf(raw_date)

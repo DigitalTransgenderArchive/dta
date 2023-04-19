@@ -72,7 +72,7 @@ body.bodyoverride {
     width: 90px;
     height: 30px;
     background-color: #FAA738;
-    margin-top: 7px;
+    margin-top: 9px;
     margin-left: 10px;
     border-radius: 30px 30px 30px 30px;
     padding-top: 4px;
@@ -428,9 +428,6 @@ body.bodyoverride {
         transition: 5s ease-in-out left;
       }
 
-
-
-
       .carousel-control .glyphicon-chevron-right,  .carousel-control .glyphicon-chevron-left{
         top: 50%;
       }
@@ -467,7 +464,6 @@ body.bodyoverride {
           padding-right: 10%;
         }
 
-
       }
 
       @media (max-width: 946px) {
@@ -499,6 +495,152 @@ body.bodyoverride {
         .carousel-caption {
           top: 620px;
         }
+      }
+    }
+  }
+
+  #home_explore_topics {
+    background-image: image-url('home/home_explore_topic_bgV2.png');
+    background-repeat: repeat;
+    background-position: left top;
+
+    h2 {
+      font-family: DTA;
+      color: #002D59;
+      letter-spacing: 2px;
+      margin-left: 115px;
+      padding-top: 60px;
+      margin-bottom: 25px;
+      margin-top: 0px;
+      font-size: 36px;
+    }
+
+    div.icon_wrapper {
+      width: 200px;
+      margin: auto;
+      color: #002D59;
+      font-family: $font-family-sans-serif;
+
+      div.icon {
+        height: 307px;
+        margin-bottom: 3px;
+        position: relative;
+
+        img {
+          display: block;
+          max-width: 100%;
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+      }
+
+      div.icon_link {
+        a {
+          font-weight: bold;
+        }
+      }
+    }
+
+    div.btn_wrapper {
+      clear: both;
+      padding-top: 35px;
+      margin-left: 115px;
+      padding-bottom: 50px;
+
+      #view_topics_btn {
+        width: 300px;
+        text-transform: uppercase;
+      }
+    }
+
+    @media (max-width: 991.75px) {
+      div.icon_wrapper {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      div.btn_wrapper {
+        margin: auto;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 575px) {
+      h2 {
+        margin-left: 15px;
+      }
+      div.icon_wrapper {
+        clear:both;
+      }
+    }
+
+    @media (max-width: 449.75px) {
+      div.col-xs-6 {
+        width: 100%;
+      }
+    }
+
+  }
+
+  #home_featured_items {
+    height: 300px;
+    background-image: image-url('home/home_featured_items_bg.png');
+    background-repeat: repeat-x;
+    background-position: left top;
+
+    h1 {
+      font-family: DTA;
+      color: #FFFFFF;
+      letter-spacing: 2px;
+      margin-left: 115px;
+      padding-top: 60px;
+      margin-bottom: 25px;
+      margin-top: 0px;
+      font-size: 36px;
+    }
+
+    p {
+      color: #FFFFFF;
+      font-family: $font-family-sans-serif;
+      /*width: 550px;
+      width: 100%;*/
+      max-width: 550px;
+      padding-right: 10px;
+      margin-left: 115px;
+      margin-top: 40px;
+      margin-bottom: 25px;
+    }
+
+    div.btn_wrapper {
+      clear: both;
+      padding-top: 35px;
+      margin-left: 115px;
+      padding-bottom: 50px;
+
+      #view_featured_items_btn {
+        width: 300px;
+        text-transform: uppercase;
+        background-color: #FFFFFF;
+        color: #002D59;
+      }
+    }
+
+    @media (max-width: 767px) {
+      div.btn_wrapper {
+        margin: auto;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 575px) {
+      h1 {
+        margin-left: 15px;
       }
     }
   }
@@ -670,8 +812,8 @@ body.bodyoverride {
     }
     @media (max-width: 450px) {
       div.news_wrapper {
-        margin-right: 30px;
-        margin-left: 30px;
+        margin-right: 0px;
+        margin-left: 5px;
         div.tweet {
           max-width: calc(100% - 101px);
         }
@@ -762,11 +904,27 @@ body.bodyoverride {
       width: 60px;
       height: 30px;
       background-color: #FAA738;
-      margin-top: 7px;
+      margin-top: 8px;
       margin-left: 10px;
       border-radius: 30px 30px 30px 30px;
-      font-size: 10px;
-      display:none;
+      font-size: 12px;
+      padding-top: 7px;
+    }
+
+    @media (max-width: 472px) {
+      #login_btn {
+        width: 60px;
+        height: 30px;
+        background-color: #FAA738;
+        margin-top: 7px;
+        margin-left: 10px;
+        border-radius: 30px 30px 30px 30px;
+        font-size: 10px;
+        display:none;
+      }
+      .navbar-nav > li.user_account_link {
+        display:none;
+      }
     }
 
   }
