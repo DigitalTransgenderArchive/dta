@@ -40,6 +40,26 @@
         </li>
 
         <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">RESOURCES <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% @resource_section_links ||= []
+               counter = @resource_section_links.length
+               @resource_section_links.each do |resource_section|
+                 counter -= 1
+            %>
+              <li><%= link_to resource_section.title, page_resource_path(resource_section) %></li>
+              <% if counter > 0 %>
+                <li class="divider"></li>
+              <% end %>
+            <% end %>
+            <% if current_user.present? and current_user.superuser? %>
+              <li class="divider"></li>
+              <li><%= link_to 'Add Resource Section', new_page_resource_path %></li>
+            <% end %>
+          </ul>
+        </li>
+
+        <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">ABOUT <span class="caret"></span></a><!--- hideonsmall -->
           <ul class="dropdown-menu">
             <% @about_section_links ||= []
@@ -52,13 +72,17 @@
                   <li class="divider"></li>
                 <% end %>
               <% end %>
+
+            <li class="divider"></li>
+            <li><%= link_to 'Contact', contact_path %></li>
+
               <% if current_user.present? and current_user.superuser? %>
                 <li class="divider"></li>
                 <li><%= link_to 'Add About Section', new_about_path %></li>
               <% end %>
           </ul>
         </li>
-        <li><%= link_to 'CONTACT', contact_path %></li>
+
         <% if current_user.blank? %>
           <li>
             <%= button_to(new_user_session_path, class: "btn btn-warning", id: "login_btn", method: "get") do %>
@@ -88,12 +112,6 @@
               <% elsif current_user.admin? %>
                 <li class="divider"></li>
                 <li><%= link_to 'Coll Create', new_collection_path, :class=>"nav_button" %></li>
-              <% end %>
-              <% if current_user.superuser? || current_user.homosaurus? || current_user.admin? %>
-                <li class="divider"></li>
-                <li>Homosaurus Edit Disabled<%# link_to 'Homosaurus Edit', homosaurus_v2_index_path, :class=>"nav_button" %></li>
-                <li class="divider"></li>
-                <li>Homosaurus V3 Edit Disabled<%# link_to 'Homosaurus V3 Edit', homosaurus_v3_index_path, :class=>"nav_button" %></li>
               <% end %>
               <li class="divider"></li>
               <li><%= link_to 'Log Out', destroy_user_session_path, :class=>"nav_button" %></li>

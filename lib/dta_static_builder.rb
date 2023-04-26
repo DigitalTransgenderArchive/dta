@@ -18,5 +18,11 @@ module DtaStaticBuilder
       @learn_section_links = Learns.where(:published=>true).order("link_order")
     end
 
+    if current_user.present? and current_user.superuser?
+      @resource_section_links = PageResources.all.order("link_order")
+    else
+      @resource_section_links = PageResources.where(:published=>true).order("link_order")
+    end
+
   end
 end

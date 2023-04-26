@@ -45,6 +45,28 @@
     <li class="outer_divider"></li>
 
     <li id="fat-menu" class="dropdown outer_nav_li_style">
+      <a href="#" id="drop3" role="button" class="dropdown-toggle nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Resources <b class="caret hideonsmall"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+        <% @resources_section_links ||= []
+           counter = @resources_section_links.length
+           @resources_section_links.each do |resource_section|
+             counter -= 1
+        %>
+          <li><%= link_to resource_section.title, page_resource_path(resource_section) %></li>
+          <% if counter > 0 %>
+            <li class="divider"></li>
+          <% end %>
+        <% end %>
+        <% if current_user.present? and current_user.superuser? %>
+          <li class="divider"></li>
+          <li><%= link_to 'Add Resources Section', new_page_resource_path %></li>
+        <% end %>
+      </ul>
+    </li>
+
+    <li class="outer_divider"></li>
+
+    <li id="fat-menu" class="dropdown outer_nav_li_style">
       <a href="#" id="drop3" role="button" class="dropdown-toggle nav_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About <b class="caret hideonsmall"></b></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
         <% @about_section_links ||= []
