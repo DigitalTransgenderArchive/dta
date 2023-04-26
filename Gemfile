@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem 'kaminari', '1.1.1'
 
 # Excel support
-gem 'roo', :git => 'https://github.com/roo-rb/roo'
+gem 'roo', :git => 'https://github.com/roo-rb/roo', :ref => '709464c'
 gem 'roo-xls', :git => 'https://github.com/roo-rb/roo-xls.git'
 
 # Recaptcha (https://github.com/ambethia/recaptcha)
@@ -31,9 +31,9 @@ gem 'mysql2', '0.4.10'
 
 # Maybe Temporary
 gem 'noid-rails'
-gem 'geomash', github: 'samvera-labs/geomash'
+gem 'geomash', github: 'samvera-labs/geomash', branch: 'main', ref: 'ab729e5d30c1'
 gem 'secondbase'
-gem "hydra-role-management"
+gem "hydra-role-management", '1.0.3' # 1.1.0 breaks things?
 gem 'bpl_enrich', github: 'scande3/bpl_enrich'
 gem 'qa'
 gem 'google-api-client', '~> 0.11' # Not using this yet...
@@ -61,10 +61,10 @@ gem 'activerecord-session_store'
 # End from original dta
 
 # Blacklight stuff
-gem "blacklight_advanced_search"
+gem "blacklight_advanced_search", '6.4.1'
 gem "blacklight", "~> 6.19.2"
 gem "blacklight-gallery", '0.11.0'
-gem "blacklight_range_limit", '6.3.3'
+gem "blacklight_range_limit", '6.5.0'
 #gem "blacklight-maps", github: 'projectblacklight/blacklight-maps'
 gem "blacklight-maps", "0.5.2"
 # End Blacklight
@@ -102,7 +102,7 @@ gem "mini_magick"
 gem "pdf-reader"
 
 # Background jobs
-gem 'sidekiq'
+gem 'sidekiq', '6.5.8'
 gem 'sidekiq-failures'
 gem 'sidekiq-unique-jobs'
 gem 'sidekiq-statistic', github: 'davydovanton/sidekiq-statistic'
@@ -122,7 +122,7 @@ gem 'ahoy_matey', '1.6.1'
 gem 'blazer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4.6'
+gem 'rails', github: 'rails/rails', branch: '5-2-stable'
 #gem 'rails', '~> 5.1.4', github: 'scande3/rails', branch: 'bugfix/v5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3', '1.3.13'
@@ -178,7 +178,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
-  gem 'solr_wrapper', '>= 0.3'
+  gem 'solr_wrapper', '>= 0.3' # was solr_wrapper-3.1.3 , now 4.0.2, downloads: solr-8.11.2.tgz, solr-8.11.2.tgz.sha512
+
 end
 
 gem 'rsolr', '>= 1.0', '< 3'

@@ -911,7 +911,35 @@ body.bodyoverride {
       padding-top: 7px;
     }
 
-    @media (max-width: 472px) {
+    @media (max-width: 503px) {
+      #login_btn {
+        width: 60px;
+        height: 30px;
+        background-color: #FAA738;
+        margin-top: 7px;
+        margin-left: 10px;
+        border-radius: 30px 30px 30px 30px;
+        font-size: 10px;
+        display:none;
+      }
+      .navbar-nav > li.user_account_link {
+        display:none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #login_btn {
+        width: 60px;
+        height: 30px;
+        background-color: #FAA738;
+        margin-top: 8px;
+        margin-left: 10px;
+        border-radius: 30px 30px 30px 30px;
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 431px) {
       #login_btn {
         width: 60px;
         height: 30px;
@@ -937,7 +965,7 @@ body.bodyoverride {
     #home_searchbar_outer #home_searchbar ul {
       margin-left: auto;
       margin-right: auto;
-      width: 406px;
+      width: 416px;
       display: block;
 
       li:first-child {
@@ -980,6 +1008,40 @@ body.bodyoverride {
   }
 
   /* end navbar fix */
+
+  /* Add login for smaller sizes */
+  @media (max-width: 480px) {
+    #homeBrowseNavbar {
+      font-size: 10px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 9px;
+      }
+    }
+  }
+
+  /* Add login for smaller sizes */
+  @media (max-width: 455px) {
+    #homeBrowseNavbar {
+      font-size: 9px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 9px;
+      }
+    }
+  }
+
+  /* for resources on smallest size */
+  @media (max-width: 400px) {
+    #homeBrowseNavbar {
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 8px;
+      }
+    }
+  }
 
 }
 /* For smaller sizes... fixme? */

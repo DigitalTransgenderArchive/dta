@@ -21,6 +21,12 @@ module Dta
     config.action_mailer.delivery_method = :sendmail
     config.action_mailer.default_url_options = { :host => 'www.digitaltransgenderarchive.net' }
 
+      #Needed for newer rails, see: https://stackoverflow.com/questions/71332602/upgrading-to-ruby-3-1-causes-psychdisallowedclass-exception-when-using-yaml-lo
+      config.active_record.use_yaml_unsafe_load = true
+
+    # See: https://github.com/galetahub/ckeditor/issues/919
+    config.assets.resolve_assets_in_css_urls = false
+
     #config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
 
     # Settings in config/environments/* take precedence over those specified here.

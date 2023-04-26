@@ -73,7 +73,7 @@
     }
   }
 
-  @media (max-width: 472px) {
+  @media (max-width: 503px) {
     #login_btn {
       width: 60px;
       height: 30px;
@@ -82,10 +82,34 @@
       margin-left: 10px;
       border-radius: 30px 30px 30px 30px;
       font-size: 10px;
-      display:none;
     }
-    .navbar-nav > li.user_account_link {
-      display:none;
+
+    @media (max-width: 480px) {
+      #login_btn {
+        width: 60px;
+        height: 30px;
+        background-color: #FAA738;
+        margin-top: 8px;
+        margin-left: 10px;
+        border-radius: 30px 30px 30px 30px;
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 431px) {
+      #login_btn {
+        width: 60px;
+        height: 30px;
+        background-color: #FAA738;
+        margin-top: 7px;
+        margin-left: 10px;
+        border-radius: 30px 30px 30px 30px;
+        font-size: 10px;
+        display:none;
+      }
+      .navbar-nav > li.user_account_link {
+        display:none;
+      }
     }
   }
 
@@ -263,7 +287,7 @@
   }
 
   /* navbar fix from: https://coderwall.com/p/wpjw4w/change-the-bootstrap-navbar-breakpoint */
-  @media (max-width: 800px) {
+  @media (max-width: 845px) {
     .logo-compact {
       float: none;
       margin: auto;
@@ -332,7 +356,7 @@
         ul {
           margin-left: auto;
           margin-right: auto;
-          width: 406px;
+          width: 416px;
           display: block;
 
           li:first-child {
@@ -355,7 +379,7 @@
     }
   }
 
-  @media (max-width: 530px) {
+  @media (max-width: 552px) {
     #homeBrowseNavbar {
       font-size: 12px;
 
@@ -368,6 +392,18 @@
       padding:3px 10px;
     }
 
+  }
+
+  /* Add login for smaller sizes */
+  @media (max-width: 503px) {
+    #homeBrowseNavbar {
+      font-size: 11px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 9px;
+      }
+    }
   }
 
   @media (max-width: 499px) {
@@ -395,6 +431,30 @@
     }
   }
 
+  /* Add login for smaller sizes */
+  @media (max-width: 480px) {
+    #homeBrowseNavbar {
+      font-size: 10px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 9px;
+      }
+    }
+  }
+
+  /* Add login for smaller sizes */
+  @media (max-width: 455px) {
+    #homeBrowseNavbar {
+      font-size: 9px;
+
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 9px;
+      }
+    }
+  }
+
   @media (max-width: 429.75px) {
     #header_searchbar_outer {
       padding-right: 0px;
@@ -411,6 +471,16 @@
         .col-xs-12 {
           padding-left: 5px;
         }
+      }
+    }
+  }
+
+  /* for resources on smallest size */
+  @media (max-width: 400px) {
+    #homeBrowseNavbar {
+      .dropdown-menu {
+        min-width: 80px;
+        font-size: 8px;
       }
     }
   }

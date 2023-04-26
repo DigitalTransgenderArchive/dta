@@ -74,6 +74,7 @@ Rails.application.routes.draw do
   #Static Paths
   resources :abouts, only: [:new, :edit, :create, :update, :show], :path => :about
   resources :learns, only: [:new, :edit, :create, :update, :show], :path => :learn
+  resources :page_resources, only: [:new, :edit, :create, :update, :show], :path => :resources
   resources :posts, path: :news
 
   #get 'feedback' => 'abouts#feedback', as: :feedback
@@ -96,6 +97,11 @@ ies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
 
   get 'featured' => 'featured#index', as: :featured
+
+  # FIXME: https://github.com/galetahub/ckeditor/issues/919
+  get 'icons.png?t=08ffd39', to: redirect('/assets/ckeditor/skins/moono-lisa/icons.png?t=08ffd39')
+  get 'icons_hidpi.png', to: redirect('/assets/ckeditor/skins/moono-lisa/icons_hidpi.png')
+  get 'icons.png', to: redirect('/assets/ckeditor/skins/moono-lisa/icons.png')
 
 
 
