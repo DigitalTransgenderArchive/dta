@@ -72,7 +72,12 @@ module GenericObjectAssignments
     values = clean_values(value)
     values.each do |val|
       if val.class == String
-        r << OtherSubject.find_or_initialize_by(label: val, generic_object_id: self.id)
+        lobj = OtherSubject.find_or_initialize_by(label: val, generic_object_id: self.id)
+        if lobj.label != val
+          lobj.label = val
+          lobj.save!
+        end
+        r << lobj
       elsif val.class == OtherSubject
         r << val
       else
@@ -88,7 +93,14 @@ module GenericObjectAssignments
     values = clean_values(value)
     values.each do |val|
       if val.class == String
-        r << Creator.find_or_initialize_by(label: val, generic_object_id: self.id)
+        lobj = Creator.find_or_initialize_by(label: val, generic_object_id: self.id)
+        # Allow updates for special characters... potentially update the search encoding instead?
+        # See https://dba.stackexchange.com/questions/190969/ignore-accents-in-where-clause
+        if lobj.label != val
+          lobj.label = val
+          lobj.save!
+        end
+        r << lobj
       elsif val.class == Creator
         r << val
       else
@@ -104,7 +116,12 @@ module GenericObjectAssignments
     values = clean_values(value)
     values.each do |val|
       if val.class == String
-        r << Contributor.find_or_initialize_by(label: val, generic_object_id: self.id)
+        lobj = Contributor.find_or_initialize_by(label: val, generic_object_id: self.id)
+        if lobj.label != val
+          lobj.label = val
+          lobj.save!
+        end
+        r << lobj
       elsif val.class == Contributor
         r << val
       else
