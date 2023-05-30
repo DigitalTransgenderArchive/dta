@@ -26,7 +26,7 @@
       prefixUrl: '',
       navImages: $.parseJSON('<%= osd_nav_images('openseadragon').html_safe %>'),
       //tileSources: ['<%# IIIF_SERVER['url'] + image_pid + '/info.json' %>'],
-      tileSources: ['<%= 'https://repository.digitaltransgenderarchive.net:8182/iiif/2/' + iiif_id + '/info.json' %>'],
+      tileSources: ['<%= 'https://repository.digitaltransgenderarchive.net:2053/iiif/2/' + iiif_id + '/info.json' %>'],
       autoHideControls: false,
       immediateRender: navigator.userAgent.match(/mobile/i),
       showNavigator: true,
