@@ -217,7 +217,7 @@ class GenericObject < ActiveRecord::Base
           x.subject(item.uri)
         end
 
-        self.homosaurus_subjects.each do |item|
+        self.homosaurus_uri_subjects.each do |item|
           x.subject(item.uri)
         end
 

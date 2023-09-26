@@ -92,8 +92,7 @@ Rails.application.routes.draw do
   #get 'about/news' => 'abouts#news', as: :about_news
   get 'about/team' => 'abouts#team', as: :about_team
   get 'about/board' => 'abouts#board', as: :about_board
-  get 'about/poli
-ies' => 'abouts#policies', as: :about_policies
+  get 'about/policies' => 'abouts#policies', as: :about_policies
   get 'about/contact' => 'abouts#contact', as: :about_contact
 
   get 'featured' => 'featured#index', as: :featured
