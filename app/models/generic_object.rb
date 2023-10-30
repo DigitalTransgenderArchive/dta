@@ -257,7 +257,7 @@ class GenericObject < ActiveRecord::Base
           if self.resource_types.pluck(:label).include?('Audio') || self.genres.pluck(:label).include?('Sound Recordings')
             x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("shared/dta_audio_icon.jpg"))
           else
-            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("default.jpg"))
+            x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("default.png"))
           end
         else
           x.preview("https://www.digitaltransgenderarchive.net/downloads/#{pid}?file=thumbnail")
