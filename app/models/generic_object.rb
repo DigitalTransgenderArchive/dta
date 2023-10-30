@@ -280,7 +280,7 @@ class GenericObject < ActiveRecord::Base
 
         harvesting_ind = '1'
         x.physicalLocation(inst.name)
-        if self.hosted_elsewhere.present? and self.hosted_elsewhere == '1' and not ['Grupo Dignidade ', 'Independent Voices', 'Transas City', 'Cork LGBT Archive', 'JD Doyle Archives'].include?(inst.name)
+        if self.hosted_elsewhere.present? and self.hosted_elsewhere == '1' and not ['Grupo Dignidade ', 'Grupo Dignidade', 'NYC Trans Oral History Project', 'Independent Voices', 'Transas City', 'Cork LGBT Archive', 'JD Doyle Archives'].include?(inst.name)
           harvesting_ind = '0'
         end
         x.aggregatorHarvestingIndicator(harvesting_ind)
