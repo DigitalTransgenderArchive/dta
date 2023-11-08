@@ -8,7 +8,9 @@ class GenericObjectsController < ApplicationController
 
   before_action :get_latest_content
 
-  before_action :verify_contributor, except: [:show, :citation] #FIXME: Added show for now... but need to remove that...
+  before_action :verify_contributor, except: [:show, :citation, :swap_visibility] #FIXME: Added show for now... but need to remove that...
+
+  before_action :verify_admin, only: [:swap_visibility]
 
   #Needed because it attempts to load from Solr in: load_resource_from_solr of Sufia::FilesControllerBehavior
   #skip_load_and_authorize_resource :only=> [:create, :swap_visibility, :show] #FIXME: Why needed for swap visibility exactly?
