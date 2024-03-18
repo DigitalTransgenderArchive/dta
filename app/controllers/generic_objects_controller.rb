@@ -327,6 +327,16 @@ class GenericObjectsController < ApplicationController
     end
 
     @generic_object.flagged = form_fields[:flagged]
+    if form_fields[:flagged] == "No explicit content"
+      @generic_object.flagged_category = []
+    else
+      if form_fields[:flagged_category][0].present?
+        @generic_object.flagged_category = form_fields[:flagged_category].reject { |c| c.empty? }.map(&:strip)
+        @generic_object.flagged_category = @generic_object.flagged_category.uniq
+      elsif @generic_object.flagged_category.present?
+        @generic_object.flagged_category = []
+      end
+    end
 
     if form_fields[:analog_format][0].present?
       @generic_object.analog_format = form_fields[:analog_format]

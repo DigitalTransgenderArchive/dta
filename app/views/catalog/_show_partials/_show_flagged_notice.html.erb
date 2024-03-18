@@ -6,7 +6,17 @@
         <h3 class="modal-title">EXPLICIT CONTENT WARNING</h3>
       </div>
       <div class="modal-body">
-        <p><strong>This item contains content that could be offensive to some viewers or inappropriate for minors.</strong></p>
+        <% if @generic_file.flagged_category.empty? %>
+          <p><strong>This item contains content that could be offensive to some viewers or inappropriate for minors.</strong></p>
+        <% else %>
+          <p><strong>This item contains content that could be offensive to some viewers or inappropriate for minors because it relates to:
+          <ul>
+            <% @generic_file.flagged_category.each do |category| %>
+            <li><%=category%>.</li>
+            <% end %>
+          </ul>
+          </strong></p>
+        <% end %>
         <p>&nbsp;</p>
         <p>Click "View Content" to continue to the item or "Back to Search" to return to the search results page.</p>
       </div>

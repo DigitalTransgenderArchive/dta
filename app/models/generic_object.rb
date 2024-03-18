@@ -32,6 +32,7 @@ class GenericObject < ActiveRecord::Base
   serialize :related_urls, Array
   serialize :rights_free_text, Array
   serialize :languages, Array
+  serialize :flagged_category, Array
   # Has the following main tables
   # title - singular
   # datastream - polymorphic
@@ -261,6 +262,13 @@ class GenericObject < ActiveRecord::Base
           end
         else
           x.preview("https://www.digitaltransgenderarchive.net/downloads/#{pid}?file=thumbnail")
+        end
+
+        # Potentially: self.hosted_elsewhere == "0" &&
+        if self.base_files.present? && self.base_files[0].content.present?
+          self.base_files.each_with_index do |file, index|
+            x.file("https://www.digitaltransgenderarchive.net/downloads/#{pid}?index=#{index}")
+          end
         end
 
         self.related_urls.each do |item|
