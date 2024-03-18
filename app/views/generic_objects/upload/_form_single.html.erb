@@ -201,11 +201,19 @@
                   }, required: true
       %>
 
+      <%= f.input :flagged_category, as: :multi_select, collection: ["Above the waist nudity", "Below the waist nudity", "Sex acts", "Violence", "Graphical Medical Imagery", "Transphobic imagery", "Racist imagery"],
+                  input_html: {
+                      include_help: t("simple_form.metadata_help.generic_file.flagged_category"),
+                      help_label: 'Explicit Content Category', include_blank: true,
+                      tabindex: 20
+                  }, required: false
+      %>
+
       <%= f.input :resource_types, as: :multi_select, collection: ResourceType.all.pluck(:label),
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.resource_type"),
                       help_label: 'Type', include_blank: true,
-                      tabindex: 20
+                      tabindex: 21
                   }, required: true, label: 'Type'
       %>
 
@@ -213,7 +221,7 @@
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.genre"),
                       help_label: 'Genres', include_blank: true,
-                      tabindex: 21
+                      tabindex: 22
                        }, required: true
       %>
 
