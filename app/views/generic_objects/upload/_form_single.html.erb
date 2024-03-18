@@ -201,7 +201,7 @@
                   }, required: true
       %>
 
-      <%= f.input :flagged_category, as: :multi_select, collection: ["Above the waist nudity", "Below the waist nudity", "Sex acts", "Violence", "Graphical Medical Imagery", "Transphobic imagery", "Racist imagery"],
+      <%= f.input :flagged_category, as: :multi_select, collection: ["Above the waist nudity", "Below the waist nudity", "Sex acts", "Violence", "Graphic Medical Imagery", "Transphobic imagery", "Racist imagery"],
                   input_html: {
                       include_help: t("simple_form.metadata_help.generic_file.flagged_category"),
                       help_label: 'Explicit Content Category', include_blank: true,
