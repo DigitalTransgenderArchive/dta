@@ -268,6 +268,9 @@ class GenericObject < ActiveRecord::Base
         if self.base_files.present? && self.base_files[0].content.present?
           self.base_files.each_with_index do |file, index|
             x.file("https://www.digitaltransgenderarchive.net/downloads/#{pid}?index=#{index}")
+            x.file_original_name(file.original_filename)
+            x.file_original_extension(file.original_extension)
+            x.file_mime_type(file.mime_type)
           end
         end
 

@@ -6,11 +6,9 @@ collection:
 configsets:
   - dir: solr/config/
 name: audits-development-configset
-solr_zip_path: solr/solr-7.4.0.zip
-checksum: solr/solr-7.4.0.zip.sha1
-version: 7.4.0
+version: 8.11.2
 verbose: true
-download_dir: solr/
+download_dir: solr/binary/
 instance_dir: solr/instance/
 ignore_checksum: true
 #solr_options:
