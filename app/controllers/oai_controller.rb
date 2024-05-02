@@ -16,6 +16,12 @@ class OaiController < ApplicationController
 
     identifier = params.delete(:identifier) || ''
 
+    if @verb == 'ListRecords'
+      if params[:set].present?
+        @recordSet = params.delete(:set)
+      end
+    end
+
     unsupported = params.keys - %w(action controller format)
     raise("Unsupported params: #{unsupported}") unless unsupported.empty?
 
@@ -36,22 +42,42 @@ class OaiController < ApplicationController
   end
 
   def list_records
-    @records =
-        RSolr.connect(url: Settings.solr_url)
-            .get('select', params: {
-                'q' => 'visibility_ssi:public AND model_ssi:GenericFile',
-                #'fl' => 'id,timestamp,xml',
-                'rows' => ROWS,
-                'start' => @start
-            })['response']['docs'].map do |d|
-          ListRecord.new(
-              d['id'],
-              d['timestamp'],
-              #PBCore.new(d['xml'])
-              GenericObject.find_by(pid: d['id']),
-              d['collection_name_ssim']
-          )
-        end
+    if @recordSet.present?
+      @records =
+          RSolr.connect(url: Settings.solr_url)
+              .get('select', params: {
+                  'q' => "visibility_ssi:public AND model_ssi:GenericFile AND isPartOf_ssim:#{@recordSet}",
+                  #'fl' => 'id,timestamp,xml',
+                  'rows' => ROWS,
+                  'start' => @start
+              })['response']['docs'].map do |d|
+            ListRecord.new(
+                d['id'],
+                d['system_modified_dtsi'],
+                #PBCore.new(d['xml'])
+                GenericObject.find_by(pid: d['id']),
+                d['collection_name_ssim']
+            )
+          end
+    else
+      @records =
+          RSolr.connect(url: Settings.solr_url)
+              .get('select', params: {
+                  'q' => 'visibility_ssi:public AND model_ssi:GenericFile',
+                  #'fl' => 'id,timestamp,xml',
+                  'rows' => ROWS,
+                  'start' => @start
+              })['response']['docs'].map do |d|
+            ListRecord.new(
+                d['id'],
+                d['system_modified_dtsi'],
+                #PBCore.new(d['xml'])
+                GenericObject.find_by(pid: d['id']),
+                d['collection_name_ssim']
+            )
+          end
+    end
+
 
     # Not ideal: they'll need to go past the end.
     @next_resumption_token = @start + ROWS unless @records.empty? || @records.length < 100

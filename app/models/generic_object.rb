@@ -254,6 +254,7 @@ class GenericObject < ActiveRecord::Base
           x.isShownAt('https://www.digitaltransgenderarchive.net/files/' + pid)
         end
 
+        #
         if self.base_files.blank? || self.base_files[0].content.blank?
           if self.resource_types.pluck(:label).include?('Audio') || self.genres.pluck(:label).include?('Sound Recordings')
             x.preview("https://www.digitaltransgenderarchive.net" + ActionController::Base.helpers.asset_path("shared/dta_audio_icon.jpg"))
@@ -262,10 +263,7 @@ class GenericObject < ActiveRecord::Base
           end
         else
           x.preview("https://www.digitaltransgenderarchive.net/downloads/#{pid}?file=thumbnail")
-        end
-
-        # Potentially: self.hosted_elsewhere == "0" &&
-        if self.base_files.present? && self.base_files[0].content.present?
+          # Potentially: self.hosted_elsewhere == "0" &&
           self.base_files.each_with_index do |file, index|
             x.file("https://www.digitaltransgenderarchive.net/downloads/#{pid}?index=#{index}")
             x.file_original_name(file.original_filename)
