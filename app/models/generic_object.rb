@@ -294,9 +294,26 @@ class GenericObject < ActiveRecord::Base
         end
         x.aggregatorHarvestingIndicator(harvesting_ind)
 
-
       end
     end.to_xml.sub('<?xml version="1.0"?>', '').strip
+  end
+
+  def hide
+    self.visibility = 'hidden'
+    self.save!
+  end
+
+  def soft_delete
+    # TO DO: Delete thumbnails and other files
+    self.visibility = 'deleted'
+    self.save!
+  end
+
+  def is_file_visible?
+    if ['private', 'public'].include? self.visibility
+      return true
+    end
+    false
   end
 
 end

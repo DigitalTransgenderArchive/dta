@@ -7,22 +7,26 @@
           <%= link_to truncate(@generic_file.is_shown_at, {:length=>100}), @generic_file.is_shown_at %>
         </dd>
     <% else %>
+      <% if @generic_file.is_file_visible? %>
         <dt>Download</dt>
-      <% total_images = @generic_file.base_files.size %>
-      <% @generic_file.base_files.each_with_index do |_, index| %>
-        <dd>
-          <% if @generic_file.image? %>
-            <% link_title = "Image File"
-               link_title +=  " " + (index+1).to_s if total_images > 1 %>
-          <% elsif @generic_file.pdf? %>
-            <% link_title = "PDF File"
-               link_title += " " + (index+1).to_s if total_images > 1 %>
-          <% else %>
-            <% link_title = "File"
-               link_title += " " + (index+1).to_s if total_images > 1 %>
-          <% end %>
-          <%= link_to "#{link_title}", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
-        </dd>
+        <% total_images = @generic_file.base_files.size %>
+        <% @generic_file.base_files.each_with_index do |_, index| %>
+          <dd>
+            <% if @generic_file.image? %>
+              <% link_title = "Image File"
+                 link_title +=  " " + (index+1).to_s if total_images > 1 %>
+            <% elsif @generic_file.pdf? %>
+              <% link_title = "PDF File"
+                 link_title += " " + (index+1).to_s if total_images > 1 %>
+            <% else %>
+              <% link_title = "File"
+                 link_title += " " + (index+1).to_s if total_images > 1 %>
+            <% end %>
+            <%= link_to "#{link_title}", download_path(@generic_file.pid, index: index), download: @generic_file.download_name %>
+          </dd>
+        <% end %>
+      <% else %>
+        <dt>Item has been removed.</dt>
       <% end %>
     <% end %>
 

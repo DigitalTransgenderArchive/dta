@@ -40,7 +40,9 @@
               <h3 class="alt_titles"><%= alternative_title %></h3><% if 1==0 && index < (@document[:alternative_tesim].size-1) %><br /><% end %>
             <% end %>
           <% end %>
-          <%= render 'generic_objects/media_display_public' %>
+          <% if @generic_file.is_file_visible? %>
+            <%= render 'generic_objects/media_display_public' %>
+          <% end %>
         </div>
           <p><%= display_multiple(@generic_file.descriptions).html_safe %></p>
         </div>

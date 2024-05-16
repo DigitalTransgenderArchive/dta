@@ -21,7 +21,7 @@ class CollectionsController < ApplicationController
 
   before_action  only: :show do
     if current_user.present? and current_user.contributor?
-      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 4, :collapse => false
     end
   end
 
@@ -109,6 +109,10 @@ class CollectionsController < ApplicationController
 
   def destroy
     @collection = Coll.find_by(pid: params[:id])
+    #@collection.generic_objects.each do |obj|
+    #obj.soft_delete
+    #end
+    #@collection.visibility = 'deleted'
     if @collection.generic_objects.present?
       raise "Cannot delete a collection with items associated with it."
     else
@@ -117,6 +121,7 @@ class CollectionsController < ApplicationController
       redirect_to collections_path
     end
   end
+
 
   # set the correct facet params for facets from the collection
   def set_collection_facet_params(collection_title, document)

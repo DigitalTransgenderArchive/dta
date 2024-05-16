@@ -182,6 +182,8 @@ class GenericObjectsController < ApplicationController
     @generic_file.save!
     if @generic_file.visibility == "hidden" and !current_or_guest_user.contributor?
       redirect_to root_path
+    elsif @generic_file.visibility == "private" and !current_or_guest_user.contributor?
+      redirect_to root_path
     else
       search_term = current_search_session.present? ? current_search_session.query_params["q"].to_s : 'N/A: Directly Linked'
       session[:search_term] = search_term
@@ -552,8 +554,21 @@ class GenericObjectsController < ApplicationController
   end
 
   def destroy
-    GenericObject.find_by(pid: params[:id]).destroy!
+    obj = GenericObject.find_by(pid: params[:id])
+    obj.destroy!
+    #if obj.visibility == "private"
+    # obj.destroy!
+    # else
+    # obj.soft_delete
+    # end
+
     redirect_to root_path, notice: "This object has been removed from the system."
+  end
+
+  def hide
+    obj = GenericObject.find_by(pid: params[:id])
+    obj.hide
+    redirect_to root_path, notice: "This object has been hidden in the system."
   end
 
   def validate_metadata(params, type)

@@ -19,7 +19,7 @@ class CatalogController < ApplicationController
   before_action  only: [:index, :facet] do
     if current_user.present? and current_user.contributor?
       blacklight_config.add_facet_field 'publisher_ssim', :label => 'Publisher', :limit => 6, :sort => 'index', :collapse => true, :show => true
-      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 3, :collapse => false
+      blacklight_config.add_facet_field 'visibility_ssi', :label => 'Visibility', :limit => 4, :collapse => false
       blacklight_config.add_facet_field 'dta_homosaurus_v1_subject_ssim', :label => 'Homosaurus V1', :limit => 6, :sort => 'index', :collapse => false
 
       uploaded_field = 'date_uploaded_dtsi'

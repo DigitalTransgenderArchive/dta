@@ -6,6 +6,7 @@ module CommonSearchBuilder
     else
       solr_parameters[:fq] << "-visibility_ssi:\"private\""
       solr_parameters[:fq] << "-visibility_ssi:\"hidden\""
+      solr_parameters[:fq] << "-visibility_ssi:\"deleted\""
     end
   end
 end
