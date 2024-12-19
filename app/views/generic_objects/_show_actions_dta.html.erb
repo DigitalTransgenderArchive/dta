@@ -31,11 +31,11 @@
     <% end %>
 
 
-    <dt>Share</dt>
+    <!--- <dt>Share</dt>
     <dd>
       <span class="addthis_inline_share_toolbox" style="margin: 0; padding: 0; vertical-align: top;"></span>
       <%= javascript_include_tag "https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a85824a7458fe6d" %>
-    </dd>
+    </dd> --->
 
     <dt>Citation</dt>
     <dd>
@@ -67,16 +67,26 @@
           <%= link_to 'Delete',url_for(action: :destroy, controller: :generic_objects, id: @document['id']),method: :delete, data: {confirm: "Are you want to delete this object?"} %>
         </dd>
     <% end %>
-
-    <% if current_or_guest_user.contributor? %>
-        <dt>Change Visibility</dt>
+    <% if current_or_guest_user.admin? || current_or_guest_user.superuser?%>
+    <% if @generic_file.visibility != 'public' %>
+        <dt>Visibility</dt>
         <dd>
-          <% if @generic_file.visibility == 'public' %>
-              <%= link_to "Make Private", swap_visibility_generic_object_path(@generic_file.pid) %>
-          <% else %>
-              <%= link_to "Make Public", swap_visibility_generic_object_path(@generic_file.pid) %>
-          <% end %>
+            <%= link_to "Make Public", make_public_generic_object_path(@generic_file.pid) %>
         </dd>
+      <% end %>
+      <% if @generic_file.visibility != 'private' %>
+        <dt>Visibility</dt>
+        <dd>
+            <%= link_to "Make Private", make_private_generic_object_path(@generic_file.pid) %>
+        </dd>
+      <% end %>
+      <% if @generic_file.visibility != 'redacted' %>
+        <dt>Visibility</dt>
+        <dd>
+          <%= link_to "Make Redacted", make_redacted_generic_object_path(@generic_file.pid) %>
+        </dd>
+      <% end %>
+
     <% end %>
 
     <% if current_or_guest_user.contributor? %>

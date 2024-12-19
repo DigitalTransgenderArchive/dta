@@ -146,10 +146,10 @@ class InstitutionsController < ApplicationController
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
 
-    unless current_user.present? and current_user.contributor?
-      ahoy.track_visit
-      ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
-    end
+    # unless current_user.present? and current_user.contributor?
+    #  ahoy.track_visit
+    #  ahoy.track "Institution View", {title: @institution.name}, {pid: params[:id], model: "Institution"}
+    # end
 
     respond_to do |format|
       format.html

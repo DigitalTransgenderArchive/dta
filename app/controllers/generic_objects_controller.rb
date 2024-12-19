@@ -8,9 +8,9 @@ class GenericObjectsController < ApplicationController
 
   before_action :get_latest_content
 
-  before_action :verify_contributor, except: [:show, :citation, :swap_visibility] #FIXME: Added show for now... but need to remove that...
+  before_action :verify_contributor, except: [:show, :citation] #FIXME: Added show for now... but need to remove that...
 
-  before_action :verify_admin, only: [:swap_visibility]
+  before_action :verify_admin, only: [:make_public, :make_private, :make_redacted]
 
   #Needed because it attempts to load from Solr in: load_resource_from_solr of Sufia::FilesControllerBehavior
   #skip_load_and_authorize_resource :only=> [:create, :swap_visibility, :show] #FIXME: Why needed for swap visibility exactly?
@@ -180,18 +180,16 @@ class GenericObjectsController < ApplicationController
     @generic_file = GenericObject.find_by(pid: params[:id])
     @generic_file.views = @generic_file.views + 1
     @generic_file.save!
-    if @generic_file.visibility == "hidden" and !current_or_guest_user.contributor?
-      redirect_to root_path
-    elsif @generic_file.visibility == "private" and !current_or_guest_user.contributor?
+    if @generic_file.visibility != "public" && !current_or_guest_user.contributor?
       redirect_to root_path
     else
       search_term = current_search_session.present? ? current_search_session.query_params["q"].to_s : 'N/A: Directly Linked'
       session[:search_term] = search_term
 
-      unless current_user.present? and current_user.contributor?
-        ahoy.track_visit
-        ahoy.track "Object View", {title: @generic_file.title}, {collection_pid: @generic_file.coll.pid, institution_pid: @generic_file.inst.pid, pid: params[:id], model: "GenericObject", search_term: search_term}
-      end
+      # unless current_user.present? and current_user.contributor?
+      #  ahoy.track_visit
+      #  ahoy.track "Object View", {title: @generic_file.title}, {collection_pid: @generic_file.coll.pid, institution_pid: @generic_file.inst.pid, pid: params[:id], model: "GenericObject", search_term: search_term}
+      # end
 
       respond_to do |format|
         format.html do
@@ -608,17 +606,28 @@ class GenericObjectsController < ApplicationController
     return true
   end
 
-  def swap_visibility
+  def make_private
     obj = GenericObject.find_by(pid: params[:id])
-    if obj.visibility == 'private'
-      obj.visibility = 'public'
-    else
-      obj.visibility = 'private'
-    end
+    obj.visibility = 'private'
     obj.save!
-    flash[:notice] = "Visibility of object was changed!"
+    flash[:notice] = "Object was set to private!"
     redirect_to generic_object_path(obj.pid)
-    #redirect_to request.referrer
+  end
+
+  def make_public
+    obj = GenericObject.find_by(pid: params[:id])
+    obj.visibility = 'public'
+    obj.save!
+    flash[:notice] = "Object was set to public!"
+    redirect_to generic_object_path(obj.pid)
+  end
+
+  def make_redacted
+    obj = GenericObject.find_by(pid: params[:id])
+    obj.visibility = 'redacted'
+    obj.save!
+    flash[:notice] = "Object was set to redacted!"
+    redirect_to generic_object_path(obj.pid)
   end
 
   def regenerate_thumbnail

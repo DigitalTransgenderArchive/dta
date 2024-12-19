@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     member do
       get 'stats'
       get 'citation'
-      get 'swap_visibility'
+      get 'make_public'
+      get 'make_private'
+      get 'make_redacted'
       get 'regenerate_thumbnail'
       get 'make_coll_image'
     end

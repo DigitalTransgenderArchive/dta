@@ -5,7 +5,7 @@ module CommonSearchBuilder
       # No limits
     else
       solr_parameters[:fq] << "-visibility_ssi:\"private\""
-      solr_parameters[:fq] << "-visibility_ssi:\"hidden\""
+      solr_parameters[:fq] << "-visibility_ssi:\"redacted\""
       solr_parameters[:fq] << "-visibility_ssi:\"deleted\""
     end
   end

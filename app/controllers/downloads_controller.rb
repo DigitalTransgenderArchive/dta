@@ -15,8 +15,8 @@ class DownloadsController < ApplicationController
         end
         if params.blank? || params[:institution].blank?
           file_name = "#{base_object.title.gsub(/[,;]/, '')}.#{base_file.path.split('.').last}"
-          ahoy.track_visit
-          ahoy.track "Object Download", {title: @object.title}, {collection_pid: @object.coll.pid, institution_pid: @object.inst.pid, pid: params[:id], model: "GenericObject", search_term: session[:search_term]}
+          # ahoy.track_visit
+          #  ahoy.track "Object Download", {title: @object.title}, {collection_pid: @object.coll.pid, institution_pid: @object.inst.pid, pid: params[:id], model: "GenericObject", search_term: session[:search_term]}
           #base_object.downloads = base_object.downloads + 1
           #base_object.save!
         else

@@ -97,10 +97,10 @@ class CollectionsController < ApplicationController
 
     # get the response for the facets representing items in collection
     (@response, @document_list) = search_results({:f => params[:f]})
-    unless current_user.present? and current_user.contributor?
-      ahoy.track_visit
-      ahoy.track "Collection View", {title: @collection.title}, {pid: params[:id], model: "Collection"}
-    end
+    # unless current_user.present? and current_user.contributor?
+    #  ahoy.track_visit
+    #  ahoy.track "Collection View", {title: @collection.title}, {pid: params[:id], model: "Collection"}
+    # end
 
     respond_to do |format|
       format.html
