@@ -3,6 +3,9 @@ class DownloadsController < ApplicationController
   def show
     if base_file.nil?
       raise 'File was nil'
+    elsif base_file.generic_object.visibility != 'public' && !current_or_guest_user.contributor?
+      # not public - redirect to root
+      redirect_to root_path
     else
       if params["file"].present? and params["file"] == 'thumbnail' and thumbnail.present?
         file_name = "#{base_object.title.gsub(/[,;]/, '')}.#{thumbnail.path.split('.').last}"
@@ -23,9 +26,9 @@ class DownloadsController < ApplicationController
           file_name = "#{base_object.name.gsub(/[,;]/, '')}.#{base_file.path.split('.').last}"
         end
       end
+      send_data get_content, type: mime_type, disposition: 'inline', filename: "#{file_name}"
     end
 
-    send_data get_content, type: mime_type, disposition: 'inline', filename: "#{file_name}"
   end
 
   def base_object
