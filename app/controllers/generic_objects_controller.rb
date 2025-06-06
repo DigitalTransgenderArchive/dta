@@ -531,6 +531,10 @@ class GenericObjectsController < ApplicationController
                 @generic_object.add_file(File.open(file.path(), 'rb').read, file.content_type, file.original_filename)
               end
             end
+
+            @generic_object.base_files.each do |file|
+              file.create_derivatives
+            end
           end
 
           @generic_object.save!
