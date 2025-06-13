@@ -3,7 +3,7 @@ class DownloadsController < ApplicationController
   def show
     if base_file.nil?
       raise 'File was nil'
-    elsif base_file.generic_object.visibility != 'public' && !current_or_guest_user.contributor?
+    elsif base_file.class.to_s != "InstImageFile" && base_file.generic_object.visibility != 'public' && !current_or_guest_user.contributor?
       # not public - redirect to root
       redirect_to root_path
     else
