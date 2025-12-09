@@ -223,43 +223,69 @@ module GenericObjectAssignments
     values = clean_values(value)
     values.each do |val|
       if val.class == String
-        term = HomosaurusUriAutocomplete.find_by_id(val)
-        label = term["prefLabel_ssim"][0]
-        language_label_list = []
-        if term["languageLabel_ssim"].present?
-          term["languageLabel_ssim"].each do |lang_label|
-            language_label_list << lang_label.split('@')[0]
-          end
-        end
-
-        alt_label_list = term["altLabel_ssim"] if term["altLabel_ssim"].present?
-        alt_label_list ||= []
-        #TODO: Broader? Narrower? Etc?
-
-        ld = HomosaurusUriSubject.find_by(uri: val)
-        if ld.blank?
-          ld = HomosaurusUriSubject.create(uri: val, label: label, language_labels: language_label_list, alt_labels: alt_label_list)
+        term = HomosaurusUriAutocomplete.find_by_uri(val+".json")
+        if term.nil? or term["skos:prefLabel"].nil?
+          # If not in Solr anymore, use the saved value
+          # TODO: Handle this better?
+          puts "WARNING! Could not find the term or preflabel in remote json for #{val}"
+          ld = HomosaurusUriSubject.find_by(uri: val)
         else
-          was_changed = false
-          if ld.label != label
-            ld.label = label
-            was_changed = true
+          language_label_list = []
+          if term["skos:prefLabel"].present? && term["skos:prefLabel"].class == String
+            label = term["skos:prefLabel"]
+          elsif term["skos:prefLabel"].present? && term["skos:prefLabel"].class == Array
+            label = term["skos:prefLabel"][0]
+            if term["skos:prefLabel"].size > 1
+              language_label_list += term["skos:prefLabel"][1,term["skos:prefLabel"].size]
+            end
+          else
+            raise "ERROR! Could not find the preflabel in remote json for #{val}"
           end
 
-          if ld.alt_labels.sort != alt_label_list.sort
-            ld.alt_labels = alt_label_list
-            was_changed = true
+          # language_label_list = []
+          # if term["languageLabel_ssim"].present?
+          #   term["languageLabel_ssim"].each do |lang_label|
+          #     language_label_list << lang_label.split('@')[0]
+          #   end
+          # end
+          alt_label_list = []
+          if term["skos:altLabel"].present?
+            if term["skos:altLabel"].class == String
+              alt_label_list = [term["skos:altLabel"]]
+            elsif term["skos:prefLabel"].class == Array
+              alt_label_list += term["skos:altLabel"]
+            end
           end
 
-          ld.save! if was_changed
+          #TODO: Broader? Narrower? Etc?
+
+          ld = HomosaurusUriSubject.find_by(uri: val)
+          if ld.blank?
+            ld = HomosaurusUriSubject.create(uri: val, label: label, language_labels: language_label_list, alt_labels: alt_label_list)
+          else
+            was_changed = false
+            if ld.label != label
+              ld.label = label
+              was_changed = true
+            end
+
+            if ld.alt_labels.sort != alt_label_list.sort
+              ld.alt_labels = alt_label_list
+              was_changed = true
+            end
+
+            # FIXME: Support updates again
+            # ld.save! if was_changed
+          end
         end
         r << ld
-        raise "Could not find lcsh for: #{val.to_s}" if r.last.nil?
+        raise "Could not find homosaurus for: #{val.to_s}" if r.last.nil?
       elsif val.class == HomosaurusUriSubject
         r << val
       else
         raise 'Unhandled GenericObject assignment for: ' + val.class.to_s
       end
+
     end
     value = r
     super

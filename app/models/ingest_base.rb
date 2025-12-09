@@ -10,15 +10,23 @@ require 'nokogiri'
 AUDIO_TYPES = ['mp3', 'wav', 'mp4']
 
 class IngestBase
-  def self.fetch(uri_str, retryLimit = 10)
-    if Settings.dta_config["proxy_host"].present?
-      doc = Nokogiri.HTML(open(uri_str, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
+  def self.fetch(uri_str, retryLimit = 2)
+    begin
+      if Settings.dta_config["proxy_host"].present?
+        doc = Nokogiri.HTML(open(uri_str, open_timeout: 600, read_timeout: 600, proxy: URI.parse("http://#{Settings.dta_config['proxy_host']}:#{Settings.dta_config['proxy_port']}")))
 
-    else
-      doc = Nokogiri.HTML(open(uri_str))
+      else
+        doc = Nokogiri.HTML(open(uri_str, open_timeout: 600, read_timeout: 600))
+      end
+    rescue => e
+      if retryLimit > 0
+        return self.fetch(uri_str, retryLimit-1)
+      else
+        raise e
+      end
     end
 
-    doc.content
+    return doc.content
   end
 
   def self.fetch_links(uri_str, retryLimit = 10)

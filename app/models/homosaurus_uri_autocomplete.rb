@@ -5,6 +5,12 @@ class HomosaurusUriAutocomplete
     solr_response[0]
   end
 
+  def self.find_by_uri(uri)
+    uri = URI.parse(uri)
+    json_data = uri.open.read
+    return JSON.parse(json_data)
+  end
+
   def self.find(subject)
     matches = []
     dup_checker = []
