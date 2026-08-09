@@ -1,0 +1,7 @@
+<div class="document">
+  <div class="thumbnail">
+    <%= link_to '#', data: { :'slide-to' => document_counter, toggle: "modal", target: "#slideshow-modal" } do %>
+        <%= render_thumbnail_tag document, {}, counter: document_counter, suppress_link: true %>
+    <% end %>
+  </div>
+</div>
