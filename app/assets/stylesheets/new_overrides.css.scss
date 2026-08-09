@@ -2,3 +2,20 @@ body {
   background-color: #818e9e;
   background-image: linear-gradient(to bottom, #E1E1E1 0%, #fff 100%);
 }
+.slideshow-presenter .slideshow-inner .item .frame {
+  margin: 0 auto;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  // Removed overflow: auto;
+}
+
+.slideshow-presenter .counter {
+  border-radius: 12px;
+  border: 1px solid #777777;
+  color: #777777;
+  font-size: 12px;
+  overflow: auto;
+  padding: 1px 10px; // this gets updated
+  text-align: center;
+}
